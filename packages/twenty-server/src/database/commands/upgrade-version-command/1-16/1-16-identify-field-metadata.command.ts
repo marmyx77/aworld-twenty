@@ -10,7 +10,7 @@ import {
   RunOnWorkspaceArgs,
   WorkspacesMigrationCommandRunner,
 } from 'src/database/commands/command-runners/workspaces-migration.command-runner';
-import { ApplicationService } from 'src/engine/core-modules/application/application.service';
+import { ApplicationService } from 'src/engine/core-modules/application/services/application.service';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { DataSourceService } from 'src/engine/metadata-modules/data-source/data-source.service';
 import { FieldMetadataEntity } from 'src/engine/metadata-modules/field-metadata/field-metadata.entity';
@@ -216,17 +216,17 @@ export class IdentifyFieldMetadataCommand extends WorkspacesMigrationCommandRunn
 
       const relatedMetadataNames =
         getMetadataRelatedMetadataNames('fieldMetadata');
-      const cacheKeysToInvalidate = relatedMetadataNames.map(
+      const relatedCacheKeysToInvalidate = relatedMetadataNames.map(
         getMetadataFlatEntityMapsKey,
       );
 
       this.logger.log(
-        `Invalidating caches: ${cacheKeysToInvalidate.join(' ')}`,
+        `Invalidating caches: flatFieldMetadataMaps ${relatedCacheKeysToInvalidate.join(' ')}`,
       );
-      await this.workspaceCacheService.invalidateAndRecompute(
-        workspaceId,
-        cacheKeysToInvalidate,
-      );
+      await this.workspaceCacheService.invalidateAndRecompute(workspaceId, [
+        'flatFieldMetadataMaps',
+        ...relatedCacheKeysToInvalidate,
+      ]);
 
       this.logger.log(
         `Applied ${totalUpdates} field metadata update(s) for workspace ${workspaceId}`,

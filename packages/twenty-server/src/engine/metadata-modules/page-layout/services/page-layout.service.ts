@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { isNonEmptyString } from '@sniptt/guards';
 import { isDefined } from 'twenty-shared/utils';
 
-import { ApplicationService } from 'src/engine/core-modules/application/application.service';
+import { ApplicationService } from 'src/engine/core-modules/application/services/application.service';
 import { WorkspaceManyOrAllFlatEntityMapsCacheService } from 'src/engine/metadata-modules/flat-entity/services/workspace-many-or-all-flat-entity-maps-cache.service';
 import { findFlatEntityByIdInFlatEntityMapsOrThrow } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-id-in-flat-entity-maps-or-throw.util';
 import { type FlatPageLayoutTabMaps } from 'src/engine/metadata-modules/flat-page-layout-tab/types/flat-page-layout-tab-maps.type';
@@ -350,6 +350,57 @@ export class PageLayoutService {
     return true;
   }
 
+  async destroyMany({
+    ids,
+    workspaceId,
+  }: {
+    ids: string[];
+    workspaceId: string;
+  }): Promise<boolean> {
+    if (ids.length === 0) {
+      return true;
+    }
+
+    const { flatPageLayoutMaps: existingFlatPageLayoutMaps } =
+      await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
+        {
+          workspaceId,
+          flatMapsKeys: ['flatPageLayoutMaps'],
+        },
+      );
+
+    const flatPageLayoutsToDestroy = ids.map((id) =>
+      fromDestroyPageLayoutInputToFlatPageLayoutOrThrow({
+        destroyPageLayoutInput: { id },
+        flatPageLayoutMaps: existingFlatPageLayoutMaps,
+      }),
+    );
+
+    const validateAndBuildResult =
+      await this.workspaceMigrationValidateBuildAndRunService.validateBuildAndRunWorkspaceMigration(
+        {
+          allFlatEntityOperationByMetadataName: {
+            pageLayout: {
+              flatEntityToCreate: [],
+              flatEntityToDelete: flatPageLayoutsToDestroy,
+              flatEntityToUpdate: [],
+            },
+          },
+          workspaceId,
+          isSystemBuild: false,
+        },
+      );
+
+    if (isDefined(validateAndBuildResult)) {
+      throw new WorkspaceMigrationBuilderException(
+        validateAndBuildResult,
+        'Multiple validation errors occurred while destroying page layouts',
+      );
+    }
+
+    return true;
+  }
+
   private async destroyAssociatedDashboards({
     pageLayoutId,
     workspaceId,
@@ -359,26 +410,23 @@ export class PageLayoutService {
   }): Promise<void> {
     const authContext = buildSystemAuthContext(workspaceId);
 
-    await this.globalWorkspaceOrmManager.executeInWorkspaceContext(
-      authContext,
-      async () => {
-        const dashboardRepository =
-          await this.globalWorkspaceOrmManager.getRepository(
-            workspaceId,
-            'dashboard',
-            { shouldBypassPermissionChecks: true },
-          );
+    await this.globalWorkspaceOrmManager.executeInWorkspaceContext(async () => {
+      const dashboardRepository =
+        await this.globalWorkspaceOrmManager.getRepository(
+          workspaceId,
+          'dashboard',
+          { shouldBypassPermissionChecks: true },
+        );
 
-        const dashboards = await dashboardRepository.find({
-          where: {
-            pageLayoutId,
-          },
-        });
+      const dashboards = await dashboardRepository.find({
+        where: {
+          pageLayoutId,
+        },
+      });
 
-        for (const dashboard of dashboards) {
-          await dashboardRepository.delete(dashboard.id);
-        }
-      },
-    );
+      for (const dashboard of dashboards) {
+        await dashboardRepository.delete(dashboard.id);
+      }
+    }, authContext);
   }
 }
