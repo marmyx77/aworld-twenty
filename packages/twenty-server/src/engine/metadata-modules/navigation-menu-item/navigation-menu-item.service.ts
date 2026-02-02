@@ -129,12 +129,16 @@ export class NavigationMenuItemService {
     authUserWorkspaceId,
     authApiKeyId,
     authApplicationId,
+    userId,
+    workspaceMemberId,
   }: {
     input: CreateNavigationMenuItemInput;
     workspaceId: string;
     authUserWorkspaceId?: string;
     authApiKeyId?: string;
     authApplicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<NavigationMenuItemDTO> {
     await this.navigationMenuItemAccessService.canUserCreateNavigationMenuItem({
       userWorkspaceId: authUserWorkspaceId,
@@ -184,6 +188,7 @@ export class NavigationMenuItemService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -216,12 +221,16 @@ export class NavigationMenuItemService {
     authUserWorkspaceId,
     authApiKeyId,
     authApplicationId,
+    userId,
+    workspaceMemberId,
   }: {
     input: UpdateNavigationMenuItemInput & { id: string };
     workspaceId: string;
     authUserWorkspaceId?: string;
     authApiKeyId?: string;
     authApplicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<NavigationMenuItemDTO> {
     const { flatNavigationMenuItemMaps: existingFlatNavigationMenuItemMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -266,6 +275,7 @@ export class NavigationMenuItemService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -298,12 +308,16 @@ export class NavigationMenuItemService {
     authUserWorkspaceId,
     authApiKeyId,
     authApplicationId,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     authUserWorkspaceId?: string;
     authApiKeyId?: string;
     authApplicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<NavigationMenuItemDTO> {
     const { flatNavigationMenuItemMaps: existingFlatNavigationMenuItemMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -339,6 +353,7 @@ export class NavigationMenuItemService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 

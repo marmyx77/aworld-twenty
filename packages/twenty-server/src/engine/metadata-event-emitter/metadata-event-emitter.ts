@@ -17,10 +17,16 @@ import type { FromToAllFlatEntityMaps } from 'src/engine/workspace-manager/works
 import { WORKSPACE_MIGRATION_ACTION_TYPE } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/constants/workspace-migration-action-type.constant';
 import type { WorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
 
+type MetadataEventActorContext = {
+  userId?: string;
+  workspaceMemberId?: string;
+};
+
 type EmitMetadataEventsFromMigrationArgs = {
   actions: WorkspaceMigrationAction[];
   fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
   workspaceId: string;
+  actorContext?: MetadataEventActorContext;
 };
 
 type ActionEventMap<T> = {
@@ -34,6 +40,8 @@ export type MetadataBatchEventInput<T, A extends keyof ActionEventMap<T>> = {
   action: A;
   events: ActionEventMap<T>[A][];
   workspaceId: string;
+  userId?: string;
+  workspaceMemberId?: string;
 };
 
 type GroupedEvents = Record<
@@ -52,8 +60,14 @@ export class MetadataEventEmitter {
       return;
     }
 
-    const { metadataName, action, events, workspaceId } =
-      metadataBatchEventInput;
+    const {
+      metadataName,
+      action,
+      events,
+      workspaceId,
+      userId,
+      workspaceMemberId,
+    } = metadataBatchEventInput;
 
     if (events.length === 0) {
       return;
@@ -66,6 +80,8 @@ export class MetadataEventEmitter {
       workspaceId,
       metadataName,
       events,
+      userId,
+      workspaceMemberId,
     };
 
     this.eventEmitter.emit(eventName, metadataEventBatch);
@@ -75,6 +91,7 @@ export class MetadataEventEmitter {
     actions,
     fromToAllFlatEntityMaps,
     workspaceId,
+    actorContext,
   }: EmitMetadataEventsFromMigrationArgs): void {
     if (actions.length === 0) {
       return;
@@ -85,12 +102,13 @@ export class MetadataEventEmitter {
       fromToAllFlatEntityMaps,
     );
 
-    this.emitGroupedEvents(groupedEvents, workspaceId);
+    this.emitGroupedEvents(groupedEvents, workspaceId, actorContext);
   }
 
   private emitGroupedEvents(
     groupedEvents: GroupedEvents,
     workspaceId: string,
+    actorContext?: MetadataEventActorContext,
   ): void {
     for (const [metadataName, actionEvents] of Object.entries(groupedEvents)) {
       for (const [action, events] of Object.entries(actionEvents)) {
@@ -103,6 +121,8 @@ export class MetadataEventEmitter {
           action: action as MetadataEventAction,
           events,
           workspaceId,
+          userId: actorContext?.userId,
+          workspaceMemberId: actorContext?.workspaceMemberId,
         });
       }
     }

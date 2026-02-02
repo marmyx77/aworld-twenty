@@ -24,7 +24,10 @@ import { PreventNestToAutoLogGraphqlErrorsFilter } from 'src/engine/core-modules
 import { ResolverValidationPipe } from 'src/engine/core-modules/graphql/pipes/resolver-validation.pipe';
 import { UserWorkspaceService } from 'src/engine/core-modules/user-workspace/user-workspace.service';
 import { WorkspaceMemberDTO } from 'src/engine/core-modules/user/dtos/workspace-member.dto';
+import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
+import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
+import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspaceMemberId } from 'src/engine/decorators/auth/auth-workspace-member-id.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { RequireFeatureFlag } from 'src/engine/guards/feature-flag.guard';
@@ -244,11 +247,15 @@ export class RoleResolver {
     @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('input')
     input: UpsertRowLevelPermissionPredicatesInput,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<UpsertRowLevelPermissionPredicatesResultDTO> {
     return this.rowLevelPermissionPredicateService.upsertRowLevelPermissionPredicates(
       {
         workspaceId: workspace.id,
         input,
+        userId: user?.id,
+        workspaceMemberId,
       },
     );
   }

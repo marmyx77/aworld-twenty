@@ -5,4 +5,6 @@ export type MetadataEventBatch<MetadataEvent> = {
   workspaceId: string;
   metadataName: AllMetadataName;
   events: MetadataEvent[];
+  userId?: string;
+  workspaceMemberId?: string;
 };

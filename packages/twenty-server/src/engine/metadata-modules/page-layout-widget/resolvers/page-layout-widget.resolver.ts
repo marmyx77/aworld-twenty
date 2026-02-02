@@ -16,7 +16,10 @@ import {
 import { PermissionFlagType } from 'twenty-shared/constants';
 
 import { ResolverValidationPipe } from 'src/engine/core-modules/graphql/pipes/resolver-validation.pipe';
+import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { type WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
+import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
+import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
 import { SettingsPermissionGuard } from 'src/engine/guards/settings-permission.guard';
@@ -68,10 +71,14 @@ export class PageLayoutWidgetResolver {
   async createPageLayoutWidget(
     @Args('input') input: CreatePageLayoutWidgetInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<PageLayoutWidgetDTO> {
     return this.pageLayoutWidgetService.create({
       input,
       workspaceId: workspace.id,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 
@@ -81,11 +88,15 @@ export class PageLayoutWidgetResolver {
     @Args('id', { type: () => String }) id: string,
     @Args('input') input: UpdatePageLayoutWidgetInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<PageLayoutWidgetDTO> {
     return this.pageLayoutWidgetService.update({
       id,
       workspaceId: workspace.id,
       updateData: input,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 
@@ -94,10 +105,14 @@ export class PageLayoutWidgetResolver {
   async destroyPageLayoutWidget(
     @Args('id', { type: () => String }) id: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<boolean> {
     return this.pageLayoutWidgetService.destroy({
       id,
       workspaceId: workspace.id,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 

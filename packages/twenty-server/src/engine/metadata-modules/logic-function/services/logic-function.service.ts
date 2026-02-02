@@ -12,8 +12,8 @@ import { findFlatEntityByIdInFlatEntityMapsOrThrow } from 'src/engine/metadata-m
 import type { CreateLogicFunctionInput } from 'src/engine/metadata-modules/logic-function/dtos/create-logic-function.input';
 import type { UpdateLogicFunctionInput } from 'src/engine/metadata-modules/logic-function/dtos/update-logic-function.input';
 import {
-  LogicFunctionException,
-  LogicFunctionExceptionCode,
+    LogicFunctionException,
+    LogicFunctionExceptionCode,
 } from 'src/engine/metadata-modules/logic-function/logic-function.exception';
 import { FlatLogicFunction } from 'src/engine/metadata-modules/logic-function/types/flat-logic-function.type';
 import { findFlatLogicFunctionOrThrow } from 'src/engine/metadata-modules/logic-function/utils/find-flat-logic-function-or-throw.util';
@@ -38,12 +38,16 @@ export class LogicFunctionService {
     input,
     workspaceId,
     applicationId,
+    userId,
+    workspaceMemberId,
   }: {
     input: Omit<CreateLogicFunctionInput, 'applicationId'> & {
       logicFunctionLayerId?: string;
     };
     workspaceId: string;
     applicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }) {
     let logicFunctionToCreateLayerId = input.logicFunctionLayerId;
 
@@ -86,6 +90,7 @@ export class LogicFunctionService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -115,11 +120,15 @@ export class LogicFunctionService {
     update,
     workspaceId,
     applicationId: _applicationId,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     update: UpdateLogicFunctionInput['update'];
     workspaceId: string;
     applicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }) {
     const { flatLogicFunctionMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -147,6 +156,7 @@ export class LogicFunctionService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -176,11 +186,15 @@ export class LogicFunctionService {
     workspaceId,
     applicationId: _applicationId,
     isSystemBuild = false,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     applicationId?: string;
     isSystemBuild?: boolean;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatLogicFunction> {
     const { flatLogicFunctionMaps: existingFlatLogicFunctionMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -211,6 +225,7 @@ export class LogicFunctionService {
           },
           workspaceId,
           isSystemBuild,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -227,22 +242,32 @@ export class LogicFunctionService {
   async duplicateLogicFunction({
     id,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatLogicFunction> {
     return this.createLogicFunctionFromExistingLogicFunctionById({
       id,
       workspaceId,
+      userId,
+      workspaceMemberId,
     });
   }
 
   async createLogicFunctionFromExistingLogicFunctionById({
     id,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatLogicFunction> {
     const { flatLogicFunctionMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -260,15 +285,21 @@ export class LogicFunctionService {
     return this.createLogicFunctionFromExistingLogicFunction({
       existingLogicFunction,
       workspaceId,
+      userId,
+      workspaceMemberId,
     });
   }
 
   async createLogicFunctionFromExistingLogicFunction({
     existingLogicFunction,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     existingLogicFunction: FlatLogicFunction;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatLogicFunction> {
     const { flatApplicationMaps } =
       await this.workspaceCacheService.getOrRecompute(workspaceId, [
@@ -298,6 +329,8 @@ export class LogicFunctionService {
       },
       workspaceId,
       applicationId: existingLogicFunction.applicationId ?? undefined,
+      userId,
+      workspaceMemberId,
     });
 
     const newApplicationUniversalIdentifier = isDefined(

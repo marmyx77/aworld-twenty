@@ -1,7 +1,10 @@
 import { UseFilters, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
+import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
+import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
@@ -51,10 +54,14 @@ export class ViewFilterResolver {
   async createCoreViewFilter(
     @Args('input') createViewFilterInput: CreateViewFilterInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewFilterDTO> {
     return await this.viewFilterService.createOne({
       createViewFilterInput,
       workspaceId,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 
@@ -63,10 +70,14 @@ export class ViewFilterResolver {
   async updateCoreViewFilter(
     @Args('input') updateViewFilterInput: UpdateViewFilterInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewFilterDTO> {
     return this.viewFilterService.updateOne({
       updateViewFilterInput,
       workspaceId,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 
@@ -75,10 +86,14 @@ export class ViewFilterResolver {
   async deleteCoreViewFilter(
     @Args('input') deleteViewFilterInput: DeleteViewFilterInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewFilterDTO> {
     return this.viewFilterService.deleteOne({
       deleteViewFilterInput,
       workspaceId,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 
@@ -87,10 +102,14 @@ export class ViewFilterResolver {
   async destroyCoreViewFilter(
     @Args('input') destroyViewFilterInput: DestroyViewFilterInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewFilterDTO> {
     return this.viewFilterService.destroyOne({
       destroyViewFilterInput,
       workspaceId,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 }

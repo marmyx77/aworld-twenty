@@ -105,6 +105,8 @@ export class CallWebhookJobsForMetadataJob {
             updatedFields: this.getUpdatedFieldsFromEvent(eventData),
           }),
           secret,
+          userId: metadataEventBatch.userId,
+          workspaceMemberId: metadataEventBatch.workspaceMemberId,
         });
       }
     }

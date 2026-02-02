@@ -14,9 +14,11 @@ import { isDefined } from 'twenty-shared/utils';
 
 import { I18nService } from 'src/engine/core-modules/i18n/i18n.service';
 import { type I18nContext } from 'src/engine/core-modules/i18n/types/i18n-context.type';
+import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { type IDataloaders } from 'src/engine/dataloaders/dataloader.interface';
 import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
+import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { CustomPermissionGuard } from 'src/engine/guards/custom-permission.guard';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
@@ -145,6 +147,7 @@ export class ViewResolver {
     @Args('input') input: CreateViewInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
     @AuthUserWorkspaceId() userWorkspaceId: string | undefined,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
   ): Promise<ViewDTO> {
     const visibility = input.visibility ?? ViewVisibility.WORKSPACE;
 
@@ -154,6 +157,8 @@ export class ViewResolver {
       createViewInput: input,
       workspaceId: workspace.id,
       createdByUserWorkspaceId: userWorkspaceId,
+      userId: user?.id,
+      workspaceMemberId: userWorkspaceId,
     });
   }
 
@@ -164,11 +169,14 @@ export class ViewResolver {
     @Args('input') input: UpdateViewInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
     @AuthUserWorkspaceId() userWorkspaceId: string | undefined,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
   ): Promise<ViewDTO> {
     return await this.viewService.updateOne({
       updateViewInput: { ...input, id },
       workspaceId: workspace.id,
       userWorkspaceId,
+      userId: user?.id,
+      workspaceMemberId: userWorkspaceId,
     });
   }
 
@@ -177,10 +185,14 @@ export class ViewResolver {
   async deleteCoreView(
     @Args('id', { type: () => String }) id: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<boolean> {
     const deletedView = await this.viewService.deleteOne({
       deleteViewInput: { id },
       workspaceId: workspace.id,
+      userId: user?.id,
+      workspaceMemberId,
     });
 
     return isDefined(deletedView);
@@ -191,10 +203,14 @@ export class ViewResolver {
   async destroyCoreView(
     @Args('id', { type: () => String }) id: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<boolean> {
     const deletedView = await this.viewService.destroyOne({
       destroyViewInput: { id },
       workspaceId: workspace.id,
+      userId: user?.id,
+      workspaceMemberId,
     });
 
     return isDefined(deletedView);

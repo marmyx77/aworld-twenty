@@ -1,7 +1,10 @@
 import { UseFilters, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
+import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
+import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
@@ -47,10 +50,14 @@ export class ViewFieldResolver {
   async updateCoreViewField(
     @Args('input') updateViewFieldInput: UpdateViewFieldInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewFieldDTO> {
     return await this.viewFieldV2Service.updateOne({
       updateViewFieldInput,
       workspaceId,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 
@@ -59,10 +66,14 @@ export class ViewFieldResolver {
   async createCoreViewField(
     @Args('input') createViewFieldInput: CreateViewFieldInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewFieldDTO> {
     return await this.viewFieldV2Service.createOne({
       createViewFieldInput,
       workspaceId,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 
@@ -72,10 +83,14 @@ export class ViewFieldResolver {
     @Args('inputs', { type: () => [CreateViewFieldInput] })
     createViewFieldInputs: CreateViewFieldInput[],
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewFieldDTO[]> {
     return await this.viewFieldV2Service.createMany({
       createViewFieldInputs,
       workspaceId,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 
@@ -84,10 +99,14 @@ export class ViewFieldResolver {
   async deleteCoreViewField(
     @Args('input') deleteViewFieldInput: DeleteViewFieldInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewFieldDTO> {
     return await this.viewFieldV2Service.deleteOne({
       deleteViewFieldInput,
       workspaceId,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 
@@ -96,10 +115,14 @@ export class ViewFieldResolver {
   async destroyCoreViewField(
     @Args('input') destroyViewFieldInput: DestroyViewFieldInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewFieldDTO> {
     return await this.viewFieldV2Service.destroyOne({
       destroyViewFieldInput,
       workspaceId,
+      userId: user?.id,
+      workspaceMemberId,
     });
   }
 }

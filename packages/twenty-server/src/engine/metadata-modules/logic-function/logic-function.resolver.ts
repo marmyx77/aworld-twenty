@@ -8,7 +8,10 @@ import { isDefined } from 'twenty-shared/utils';
 import { PreventNestToAutoLogGraphqlErrorsFilter } from 'src/engine/core-modules/graphql/filters/prevent-nest-to-auto-log-graphql-errors.filter';
 import { ResolverValidationPipe } from 'src/engine/core-modules/graphql/pipes/resolver-validation.pipe';
 import { LogicFunctionExecutorService } from 'src/engine/core-modules/logic-function/logic-function-executor/services/logic-function-executor.service';
+import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
+import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
+import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { FeatureFlagGuard } from 'src/engine/guards/feature-flag.guard';
 import { SettingsPermissionGuard } from 'src/engine/guards/settings-permission.guard';
@@ -132,11 +135,15 @@ export class LogicFunctionResolver {
   async deleteOneLogicFunction(
     @Args('input') input: LogicFunctionIdInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<LogicFunctionDTO> {
     try {
       const flatLogicFunction = await this.logicFunctionService.destroyOne({
         id: input.id,
         workspaceId,
+        userId: user?.id,
+        workspaceMemberId,
       });
 
       return fromFlatLogicFunctionToLogicFunctionDto({
@@ -153,12 +160,16 @@ export class LogicFunctionResolver {
     @Args('input')
     input: UpdateLogicFunctionInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<LogicFunctionDTO> {
     try {
       const flatLogicFunction = await this.logicFunctionService.updateOne({
         id: input.id,
         update: input.update,
         workspaceId,
+        userId: user?.id,
+        workspaceMemberId,
       });
 
       return fromFlatLogicFunctionToLogicFunctionDto({
@@ -175,11 +186,15 @@ export class LogicFunctionResolver {
     @Args('input')
     input: CreateLogicFunctionInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<LogicFunctionDTO> {
     try {
       const flatLogicFunction = await this.logicFunctionService.createOne({
         input,
         workspaceId,
+        userId: user?.id,
+        workspaceMemberId,
       });
 
       return fromFlatLogicFunctionToLogicFunctionDto({

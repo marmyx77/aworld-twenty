@@ -12,8 +12,8 @@ import { type FlatPageLayoutMaps } from 'src/engine/metadata-modules/flat-page-l
 import { fromCreatePageLayoutInputToFlatPageLayoutToCreate } from 'src/engine/metadata-modules/flat-page-layout/utils/from-create-page-layout-input-to-flat-page-layout-to-create.util';
 import { fromDestroyPageLayoutInputToFlatPageLayoutOrThrow } from 'src/engine/metadata-modules/flat-page-layout/utils/from-destroy-page-layout-input-to-flat-page-layout-or-throw.util';
 import {
-  fromUpdatePageLayoutInputToFlatPageLayoutToUpdateOrThrow,
-  type UpdatePageLayoutInputWithId,
+    fromUpdatePageLayoutInputToFlatPageLayoutToUpdateOrThrow,
+    type UpdatePageLayoutInputWithId,
 } from 'src/engine/metadata-modules/flat-page-layout/utils/from-update-page-layout-input-to-flat-page-layout-to-update-or-throw.util';
 import { reconstructFlatPageLayoutWithTabsAndWidgets } from 'src/engine/metadata-modules/flat-page-layout/utils/reconstruct-flat-page-layout-with-tabs-and-widgets.util';
 import { CreatePageLayoutInput } from 'src/engine/metadata-modules/page-layout/dtos/inputs/create-page-layout.input';
@@ -21,10 +21,10 @@ import { UpdatePageLayoutInput } from 'src/engine/metadata-modules/page-layout/d
 import { type PageLayoutDTO } from 'src/engine/metadata-modules/page-layout/dtos/page-layout.dto';
 import { PageLayoutType } from 'src/engine/metadata-modules/page-layout/enums/page-layout-type.enum';
 import {
-  PageLayoutException,
-  PageLayoutExceptionCode,
-  PageLayoutExceptionMessageKey,
-  generatePageLayoutExceptionMessage,
+    PageLayoutException,
+    PageLayoutExceptionCode,
+    PageLayoutExceptionMessageKey,
+    generatePageLayoutExceptionMessage,
 } from 'src/engine/metadata-modules/page-layout/exceptions/page-layout.exception';
 import { fromFlatPageLayoutToPageLayoutDto } from 'src/engine/metadata-modules/page-layout/utils/from-flat-page-layout-to-page-layout-dto.util';
 import { fromFlatPageLayoutWithTabsAndWidgetsToPageLayoutDto } from 'src/engine/metadata-modules/page-layout/utils/from-flat-page-layout-with-tabs-and-widgets-to-page-layout-dto.util';
@@ -155,9 +155,13 @@ export class PageLayoutService {
   async create({
     createPageLayoutInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     createPageLayoutInput: CreatePageLayoutInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<Omit<PageLayoutDTO, 'tabs'>> {
     if (!isNonEmptyString(createPageLayoutInput.name)) {
       throw new PageLayoutException(
@@ -192,6 +196,7 @@ export class PageLayoutService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -222,10 +227,14 @@ export class PageLayoutService {
     id,
     workspaceId,
     updateData,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     updateData: UpdatePageLayoutInput;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<Omit<PageLayoutDTO, 'tabs'>> {
     const { flatPageLayoutMaps: existingFlatPageLayoutMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -258,6 +267,7 @@ export class PageLayoutService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -296,10 +306,14 @@ export class PageLayoutService {
     id,
     workspaceId,
     isLinkedDashboardAlreadyDestroyed = false,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     isLinkedDashboardAlreadyDestroyed?: boolean;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<boolean> {
     const { flatPageLayoutMaps: existingFlatPageLayoutMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -327,6 +341,7 @@ export class PageLayoutService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -353,9 +368,13 @@ export class PageLayoutService {
   async destroyMany({
     ids,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     ids: string[];
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<boolean> {
     if (ids.length === 0) {
       return true;
@@ -388,6 +407,7 @@ export class PageLayoutService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 

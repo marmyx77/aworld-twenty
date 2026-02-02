@@ -14,8 +14,11 @@ import { PreventNestToAutoLogGraphqlErrorsFilter } from 'src/engine/core-modules
 import { ResolverValidationPipe } from 'src/engine/core-modules/graphql/pipes/resolver-validation.pipe';
 import { I18nService } from 'src/engine/core-modules/i18n/i18n.service';
 import { I18nContext } from 'src/engine/core-modules/i18n/types/i18n-context.type';
+import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { type IDataloaders } from 'src/engine/dataloaders/dataloader.interface';
+import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
+import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { SettingsPermissionGuard } from 'src/engine/guards/settings-permission.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
@@ -110,6 +113,8 @@ export class ObjectMetadataResolver {
   async createOneObject(
     @Args('input') input: CreateOneObjectInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
     @Context() context: I18nContext,
   ) {
     try {
@@ -117,6 +122,8 @@ export class ObjectMetadataResolver {
         await this.objectMetadataService.createOneObject({
           createObjectInput: input.object,
           workspaceId,
+          userId: user?.id,
+          workspaceMemberId,
         });
 
       return fromFlatObjectMetadataToObjectMetadataDto(flatobjectMetadata);
@@ -133,6 +140,8 @@ export class ObjectMetadataResolver {
   async deleteOneObject(
     @Args('input') deleteObjectInput: DeleteOneObjectInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
     @Context() context: I18nContext,
   ) {
     try {
@@ -140,6 +149,8 @@ export class ObjectMetadataResolver {
         await this.objectMetadataService.deleteOneObject({
           deleteObjectInput,
           workspaceId,
+          userId: user?.id,
+          workspaceMemberId,
         });
 
       return fromFlatObjectMetadataToObjectMetadataDto(flatobjectMetadata);
@@ -156,6 +167,8 @@ export class ObjectMetadataResolver {
   async updateOneObject(
     @Args('input') updateObjectInput: UpdateOneObjectInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
+    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
+    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
     @Context() context: I18nContext,
   ) {
     try {
@@ -163,6 +176,8 @@ export class ObjectMetadataResolver {
         await this.objectMetadataService.updateOneObject({
           updateObjectInput,
           workspaceId,
+          userId: user?.id,
+          workspaceMemberId,
         });
 
       return fromFlatObjectMetadataToObjectMetadataDto(flatobjectMetadata);

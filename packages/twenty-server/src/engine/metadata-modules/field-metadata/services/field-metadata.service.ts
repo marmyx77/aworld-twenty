@@ -44,6 +44,8 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
     createFieldInput,
     workspaceId,
     applicationId,
+    userId,
+    workspaceMemberId,
   }: {
     createFieldInput: Omit<CreateFieldInput, 'workspaceId'>;
     workspaceId: string;
@@ -52,11 +54,15 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
      * when interacting with another application than workspace custom one
      * */
     applicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatFieldMetadata> {
     const [createdFieldMetadata] = await this.createManyFields({
       workspaceId,
       createFieldInputs: [createFieldInput],
       applicationId,
+      userId,
+      workspaceMemberId,
     });
 
     if (!isDefined(createdFieldMetadata)) {
@@ -73,10 +79,14 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
     deleteOneFieldInput,
     workspaceId,
     isSystemBuild = false,
+    userId,
+    workspaceMemberId,
   }: {
     deleteOneFieldInput: DeleteOneFieldInput;
     workspaceId: string;
     isSystemBuild?: boolean;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatFieldMetadata> {
     const {
       flatObjectMetadataMaps: existingFlatObjectMetadataMaps,
@@ -121,6 +131,7 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
           },
           workspaceId,
           isSystemBuild,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -138,10 +149,14 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
     updateFieldInput,
     workspaceId,
     isSystemBuild = false,
+    userId,
+    workspaceMemberId,
   }: {
     updateFieldInput: Omit<UpdateFieldInput, 'workspaceId'>;
     workspaceId: string;
     isSystemBuild?: boolean;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatFieldMetadata> {
     const {
       flatObjectMetadataMaps: existingFlatObjectMetadataMaps,
@@ -261,6 +276,7 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
           },
           workspaceId,
           isSystemBuild,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -290,6 +306,8 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
     workspaceId,
     applicationId,
     isSystemBuild = false,
+    userId,
+    workspaceMemberId,
   }: {
     createFieldInputs: Omit<CreateFieldInput, 'workspaceId'>[];
     workspaceId: string;
@@ -299,6 +317,8 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
      * */
     applicationId?: string;
     isSystemBuild?: boolean;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatFieldMetadata[]> {
     if (createFieldInputs.length === 0) {
       return [];
@@ -384,6 +404,7 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
           },
           workspaceId,
           isSystemBuild,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 

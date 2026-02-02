@@ -39,13 +39,19 @@ export class ViewFieldV2Service {
   async createOne({
     createViewFieldInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     createViewFieldInput: CreateViewFieldInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO> {
     const [createdViewField] = await this.createMany({
       workspaceId,
       createViewFieldInputs: [createViewFieldInput],
+      userId,
+      workspaceMemberId,
     });
 
     if (!isDefined(createdViewField)) {
@@ -61,9 +67,13 @@ export class ViewFieldV2Service {
   async createMany({
     createViewFieldInputs,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     createViewFieldInputs: CreateViewFieldInput[];
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO[]> {
     if (createViewFieldInputs.length === 0) {
       return [];
@@ -97,6 +107,7 @@ export class ViewFieldV2Service {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -124,9 +135,13 @@ export class ViewFieldV2Service {
   async updateOne({
     updateViewFieldInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     workspaceId: string;
     updateViewFieldInput: UpdateViewFieldInput;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO> {
     const { flatViewFieldMaps: existingFlatViewFieldMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -154,6 +169,7 @@ export class ViewFieldV2Service {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -183,9 +199,13 @@ export class ViewFieldV2Service {
   async deleteOne({
     deleteViewFieldInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     deleteViewFieldInput: DeleteViewFieldInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO> {
     const { flatViewFieldMaps: existingFlatViewFieldMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -213,6 +233,7 @@ export class ViewFieldV2Service {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -242,9 +263,13 @@ export class ViewFieldV2Service {
   async destroyOne({
     destroyViewFieldInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     destroyViewFieldInput: DestroyViewFieldInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO> {
     const { flatViewFieldMaps: existingFlatViewFieldMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -272,6 +297,7 @@ export class ViewFieldV2Service {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 

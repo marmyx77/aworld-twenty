@@ -34,9 +34,13 @@ export class ViewFilterService {
   async createOne({
     createViewFilterInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     createViewFilterInput: CreateViewFilterInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFilterDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -64,6 +68,7 @@ export class ViewFilterService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -93,9 +98,13 @@ export class ViewFilterService {
   async updateOne({
     updateViewFilterInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     workspaceId: string;
     updateViewFilterInput: UpdateViewFilterInput;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFilterDTO> {
     const { flatViewFilterMaps: existingFlatViewFilterMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -123,6 +132,7 @@ export class ViewFilterService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -152,9 +162,13 @@ export class ViewFilterService {
   async deleteOne({
     deleteViewFilterInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     deleteViewFilterInput: DeleteViewFilterInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFilterDTO> {
     const { flatViewFilterMaps: existingFlatViewFilterMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -184,6 +198,7 @@ export class ViewFilterService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -213,9 +228,13 @@ export class ViewFilterService {
   async destroyOne({
     destroyViewFilterInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     destroyViewFilterInput: DestroyViewFilterInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFilterDTO> {
     const { flatViewFilterMaps: existingFlatViewFilterMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -243,6 +262,7 @@ export class ViewFilterService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 

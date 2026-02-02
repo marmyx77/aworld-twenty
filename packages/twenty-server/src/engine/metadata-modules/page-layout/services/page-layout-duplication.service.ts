@@ -37,9 +37,13 @@ export class PageLayoutDuplicationService {
   async duplicate({
     pageLayoutId,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     pageLayoutId: string;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<PageLayoutDTO> {
     const {
       flatPageLayoutMaps,
@@ -112,6 +116,7 @@ export class PageLayoutDuplicationService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 

@@ -61,10 +61,14 @@ export class PageLayoutWidgetService {
     workspaceId,
     operations,
     errorMessage,
+    userId,
+    workspaceMemberId,
   }: {
     workspaceId: string;
     operations: WidgetMigrationOperations;
     errorMessage: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<void> {
     const validateAndBuildResult =
       await this.workspaceMigrationValidateBuildAndRunService.validateBuildAndRunWorkspaceMigration(
@@ -74,6 +78,7 @@ export class PageLayoutWidgetService {
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -138,9 +143,13 @@ export class PageLayoutWidgetService {
   async create({
     input,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     input: CreatePageLayoutWidgetInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<PageLayoutWidgetDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -163,6 +172,8 @@ export class PageLayoutWidgetService {
       },
       errorMessage:
         'Multiple validation errors occurred while creating page layout widget',
+      userId,
+      workspaceMemberId,
     });
 
     const recomputedMaps = await this.getFlatPageLayoutWidgetMaps(workspaceId);
@@ -185,10 +196,14 @@ export class PageLayoutWidgetService {
     id,
     workspaceId,
     updateData,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     updateData: UpdatePageLayoutWidgetInput;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<PageLayoutWidgetDTO> {
     const existingFlatPageLayoutWidgetMaps =
       await this.getFlatPageLayoutWidgetMaps(workspaceId);
@@ -226,6 +241,8 @@ export class PageLayoutWidgetService {
       },
       errorMessage:
         'Multiple validation errors occurred while updating page layout widget',
+      userId,
+      workspaceMemberId,
     });
 
     const recomputedMaps = await this.getFlatPageLayoutWidgetMaps(workspaceId);
@@ -266,9 +283,13 @@ export class PageLayoutWidgetService {
   async destroy({
     id,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<boolean> {
     const existingFlatPageLayoutWidgetMaps =
       await this.getFlatPageLayoutWidgetMaps(workspaceId);
@@ -288,6 +309,8 @@ export class PageLayoutWidgetService {
       },
       errorMessage:
         'Multiple validation errors occurred while destroying page layout widget',
+      userId,
+      workspaceMemberId,
     });
 
     await this.dashboardSyncService.updateLinkedDashboardsUpdatedAtByWidgetId({

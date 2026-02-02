@@ -27,12 +27,18 @@ import {
 import { InferDeletionFromMissingEntities } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/infer-deletion-from-missing-entities.type';
 import { WorkspaceMigrationRunnerService } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/services/workspace-migration-runner.service';
 
+type ActorContext = {
+  userId?: string;
+  workspaceMemberId?: string;
+};
+
 type ValidateBuildAndRunWorkspaceMigrationFromMatriceArgs = {
   workspaceId: string;
   allFlatEntityOperationByMetadataName: {
     [P in AllMetadataName]?: FlatEntityToCreateDeleteUpdate<P>;
   };
   isSystemBuild?: boolean;
+  actorContext?: ActorContext;
 };
 
 @Injectable()
@@ -182,6 +188,7 @@ export class WorkspaceMigrationValidateBuildAndRunService {
 
   public async validateBuildAndRunWorkspaceMigrationFromTo(
     args: WorkspaceMigrationOrchestratorBuildArgs,
+    actorContext?: ActorContext,
   ) {
     const validateAndBuildResult =
       await this.workspaceMigrationBuildOrchestratorService
@@ -217,6 +224,7 @@ export class WorkspaceMigrationValidateBuildAndRunService {
       actions: validateAndBuildResult.workspaceMigration.actions,
       fromToAllFlatEntityMaps: args.fromToAllFlatEntityMaps,
       workspaceId: args.workspaceId,
+      actorContext,
     });
   }
 
@@ -224,6 +232,7 @@ export class WorkspaceMigrationValidateBuildAndRunService {
     allFlatEntityOperationByMetadataName: allFlatEntities,
     workspaceId,
     isSystemBuild = false,
+    actorContext,
   }: ValidateBuildAndRunWorkspaceMigrationFromMatriceArgs): Promise<
     WorkspaceMigrationOrchestratorFailedResult | undefined
   > {
@@ -237,15 +246,18 @@ export class WorkspaceMigrationValidateBuildAndRunService {
       workspaceId,
     });
 
-    return await this.validateBuildAndRunWorkspaceMigrationFromTo({
-      buildOptions: {
-        isSystemBuild,
-        inferDeletionFromMissingEntities,
+    return await this.validateBuildAndRunWorkspaceMigrationFromTo(
+      {
+        buildOptions: {
+          isSystemBuild,
+          inferDeletionFromMissingEntities,
+        },
+        fromToAllFlatEntityMaps,
+        workspaceId,
+        dependencyAllFlatEntityMaps,
+        additionalCacheDataMaps,
       },
-      fromToAllFlatEntityMaps,
-      workspaceId,
-      dependencyAllFlatEntityMaps,
-      additionalCacheDataMaps,
-    });
+      actorContext,
+    );
   }
 }

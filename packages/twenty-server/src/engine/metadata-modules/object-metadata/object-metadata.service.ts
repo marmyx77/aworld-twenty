@@ -56,9 +56,13 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
   async updateOneObject({
     updateObjectInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     workspaceId: string;
     updateObjectInput: UpdateOneObjectInput;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatObjectMetadata> {
     const {
       flatObjectMetadataMaps: existingFlatObjectMetadataMaps,
@@ -125,6 +129,7 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -166,15 +171,21 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
     deleteObjectInput,
     workspaceId,
     isSystemBuild = false,
+    userId,
+    workspaceMemberId,
   }: {
     deleteObjectInput: DeleteOneObjectInput;
     workspaceId: string;
     isSystemBuild?: boolean;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatObjectMetadata> {
     const deletedObjectMetadataDtos = await this.deleteManyObjectMetadatas({
       deleteObjectInputs: [deleteObjectInput],
       workspaceId,
       isSystemBuild,
+      userId,
+      workspaceMemberId,
     });
 
     if (deletedObjectMetadataDtos.length !== 1) {
@@ -193,10 +204,14 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
     workspaceId,
     deleteObjectInputs,
     isSystemBuild = false,
+    userId,
+    workspaceMemberId,
   }: {
     deleteObjectInputs: DeleteOneObjectInput[];
     workspaceId: string;
     isSystemBuild?: boolean;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatObjectMetadata[]> {
     if (deleteObjectInputs.length === 0) {
       return [];
@@ -296,6 +311,7 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
           },
           workspaceId,
           isSystemBuild,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -313,6 +329,8 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
     createObjectInput,
     workspaceId,
     applicationId,
+    userId,
+    workspaceMemberId,
   }: {
     createObjectInput: CreateObjectInput;
     workspaceId: string;
@@ -321,6 +339,8 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
      * when interacting with another application than workspace custom one
      * */
     applicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<FlatObjectMetadata> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -426,6 +446,7 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
           },
           workspaceId,
           isSystemBuild: false,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
