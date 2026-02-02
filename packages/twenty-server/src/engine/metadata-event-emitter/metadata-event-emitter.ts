@@ -214,20 +214,73 @@ export class MetadataEventEmitter {
           ? action.flatEntity.universalIdentifier
           : undefined;
 
+      if (isDefined(universalIdentifier)) {
+        const createdId =
+          fromTo.to.idByUniversalIdentifier[universalIdentifier];
+
+        if (isDefined(createdId)) {
+          const created = fromTo.to.byId[createdId];
+
+          if (isDefined(created)) {
+            const createEvent: MetadataRecordCreateEvent = {
+              recordId: created.id,
+              properties: { after: created },
+            };
+
+            result[metadataName].created.push(createEvent);
+          }
+        }
+      }
+    }
+
+    this.processBundledFieldMetadatas(action, fromToAllFlatEntityMaps, result);
+  }
+
+  private processBundledFieldMetadatas(
+    action: AllUniversalWorkspaceMigrationAction,
+    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
+    result: GroupedEvents,
+  ): void {
+    const fieldMetadatas =
+      'universalFlatFieldMetadatas' in action
+        ? action.universalFlatFieldMetadatas
+        : 'flatFieldMetadatas' in action
+          ? action.flatFieldMetadatas
+          : undefined;
+
+    if (!isDefined(fieldMetadatas) || !Array.isArray(fieldMetadatas)) {
+      return;
+    }
+
+    const fieldFromTo = fromToAllFlatEntityMaps['flatFieldMetadataMaps'];
+
+    if (!isDefined(fieldFromTo)) {
+      return;
+    }
+
+    this.ensureMetadataNameInitialized(result, 'fieldMetadata');
+
+    for (const flatFieldMetadata of fieldMetadatas) {
+      const universalIdentifier =
+        'universalIdentifier' in flatFieldMetadata
+          ? flatFieldMetadata.universalIdentifier
+          : undefined;
+
       if (!isDefined(universalIdentifier)) {
-        return;
+        continue;
       }
 
-      const createdId = fromTo.to.idByUniversalIdentifier[universalIdentifier];
+      const createdId =
+        fieldFromTo.to.idByUniversalIdentifier[universalIdentifier];
 
       if (!isDefined(createdId)) {
-        return;
+        continue;
       }
 
-      const created = fromTo.to.byId[createdId];
+      const created = fieldFromTo.to.byId[createdId];
 
       if (!isDefined(created)) {
-        return;
+        continue;
       }
 
       const createEvent: MetadataRecordCreateEvent = {
@@ -235,46 +288,7 @@ export class MetadataEventEmitter {
         properties: { after: created },
       };
 
-      result[metadataName].created.push(createEvent);
-
-      return;
-    }
-
-    if (
-      'flatFieldMetadatas' in action &&
-      isDefined(action.flatFieldMetadatas) &&
-      Array.isArray(action.flatFieldMetadatas)
-    ) {
-      for (const flatFieldMetadata of action.flatFieldMetadatas) {
-        const universalIdentifier =
-          'universalIdentifier' in flatFieldMetadata
-            ? flatFieldMetadata.universalIdentifier
-            : undefined;
-
-        if (!isDefined(universalIdentifier)) {
-          continue;
-        }
-
-        const createdId =
-          fromTo.to.idByUniversalIdentifier[universalIdentifier];
-
-        if (!isDefined(createdId)) {
-          continue;
-        }
-
-        const created = fromTo.to.byId[createdId];
-
-        if (!isDefined(created)) {
-          continue;
-        }
-
-        const createEvent: MetadataRecordCreateEvent = {
-          recordId: created.id,
-          properties: { after: created },
-        };
-
-        result[metadataName].created.push(createEvent);
-      }
+      result['fieldMetadata'].created.push(createEvent);
     }
   }
 
