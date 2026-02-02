@@ -15,7 +15,7 @@ import { computeMetadataEventName } from 'src/engine/metadata-event-emitter/util
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
 import type { FromToAllFlatEntityMaps } from 'src/engine/workspace-manager/workspace-migration/types/workspace-migration-orchestrator.type';
 import { WORKSPACE_MIGRATION_ACTION_TYPE } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/constants/workspace-migration-action-type.constant';
-import type { WorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
+import type { AllUniversalWorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
 
 type MetadataEventActorContext = {
   userId?: string;
@@ -23,7 +23,7 @@ type MetadataEventActorContext = {
 };
 
 type EmitMetadataEventsFromMigrationArgs = {
-  actions: WorkspaceMigrationAction[];
+  actions: AllUniversalWorkspaceMigrationAction[];
   fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
   workspaceId: string;
   actorContext?: MetadataEventActorContext;
@@ -129,7 +129,7 @@ export class MetadataEventEmitter {
   }
 
   private groupActionsByMetadataNameAndAction(
-    actions: WorkspaceMigrationAction[],
+    actions: AllUniversalWorkspaceMigrationAction[],
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
   ): GroupedEvents {
     const result: GroupedEvents = {};
@@ -158,13 +158,18 @@ export class MetadataEventEmitter {
   }
 
   private processAction(
-    action: WorkspaceMigrationAction,
+    action: AllUniversalWorkspaceMigrationAction,
     metadataName: AllMetadataName,
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
     result: GroupedEvents,
   ): void {
     if (action.type === WORKSPACE_MIGRATION_ACTION_TYPE.create) {
-      this.processCreateAction(action, metadataName, result);
+      this.processCreateAction(
+        action,
+        metadataName,
+        fromToAllFlatEntityMaps,
+        result,
+      );
 
       return;
     }
@@ -191,14 +196,43 @@ export class MetadataEventEmitter {
   }
 
   private processCreateAction(
-    action: WorkspaceMigrationAction,
+    action: AllUniversalWorkspaceMigrationAction,
     metadataName: AllMetadataName,
+    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
     result: GroupedEvents,
   ): void {
+    const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
+    const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
+
+    if (!isDefined(fromTo)) {
+      return;
+    }
+
     if ('flatEntity' in action && isDefined(action.flatEntity)) {
+      const universalIdentifier =
+        'universalIdentifier' in action.flatEntity
+          ? action.flatEntity.universalIdentifier
+          : undefined;
+
+      if (!isDefined(universalIdentifier)) {
+        return;
+      }
+
+      const createdId = fromTo.to.idByUniversalIdentifier[universalIdentifier];
+
+      if (!isDefined(createdId)) {
+        return;
+      }
+
+      const created = fromTo.to.byId[createdId];
+
+      if (!isDefined(created)) {
+        return;
+      }
+
       const createEvent: MetadataRecordCreateEvent = {
-        recordId: action.flatEntity.id,
-        properties: { after: action.flatEntity },
+        recordId: created.id,
+        properties: { after: created },
       };
 
       result[metadataName].created.push(createEvent);
@@ -208,12 +242,35 @@ export class MetadataEventEmitter {
 
     if (
       'flatFieldMetadatas' in action &&
-      isDefined(action.flatFieldMetadatas)
+      isDefined(action.flatFieldMetadatas) &&
+      Array.isArray(action.flatFieldMetadatas)
     ) {
       for (const flatFieldMetadata of action.flatFieldMetadatas) {
+        const universalIdentifier =
+          'universalIdentifier' in flatFieldMetadata
+            ? flatFieldMetadata.universalIdentifier
+            : undefined;
+
+        if (!isDefined(universalIdentifier)) {
+          continue;
+        }
+
+        const createdId =
+          fromTo.to.idByUniversalIdentifier[universalIdentifier];
+
+        if (!isDefined(createdId)) {
+          continue;
+        }
+
+        const created = fromTo.to.byId[createdId];
+
+        if (!isDefined(created)) {
+          continue;
+        }
+
         const createEvent: MetadataRecordCreateEvent = {
-          recordId: flatFieldMetadata.id,
-          properties: { after: flatFieldMetadata },
+          recordId: created.id,
+          properties: { after: created },
         };
 
         result[metadataName].created.push(createEvent);
@@ -222,21 +279,33 @@ export class MetadataEventEmitter {
   }
 
   private processUpdateAction(
-    action: WorkspaceMigrationAction,
+    action: AllUniversalWorkspaceMigrationAction,
     metadataName: AllMetadataName,
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
     result: GroupedEvents,
   ): void {
-    const entityId = 'entityId' in action ? action.entityId : undefined;
+    const universalIdentifier =
+      'universalIdentifier' in action ? action.universalIdentifier : undefined;
 
-    if (!isDefined(entityId)) {
+    if (!isDefined(universalIdentifier)) {
       return;
     }
 
     const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
     const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
-    const before = fromTo?.from?.byId?.[entityId];
-    const after = fromTo?.to?.byId?.[entityId];
+
+    if (!isDefined(fromTo)) {
+      return;
+    }
+
+    const entityId = fromTo.from.idByUniversalIdentifier[universalIdentifier];
+
+    if (!isDefined(entityId)) {
+      return;
+    }
+
+    const before = fromTo.from.byId[entityId];
+    const after = fromTo.to.byId[entityId];
 
     if (!isDefined(before) || !isDefined(after)) {
       return;
@@ -254,7 +323,7 @@ export class MetadataEventEmitter {
   }
 
   private processDeleteAction(
-    action: WorkspaceMigrationAction,
+    action: AllUniversalWorkspaceMigrationAction,
     metadataName: AllMetadataName,
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
     result: GroupedEvents,
@@ -268,14 +337,18 @@ export class MetadataEventEmitter {
 
     const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
     const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
-    const deletedId =
-      fromTo?.from?.idByUniversalIdentifier?.[universalIdentifier];
+
+    if (!isDefined(fromTo)) {
+      return;
+    }
+
+    const deletedId = fromTo.from.idByUniversalIdentifier[universalIdentifier];
 
     if (!isDefined(deletedId)) {
       return;
     }
 
-    const deleted = fromTo?.from?.byId?.[deletedId];
+    const deleted = fromTo.from.byId[deletedId];
 
     if (!isDefined(deleted)) {
       return;

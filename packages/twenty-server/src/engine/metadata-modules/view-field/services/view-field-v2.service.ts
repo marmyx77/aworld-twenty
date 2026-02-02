@@ -19,8 +19,8 @@ import { UpdateViewFieldInput } from 'src/engine/metadata-modules/view-field/dto
 import { ViewFieldDTO } from 'src/engine/metadata-modules/view-field/dtos/view-field.dto';
 import { ViewFieldEntity } from 'src/engine/metadata-modules/view-field/entities/view-field.entity';
 import {
-  ViewFieldException,
-  ViewFieldExceptionCode,
+    ViewFieldException,
+    ViewFieldExceptionCode,
 } from 'src/engine/metadata-modules/view-field/exceptions/view-field.exception';
 import { fromFlatViewFieldToViewFieldDto } from 'src/engine/metadata-modules/view-field/utils/from-flat-view-field-to-view-field-dto.util';
 import { WorkspaceMigrationBuilderException } from 'src/engine/workspace-manager/workspace-migration/exceptions/workspace-migration-builder-exception';
@@ -39,13 +39,19 @@ export class ViewFieldV2Service {
   async createOne({
     createViewFieldInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     createViewFieldInput: CreateViewFieldInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO> {
     const [createdViewField] = await this.createMany({
       workspaceId,
       createViewFieldInputs: [createViewFieldInput],
+      userId,
+      workspaceMemberId,
     });
 
     if (!isDefined(createdViewField)) {
@@ -61,9 +67,13 @@ export class ViewFieldV2Service {
   async createMany({
     createViewFieldInputs,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     createViewFieldInputs: CreateViewFieldInput[];
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO[]> {
     if (createViewFieldInputs.length === 0) {
       return [];
@@ -99,6 +109,7 @@ export class ViewFieldV2Service {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -126,9 +137,13 @@ export class ViewFieldV2Service {
   async updateOne({
     updateViewFieldInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     workspaceId: string;
     updateViewFieldInput: UpdateViewFieldInput;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -165,6 +180,7 @@ export class ViewFieldV2Service {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -194,9 +210,13 @@ export class ViewFieldV2Service {
   async deleteOne({
     deleteViewFieldInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     deleteViewFieldInput: DeleteViewFieldInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -233,6 +253,7 @@ export class ViewFieldV2Service {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -262,9 +283,13 @@ export class ViewFieldV2Service {
   async destroyOne({
     destroyViewFieldInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     destroyViewFieldInput: DestroyViewFieldInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewFieldDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -301,6 +326,7 @@ export class ViewFieldV2Service {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 

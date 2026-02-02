@@ -19,8 +19,8 @@ import { UpdateViewGroupInput } from 'src/engine/metadata-modules/view-group/dto
 import { ViewGroupDTO } from 'src/engine/metadata-modules/view-group/dtos/view-group.dto';
 import { ViewGroupEntity } from 'src/engine/metadata-modules/view-group/entities/view-group.entity';
 import {
-  ViewGroupException,
-  ViewGroupExceptionCode,
+    ViewGroupException,
+    ViewGroupExceptionCode,
 } from 'src/engine/metadata-modules/view-group/exceptions/view-group.exception';
 import { fromFlatViewGroupToViewGroupDto } from 'src/engine/metadata-modules/view-group/utils/from-flat-view-group-to-view-group-dto.util';
 import { WorkspaceMigrationBuilderException } from 'src/engine/workspace-manager/workspace-migration/exceptions/workspace-migration-builder-exception';
@@ -39,13 +39,19 @@ export class ViewGroupService {
   async createOne({
     createViewGroupInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     createViewGroupInput: CreateViewGroupInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewGroupDTO> {
     const [createdViewGroup] = await this.createMany({
       workspaceId,
       createViewGroupInputs: [createViewGroupInput],
+      userId,
+      workspaceMemberId,
     });
 
     if (!isDefined(createdViewGroup)) {
@@ -61,9 +67,13 @@ export class ViewGroupService {
   async createMany({
     createViewGroupInputs,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     createViewGroupInputs: CreateViewGroupInput[];
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewGroupDTO[]> {
     if (createViewGroupInputs.length === 0) {
       return [];
@@ -119,6 +129,7 @@ export class ViewGroupService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -146,9 +157,13 @@ export class ViewGroupService {
   async updateOne({
     updateViewGroupInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     workspaceId: string;
     updateViewGroupInput: UpdateViewGroupInput;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewGroupDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -185,6 +200,7 @@ export class ViewGroupService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -214,9 +230,13 @@ export class ViewGroupService {
   async deleteOne({
     deleteViewGroupInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     deleteViewGroupInput: DeleteViewGroupInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewGroupDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -255,6 +275,7 @@ export class ViewGroupService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -284,9 +305,13 @@ export class ViewGroupService {
   async destroyOne({
     destroyViewGroupInput,
     workspaceId,
+    userId,
+    workspaceMemberId,
   }: {
     destroyViewGroupInput: DestroyViewGroupInput;
     workspaceId: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<ViewGroupDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -323,6 +348,7 @@ export class ViewGroupService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 

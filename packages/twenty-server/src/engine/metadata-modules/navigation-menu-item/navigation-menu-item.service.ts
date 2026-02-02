@@ -23,8 +23,8 @@ import { type NavigationMenuItemDTO } from 'src/engine/metadata-modules/navigati
 import { RecordIdentifierDTO } from 'src/engine/metadata-modules/navigation-menu-item/dtos/record-identifier.dto';
 import { type UpdateNavigationMenuItemInput } from 'src/engine/metadata-modules/navigation-menu-item/dtos/update-navigation-menu-item.input';
 import {
-  NavigationMenuItemException,
-  NavigationMenuItemExceptionCode,
+    NavigationMenuItemException,
+    NavigationMenuItemExceptionCode,
 } from 'src/engine/metadata-modules/navigation-menu-item/navigation-menu-item.exception';
 import { NavigationMenuItemAccessService } from 'src/engine/metadata-modules/navigation-menu-item/services/navigation-menu-item-access.service';
 import { getMinimalSelectForRecordIdentifier } from 'src/engine/metadata-modules/navigation-menu-item/utils/get-minimal-select-for-record-identifier.util';
@@ -129,12 +129,16 @@ export class NavigationMenuItemService {
     authUserWorkspaceId,
     authApiKeyId,
     authApplicationId,
+    userId,
+    workspaceMemberId,
   }: {
     input: CreateNavigationMenuItemInput;
     workspaceId: string;
     authUserWorkspaceId?: string;
     authApiKeyId?: string;
     authApplicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<NavigationMenuItemDTO> {
     await this.navigationMenuItemAccessService.canUserCreateNavigationMenuItem({
       userWorkspaceId: authUserWorkspaceId,
@@ -186,6 +190,7 @@ export class NavigationMenuItemService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -218,12 +223,16 @@ export class NavigationMenuItemService {
     authUserWorkspaceId,
     authApiKeyId,
     authApplicationId,
+    userId,
+    workspaceMemberId,
   }: {
     input: UpdateNavigationMenuItemInput & { id: string };
     workspaceId: string;
     authUserWorkspaceId?: string;
     authApiKeyId?: string;
     authApplicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<NavigationMenuItemDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -275,6 +284,7 @@ export class NavigationMenuItemService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -307,12 +317,16 @@ export class NavigationMenuItemService {
     authUserWorkspaceId,
     authApiKeyId,
     authApplicationId,
+    userId,
+    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     authUserWorkspaceId?: string;
     authApiKeyId?: string;
     authApplicationId?: string;
+    userId?: string;
+    workspaceMemberId?: string;
   }): Promise<NavigationMenuItemDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -355,6 +369,7 @@ export class NavigationMenuItemService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 

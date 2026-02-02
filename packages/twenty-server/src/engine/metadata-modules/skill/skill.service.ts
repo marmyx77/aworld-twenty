@@ -15,8 +15,8 @@ import { type CreateSkillInput } from 'src/engine/metadata-modules/skill/dtos/cr
 import { type SkillDTO } from 'src/engine/metadata-modules/skill/dtos/skill.dto';
 import { type UpdateSkillInput } from 'src/engine/metadata-modules/skill/dtos/update-skill.input';
 import {
-  SkillException,
-  SkillExceptionCode,
+    SkillException,
+    SkillExceptionCode,
 } from 'src/engine/metadata-modules/skill/skill.exception';
 import { WorkspaceMigrationBuilderException } from 'src/engine/workspace-manager/workspace-migration/exceptions/workspace-migration-builder-exception';
 import { WorkspaceMigrationValidateBuildAndRunService } from 'src/engine/workspace-manager/workspace-migration/services/workspace-migration-validate-build-and-run-service';
@@ -68,6 +68,8 @@ export class SkillService {
   async create(
     input: CreateSkillInput,
     workspaceId: string,
+    userId?: string,
+    workspaceMemberId?: string,
   ): Promise<SkillDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -94,6 +96,7 @@ export class SkillService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -123,6 +126,8 @@ export class SkillService {
   async update(
     input: UpdateSkillInput,
     workspaceId: string,
+    userId?: string,
+    workspaceMemberId?: string,
   ): Promise<SkillDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -156,6 +161,7 @@ export class SkillService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -182,7 +188,12 @@ export class SkillService {
     );
   }
 
-  async delete(id: string, workspaceId: string): Promise<SkillDTO> {
+  async delete(
+    id: string,
+    workspaceId: string,
+    userId?: string,
+    workspaceMemberId?: string,
+  ): Promise<SkillDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
         { workspaceId },
@@ -215,6 +226,7 @@ export class SkillService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
+          actorContext: { userId, workspaceMemberId },
         },
       );
 
