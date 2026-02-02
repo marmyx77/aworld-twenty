@@ -7,6 +7,7 @@ import {
 import { isDefined } from 'twenty-shared/utils';
 
 import { TwentyConfigService } from 'src/engine/core-modules/twenty-config/twenty-config.service';
+import { MetadataEventEmitter } from 'src/engine/metadata-event-emitter/metadata-event-emitter';
 import { ALL_METADATA_REQUIRED_METADATA_FOR_VALIDATION } from 'src/engine/metadata-modules/flat-entity/constant/all-metadata-required-metadata-for-validation.constant';
 import { createEmptyFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/constant/create-empty-flat-entity-maps.constant';
 import { AllFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/all-flat-entity-maps.type';
@@ -45,6 +46,7 @@ export class WorkspaceMigrationValidateBuildAndRunService {
     private readonly workspaceMigrationRunnerService: WorkspaceMigrationRunnerService,
     private readonly workspaceMigrationBuildOrchestratorService: WorkspaceMigrationBuildOrchestratorService,
     private readonly workspaceCacheService: WorkspaceCacheService,
+    private readonly metadataEventEmitter: MetadataEventEmitter,
     twentyConfigService: TwentyConfigService,
   ) {
     const logLevels = twentyConfigService.get('LOG_LEVELS');
@@ -210,6 +212,12 @@ export class WorkspaceMigrationValidateBuildAndRunService {
     await this.workspaceMigrationRunnerService.run(
       validateAndBuildResult.workspaceMigration,
     );
+
+    this.metadataEventEmitter.emitMetadataEventsFromMigration({
+      actions: validateAndBuildResult.workspaceMigration.actions,
+      fromToAllFlatEntityMaps: args.fromToAllFlatEntityMaps,
+      workspaceId: args.workspaceId,
+    });
   }
 
   public async validateBuildAndRunWorkspaceMigration({

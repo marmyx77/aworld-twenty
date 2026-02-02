@@ -5,6 +5,7 @@ import { AuditModule } from 'src/engine/core-modules/audit/audit.module';
 import { MetricsModule } from 'src/engine/core-modules/metrics/metrics.module';
 import { ToolModule } from 'src/engine/core-modules/tool/tool.module';
 import { WebhookEntity } from 'src/engine/metadata-modules/webhook/entities/webhook.entity';
+import { CallWebhookJobsForMetadataJob } from 'src/engine/metadata-modules/webhook/jobs/call-webhook-jobs-for-metadata.job';
 import { CallWebhookJobsJob } from 'src/engine/metadata-modules/webhook/jobs/call-webhook-jobs.job';
 import { CallWebhookJob } from 'src/engine/metadata-modules/webhook/jobs/call-webhook.job';
 
@@ -15,6 +16,10 @@ import { CallWebhookJob } from 'src/engine/metadata-modules/webhook/jobs/call-we
     MetricsModule,
     ToolModule,
   ],
-  providers: [CallWebhookJobsJob, CallWebhookJob],
+  providers: [
+    CallWebhookJobsJob,
+    CallWebhookJobsForMetadataJob,
+    CallWebhookJob,
+  ],
 })
 export class WebhookJobModule {}
