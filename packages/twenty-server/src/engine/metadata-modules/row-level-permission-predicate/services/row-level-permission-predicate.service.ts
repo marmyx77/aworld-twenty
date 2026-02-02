@@ -141,13 +141,9 @@ export class RowLevelPermissionPredicateService {
   async upsertRowLevelPermissionPredicates({
     input,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     input: UpsertRowLevelPermissionPredicatesInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<{
     predicates: RowLevelPermissionPredicateDTO[];
     predicateGroups: RowLevelPermissionPredicateGroupDTO[];
@@ -227,8 +223,6 @@ export class RowLevelPermissionPredicateService {
       groupsToCreate,
       groupsToUpdate,
       groupsToDelete,
-      userId,
-      workspaceMemberId,
     });
 
     const {
@@ -456,8 +450,6 @@ export class RowLevelPermissionPredicateService {
     groupsToCreate,
     groupsToUpdate,
     groupsToDelete,
-    userId,
-    workspaceMemberId,
   }: {
     workspaceId: string;
     predicatesToCreate: FlatRowLevelPermissionPredicate[];
@@ -466,9 +458,12 @@ export class RowLevelPermissionPredicateService {
     groupsToCreate: FlatRowLevelPermissionPredicateGroup[];
     groupsToUpdate: FlatRowLevelPermissionPredicateGroup[];
     groupsToDelete: FlatRowLevelPermissionPredicateGroup[];
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<void> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        { workspaceId },
+      );
+
     const validateAndBuildResult =
       await this.workspaceMigrationValidateBuildAndRunService.validateBuildAndRunWorkspaceMigration(
         {
@@ -489,7 +484,8 @@ export class RowLevelPermissionPredicateService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 

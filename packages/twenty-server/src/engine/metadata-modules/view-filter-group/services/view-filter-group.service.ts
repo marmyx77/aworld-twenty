@@ -34,13 +34,9 @@ export class ViewFilterGroupService {
   async createOne({
     createViewFilterGroupInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     createViewFilterGroupInput: CreateViewFilterGroupInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewFilterGroupDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -68,7 +64,8 @@ export class ViewFilterGroupService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -101,15 +98,18 @@ export class ViewFilterGroupService {
     id,
     updateViewFilterGroupInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     updateViewFilterGroupInput: UpdateViewFilterGroupInput;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewFilterGroupDTO> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        {
+          workspaceId,
+        },
+      );
+
     const { flatViewFilterGroupMaps: existingFlatViewFilterGroupMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -136,7 +136,8 @@ export class ViewFilterGroupService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -168,14 +169,17 @@ export class ViewFilterGroupService {
   async deleteOne({
     deleteViewFilterGroupInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     deleteViewFilterGroupInput: DeleteViewFilterGroupInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewFilterGroupDTO> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        {
+          workspaceId,
+        },
+      );
+
     const { flatViewFilterGroupMaps: existingFlatViewFilterGroupMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -204,7 +208,8 @@ export class ViewFilterGroupService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -236,14 +241,17 @@ export class ViewFilterGroupService {
   async destroyOne({
     destroyViewFilterGroupInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     destroyViewFilterGroupInput: DestroyViewFilterGroupInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewFilterGroupDTO> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        {
+          workspaceId,
+        },
+      );
+
     const { flatViewFilterGroupMaps: existingFlatViewFilterGroupMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -270,7 +278,8 @@ export class ViewFilterGroupService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 

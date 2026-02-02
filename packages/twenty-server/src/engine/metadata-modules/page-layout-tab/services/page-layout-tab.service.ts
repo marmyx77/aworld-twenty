@@ -109,13 +109,9 @@ export class PageLayoutTabService {
   async create({
     createPageLayoutTabInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     createPageLayoutTabInput: CreatePageLayoutTabInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<Omit<PageLayoutTabDTO, 'widgets'>> {
     if (!isDefined(createPageLayoutTabInput.title)) {
       throw new PageLayoutTabException(
@@ -159,7 +155,8 @@ export class PageLayoutTabService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -196,15 +193,16 @@ export class PageLayoutTabService {
     id,
     workspaceId,
     updateData,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     updateData: UpdatePageLayoutTabInput;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<Omit<PageLayoutTabDTO, 'widgets'>> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        { workspaceId },
+      );
+
     const { flatPageLayoutTabMaps: existingFlatPageLayoutTabMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -236,7 +234,8 @@ export class PageLayoutTabService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -272,14 +271,15 @@ export class PageLayoutTabService {
   async destroy({
     id,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<boolean> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        { workspaceId },
+      );
+
     const { flatPageLayoutTabMaps: existingFlatPageLayoutTabMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -306,7 +306,8 @@ export class PageLayoutTabService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 

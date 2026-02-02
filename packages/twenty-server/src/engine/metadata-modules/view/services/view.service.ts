@@ -40,14 +40,10 @@ export class ViewService {
     createViewInput,
     workspaceId,
     createdByUserWorkspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     createViewInput: CreateViewInput;
     workspaceId: string;
     createdByUserWorkspaceId?: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -91,7 +87,8 @@ export class ViewService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -122,15 +119,18 @@ export class ViewService {
     updateViewInput,
     workspaceId,
     userWorkspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     updateViewInput: UpdateViewInput;
     workspaceId: string;
     userWorkspaceId?: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewDTO> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        {
+          workspaceId,
+        },
+      );
+
     const {
       flatViewMaps: existingFlatViewMaps,
       flatFieldMetadataMaps: existingFlatFieldMetadataMaps,
@@ -172,7 +172,8 @@ export class ViewService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -202,14 +203,17 @@ export class ViewService {
   async deleteOne({
     deleteViewInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     deleteViewInput: DeleteViewInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewDTO> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        {
+          workspaceId,
+        },
+      );
+
     const { flatViewMaps: existingFlatViewMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -236,7 +240,8 @@ export class ViewService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -266,14 +271,17 @@ export class ViewService {
   async destroyOne({
     destroyViewInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     destroyViewInput: DestroyViewInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewDTO> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        {
+          workspaceId,
+        },
+      );
+
     const { flatViewMaps: existingFlatViewMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -299,7 +307,8 @@ export class ViewService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 

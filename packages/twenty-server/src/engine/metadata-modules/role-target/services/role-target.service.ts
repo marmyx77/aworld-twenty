@@ -32,19 +32,13 @@ export class RoleTargetService {
   async create({
     createRoleTargetInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     createRoleTargetInput: CreateRoleTargetInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatRoleTarget> {
     const [flatRoleTarget] = await this.createMany({
       createRoleTargetInputs: [createRoleTargetInput],
       workspaceId,
-      userId,
-      workspaceMemberId,
     });
 
     return flatRoleTarget;
@@ -53,13 +47,9 @@ export class RoleTargetService {
   async createMany({
     createRoleTargetInputs,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     createRoleTargetInputs: CreateRoleTargetInput[];
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatRoleTarget[]> {
     if (createRoleTargetInputs.length === 0) {
       return [];
@@ -112,7 +102,8 @@ export class RoleTargetService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -139,15 +130,14 @@ export class RoleTargetService {
     );
   }
 
-  async delete({
-    id,
-    workspaceId,
-    userId,
-    workspaceMemberId,
-  }: DeleteRoleTargetInput & {
-    userId?: string;
-    workspaceMemberId?: string;
-  }): Promise<void> {
+  async delete({ id, workspaceId }: DeleteRoleTargetInput): Promise<void> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        {
+          workspaceId,
+        },
+      );
+
     const { flatRoleTargetMaps: existingFlatRoleTargetMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -173,7 +163,8 @@ export class RoleTargetService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 

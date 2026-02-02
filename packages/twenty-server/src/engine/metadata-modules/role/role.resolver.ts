@@ -176,7 +176,7 @@ export class RoleResolver {
     return await this.roleService.createRole({
       workspaceId,
       input: createRoleInput,
-      applicationId: workspaceCustomFlatApplication.id,
+      ownerFlatApplication: workspaceCustomFlatApplication,
     });
   }
 

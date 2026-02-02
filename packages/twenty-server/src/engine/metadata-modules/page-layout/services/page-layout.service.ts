@@ -155,13 +155,9 @@ export class PageLayoutService {
   async create({
     createPageLayoutInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     createPageLayoutInput: CreatePageLayoutInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<Omit<PageLayoutDTO, 'tabs'>> {
     if (!isNonEmptyString(createPageLayoutInput.name)) {
       throw new PageLayoutException(
@@ -196,7 +192,8 @@ export class PageLayoutService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -227,15 +224,16 @@ export class PageLayoutService {
     id,
     workspaceId,
     updateData,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     updateData: UpdatePageLayoutInput;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<Omit<PageLayoutDTO, 'tabs'>> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        { workspaceId },
+      );
+
     const { flatPageLayoutMaps: existingFlatPageLayoutMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -267,7 +265,8 @@ export class PageLayoutService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -306,15 +305,16 @@ export class PageLayoutService {
     id,
     workspaceId,
     isLinkedDashboardAlreadyDestroyed = false,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     isLinkedDashboardAlreadyDestroyed?: boolean;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<boolean> {
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        { workspaceId },
+      );
+
     const { flatPageLayoutMaps: existingFlatPageLayoutMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -341,7 +341,8 @@ export class PageLayoutService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 
@@ -368,17 +369,18 @@ export class PageLayoutService {
   async destroyMany({
     ids,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     ids: string[];
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<boolean> {
     if (ids.length === 0) {
       return true;
     }
+
+    const { workspaceCustomFlatApplication } =
+      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+        { workspaceId },
+      );
 
     const { flatPageLayoutMaps: existingFlatPageLayoutMaps } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -407,7 +409,8 @@ export class PageLayoutService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            workspaceCustomFlatApplication.universalIdentifier,
         },
       );
 

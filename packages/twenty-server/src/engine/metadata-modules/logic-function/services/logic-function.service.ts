@@ -4,6 +4,7 @@ import { FileFolder } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 
 import { ApplicationService } from 'src/engine/core-modules/application/services/application.service';
+import { type FlatApplication } from 'src/engine/core-modules/application/types/flat-application.type';
 import { FileStorageService } from 'src/engine/core-modules/file-storage/file-storage.service';
 import { getLogicFunctionBaseFolderPath } from 'src/engine/core-modules/logic-function/logic-function-build/utils/get-logic-function-base-folder-path.util';
 import { LogicFunctionLayerService } from 'src/engine/core-modules/logic-function/logic-function-layer/services/logic-function-layer.service';
@@ -37,18 +38,23 @@ export class LogicFunctionService {
   async createOne({
     input,
     workspaceId,
-    applicationId,
-    userId,
-    workspaceMemberId,
+    ownerFlatApplication,
   }: {
     input: Omit<CreateLogicFunctionInput, 'applicationId'> & {
       logicFunctionLayerId?: string;
     };
+    ownerFlatApplication?: FlatApplication;
     workspaceId: string;
     applicationId?: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }) {
+    const resolvedOwnerFlatApplication =
+      ownerFlatApplication ??
+      (
+        await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+          { workspaceId },
+        )
+      ).workspaceCustomFlatApplication;
+
     let logicFunctionToCreateLayerId = input.logicFunctionLayerId;
 
     if (!isDefined(logicFunctionToCreateLayerId)) {
@@ -60,13 +66,6 @@ export class LogicFunctionService {
       logicFunctionToCreateLayerId = commonLogicFunctionLayerId;
     }
 
-    const { workspaceCustomFlatApplication } =
-      await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
-        {
-          workspaceId,
-        },
-      );
-
     const flatLogicFunctionToCreate =
       fromCreateLogicFunctionInputToFlatLogicFunction({
         createLogicFunctionInput: {
@@ -74,8 +73,7 @@ export class LogicFunctionService {
           logicFunctionLayerId: logicFunctionToCreateLayerId,
         },
         workspaceId,
-        workspaceCustomApplicationId:
-          applicationId ?? workspaceCustomFlatApplication.id,
+        ownerFlatApplication: resolvedOwnerFlatApplication,
       });
 
     const validateAndBuildResult =
@@ -90,7 +88,8 @@ export class LogicFunctionService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            resolvedOwnerFlatApplication.universalIdentifier,
         },
       );
 
@@ -119,17 +118,21 @@ export class LogicFunctionService {
     id,
     update,
     workspaceId,
-    applicationId: _applicationId,
-    userId,
-    workspaceMemberId,
+    ownerFlatApplication,
   }: {
     id: string;
     update: UpdateLogicFunctionInput['update'];
     workspaceId: string;
-    applicationId?: string;
-    userId?: string;
-    workspaceMemberId?: string;
+    ownerFlatApplication?: FlatApplication;
   }) {
+    const resolvedOwnerFlatApplication =
+      ownerFlatApplication ??
+      (
+        await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+          { workspaceId },
+        )
+      ).workspaceCustomFlatApplication;
+
     const { flatLogicFunctionMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -156,7 +159,8 @@ export class LogicFunctionService {
           },
           workspaceId,
           isSystemBuild: false,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            resolvedOwnerFlatApplication.universalIdentifier,
         },
       );
 
@@ -186,16 +190,22 @@ export class LogicFunctionService {
     workspaceId,
     applicationId: _applicationId,
     isSystemBuild = false,
-    userId,
-    workspaceMemberId,
+    ownerFlatApplication,
   }: {
     id: string;
     workspaceId: string;
     applicationId?: string;
     isSystemBuild?: boolean;
-    userId?: string;
-    workspaceMemberId?: string;
+    ownerFlatApplication?: FlatApplication;
   }): Promise<FlatLogicFunction> {
+    const resolvedOwnerFlatApplication =
+      ownerFlatApplication ??
+      (
+        await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
+          { workspaceId },
+        )
+      ).workspaceCustomFlatApplication;
+
     const { flatLogicFunctionMaps: existingFlatLogicFunctionMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -225,7 +235,8 @@ export class LogicFunctionService {
           },
           workspaceId,
           isSystemBuild,
-          actorContext: { userId, workspaceMemberId },
+          applicationUniversalIdentifier:
+            resolvedOwnerFlatApplication.universalIdentifier,
         },
       );
 
@@ -242,32 +253,22 @@ export class LogicFunctionService {
   async duplicateLogicFunction({
     id,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatLogicFunction> {
     return this.createLogicFunctionFromExistingLogicFunctionById({
       id,
       workspaceId,
-      userId,
-      workspaceMemberId,
     });
   }
 
   async createLogicFunctionFromExistingLogicFunctionById({
     id,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatLogicFunction> {
     const { flatLogicFunctionMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
@@ -285,21 +286,15 @@ export class LogicFunctionService {
     return this.createLogicFunctionFromExistingLogicFunction({
       existingLogicFunction,
       workspaceId,
-      userId,
-      workspaceMemberId,
     });
   }
 
   async createLogicFunctionFromExistingLogicFunction({
     existingLogicFunction,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     existingLogicFunction: FlatLogicFunction;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatLogicFunction> {
     const { flatApplicationMaps } =
       await this.workspaceCacheService.getOrRecompute(workspaceId, [
@@ -329,8 +324,6 @@ export class LogicFunctionService {
       },
       workspaceId,
       applicationId: existingLogicFunction.applicationId ?? undefined,
-      userId,
-      workspaceMemberId,
     });
 
     const newApplicationUniversalIdentifier = isDefined(
