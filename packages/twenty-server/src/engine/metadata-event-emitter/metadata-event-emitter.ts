@@ -9,7 +9,7 @@ import {
 } from 'twenty-shared/metadata-events';
 import { isDefined } from 'twenty-shared/utils';
 
-import { MetadataEventAction } from 'src/engine/metadata-event-emitter/enums/metadata-event-action.enum';
+import { type MetadataEventAction } from 'src/engine/metadata-event-emitter/enums/metadata-event-action.enum';
 import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { computeMetadataEventName } from 'src/engine/metadata-event-emitter/utils/compute-metadata-event-name.util';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
@@ -30,9 +30,9 @@ type EmitMetadataEventsFromMigrationArgs = {
 };
 
 type ActionEventMap<T> = {
-  [MetadataEventAction.CREATED]: MetadataRecordCreateEvent<T>;
-  [MetadataEventAction.UPDATED]: MetadataRecordUpdateEvent<T>;
-  [MetadataEventAction.DELETED]: MetadataRecordDeleteEvent<T>;
+  created: MetadataRecordCreateEvent<T>;
+  updated: MetadataRecordUpdateEvent<T>;
+  deleted: MetadataRecordDeleteEvent<T>;
 };
 
 export type MetadataBatchEventInput<T, A extends keyof ActionEventMap<T>> = {
@@ -150,9 +150,9 @@ export class MetadataEventEmitter {
   ): void {
     if (!result[metadataName]) {
       result[metadataName] = {
-        [MetadataEventAction.CREATED]: [],
-        [MetadataEventAction.UPDATED]: [],
-        [MetadataEventAction.DELETED]: [],
+        created: [],
+        updated: [],
+        deleted: [],
       };
     }
   }
@@ -201,7 +201,7 @@ export class MetadataEventEmitter {
         properties: { after: action.flatEntity },
       };
 
-      result[metadataName][MetadataEventAction.CREATED].push(createEvent);
+      result[metadataName].created.push(createEvent);
 
       return;
     }
@@ -216,7 +216,7 @@ export class MetadataEventEmitter {
           properties: { after: flatFieldMetadata },
         };
 
-        result[metadataName][MetadataEventAction.CREATED].push(createEvent);
+        result[metadataName].created.push(createEvent);
       }
     }
   }
@@ -250,7 +250,7 @@ export class MetadataEventEmitter {
       properties: { before, after, updatedFields, diff },
     };
 
-    result[metadataName][MetadataEventAction.UPDATED].push(updateEvent);
+    result[metadataName].updated.push(updateEvent);
   }
 
   private processDeleteAction(
@@ -286,7 +286,7 @@ export class MetadataEventEmitter {
       properties: { before: deleted },
     };
 
-    result[metadataName][MetadataEventAction.DELETED].push(deleteEvent);
+    result[metadataName].deleted.push(deleteEvent);
   }
 
   private computeUpdatedFields(

@@ -1,5 +1,1 @@
-export enum MetadataEventAction {
-  CREATED = 'created',
-  UPDATED = 'updated',
-  DELETED = 'deleted',
-}
+export type MetadataEventAction = 'created' | 'updated' | 'deleted';
