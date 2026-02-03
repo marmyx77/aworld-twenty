@@ -9,6 +9,8 @@ import {
 } from 'twenty-shared/metadata-events';
 import { isDefined } from 'twenty-shared/utils';
 
+import { getWorkspaceAuthContext } from 'src/engine/core-modules/auth/storage/workspace-auth-context.storage';
+import { type WorkspaceAuthContext } from 'src/engine/core-modules/auth/types/workspace-auth-context.type';
 import { type MetadataEventAction } from 'src/engine/metadata-event-emitter/enums/metadata-event-action.enum';
 import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { computeMetadataEventName } from 'src/engine/metadata-event-emitter/utils/compute-metadata-event-name.util';
@@ -17,16 +19,13 @@ import type { FromToAllFlatEntityMaps } from 'src/engine/workspace-manager/works
 import { WORKSPACE_MIGRATION_ACTION_TYPE } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/constants/workspace-migration-action-type.constant';
 import type { AllUniversalWorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
 
-type MetadataEventActorContext = {
-  userId?: string;
-  workspaceMemberId?: string;
-};
+type MetadataEventInitiatorContext = WorkspaceAuthContext;
 
 type EmitMetadataEventsFromMigrationArgs = {
   actions: AllUniversalWorkspaceMigrationAction[];
   fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
   workspaceId: string;
-  actorContext?: MetadataEventActorContext;
+  initiatorContext?: MetadataEventInitiatorContext;
 };
 
 type ActionEventMap<T> = {
@@ -41,7 +40,7 @@ export type MetadataBatchEventInput<T, A extends keyof ActionEventMap<T>> = {
   events: ActionEventMap<T>[A][];
   workspaceId: string;
   userId?: string;
-  workspaceMemberId?: string;
+  apiKeyId?: string;
 };
 
 type GroupedEvents = Record<
@@ -53,21 +52,15 @@ type GroupedEvents = Record<
 export class MetadataEventEmitter {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
-  public emitMetadataBatchEvent<T, A extends keyof ActionEventMap<T>>(
+  private emitMetadataBatchEvent<T, A extends keyof ActionEventMap<T>>(
     metadataBatchEventInput: MetadataBatchEventInput<T, A> | undefined,
   ): void {
     if (!isDefined(metadataBatchEventInput)) {
       return;
     }
 
-    const {
-      metadataName,
-      action,
-      events,
-      workspaceId,
-      userId,
-      workspaceMemberId,
-    } = metadataBatchEventInput;
+    const { metadataName, action, events, workspaceId, userId, apiKeyId } =
+      metadataBatchEventInput;
 
     if (events.length === 0) {
       return;
@@ -81,7 +74,7 @@ export class MetadataEventEmitter {
       metadataName,
       events,
       userId,
-      workspaceMemberId,
+      apiKeyId,
     };
 
     this.eventEmitter.emit(eventName, metadataEventBatch);
@@ -91,7 +84,7 @@ export class MetadataEventEmitter {
     actions,
     fromToAllFlatEntityMaps,
     workspaceId,
-    actorContext,
+    initiatorContext,
   }: EmitMetadataEventsFromMigrationArgs): void {
     if (actions.length === 0) {
       return;
@@ -102,14 +95,38 @@ export class MetadataEventEmitter {
       fromToAllFlatEntityMaps,
     );
 
-    this.emitGroupedEvents(groupedEvents, workspaceId, actorContext);
+    let resolvedInitiatorContext = initiatorContext;
+
+    if (!resolvedInitiatorContext) {
+      try {
+        resolvedInitiatorContext = getWorkspaceAuthContext();
+      } catch {
+        resolvedInitiatorContext = undefined;
+      }
+    }
+
+    this.emitGroupedEvents(
+      groupedEvents,
+      workspaceId,
+      resolvedInitiatorContext,
+    );
   }
 
   private emitGroupedEvents(
     groupedEvents: GroupedEvents,
     workspaceId: string,
-    actorContext?: MetadataEventActorContext,
+    initiatorContext?: MetadataEventInitiatorContext,
   ): void {
+    const userId =
+      initiatorContext?.type === 'user' ||
+      initiatorContext?.type === 'pendingActivationUser'
+        ? initiatorContext.user.id
+        : undefined;
+    const apiKeyId =
+      initiatorContext?.type === 'apiKey'
+        ? initiatorContext.apiKey.id
+        : undefined;
+
     for (const [metadataName, actionEvents] of Object.entries(groupedEvents)) {
       for (const [action, events] of Object.entries(actionEvents)) {
         if (events.length === 0) {
@@ -121,8 +138,8 @@ export class MetadataEventEmitter {
           action: action as MetadataEventAction,
           events,
           workspaceId,
-          userId: actorContext?.userId,
-          workspaceMemberId: actorContext?.workspaceMemberId,
+          userId,
+          apiKeyId,
         });
       }
     }
@@ -196,7 +213,7 @@ export class MetadataEventEmitter {
   }
 
   private processCreateAction(
-    action: AllUniversalWorkspaceMigrationAction,
+    action: AllUniversalWorkspaceMigrationAction<'create'>,
     metadataName: AllMetadataName,
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
     result: GroupedEvents,
@@ -293,7 +310,7 @@ export class MetadataEventEmitter {
   }
 
   private processUpdateAction(
-    action: AllUniversalWorkspaceMigrationAction,
+    action: AllUniversalWorkspaceMigrationAction<'update'>,
     metadataName: AllMetadataName,
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
     result: GroupedEvents,
@@ -337,7 +354,7 @@ export class MetadataEventEmitter {
   }
 
   private processDeleteAction(
-    action: AllUniversalWorkspaceMigrationAction,
+    action: AllUniversalWorkspaceMigrationAction<'delete'>,
     metadataName: AllMetadataName,
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
     result: GroupedEvents,

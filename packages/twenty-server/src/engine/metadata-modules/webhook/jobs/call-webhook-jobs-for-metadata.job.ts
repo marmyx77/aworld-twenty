@@ -106,7 +106,7 @@ export class CallWebhookJobsForMetadataJob {
           }),
           secret,
           userId: metadataEventBatch.userId,
-          workspaceMemberId: metadataEventBatch.workspaceMemberId,
+          apiKeyId: metadataEventBatch.apiKeyId,
         });
       }
     }

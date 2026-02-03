@@ -6,5 +6,5 @@ export type MetadataEventBatch<MetadataEvent> = {
   metadataName: AllMetadataName;
   events: MetadataEvent[];
   userId?: string;
-  workspaceMemberId?: string;
+  apiKeyId?: string;
 };

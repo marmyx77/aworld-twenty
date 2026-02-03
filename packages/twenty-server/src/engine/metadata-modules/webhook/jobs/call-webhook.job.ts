@@ -20,6 +20,8 @@ export type CallWebhookJobData = {
   eventDate: Date;
   userId?: string;
   workspaceMemberId?: string;
+  apiKeyId?: string;
+  applicationId?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   record: any;
   updatedFields?: string[];
