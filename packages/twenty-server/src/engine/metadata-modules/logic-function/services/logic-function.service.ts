@@ -39,8 +39,6 @@ export class LogicFunctionService {
     input,
     workspaceId,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     input: Omit<CreateLogicFunctionInput, 'applicationId'> & {
       logicFunctionLayerId?: string;
@@ -48,8 +46,6 @@ export class LogicFunctionService {
     ownerFlatApplication?: FlatApplication;
     workspaceId: string;
     applicationId?: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }) {
     const resolvedOwnerFlatApplication =
       ownerFlatApplication ??
@@ -103,7 +99,6 @@ export class LogicFunctionService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             resolvedOwnerFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -133,15 +128,11 @@ export class LogicFunctionService {
     update,
     workspaceId,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     update: UpdateLogicFunctionInput['update'];
     workspaceId: string;
     ownerFlatApplication?: FlatApplication;
-    userId?: string;
-    workspaceMemberId?: string;
   }) {
     const resolvedOwnerFlatApplication =
       ownerFlatApplication ??
@@ -179,7 +170,6 @@ export class LogicFunctionService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             resolvedOwnerFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -210,16 +200,12 @@ export class LogicFunctionService {
     applicationId: _applicationId,
     isSystemBuild = false,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     applicationId?: string;
     isSystemBuild?: boolean;
     ownerFlatApplication?: FlatApplication;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatLogicFunction> {
     const resolvedOwnerFlatApplication =
       ownerFlatApplication ??
@@ -260,7 +246,6 @@ export class LogicFunctionService {
           isSystemBuild,
           applicationUniversalIdentifier:
             resolvedOwnerFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 

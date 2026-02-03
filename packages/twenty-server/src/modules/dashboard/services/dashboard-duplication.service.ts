@@ -80,8 +80,6 @@ export class DashboardDuplicationService {
             await this.pageLayoutDuplicationService.duplicate({
               pageLayoutId: originalDashboard.pageLayoutId,
               workspaceId,
-              userId: authContext.user?.id,
-              workspaceMemberId: authContext.workspaceMemberId,
             });
 
           const newDashboard = await this.createDuplicatedDashboard(

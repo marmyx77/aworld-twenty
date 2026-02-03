@@ -1,10 +1,7 @@
 import { UseFilters, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
-import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
-import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
@@ -54,14 +51,10 @@ export class ViewGroupResolver {
   async createCoreViewGroup(
     @Args('input') createViewGroupInput: CreateViewGroupInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewGroupDTO> {
     return await this.viewGroupService.createOne({
       createViewGroupInput,
       workspaceId,
-      userId: user?.id,
-      workspaceMemberId,
     });
   }
 
@@ -71,14 +64,10 @@ export class ViewGroupResolver {
     @Args('inputs', { type: () => [CreateViewGroupInput] })
     createViewGroupInputs: CreateViewGroupInput[],
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewGroupDTO[]> {
     return await this.viewGroupService.createMany({
       createViewGroupInputs,
       workspaceId,
-      userId: user?.id,
-      workspaceMemberId,
     });
   }
 
@@ -87,14 +76,10 @@ export class ViewGroupResolver {
   async updateCoreViewGroup(
     @Args('input') updateViewGroupInput: UpdateViewGroupInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewGroupDTO> {
     return await this.viewGroupService.updateOne({
       updateViewGroupInput,
       workspaceId,
-      userId: user?.id,
-      workspaceMemberId,
     });
   }
 
@@ -103,14 +88,10 @@ export class ViewGroupResolver {
   async deleteCoreViewGroup(
     @Args('input') deleteViewGroupInput: DeleteViewGroupInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewGroupDTO> {
     return await this.viewGroupService.deleteOne({
       deleteViewGroupInput,
       workspaceId,
-      userId: user?.id,
-      workspaceMemberId,
     });
   }
 
@@ -119,14 +100,10 @@ export class ViewGroupResolver {
   async destroyCoreViewGroup(
     @Args('input') destroyViewGroupInput: DestroyViewGroupInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<ViewGroupDTO> {
     return await this.viewGroupService.destroyOne({
       destroyViewGroupInput,
       workspaceId,
-      userId: user?.id,
-      workspaceMemberId,
     });
   }
 }

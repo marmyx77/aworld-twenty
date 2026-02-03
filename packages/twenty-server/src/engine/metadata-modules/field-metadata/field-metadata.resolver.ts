@@ -16,11 +16,8 @@ import { ResolverValidationPipe } from 'src/engine/core-modules/graphql/pipes/re
 import { ForbiddenError } from 'src/engine/core-modules/graphql/utils/graphql-errors.util';
 import { I18nService } from 'src/engine/core-modules/i18n/i18n.service';
 import { I18nContext } from 'src/engine/core-modules/i18n/types/i18n-context.type';
-import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { type IDataloaders } from 'src/engine/dataloaders/dataloader.interface';
-import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
-import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { SettingsPermissionGuard } from 'src/engine/guards/settings-permission.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
@@ -52,16 +49,12 @@ export class FieldMetadataResolver {
   async createOneField(
     @Args('input') input: CreateOneFieldMetadataInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
     @Context() context: I18nContext,
   ) {
     try {
       const flatFieldMetadata = await this.fieldMetadataService.createOneField({
         createFieldInput: input.field,
         workspaceId,
-        userId: user?.id,
-        workspaceMemberId,
       });
 
       return fromFlatFieldMetadataToFieldMetadataDto(flatFieldMetadata);
@@ -78,16 +71,12 @@ export class FieldMetadataResolver {
   async updateOneField(
     @Args('input') input: UpdateOneFieldMetadataInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
     @Context() context: I18nContext,
   ) {
     try {
       const flatFieldMetadata = await this.fieldMetadataService.updateOneField({
         updateFieldInput: { ...input.update, id: input.id },
         workspaceId,
-        userId: user?.id,
-        workspaceMemberId,
       });
 
       return fromFlatFieldMetadataToFieldMetadataDto(flatFieldMetadata);
@@ -104,8 +93,6 @@ export class FieldMetadataResolver {
   async deleteOneField(
     @Args('input') deleteOneFieldInput: DeleteOneFieldInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
     @Context() context: I18nContext,
   ) {
     if (!isDefined(workspaceId)) {
@@ -116,8 +103,6 @@ export class FieldMetadataResolver {
       const flatFieldMetadata = await this.fieldMetadataService.deleteOneField({
         deleteOneFieldInput,
         workspaceId,
-        userId: user?.id,
-        workspaceMemberId,
       });
 
       return fromFlatFieldMetadataToFieldMetadataDto(flatFieldMetadata);

@@ -4,10 +4,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PermissionFlagType } from 'twenty-shared/constants';
 
 import { UUIDScalarType } from 'src/engine/api/graphql/workspace-schema-builder/graphql-types/scalars';
-import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
-import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
-import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { SettingsPermissionGuard } from 'src/engine/guards/settings-permission.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
@@ -49,15 +46,8 @@ export class WebhookResolver {
   async createWebhook(
     @Args('input') input: CreateWebhookInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<WebhookDTO> {
-    return await this.webhookService.create(
-      input,
-      workspace.id,
-      user?.id,
-      workspaceMemberId,
-    );
+    return await this.webhookService.create(input, workspace.id);
   }
 
   @Mutation(() => WebhookDTO)
@@ -65,15 +55,8 @@ export class WebhookResolver {
   async updateWebhook(
     @Args('input') input: UpdateWebhookInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<WebhookDTO> {
-    return await this.webhookService.update(
-      input,
-      workspace.id,
-      user?.id,
-      workspaceMemberId,
-    );
+    return await this.webhookService.update(input, workspace.id);
   }
 
   @Mutation(() => WebhookDTO)
@@ -81,14 +64,7 @@ export class WebhookResolver {
   async deleteWebhook(
     @Args('id', { type: () => UUIDScalarType }) id: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<WebhookDTO> {
-    return await this.webhookService.delete(
-      id,
-      workspace.id,
-      user?.id,
-      workspaceMemberId,
-    );
+    return await this.webhookService.delete(id, workspace.id);
   }
 }

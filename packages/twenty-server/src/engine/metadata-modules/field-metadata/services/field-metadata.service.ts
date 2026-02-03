@@ -45,21 +45,15 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
     createFieldInput,
     workspaceId,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     createFieldInput: Omit<CreateFieldInput, 'workspaceId'>;
     workspaceId: string;
     ownerFlatApplication?: FlatApplication;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatFieldMetadata> {
     const [createdFieldMetadata] = await this.createManyFields({
       workspaceId,
       createFieldInputs: [createFieldInput],
       ownerFlatApplication,
-      userId,
-      workspaceMemberId,
     });
 
     if (!isDefined(createdFieldMetadata)) {
@@ -77,15 +71,11 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
     workspaceId,
     isSystemBuild = false,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     deleteOneFieldInput: DeleteOneFieldInput;
     workspaceId: string;
     isSystemBuild?: boolean;
     ownerFlatApplication?: FlatApplication;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatFieldMetadata> {
     const resolvedOwnerFlatApplication =
       ownerFlatApplication ??
@@ -140,7 +130,6 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
           isSystemBuild,
           applicationUniversalIdentifier:
             resolvedOwnerFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -159,15 +148,11 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
     workspaceId,
     isSystemBuild = false,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     updateFieldInput: Omit<UpdateFieldInput, 'workspaceId'>;
     workspaceId: string;
     isSystemBuild?: boolean;
     ownerFlatApplication?: FlatApplication;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatFieldMetadata> {
     const resolvedOwnerFlatApplication =
       ownerFlatApplication ??
@@ -290,7 +275,6 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
           isSystemBuild,
           applicationUniversalIdentifier:
             resolvedOwnerFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -320,15 +304,11 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
     workspaceId,
     ownerFlatApplication,
     isSystemBuild = false,
-    userId,
-    workspaceMemberId,
   }: {
     createFieldInputs: Omit<CreateFieldInput, 'workspaceId'>[];
     workspaceId: string;
     ownerFlatApplication?: FlatApplication;
     isSystemBuild?: boolean;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatFieldMetadata[]> {
     if (createFieldInputs.length === 0) {
       return [];
@@ -404,7 +384,6 @@ export class FieldMetadataService extends TypeOrmQueryService<FieldMetadataEntit
           isSystemBuild,
           applicationUniversalIdentifier:
             resolvedOwnerFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 

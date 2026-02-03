@@ -58,14 +58,10 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
     updateObjectInput,
     workspaceId,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     workspaceId: string;
     updateObjectInput: UpdateOneObjectInput;
     ownerFlatApplication?: FlatApplication;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatObjectMetadata> {
     const resolvedOwnerFlatApplication =
       ownerFlatApplication ??
@@ -142,7 +138,6 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
           isSystemBuild: false,
           applicationUniversalIdentifier:
             resolvedOwnerFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -185,23 +180,17 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
     workspaceId,
     isSystemBuild = false,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     deleteObjectInput: DeleteOneObjectInput;
     workspaceId: string;
     isSystemBuild?: boolean;
     ownerFlatApplication?: FlatApplication;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatObjectMetadata> {
     const deletedObjectMetadataDtos = await this.deleteManyObjectMetadatas({
       deleteObjectInputs: [deleteObjectInput],
       workspaceId,
       isSystemBuild,
       ownerFlatApplication,
-      userId,
-      workspaceMemberId,
     });
 
     if (deletedObjectMetadataDtos.length !== 1) {
@@ -221,15 +210,11 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
     deleteObjectInputs,
     isSystemBuild = false,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     deleteObjectInputs: DeleteOneObjectInput[];
     workspaceId: string;
     isSystemBuild?: boolean;
     ownerFlatApplication?: FlatApplication;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatObjectMetadata[]> {
     if (deleteObjectInputs.length === 0) {
       return [];
@@ -339,7 +324,6 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
           isSystemBuild,
           applicationUniversalIdentifier:
             resolvedOwnerFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -357,14 +341,10 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
     createObjectInput,
     workspaceId,
     ownerFlatApplication,
-    userId,
-    workspaceMemberId,
   }: {
     createObjectInput: CreateObjectInput;
     workspaceId: string;
     ownerFlatApplication?: FlatApplication;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatObjectMetadata> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -463,7 +443,6 @@ export class ObjectMetadataService extends TypeOrmQueryService<ObjectMetadataEnt
           isSystemBuild: false,
           applicationUniversalIdentifier:
             resolvedOwnerFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 

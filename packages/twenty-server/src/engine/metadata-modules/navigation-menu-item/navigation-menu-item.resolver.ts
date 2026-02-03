@@ -15,11 +15,9 @@ import { UUIDScalarType } from 'src/engine/api/graphql/workspace-schema-builder/
 import { ApiKeyEntity } from 'src/engine/core-modules/api-key/api-key.entity';
 import { ApplicationEntity } from 'src/engine/core-modules/application/application.entity';
 import { getWorkspaceAuthContext } from 'src/engine/core-modules/auth/storage/workspace-auth-context.storage';
-import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { AuthApiKey } from 'src/engine/decorators/auth/auth-api-key.decorator';
 import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
-import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
@@ -71,7 +69,6 @@ export class NavigationMenuItemResolver {
   async createNavigationMenuItem(
     @Args('input') input: CreateNavigationMenuItemInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
     @AuthUserWorkspaceId() userWorkspaceId: string | undefined,
     @AuthApiKey() apiKey: ApiKeyEntity | undefined,
     @Context() context: { req: { application?: ApplicationEntity } },
@@ -82,8 +79,6 @@ export class NavigationMenuItemResolver {
       authUserWorkspaceId: userWorkspaceId,
       authApiKeyId: apiKey?.id,
       authApplicationId: context.req.application?.id,
-      userId: user?.id,
-      workspaceMemberId: userWorkspaceId,
     });
   }
 
@@ -92,7 +87,6 @@ export class NavigationMenuItemResolver {
   async updateNavigationMenuItem(
     @Args('input') input: UpdateOneNavigationMenuItemInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
     @AuthUserWorkspaceId() userWorkspaceId: string | undefined,
     @AuthApiKey() apiKey: ApiKeyEntity | undefined,
     @Context() context: { req: { application?: ApplicationEntity } },
@@ -103,8 +97,6 @@ export class NavigationMenuItemResolver {
       authUserWorkspaceId: userWorkspaceId,
       authApiKeyId: apiKey?.id,
       authApplicationId: context.req.application?.id,
-      userId: user?.id,
-      workspaceMemberId: userWorkspaceId,
     });
   }
 
@@ -113,7 +105,6 @@ export class NavigationMenuItemResolver {
   async deleteNavigationMenuItem(
     @Args('id', { type: () => UUIDScalarType }) id: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
     @AuthUserWorkspaceId() userWorkspaceId: string | undefined,
     @AuthApiKey() apiKey: ApiKeyEntity | undefined,
     @Context() context: { req: { application?: ApplicationEntity } },
@@ -124,8 +115,6 @@ export class NavigationMenuItemResolver {
       authUserWorkspaceId: userWorkspaceId,
       authApiKeyId: apiKey?.id,
       authApplicationId: context.req.application?.id,
-      userId: user?.id,
-      workspaceMemberId: userWorkspaceId,
     });
   }
 

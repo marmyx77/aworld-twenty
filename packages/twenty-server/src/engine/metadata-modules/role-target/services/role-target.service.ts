@@ -14,8 +14,6 @@ import { WorkspaceMigrationValidateBuildAndRunService } from 'src/engine/workspa
 export type DeleteRoleTargetInput = {
   id: string;
   workspaceId: string;
-  userId?: string;
-  workspaceMemberId?: string;
 };
 
 export type FindRoleTargetInput = {
@@ -34,19 +32,13 @@ export class RoleTargetService {
   async create({
     createRoleTargetInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     createRoleTargetInput: CreateRoleTargetInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatRoleTarget> {
     const [flatRoleTarget] = await this.createMany({
       createRoleTargetInputs: [createRoleTargetInput],
       workspaceId,
-      userId,
-      workspaceMemberId,
     });
 
     return flatRoleTarget;
@@ -55,13 +47,9 @@ export class RoleTargetService {
   async createMany({
     createRoleTargetInputs,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     createRoleTargetInputs: CreateRoleTargetInput[];
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<FlatRoleTarget[]> {
     if (createRoleTargetInputs.length === 0) {
       return [];
@@ -116,7 +104,6 @@ export class RoleTargetService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -143,12 +130,7 @@ export class RoleTargetService {
     );
   }
 
-  async delete({
-    id,
-    workspaceId,
-    userId,
-    workspaceMemberId,
-  }: DeleteRoleTargetInput): Promise<void> {
+  async delete({ id, workspaceId }: DeleteRoleTargetInput): Promise<void> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
         {
@@ -183,7 +165,6 @@ export class RoleTargetService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 

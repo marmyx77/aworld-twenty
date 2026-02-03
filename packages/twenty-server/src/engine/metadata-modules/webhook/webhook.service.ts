@@ -97,8 +97,6 @@ export class WebhookService {
   async create(
     input: CreateWebhookInput,
     workspaceId: string,
-    userId?: string,
-    workspaceMemberId?: string,
   ): Promise<WebhookDTO> {
     const normalizedTargetUrl = this.normalizeTargetUrl(input.targetUrl);
 
@@ -129,7 +127,6 @@ export class WebhookService {
           workspaceId,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -159,8 +156,6 @@ export class WebhookService {
   async update(
     input: UpdateWebhookInput,
     workspaceId: string,
-    userId?: string,
-    workspaceMemberId?: string,
   ): Promise<WebhookDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -204,7 +199,6 @@ export class WebhookService {
           workspaceId,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -231,12 +225,7 @@ export class WebhookService {
     );
   }
 
-  async delete(
-    id: string,
-    workspaceId: string,
-    userId?: string,
-    workspaceMemberId?: string,
-  ): Promise<WebhookDTO> {
+  async delete(id: string, workspaceId: string): Promise<WebhookDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
         { workspaceId },
@@ -268,7 +257,6 @@ export class WebhookService {
           workspaceId,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 

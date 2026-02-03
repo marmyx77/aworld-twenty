@@ -68,8 +68,6 @@ export class SkillService {
   async create(
     input: CreateSkillInput,
     workspaceId: string,
-    userId?: string,
-    workspaceMemberId?: string,
   ): Promise<SkillDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -96,7 +94,6 @@ export class SkillService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -126,8 +123,6 @@ export class SkillService {
   async update(
     input: UpdateSkillInput,
     workspaceId: string,
-    userId?: string,
-    workspaceMemberId?: string,
   ): Promise<SkillDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -161,7 +156,6 @@ export class SkillService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -188,12 +182,7 @@ export class SkillService {
     );
   }
 
-  async delete(
-    id: string,
-    workspaceId: string,
-    userId?: string,
-    workspaceMemberId?: string,
-  ): Promise<SkillDTO> {
+  async delete(id: string, workspaceId: string): Promise<SkillDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
         { workspaceId },
@@ -226,7 +215,6 @@ export class SkillService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -278,12 +266,7 @@ export class SkillService {
       );
   }
 
-  async activate(
-    id: string,
-    workspaceId: string,
-    userId?: string,
-    workspaceMemberId?: string,
-  ): Promise<SkillDTO> {
+  async activate(id: string, workspaceId: string): Promise<SkillDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
         { workspaceId },
@@ -322,7 +305,6 @@ export class SkillService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -349,12 +331,7 @@ export class SkillService {
     );
   }
 
-  async deactivate(
-    id: string,
-    workspaceId: string,
-    userId?: string,
-    workspaceMemberId?: string,
-  ): Promise<SkillDTO> {
+  async deactivate(id: string, workspaceId: string): Promise<SkillDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
         { workspaceId },
@@ -393,7 +370,6 @@ export class SkillService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 

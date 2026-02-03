@@ -4,10 +4,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PermissionFlagType } from 'twenty-shared/constants';
 
 import { UUIDScalarType } from 'src/engine/api/graphql/workspace-schema-builder/graphql-types/scalars';
-import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
-import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
-import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { SettingsPermissionGuard } from 'src/engine/guards/settings-permission.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
@@ -46,74 +43,39 @@ export class SkillResolver {
   async createSkill(
     @Args('input') input: CreateSkillInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<SkillDTO> {
-    return this.skillService.create(
-      input,
-      workspace.id,
-      user?.id,
-      workspaceMemberId,
-    );
+    return this.skillService.create(input, workspace.id);
   }
 
   @Mutation(() => SkillDTO)
   async updateSkill(
     @Args('input') input: UpdateSkillInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<SkillDTO> {
-    return this.skillService.update(
-      input,
-      workspace.id,
-      user?.id,
-      workspaceMemberId,
-    );
+    return this.skillService.update(input, workspace.id);
   }
 
   @Mutation(() => SkillDTO)
   async deleteSkill(
     @Args('id', { type: () => UUIDScalarType }) id: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<SkillDTO> {
-    return this.skillService.delete(
-      id,
-      workspace.id,
-      user?.id,
-      workspaceMemberId,
-    );
+    return this.skillService.delete(id, workspace.id);
   }
 
   @Mutation(() => SkillDTO)
   async activateSkill(
     @Args('id', { type: () => UUIDScalarType }) id: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<SkillDTO> {
-    return this.skillService.activate(
-      id,
-      workspace.id,
-      user?.id,
-      workspaceMemberId,
-    );
+    return this.skillService.activate(id, workspace.id);
   }
 
   @Mutation(() => SkillDTO)
   async deactivateSkill(
     @Args('id', { type: () => UUIDScalarType }) id: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<SkillDTO> {
-    return this.skillService.deactivate(
-      id,
-      workspace.id,
-      user?.id,
-      workspaceMemberId,
-    );
+    return this.skillService.deactivate(id, workspace.id);
   }
 }

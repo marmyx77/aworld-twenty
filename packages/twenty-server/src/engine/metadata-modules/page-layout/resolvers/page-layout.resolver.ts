@@ -9,10 +9,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PermissionFlagType } from 'twenty-shared/constants';
 
 import { ResolverValidationPipe } from 'src/engine/core-modules/graphql/pipes/resolver-validation.pipe';
-import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
-import { AuthUserWorkspaceId } from 'src/engine/decorators/auth/auth-user-workspace-id.decorator';
-import { AuthUser } from 'src/engine/decorators/auth/auth-user.decorator';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
 import { SettingsPermissionGuard } from 'src/engine/guards/settings-permission.guard';
@@ -71,14 +68,10 @@ export class PageLayoutResolver {
   async createPageLayout(
     @Args('input') input: CreatePageLayoutInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<PageLayoutDTO> {
     return this.pageLayoutService.create({
       createPageLayoutInput: input,
       workspaceId: workspace.id,
-      userId: user?.id,
-      workspaceMemberId,
     });
   }
 
@@ -88,15 +81,11 @@ export class PageLayoutResolver {
     @Args('id', { type: () => String }) id: string,
     @Args('input') input: UpdatePageLayoutInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<PageLayoutDTO> {
     return this.pageLayoutService.update({
       id,
       workspaceId: workspace.id,
       updateData: input,
-      userId: user?.id,
-      workspaceMemberId,
     });
   }
 
@@ -105,14 +94,10 @@ export class PageLayoutResolver {
   async destroyPageLayout(
     @Args('id', { type: () => String }) id: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<boolean> {
     return this.pageLayoutService.destroy({
       id,
       workspaceId: workspace.id,
-      userId: user?.id,
-      workspaceMemberId,
     });
   }
 
@@ -122,15 +107,11 @@ export class PageLayoutResolver {
     @Args('id', { type: () => String }) id: string,
     @Args('input') input: UpdatePageLayoutWithTabsInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
-    @AuthUser({ allowUndefined: true }) user: UserEntity | undefined,
-    @AuthUserWorkspaceId() workspaceMemberId: string | undefined,
   ): Promise<PageLayoutDTO> {
     return this.pageLayoutUpdateService.updatePageLayoutWithTabs({
       id,
       workspaceId: workspace.id,
       input,
-      userId: user?.id,
-      workspaceMemberId,
     });
   }
 }

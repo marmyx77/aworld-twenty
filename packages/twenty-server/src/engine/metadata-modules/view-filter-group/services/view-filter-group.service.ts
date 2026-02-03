@@ -34,13 +34,9 @@ export class ViewFilterGroupService {
   async createOne({
     createViewFilterGroupInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     createViewFilterGroupInput: CreateViewFilterGroupInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewFilterGroupDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -70,7 +66,6 @@ export class ViewFilterGroupService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -103,14 +98,10 @@ export class ViewFilterGroupService {
     id,
     updateViewFilterGroupInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     id: string;
     workspaceId: string;
     updateViewFilterGroupInput: UpdateViewFilterGroupInput;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewFilterGroupDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -147,7 +138,6 @@ export class ViewFilterGroupService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -179,13 +169,9 @@ export class ViewFilterGroupService {
   async deleteOne({
     deleteViewFilterGroupInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     deleteViewFilterGroupInput: DeleteViewFilterGroupInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewFilterGroupDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -224,7 +210,6 @@ export class ViewFilterGroupService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
@@ -256,13 +241,9 @@ export class ViewFilterGroupService {
   async destroyOne({
     destroyViewFilterGroupInput,
     workspaceId,
-    userId,
-    workspaceMemberId,
   }: {
     destroyViewFilterGroupInput: DestroyViewFilterGroupInput;
     workspaceId: string;
-    userId?: string;
-    workspaceMemberId?: string;
   }): Promise<ViewFilterGroupDTO> {
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
@@ -299,7 +280,6 @@ export class ViewFilterGroupService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 

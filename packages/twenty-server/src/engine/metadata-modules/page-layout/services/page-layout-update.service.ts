@@ -34,8 +34,6 @@ type UpdatePageLayoutWithTabsParams = {
   id: string;
   workspaceId: string;
   input: UpdatePageLayoutWithTabsInput;
-  userId?: string;
-  workspaceMemberId?: string;
 };
 
 @Injectable()
@@ -51,8 +49,6 @@ export class PageLayoutUpdateService {
     id,
     workspaceId,
     input,
-    userId,
-    workspaceMemberId,
   }: UpdatePageLayoutWithTabsParams): Promise<PageLayoutDTO> {
     const {
       flatPageLayoutMaps,
@@ -143,7 +139,6 @@ export class PageLayoutUpdateService {
           isSystemBuild: false,
           applicationUniversalIdentifier:
             workspaceCustomFlatApplication.universalIdentifier,
-          actorContext: { userId, workspaceMemberId },
         },
       );
 
