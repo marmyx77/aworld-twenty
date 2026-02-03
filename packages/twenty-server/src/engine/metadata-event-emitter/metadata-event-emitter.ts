@@ -315,13 +315,6 @@ export class MetadataEventEmitter {
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
     result: GroupedEvents,
   ): void {
-    const universalIdentifier =
-      'universalIdentifier' in action ? action.universalIdentifier : undefined;
-
-    if (!isDefined(universalIdentifier)) {
-      return;
-    }
-
     const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
     const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
 
@@ -329,7 +322,16 @@ export class MetadataEventEmitter {
       return;
     }
 
-    const entityId = fromTo.from.idByUniversalIdentifier[universalIdentifier];
+    const universalIdentifier =
+      'universalIdentifier' in action ? action.universalIdentifier : undefined;
+
+    let entityId: string | undefined;
+
+    if (isDefined(universalIdentifier)) {
+      entityId = fromTo.from.idByUniversalIdentifier[universalIdentifier];
+    } else if ('entityId' in action && isDefined(action.entityId)) {
+      entityId = action.entityId;
+    }
 
     if (!isDefined(entityId)) {
       return;
