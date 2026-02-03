@@ -260,10 +260,10 @@ export class MetadataEventEmitter {
       }
     }
 
-    this.processBundledFieldMetadatas(action, fromToAllFlatEntityMaps, result);
+    this.processCreateObjectAction(action, fromToAllFlatEntityMaps, result);
   }
 
-  private processBundledFieldMetadatas(
+  private processCreateObjectAction(
     action: AllUniversalWorkspaceMigrationAction,
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
     result: GroupedEvents,
