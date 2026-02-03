@@ -2,13 +2,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import chunk from 'lodash.chunk';
 import { type MetadataRecordEvent } from 'twenty-shared/metadata-events';
-import { ArrayContains, IsNull, type Repository } from 'typeorm';
+import { ArrayContains, IsNull, Repository } from 'typeorm';
 
 import { InjectMessageQueue } from 'src/engine/core-modules/message-queue/decorators/message-queue.decorator';
 import { Process } from 'src/engine/core-modules/message-queue/decorators/process.decorator';
 import { Processor } from 'src/engine/core-modules/message-queue/decorators/processor.decorator';
 import { MessageQueue } from 'src/engine/core-modules/message-queue/message-queue.constants';
-import { type MessageQueueService } from 'src/engine/core-modules/message-queue/services/message-queue.service';
+import { MessageQueueService } from 'src/engine/core-modules/message-queue/services/message-queue.service';
 import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { WebhookEntity } from 'src/engine/metadata-modules/webhook/entities/webhook.entity';
 import {
