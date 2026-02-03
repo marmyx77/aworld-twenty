@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 
-import {
-  type MetadataRecordCreateEvent,
-  type MetadataRecordDeleteEvent,
-  type MetadataRecordEvent,
-  type MetadataRecordUpdateEvent,
-} from 'twenty-shared/metadata-events';
+import { type AllMetadataName } from 'twenty-shared/metadata';
 
 import { InjectMessageQueue } from 'src/engine/core-modules/message-queue/decorators/message-queue.decorator';
 import { MessageQueue } from 'src/engine/core-modules/message-queue/message-queue.constants';
-import { MessageQueueService } from 'src/engine/core-modules/message-queue/services/message-queue.service';
+import { type MessageQueueService } from 'src/engine/core-modules/message-queue/services/message-queue.service';
+import { type MetadataEventAction } from 'src/engine/metadata-event-emitter/enums/metadata-event-action.enum';
 import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { CallWebhookJobsForMetadataJob } from 'src/engine/metadata-modules/webhook/jobs/call-webhook-jobs-for-metadata.job';
 
@@ -23,32 +19,35 @@ export class MetadataEventsToDbListener {
 
   @OnEvent('metadata.*.created')
   async handleCreate(
-    metadataEventBatch: MetadataEventBatch<MetadataRecordCreateEvent>,
+    metadataEventBatch: MetadataEventBatch<AllMetadataName, 'created'>,
   ): Promise<void> {
     return this.handleEvent(metadataEventBatch);
   }
 
   @OnEvent('metadata.*.updated')
   async handleUpdate(
-    metadataEventBatch: MetadataEventBatch<MetadataRecordUpdateEvent>,
+    metadataEventBatch: MetadataEventBatch<AllMetadataName, 'updated'>,
   ): Promise<void> {
     return this.handleEvent(metadataEventBatch);
   }
 
   @OnEvent('metadata.*.deleted')
   async handleDelete(
-    metadataEventBatch: MetadataEventBatch<MetadataRecordDeleteEvent>,
+    metadataEventBatch: MetadataEventBatch<AllMetadataName, 'deleted'>,
   ): Promise<void> {
     return this.handleEvent(metadataEventBatch);
   }
 
   private async handleEvent(
-    metadataEventBatch: MetadataEventBatch<MetadataRecordEvent>,
+    metadataEventBatch: MetadataEventBatch<
+      AllMetadataName,
+      MetadataEventAction
+    >,
   ): Promise<void> {
-    await this.webhookQueueService.add<MetadataEventBatch<MetadataRecordEvent>>(
-      CallWebhookJobsForMetadataJob.name,
-      metadataEventBatch,
-      { retryLimit: 3 },
-    );
+    await this.webhookQueueService.add<
+      MetadataEventBatch<AllMetadataName, MetadataEventAction>
+    >(CallWebhookJobsForMetadataJob.name, metadataEventBatch, {
+      retryLimit: 3,
+    });
   }
 }

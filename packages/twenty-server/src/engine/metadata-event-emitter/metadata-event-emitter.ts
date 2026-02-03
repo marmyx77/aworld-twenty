@@ -1,18 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { type EventEmitter2 } from '@nestjs/event-emitter';
 
 import { type AllMetadataName } from 'twenty-shared/metadata';
-import {
-  type MetadataRecordCreateEvent,
-  type MetadataRecordDeleteEvent,
-  type MetadataRecordUpdateEvent,
-} from 'twenty-shared/metadata-events';
 import { isDefined } from 'twenty-shared/utils';
 
 import { getWorkspaceAuthContext } from 'src/engine/core-modules/auth/storage/workspace-auth-context.storage';
 import { type WorkspaceAuthContext } from 'src/engine/core-modules/auth/types/workspace-auth-context.type';
 import { type MetadataEventAction } from 'src/engine/metadata-event-emitter/enums/metadata-event-action.enum';
-import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
+import {
+  type MetadataEventBatch,
+  type MetadataRecordEventByAction,
+} from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { computeMetadataEventName } from 'src/engine/metadata-event-emitter/utils/compute-metadata-event-name.util';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
 import type { FromToAllFlatEntityMaps } from 'src/engine/workspace-manager/workspace-migration/types/workspace-migration-orchestrator.type';
@@ -28,16 +26,13 @@ type EmitMetadataEventsFromMigrationArgs = {
   initiatorContext?: MetadataEventInitiatorContext;
 };
 
-type ActionEventMap<T> = {
-  created: MetadataRecordCreateEvent<T>;
-  updated: MetadataRecordUpdateEvent<T>;
-  deleted: MetadataRecordDeleteEvent<T>;
-};
-
-export type MetadataBatchEventInput<T, A extends keyof ActionEventMap<T>> = {
-  metadataName: AllMetadataName;
+export type MetadataBatchEventInput<
+  TMetadataName extends AllMetadataName,
+  A extends keyof MetadataRecordEventByAction<TMetadataName>,
+> = {
+  metadataName: TMetadataName;
   action: A;
-  events: ActionEventMap<T>[A][];
+  events: MetadataRecordEventByAction<TMetadataName>[A][];
   workspaceId: string;
   userId?: string;
   apiKeyId?: string;
@@ -45,15 +40,23 @@ export type MetadataBatchEventInput<T, A extends keyof ActionEventMap<T>> = {
 
 type GroupedEvents = Record<
   string,
-  Record<string, ActionEventMap<unknown>[MetadataEventAction][]>
+  Record<
+    MetadataEventAction,
+    MetadataRecordEventByAction<AllMetadataName>[MetadataEventAction][]
+  >
 >;
 
 @Injectable()
 export class MetadataEventEmitter {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
-  private emitMetadataBatchEvent<T, A extends keyof ActionEventMap<T>>(
-    metadataBatchEventInput: MetadataBatchEventInput<T, A> | undefined,
+  private emitMetadataBatchEvent<
+    TMetadataName extends AllMetadataName,
+    A extends keyof MetadataRecordEventByAction<TMetadataName>,
+  >(
+    metadataBatchEventInput:
+      | MetadataBatchEventInput<TMetadataName, A>
+      | undefined,
   ): void {
     if (!isDefined(metadataBatchEventInput)) {
       return;
@@ -68,10 +71,11 @@ export class MetadataEventEmitter {
 
     const eventName = computeMetadataEventName(metadataName, action);
 
-    const metadataEventBatch: MetadataEventBatch<ActionEventMap<T>[A]> = {
+    const metadataEventBatch: MetadataEventBatch<TMetadataName, A> = {
       name: eventName,
       workspaceId,
       metadataName,
+      action,
       events,
       userId,
       apiKeyId,
@@ -133,10 +137,15 @@ export class MetadataEventEmitter {
           continue;
         }
 
+        const typedMetadataName = metadataName as AllMetadataName;
+        const typedAction = action as MetadataEventAction;
+
         this.emitMetadataBatchEvent({
-          metadataName: metadataName as AllMetadataName,
-          action: action as MetadataEventAction,
-          events,
+          metadataName: typedMetadataName,
+          action: typedAction,
+          events: events as MetadataRecordEventByAction<
+            typeof typedMetadataName
+          >[typeof typedAction][],
           workspaceId,
           userId,
           apiKeyId,
@@ -239,10 +248,11 @@ export class MetadataEventEmitter {
           const created = fromTo.to.byId[createdId];
 
           if (isDefined(created)) {
-            const createEvent: MetadataRecordCreateEvent = {
-              recordId: created.id,
-              properties: { after: created },
-            };
+            const createEvent: MetadataRecordEventByAction<AllMetadataName>['created'] =
+              {
+                recordId: created.id,
+                properties: { after: created },
+              };
 
             result[metadataName].created.push(createEvent);
           }
@@ -300,10 +310,11 @@ export class MetadataEventEmitter {
         continue;
       }
 
-      const createEvent: MetadataRecordCreateEvent = {
-        recordId: created.id,
-        properties: { after: created },
-      };
+      const createEvent: MetadataRecordEventByAction<AllMetadataName>['created'] =
+        {
+          recordId: created.id,
+          properties: { after: created },
+        };
 
       result['fieldMetadata'].created.push(createEvent);
     }
@@ -347,10 +358,11 @@ export class MetadataEventEmitter {
     const updatedFields = this.computeUpdatedFields(before, after);
     const diff = this.computeDiff(before, after, updatedFields);
 
-    const updateEvent: MetadataRecordUpdateEvent = {
-      recordId: entityId,
-      properties: { before, after, updatedFields, diff },
-    };
+    const updateEvent: MetadataRecordEventByAction<AllMetadataName>['updated'] =
+      {
+        recordId: entityId,
+        properties: { before, after, updatedFields, diff },
+      };
 
     result[metadataName].updated.push(updateEvent);
   }
@@ -387,10 +399,11 @@ export class MetadataEventEmitter {
       return;
     }
 
-    const deleteEvent: MetadataRecordDeleteEvent = {
-      recordId: deleted.id,
-      properties: { before: deleted },
-    };
+    const deleteEvent: MetadataRecordEventByAction<AllMetadataName>['deleted'] =
+      {
+        recordId: deleted.id,
+        properties: { before: deleted },
+      };
 
     result[metadataName].deleted.push(deleteEvent);
   }

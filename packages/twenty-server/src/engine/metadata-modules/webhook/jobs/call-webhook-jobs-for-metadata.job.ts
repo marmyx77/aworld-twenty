@@ -2,14 +2,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import chunk from 'lodash.chunk';
 import { type MetadataRecordEvent } from 'twenty-shared/metadata-events';
-import { ArrayContains, IsNull, Repository } from 'typeorm';
+import { ArrayContains, IsNull, type Repository } from 'typeorm';
 
 import { InjectMessageQueue } from 'src/engine/core-modules/message-queue/decorators/message-queue.decorator';
 import { Process } from 'src/engine/core-modules/message-queue/decorators/process.decorator';
 import { Processor } from 'src/engine/core-modules/message-queue/decorators/processor.decorator';
 import { MessageQueue } from 'src/engine/core-modules/message-queue/message-queue.constants';
-import { MessageQueueService } from 'src/engine/core-modules/message-queue/services/message-queue.service';
-import { MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
+import { type MessageQueueService } from 'src/engine/core-modules/message-queue/services/message-queue.service';
+import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { WebhookEntity } from 'src/engine/metadata-modules/webhook/entities/webhook.entity';
 import {
   CallWebhookJob,
@@ -28,11 +28,10 @@ export class CallWebhookJobsForMetadataJob {
   ) {}
 
   @Process(CallWebhookJobsForMetadataJob.name)
-  async handle(
-    metadataEventBatch: MetadataEventBatch<MetadataRecordEvent>,
-  ): Promise<void> {
+  async handle(metadataEventBatch: MetadataEventBatch): Promise<void> {
     const eventName = metadataEventBatch.name;
-    const [, metadataName, operation] = eventName.split('.');
+    const metadataName = metadataEventBatch.metadataName;
+    const operation = metadataEventBatch.action;
 
     const operations = [
       eventName,
@@ -74,7 +73,7 @@ export class CallWebhookJobsForMetadataJob {
     metadataEventBatch,
     webhooks,
   }: {
-    metadataEventBatch: MetadataEventBatch<MetadataRecordEvent>;
+    metadataEventBatch: MetadataEventBatch;
     webhooks: WebhookEntity[];
   }): CallWebhookJobData[] {
     const result: CallWebhookJobData[] = [];

@@ -7,9 +7,9 @@
  *                              |___/
  */
 
-export { MetadataRecordCreateEvent } from './metadata-record-create.event';
-export { MetadataRecordDeleteEvent } from './metadata-record-delete.event';
+export type { MetadataRecordCreateEvent } from './metadata-record-create.event';
+export type { MetadataRecordDeleteEvent } from './metadata-record-delete.event';
 export type { MetadataRecordDiff } from './metadata-record-diff';
 export type { MetadataRecordEvent } from './metadata-record-event.event';
-export { MetadataRecordUpdateEvent } from './metadata-record-update.event';
-export { MetadataRecordBaseEvent } from './metadata-record.base.event';
+export type { MetadataRecordUpdateEvent } from './metadata-record-update.event';
+export type { MetadataRecordBaseEvent } from './metadata-record.base.event';
