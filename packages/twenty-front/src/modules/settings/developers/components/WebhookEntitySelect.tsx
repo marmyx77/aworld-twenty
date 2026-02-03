@@ -11,12 +11,14 @@ import { SelectableList } from '@/ui/layout/selectable-list/components/Selectabl
 import { SelectableListItem } from '@/ui/layout/selectable-list/components/SelectableListItem';
 import { selectedItemIdComponentState } from '@/ui/layout/selectable-list/states/selectedItemIdComponentState';
 import { useRecoilComponentValue } from '@/ui/utilities/state/component-state/hooks/useRecoilComponentValue';
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';
 import { isDefined } from 'twenty-shared/utils';
 import {
   IconBox,
+  IconChevronDown,
   IconCode,
   IconEye,
   IconNorthStar,
@@ -58,16 +60,11 @@ const StyledControlLabel = styled.span`
   white-space: nowrap;
 `;
 
-const StyledControlIcon = styled.div`
-  align-items: center;
-  display: flex;
-  color: ${({ theme }) => theme.font.color.tertiary};
-`;
-
-// 3 items * ~32px item height + padding
-const StyledMetadataItemsContainer = styled.div`
-  max-height: 108px;
-  overflow-y: auto;
+const StyledControlIconChevronDown = styled(IconChevronDown)<{
+  disabled?: boolean;
+}>`
+  color: ${({ disabled, theme }) =>
+    disabled ? theme.font.color.extraLight : theme.font.color.tertiary};
 `;
 
 type WebhookEntitySelectProps = {
@@ -83,6 +80,7 @@ export const WebhookEntitySelect = ({
   disabled = false,
   dropdownId = WEBHOOK_ENTITY_DROPDOWN_ID,
 }: WebhookEntitySelectProps) => {
+  const theme = useTheme();
   const [searchInput, setSearchInput] = useState('');
   const { objectMetadataItems } = useObjectMetadataItems();
   const { getIcon } = useIcons();
@@ -143,6 +141,7 @@ export const WebhookEntitySelect = ({
   };
 
   const handleSelect = (selectedValue: string) => {
+    if (disabled) return;
     onChange(selectedValue);
     closeDropdown(dropdownId);
     setSearchInput('');
@@ -161,10 +160,15 @@ export const WebhookEntitySelect = ({
     <Dropdown
       dropdownId={dropdownId}
       dropdownPlacement="bottom-start"
+      disableClickForClickableComponent={disabled}
+      onClose={() => setSearchInput('')}
       clickableComponent={
         <StyledControlContainer disabled={disabled}>
           <StyledControlLabel>{getSelectedLabel()}</StyledControlLabel>
-          <StyledControlIcon>▼</StyledControlIcon>
+          <StyledControlIconChevronDown
+            disabled={disabled}
+            size={theme.icon.size.md}
+          />
         </StyledControlContainer>
       }
       dropdownComponents={
@@ -181,10 +185,10 @@ export const WebhookEntitySelect = ({
             selectableItemIdArray={selectableItemIds}
             focusId={dropdownId}
           >
-            {shouldShowObjects && (
-              <>
-                <DropdownMenuSectionLabel label={t`Core Objects`} />
-                <DropdownMenuItemsContainer hasMaxHeight>
+            <DropdownMenuItemsContainer hasMaxHeight>
+              {shouldShowObjects && (
+                <>
+                  <DropdownMenuSectionLabel label={t`Core Objects`} />
                   {filteredObjectOptions.map((option) => (
                     <SelectableListItem
                       key={option.value}
@@ -200,34 +204,30 @@ export const WebhookEntitySelect = ({
                       />
                     </SelectableListItem>
                   ))}
-                </DropdownMenuItemsContainer>
-              </>
-            )}
-            {shouldShowSeparator && <DropdownMenuSeparator />}
-            {shouldShowMetadata && (
-              <>
-                <DropdownMenuSectionLabel label={t`Metadata`} />
-                <StyledMetadataItemsContainer>
-                  <DropdownMenuItemsContainer>
-                    {filteredMetadataOptions.map((option) => (
-                      <SelectableListItem
-                        key={option.value}
-                        itemId={option.value}
-                        onEnter={() => handleSelect(option.value)}
-                      >
-                        <MenuItemSelect
-                          LeftIcon={option.icon}
-                          text={option.label}
-                          selected={value === option.value}
-                          focused={selectedItemId === option.value}
-                          onClick={() => handleSelect(option.value)}
-                        />
-                      </SelectableListItem>
-                    ))}
-                  </DropdownMenuItemsContainer>
-                </StyledMetadataItemsContainer>
-              </>
-            )}
+                </>
+              )}
+              {shouldShowSeparator && <DropdownMenuSeparator />}
+              {shouldShowMetadata && (
+                <>
+                  <DropdownMenuSectionLabel label={t`Metadata`} />
+                  {filteredMetadataOptions.map((option) => (
+                    <SelectableListItem
+                      key={option.value}
+                      itemId={option.value}
+                      onEnter={() => handleSelect(option.value)}
+                    >
+                      <MenuItemSelect
+                        LeftIcon={option.icon}
+                        text={option.label}
+                        selected={value === option.value}
+                        focused={selectedItemId === option.value}
+                        onClick={() => handleSelect(option.value)}
+                      />
+                    </SelectableListItem>
+                  ))}
+                </>
+              )}
+            </DropdownMenuItemsContainer>
           </SelectableList>
         </DropdownContent>
       }
