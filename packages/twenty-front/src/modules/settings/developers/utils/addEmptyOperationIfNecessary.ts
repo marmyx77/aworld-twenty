@@ -4,11 +4,11 @@ import { type WebhookOperationType } from '~/pages/settings/developers/webhooks/
 export const addEmptyOperationIfNecessary = (
   newOperations: WebhookOperationType[],
 ): WebhookOperationType[] => {
-  if (
-    !newOperations.some((op) => op.object === '*' && op.action === '*') &&
-    !newOperations.some((op) => op.object === null)
-  ) {
+  const hasEmptyOperation = newOperations.some((op) => op.object === null);
+
+  if (!hasEmptyOperation) {
     return [...newOperations, WEBHOOK_EMPTY_OPERATION];
   }
+
   return newOperations;
 };
