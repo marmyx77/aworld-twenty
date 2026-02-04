@@ -1,8 +1,9 @@
 import * as fs from 'fs-extra';
 import { join } from 'path';
 import { v4 } from 'uuid';
+import { ASSETS_DIR } from 'twenty-shared/application';
 
-const APP_FOLDER = 'src/app';
+const SRC_FOLDER = 'src';
 
 export const copyBaseApplicationProject = async ({
   appName,
@@ -21,26 +22,43 @@ export const copyBaseApplicationProject = async ({
 
   await createGitignore(appDirectory);
 
+  await createPublicAssetDirectory(appDirectory);
+
   await createYarnLock(appDirectory);
 
-  const appFolderPath = join(appDirectory, APP_FOLDER);
+  const sourceFolderPath = join(appDirectory, SRC_FOLDER);
 
-  await fs.ensureDir(appFolderPath);
+  await fs.ensureDir(sourceFolderPath);
 
-  await createDefaultServerlessFunctionRoleConfig({
+  await createDefaultRoleConfig({
     displayName: appDisplayName,
-    appDirectory: appFolderPath,
+    appDirectory: sourceFolderPath,
+    fileFolder: 'roles',
+    fileName: 'default-role.ts',
   });
 
   await createDefaultFrontComponent({
-    appDirectory: appFolderPath,
+    appDirectory: sourceFolderPath,
+    fileFolder: 'front-components',
+    fileName: 'hello-world.tsx',
+  });
+
+  await createDefaultFunction({
+    appDirectory: sourceFolderPath,
+    fileFolder: 'logic-functions',
+    fileName: 'hello-world.ts',
   });
 
   await createApplicationConfig({
     displayName: appDisplayName,
     description: appDescription,
-    appDirectory: appFolderPath,
+    appDirectory: sourceFolderPath,
+    fileName: 'application-config.ts',
   });
+};
+
+const createPublicAssetDirectory = async (appDirectory: string) => {
+  await fs.ensureDir(join(appDirectory, ASSETS_DIR));
 };
 
 const createYarnLock = async (appDirectory: string) => {
@@ -68,6 +86,9 @@ generated
 # dev
 /dist/
 
+.twenty/*
+!.twenty/output/
+
 # production
 /build
 
@@ -91,22 +112,26 @@ yarn-error.log*
   await fs.writeFile(join(appDirectory, '.gitignore'), gitignoreContent);
 };
 
-const createDefaultServerlessFunctionRoleConfig = async ({
+const createDefaultRoleConfig = async ({
   displayName,
   appDirectory,
+  fileFolder,
+  fileName,
 }: {
   displayName: string;
   appDirectory: string;
+  fileFolder?: string;
+  fileName: string;
 }) => {
   const universalIdentifier = v4();
 
   const content = `import { defineRole } from 'twenty-sdk';
 
-export const DEFAULT_FUNCTION_ROLE_UNIVERSAL_IDENTIFIER =
+export const DEFAULT_ROLE_UNIVERSAL_IDENTIFIER =
   '${universalIdentifier}';
 
 export default defineRole({
-  universalIdentifier: DEFAULT_FUNCTION_ROLE_UNIVERSAL_IDENTIFIER,
+  universalIdentifier: DEFAULT_ROLE_UNIVERSAL_IDENTIFIER,
   label: '${displayName} default function role',
   description: '${displayName} default function role',
   canReadAllObjectRecords: true,
@@ -116,13 +141,18 @@ export default defineRole({
 });
 `;
 
-  await fs.writeFile(join(appDirectory, 'default-function.role.ts'), content);
+  await fs.ensureDir(join(appDirectory, fileFolder ?? ''));
+  await fs.writeFile(join(appDirectory, fileFolder ?? '', fileName), content);
 };
 
 const createDefaultFrontComponent = async ({
   appDirectory,
+  fileFolder,
+  fileName,
 }: {
   appDirectory: string;
+  fileFolder?: string;
+  fileName: string;
 }) => {
   const universalIdentifier = v4();
 
@@ -139,39 +169,83 @@ export const HelloWorld = () => {
 
 export default defineFrontComponent({
   universalIdentifier: '${universalIdentifier}',
-  name: 'hello-world',
+  name: 'hello-world-front-component',
   description: 'A sample front component',
   component: HelloWorld,
 });
 `;
 
-  await fs.writeFile(
-    join(appDirectory, 'hello-world.front-component.tsx'),
-    content,
-  );
+  await fs.ensureDir(join(appDirectory, fileFolder ?? ''));
+  await fs.writeFile(join(appDirectory, fileFolder ?? '', fileName), content);
+};
+
+const createDefaultFunction = async ({
+  appDirectory,
+  fileFolder,
+  fileName,
+}: {
+  appDirectory: string;
+  fileFolder?: string;
+  fileName: string;
+}) => {
+  const universalIdentifier = v4();
+  const triggerUniversalIdentifier = v4();
+
+  const content = `import { defineLogicFunction } from 'twenty-sdk';
+
+const handler = async (): Promise<{ message: string }> => {
+  return { message: 'Hello, World!' };
+};
+
+// Logic function handler - rename and implement your logic
+export default defineLogicFunction({
+  universalIdentifier: '${universalIdentifier}',
+  name: 'hello-world-logic-function',
+  description: 'A simple logic function',
+  timeoutSeconds: 5,
+  handler,
+  triggers: [
+    {
+      universalIdentifier: '${triggerUniversalIdentifier}',
+      type: 'route',
+      path: '/hello-world-logic-function',
+      httpMethod: 'GET',
+      isAuthRequired: false,
+    },
+  ],
+});
+`;
+
+  await fs.ensureDir(join(appDirectory, fileFolder ?? ''));
+  await fs.writeFile(join(appDirectory, fileFolder ?? '', fileName), content);
 };
 
 const createApplicationConfig = async ({
   displayName,
   description,
   appDirectory,
+  fileFolder,
+  fileName,
 }: {
   displayName: string;
   description?: string;
   appDirectory: string;
+  fileFolder?: string;
+  fileName: string;
 }) => {
-  const content = `import { defineApp } from 'twenty-sdk';
-import { DEFAULT_FUNCTION_ROLE_UNIVERSAL_IDENTIFIER } from './default-function.role';
+  const content = `import { defineApplication } from 'twenty-sdk';
+import { DEFAULT_ROLE_UNIVERSAL_IDENTIFIER } from 'src/roles/default-role';
 
-export default defineApp({
+export default defineApplication({
   universalIdentifier: '${v4()}',
   displayName: '${displayName}',
   description: '${description ?? ''}',
-  functionRoleUniversalIdentifier: DEFAULT_FUNCTION_ROLE_UNIVERSAL_IDENTIFIER,
+  defaultRoleUniversalIdentifier: DEFAULT_ROLE_UNIVERSAL_IDENTIFIER,
 });
 `;
 
-  await fs.writeFile(join(appDirectory, 'application.config.ts'), content);
+  await fs.ensureDir(join(appDirectory, fileFolder ?? ''));
+  await fs.writeFile(join(appDirectory, fileFolder ?? '', fileName), content);
 };
 
 const createPackageJson = async ({
@@ -198,8 +272,6 @@ const createPackageJson = async ({
       'auth:switch': 'twenty auth:switch',
       'auth:list': 'twenty auth:list',
       'app:dev': 'twenty app:dev',
-      'app:build': 'twenty app:build',
-      'app:sync': 'twenty app:sync',
       'entity:add': 'twenty entity:add',
       'app:generate': 'twenty app:generate',
       'function:logs': 'twenty function:logs',
@@ -210,13 +282,13 @@ const createPackageJson = async ({
       'lint:fix': 'eslint --fix',
     },
     dependencies: {
-      'twenty-sdk': '0.3.1',
+      'twenty-sdk': '0.4.3',
     },
     devDependencies: {
       typescript: '^5.9.3',
       '@types/node': '^24.7.2',
-      '@types/react': '^19.0.2',
-      react: '^19.0.2',
+      '@types/react': '^18.2.0',
+      react: '^18.2.0',
       eslint: '^9.32.0',
       'typescript-eslint': '^8.50.0',
     },

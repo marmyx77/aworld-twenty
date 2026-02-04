@@ -85,5 +85,6 @@ export const parseAndFormatGmailMessage = (
     text: sanitizeString(textWithoutReplyQuotations),
     attachments,
     messageFolderExternalIds: labelIds,
+    labelIds,
   };
 };

@@ -22,6 +22,7 @@ export type Message = Omit<
   direction: MessageDirection;
   messageFolderIds?: string[];
   messageFolderExternalIds?: string[];
+  labelIds?: string[];
 };
 
 export type MessageAttachment = {

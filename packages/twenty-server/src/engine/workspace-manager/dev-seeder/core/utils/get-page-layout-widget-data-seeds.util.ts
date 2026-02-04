@@ -1,6 +1,6 @@
 import { CalendarStartDay } from 'twenty-shared/constants';
-import { STANDARD_OBJECT_IDS } from 'twenty-shared/metadata';
 import { isDefined } from 'twenty-shared/utils';
+import { STANDARD_OBJECTS } from 'twenty-shared/metadata';
 
 import { AggregateOperations } from 'src/engine/api/graphql/graphql-query-runner/constants/aggregate-operations.constant';
 import { type ObjectMetadataEntity } from 'src/engine/metadata-modules/object-metadata/object-metadata.entity';
@@ -29,16 +29,21 @@ export const getPageLayoutWidgetDataSeeds = (
   isDashboardV2Enabled: boolean,
 ): SeederFlatPageLayoutWidget[] => {
   const opportunityObject = objectMetadataItems.find(
-    (obj) => obj.standardId === STANDARD_OBJECT_IDS.opportunity,
+    (obj) =>
+      obj.universalIdentifier ===
+      STANDARD_OBJECTS.opportunity.universalIdentifier,
   );
   const companyObject = objectMetadataItems.find(
-    (obj) => obj.standardId === STANDARD_OBJECT_IDS.company,
+    (obj) =>
+      obj.universalIdentifier === STANDARD_OBJECTS.company.universalIdentifier,
   );
   const personObject = objectMetadataItems.find(
-    (obj) => obj.standardId === STANDARD_OBJECT_IDS.person,
+    (obj) =>
+      obj.universalIdentifier === STANDARD_OBJECTS.person.universalIdentifier,
   );
   const taskObject = objectMetadataItems.find(
-    (obj) => obj.standardId === STANDARD_OBJECT_IDS.task,
+    (obj) =>
+      obj.universalIdentifier === STANDARD_OBJECTS.task.universalIdentifier,
   );
   const rocketObject = objectMetadataItems.find(
     (obj) => obj.nameSingular === 'rocket',
@@ -393,6 +398,23 @@ export const getPageLayoutWidgetDataSeeds = (
           objectMetadataId: taskObject?.id ?? null,
         } satisfies SeederFlatPageLayoutWidget)
       : null,
+
+    // Sales Overview Tab Widgets - Front Component
+    {
+      id: generateSeedId(workspaceId, PAGE_LAYOUT_WIDGET_SEEDS.FRONT_COMPONENT),
+      pageLayoutTabId: generateSeedId(
+        workspaceId,
+        PAGE_LAYOUT_TAB_SEEDS.SALES_OVERVIEW,
+      ),
+      title: 'Front Component',
+      type: WidgetType.FRONT_COMPONENT,
+      gridPosition: { row: 2, column: 7, rowSpan: 2, columnSpan: 5 },
+      configuration: {
+        configurationType: WidgetConfigurationType.FRONT_COMPONENT,
+        frontComponentId: '6cdf2607-4b28-40e6-8c53-cc06799ddc88',
+      } as const,
+      objectMetadataId: null,
+    } satisfies SeederFlatPageLayoutWidget,
   ].filter(isDefined);
 
   const v2Widgets = isDashboardV2Enabled

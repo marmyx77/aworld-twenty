@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import inquirer from 'inquirer';
-import { ApiService } from '@/cli/utilities/api/services/api.service';
-import { ConfigService } from '@/cli/utilities/config/services/config.service';
+import { ApiService } from '@/cli/utilities/api/api-service';
+import { ConfigService } from '@/cli/utilities/config/config-service';
 
 export class AuthSwitchCommand {
   private configService = new ConfigService();
@@ -78,8 +78,8 @@ export class AuthSwitchCommand {
       );
 
       if (hasCredentials) {
-        const isValid = await this.apiService.validateAuth();
-        if (isValid) {
+        const validateAuth = await this.apiService.validateAuth();
+        if (validateAuth.authValid) {
           console.log(chalk.green('✓ Authentication is valid'));
         } else {
           console.log(

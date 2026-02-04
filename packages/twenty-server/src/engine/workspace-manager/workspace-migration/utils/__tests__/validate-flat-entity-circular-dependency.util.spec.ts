@@ -1,7 +1,7 @@
 import { type EachTestingContext } from 'twenty-shared/testing';
 
+import { type SyncableFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/flat-entity-from.type';
 import { type FlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/flat-entity-maps.type';
-import { type SyncableFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/flat-entity.type';
 import {
   type CircularDependencyValidationResult,
   validateFlatEntityCircularDependency,
@@ -14,9 +14,11 @@ type TestFlatEntity = SyncableFlatEntity & {
 const createFlatEntityMaps = (
   entities: TestFlatEntity[],
 ): FlatEntityMaps<TestFlatEntity> => ({
-  byId: Object.fromEntries(entities.map((entity) => [entity.id, entity])),
-  idByUniversalIdentifier: Object.fromEntries(
-    entities.map((entity) => [entity.universalIdentifier, entity.id]),
+  byUniversalIdentifier: Object.fromEntries(
+    entities.map((entity) => [entity.universalIdentifier, entity]),
+  ),
+  universalIdentifierById: Object.fromEntries(
+    entities.map((entity) => [entity.id, entity.universalIdentifier]),
   ),
   universalIdentifiersByApplicationId: {},
 });

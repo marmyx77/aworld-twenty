@@ -54,7 +54,6 @@ export class MessagingSaveMessagesAndEnqueueContactCreationService {
 
     const participantsWithMessageId =
       await this.globalWorkspaceOrmManager.executeInWorkspaceContext(
-        authContext,
         async () => {
           const workspaceDataSource =
             await this.globalWorkspaceOrmManager.getGlobalWorkspaceDataSource();
@@ -152,6 +151,7 @@ export class MessagingSaveMessagesAndEnqueueContactCreationService {
             },
           );
         },
+        authContext,
       );
 
     if (
