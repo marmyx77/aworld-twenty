@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import { isNonEmptyString } from '@sniptt/guards';
 import { FieldActorSource, MessageParticipantRole } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 
@@ -122,24 +121,29 @@ export class MessagingSaveMessagesAndEnqueueContactCreationService {
               );
 
               const folderAssociations: MessageChannelMessageAssociationFolderAssociation[] =
-                messagesToSave
-                  .filter(
-                    (message) =>
-                      isDefined(message.messageFolderIds) &&
-                      message.messageFolderIds.length > 0,
-                  )
-                  .map((message) => ({
-                    messageChannelMessageAssociationId:
-                      messageExternalIdToMessageChannelMessageAssociationIdMap.get(
-                        message.externalId,
-                      ) ?? '',
-                    messageFolderIds: message.messageFolderIds ?? [],
-                  }))
-                  .filter((association) =>
-                    isNonEmptyString(
-                      association.messageChannelMessageAssociationId,
-                    ),
-                  );
+                messagesToSave.flatMap((message) => {
+                  const messageFolderIds = message.messageFolderIds ?? [];
+
+                  if (messageFolderIds.length === 0) {
+                    return [];
+                  }
+
+                  const associationId =
+                    messageExternalIdToMessageChannelMessageAssociationIdMap.get(
+                      message.externalId,
+                    );
+
+                  if (!isDefined(associationId)) {
+                    return [];
+                  }
+
+                  return [
+                    {
+                      messageChannelMessageAssociationId: associationId,
+                      messageFolderIds,
+                    },
+                  ];
+                });
 
               await this.messageFolderAssociationService.saveMessageFolderAssociations(
                 folderAssociations,

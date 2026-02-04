@@ -67,7 +67,7 @@ export class MessagingMessagesImportJob {
         return;
       }
 
-      if (!messageChannel.isSyncEnabled) {
+      if (!messageChannel?.isSyncEnabled) {
         return;
       }
 

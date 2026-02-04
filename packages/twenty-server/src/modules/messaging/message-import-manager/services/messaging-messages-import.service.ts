@@ -126,15 +126,13 @@ export class MessagingMessagesImportService {
 
         // Map external folder IDs to internal folder IDs
         const messageFolders = messageChannel.messageFolders ?? [];
-        const foldersWithExternalId = messageFolders.filter((folder) =>
-          isDefined(folder.externalId),
+        const foldersWithExternalId = messageFolders.filter(
+          (folder): folder is typeof folder & { externalId: string } =>
+            isDefined(folder.externalId),
         );
 
         const folderExternalToInternalMap = new Map<string, string>(
-          foldersWithExternalId.map((folder) => [
-            folder.externalId!,
-            folder.id,
-          ]),
+          foldersWithExternalId.map((folder) => [folder.externalId, folder.id]),
         );
 
         for (const message of allMessages) {
