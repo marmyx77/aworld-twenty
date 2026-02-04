@@ -15,7 +15,10 @@ import {
   type MetadataRecordEventByAction,
 } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { computeMetadataEventName } from 'src/engine/metadata-event-emitter/utils/compute-metadata-event-name.util';
+import { MetadataFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity-maps.type';
 import { MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity.type';
+import { findFlatEntityByIdInFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-id-in-flat-entity-maps.util';
+import { findFlatEntityByUniversalIdentifier } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-universal-identifier.util';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
 import type { FromToAllFlatEntityMaps } from 'src/engine/workspace-manager/workspace-migration/types/workspace-migration-orchestrator.type';
 import { WorkspaceMigration } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration';
@@ -25,6 +28,7 @@ import {
   MetadataRecordDeleteEvent,
   MetadataRecordUpdateEvent,
 } from 'twenty-shared/metadata-events';
+import { FromTo } from 'twenty-shared/types';
 
 type MetadataEventInitiatorContext = WorkspaceAuthContext;
 
@@ -55,6 +59,7 @@ type GroupedMetadataEvents = {
   };
 };
 
+// Quite redundant
 type MetadataCreateEventWithMetadataName = {
   metadataName: AllMetadataName;
   event: MetadataRecordCreateEvent<MetadataFlatEntity<AllMetadataName>>;
@@ -69,6 +74,7 @@ type MetadataDeleteEventWithMetadataName = {
   metadataName: AllMetadataName;
   event: MetadataRecordDeleteEvent<MetadataFlatEntity<AllMetadataName>>;
 };
+///
 
 const getEmptyGroupedEvents = (): GroupedMetadataEvents => {
   return Object.values(ALL_METADATA_NAME).reduce(
@@ -207,6 +213,7 @@ export class MetadataEventEmitter {
             });
 
           for (const { metadataName, event } of metadataCreateEvents) {
+            // TODO fix typing
             result[metadataName].create.push(event);
           }
           continue;
@@ -219,6 +226,7 @@ export class MetadataEventEmitter {
             });
 
           if (isDefined(updateEvent)) {
+            // TODO fix typing
             result[updateEvent.metadataName].update.push(updateEvent.event);
           }
           continue;
@@ -231,6 +239,7 @@ export class MetadataEventEmitter {
             });
 
           if (isDefined(deleteEvent)) {
+            // TODO fix typing
             result[deleteEvent.metadataName].delete.push(deleteEvent.event);
           }
           continue;
@@ -339,7 +348,10 @@ export class MetadataEventEmitter {
         continue;
       }
 
-      const created = fieldFromTo.to.byId[createdId];
+      const created = findFlatEntityByIdInFlatEntityMaps({
+        flatEntityMaps: fieldFromTo.to,
+        flatEntityId: createdId,
+      });
 
       if (!isDefined(created)) {
         continue;
@@ -382,7 +394,10 @@ export class MetadataEventEmitter {
       return undefined;
     }
 
-    const created = fromTo.to.byId[createdId];
+    const created = findFlatEntityByIdInFlatEntityMaps({
+      flatEntityMaps: fromTo.to,
+      flatEntityId: createdId,
+    });
 
     if (!isDefined(created)) {
       return undefined;
@@ -410,7 +425,7 @@ export class MetadataEventEmitter {
       case 'objectMetadata':
       case 'fieldMetadata': {
         return this.buildEntityUpdateEvent({
-          metadataName: action.metadataName,
+          action,
           universalIdentifier: action.universalIdentifier,
           fromToAllFlatEntityMaps,
         });
@@ -437,21 +452,26 @@ export class MetadataEventEmitter {
       case 'webhook': {
         const { entityId } = action;
         const flatMapsKey = getMetadataFlatEntityMapsKey(action.metadataName);
-        const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
+        const fromTo = fromToAllFlatEntityMaps[flatMapsKey] as FromTo<
+          MetadataFlatEntityMaps<typeof action.metadataName>
+        >;
 
         if (!isDefined(fromTo)) {
           return undefined;
         }
-        const universalIdentifier =
-          fromTo.from.byId[entityId]?.universalIdentifier;
 
-        if (!isDefined(universalIdentifier)) {
+        const existingEntity = findFlatEntityByIdInFlatEntityMaps({
+          flatEntityMaps: fromTo.from,
+          flatEntityId: entityId,
+        });
+
+        if (!isDefined(existingEntity)) {
           return undefined;
         }
 
         return this.buildEntityUpdateEvent({
-          metadataName: action.metadataName,
-          universalIdentifier,
+          action,
+          universalIdentifier: existingEntity.universalIdentifier,
           fromToAllFlatEntityMaps,
         });
       }
@@ -461,43 +481,55 @@ export class MetadataEventEmitter {
   }
 
   private buildEntityUpdateEvent({
-    metadataName,
     universalIdentifier,
+    action,
     fromToAllFlatEntityMaps,
   }: {
-    metadataName: AllMetadataName;
+    action: AllUniversalWorkspaceMigrationAction<'update'>;
     universalIdentifier: string;
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
   }): MetadataUpdateEventWithMetadataName | undefined {
-    const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
-    const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
+    const flatMapsKey = getMetadataFlatEntityMapsKey(action.metadataName);
+    const fromToFlatEntityMaps = fromToAllFlatEntityMaps[flatMapsKey];
 
-    if (!isDefined(fromTo)) {
+    if (!isDefined(fromToFlatEntityMaps)) {
+      return undefined;
+    }
+    const { from: fromFlatEntityMaps, to: toFlatEntityMaps } =
+      fromToFlatEntityMaps as FromTo<
+        MetadataFlatEntityMaps<typeof action.metadataName>
+      >;
+
+    const beforeFlatEntity = findFlatEntityByUniversalIdentifier({
+      flatEntityMaps: fromFlatEntityMaps,
+      universalIdentifier,
+    });
+
+    if (!isDefined(beforeFlatEntity)) {
       return undefined;
     }
 
-    const entityId = fromTo.from.idByUniversalIdentifier[universalIdentifier];
+    const afterFlatEntity = findFlatEntityByUniversalIdentifier({
+      flatEntityMaps: toFlatEntityMaps,
+      universalIdentifier: universalIdentifier,
+    });
 
-    if (!isDefined(entityId)) {
+    if (!isDefined(beforeFlatEntity) || !isDefined(afterFlatEntity)) {
       return undefined;
     }
-
-    const before = fromTo.from.byId[entityId];
-    const after = fromTo.to.byId[entityId];
-
-    if (!isDefined(before) || !isDefined(after)) {
-      return undefined;
-    }
-
-    const updatedFields = this.computeUpdatedFields(before, after);
-    const diff = this.computeDiff(before, after, updatedFields);
 
     return {
-      metadataName,
+      metadataName: action.metadataName,
       event: {
         type: 'update',
-        recordId: entityId,
-        properties: { before, after, updatedFields, diff },
+        recordId: beforeFlatEntity.id,
+        properties: {
+          before: beforeFlatEntity,
+          after: afterFlatEntity,
+          updatedFields: Object.keys(action.update),
+          // TODO FIX TYPING
+          diff: action.update,
+        },
       },
     };
   }
@@ -518,13 +550,7 @@ export class MetadataEventEmitter {
       return undefined;
     }
 
-    const deletedId = fromTo.from.idByUniversalIdentifier[universalIdentifier];
-
-    if (!isDefined(deletedId)) {
-      return undefined;
-    }
-
-    const deleted = fromTo.from.byId[deletedId];
+    const deleted = fromTo.from.byUniversalIdentifier[universalIdentifier];
 
     if (!isDefined(deleted)) {
       return undefined;
@@ -538,31 +564,5 @@ export class MetadataEventEmitter {
         properties: { before: deleted },
       },
     };
-  }
-
-  private computeUpdatedFields(
-    before: Record<string, unknown>,
-    after: Record<string, unknown>,
-  ): string[] {
-    const allKeys = new Set([...Object.keys(before), ...Object.keys(after)]);
-
-    return [...allKeys].filter(
-      (key) => JSON.stringify(before[key]) !== JSON.stringify(after[key]),
-    );
-  }
-
-  private computeDiff(
-    before: Record<string, unknown>,
-    after: Record<string, unknown>,
-    updatedFields: string[],
-  ): Record<string, { before: unknown; after: unknown }> {
-    return updatedFields.reduce(
-      (diff, field) => {
-        diff[field] = { before: before[field], after: after[field] };
-
-        return diff;
-      },
-      {} as Record<string, { before: unknown; after: unknown }>,
-    );
   }
 }
