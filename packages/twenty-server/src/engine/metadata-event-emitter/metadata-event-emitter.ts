@@ -32,6 +32,8 @@ import {
 import { FromTo } from 'twenty-shared/types';
 import { from } from 'rxjs';
 import { MetadataFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity-maps.type';
+import { MetadataUniversalFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-universal-flat-entity.type';
+import { UniversalFlatFieldMetadata } from 'src/engine/workspace-manager/workspace-migration/universal-flat-entity/types/universal-flat-field-metadata.type';
 
 type MetadataEventInitiatorContext = WorkspaceAuthContext;
 
@@ -315,6 +317,7 @@ export class MetadataEventEmitter {
 
         const createMetadataEvent = this.buildFlatEntityMetadataCreateEvent({
           metadataName: action.metadataName,
+          // NOTE will be fixed when https://github.com/twentyhq/twenty/pull/17687 has been merged
           flatEntity,
           fromToAllFlatEntityMaps,
         });
@@ -330,56 +333,27 @@ export class MetadataEventEmitter {
     universalFlatFieldMetadatas,
     fromToAllFlatEntityMaps,
   }: {
-    universalFlatFieldMetadatas: { universalIdentifier: string }[];
+    universalFlatFieldMetadatas: UniversalFlatFieldMetadata[];
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
   }): MetadataCreateEventWithMetadataName[] {
-    const fieldFromTo = fromToAllFlatEntityMaps['flatFieldMetadataMaps'];
-
-    if (!isDefined(fieldFromTo)) {
-      return [];
-    }
-
-    const events: MetadataCreateEventWithMetadataName[] = [];
-
-    for (const flatFieldMetadata of universalFlatFieldMetadatas) {
-      const { universalIdentifier } = flatFieldMetadata;
-
-      const createdId =
-        fieldFromTo.to.idByUniversalIdentifier[universalIdentifier];
-
-      if (!isDefined(createdId)) {
-        continue;
-      }
-
-      const created = findFlatEntityByIdInFlatEntityMaps({
-        flatEntityMaps: fieldFromTo.to,
-        flatEntityId: createdId,
-      });
-
-      if (!isDefined(created)) {
-        continue;
-      }
-
-      events.push({
-        metadataName: 'fieldMetadata',
-        event: {
-          type: 'create',
-          recordId: created.id,
-          properties: { after: created },
-        },
-      });
-    }
-
-    return events;
+    return universalFlatFieldMetadatas
+      .map((flatFieldMetadata) =>
+        this.buildFlatEntityMetadataCreateEvent({
+          metadataName: 'fieldMetadata',
+          flatEntity: flatFieldMetadata,
+          fromToAllFlatEntityMaps,
+        }),
+      )
+      .filter(isDefined);
   }
 
-  private buildFlatEntityMetadataCreateEvent({
+  private buildFlatEntityMetadataCreateEvent<T extends AllMetadataName>({
     metadataName,
     flatEntity,
     fromToAllFlatEntityMaps,
   }: {
-    metadataName: AllMetadataName;
-    flatEntity: UniversalSyncableFlatEntity;
+    metadataName: T;
+    flatEntity: MetadataUniversalFlatEntity<T>;
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
   }): MetadataCreateEventWithMetadataName | undefined {
     const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
@@ -423,6 +397,10 @@ export class MetadataEventEmitter {
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
   }): MetadataUpdateEventWithMetadataName | undefined {
     switch (action.metadataName) {
+      case 'index': {
+        // TODO implement custom index update action transpiler as it's not like the others
+        return undefined
+      };
       // Universal workspace migration migrated
       case 'objectMetadata':
       case 'fieldMetadata': {
@@ -438,7 +416,6 @@ export class MetadataEventEmitter {
       case 'rowLevelPermissionPredicate':
       case 'rowLevelPermissionPredicateGroup':
       case 'viewFilterGroup':
-      case 'index':
       case 'logicFunction':
       case 'viewFilter':
       case 'role':
