@@ -6,4 +6,4 @@ export type MetadataRecordUpdateEvent<T = object> = MetadataRecordBaseEvent<{
   diff: Partial<MetadataRecordDiff<T>>;
   before: T;
   after: T;
-}>;
+}> & { type: 'update' };

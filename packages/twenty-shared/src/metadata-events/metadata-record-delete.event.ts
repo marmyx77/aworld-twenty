@@ -2,4 +2,4 @@ import { type MetadataRecordBaseEvent } from '@/metadata-events/metadata-record.
 
 export type MetadataRecordDeleteEvent<T = object> = MetadataRecordBaseEvent<{
   before: T;
-}>;
+}> & { type: 'delete' };

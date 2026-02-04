@@ -2,4 +2,4 @@ import { type MetadataRecordBaseEvent } from '@/metadata-events/metadata-record.
 
 export type MetadataRecordCreateEvent<T = object> = MetadataRecordBaseEvent<{
   after: T;
-}>;
+}> & { type: 'create' };
