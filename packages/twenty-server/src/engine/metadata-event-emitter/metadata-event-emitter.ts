@@ -15,12 +15,13 @@ import {
   type MetadataRecordEventByAction,
 } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { computeMetadataEventName } from 'src/engine/metadata-event-emitter/utils/compute-metadata-event-name.util';
-import { MetadataFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity-maps.type';
+foimport { MetadataFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity-maps.type';
 import { MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity.type';
 import { findFlatEntityByIdInFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-id-in-flat-entity-maps.util';
 import { findFlatEntityByUniversalIdentifier } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-universal-identifier.util';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
 import type { FromToAllFlatEntityMaps } from 'src/engine/workspace-manager/workspace-migration/types/workspace-migration-orchestrator.type';
+import { UniversalSyncableFlatEntity } from 'src/engine/workspace-manager/workspace-migration/universal-flat-entity/types/universal-flat-entity-from.type';
 import { WorkspaceMigration } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration';
 import type { AllUniversalWorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
 import {
@@ -29,6 +30,8 @@ import {
   MetadataRecordUpdateEvent,
 } from 'twenty-shared/metadata-events';
 import { FromTo } from 'twenty-shared/types';
+import { from } from 'rxjs';
+import { MetadataFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity-maps.type';
 
 type MetadataEventInitiatorContext = WorkspaceAuthContext;
 
@@ -376,30 +379,29 @@ export class MetadataEventEmitter {
     fromToAllFlatEntityMaps,
   }: {
     metadataName: AllMetadataName;
-    flatEntity: { universalIdentifier: string };
+    flatEntity: UniversalSyncableFlatEntity;
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
   }): MetadataCreateEventWithMetadataName | undefined {
     const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
-    const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
+    const fromToFlatEntityMaps = fromToAllFlatEntityMaps[flatMapsKey] as
+      | FromTo<MetadataFlatEntityMaps<typeof metadataName>>
+      | undefined;
 
-    if (!isDefined(fromTo)) {
+    if (!isDefined(fromToFlatEntityMaps)) {
       return undefined;
     }
+    const {  to: toFlatEntityMaps } =
+      fromToFlatEntityMaps;
+
 
     const { universalIdentifier } = flatEntity;
 
-    const createdId = fromTo.to.idByUniversalIdentifier[universalIdentifier];
-
-    if (!isDefined(createdId)) {
-      return undefined;
-    }
-
-    const created = findFlatEntityByIdInFlatEntityMaps({
-      flatEntityMaps: fromTo.to,
-      flatEntityId: createdId,
+    const createdFlatEntity = findFlatEntityByUniversalIdentifier({
+      flatEntityMaps: toFlatEntityMaps,
+      universalIdentifier,
     });
 
-    if (!isDefined(created)) {
+    if (!isDefined(createdFlatEntity)) {
       return undefined;
     }
 
@@ -407,8 +409,8 @@ export class MetadataEventEmitter {
       metadataName,
       event: {
         type: 'create',
-        recordId: created.id,
-        properties: { after: created },
+        recordId: createdFlatEntity.id,
+        properties: { after: createdFlatEntity },
       },
     };
   }
@@ -490,15 +492,15 @@ export class MetadataEventEmitter {
     fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
   }): MetadataUpdateEventWithMetadataName | undefined {
     const flatMapsKey = getMetadataFlatEntityMapsKey(action.metadataName);
-    const fromToFlatEntityMaps = fromToAllFlatEntityMaps[flatMapsKey];
+    const fromToFlatEntityMaps = fromToAllFlatEntityMaps[flatMapsKey] as
+      | FromTo<MetadataFlatEntityMaps<typeof action.metadataName>>
+      | undefined;
 
     if (!isDefined(fromToFlatEntityMaps)) {
       return undefined;
     }
     const { from: fromFlatEntityMaps, to: toFlatEntityMaps } =
-      fromToFlatEntityMaps as FromTo<
-        MetadataFlatEntityMaps<typeof action.metadataName>
-      >;
+      fromToFlatEntityMaps;
 
     const beforeFlatEntity = findFlatEntityByUniversalIdentifier({
       flatEntityMaps: fromFlatEntityMaps,
