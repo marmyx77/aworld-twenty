@@ -27,8 +27,8 @@ const createRelationFieldWidget = (
     fieldMetadataId: field.id,
     layout: 'CARD' as const,
   },
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
+  createdAt: '2024-01-01T00:00:00.000Z',
+  updatedAt: '2024-01-01T00:00:00.000Z',
   deletedAt: null,
 });
 
