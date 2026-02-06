@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+import { gql } from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -1229,6 +1229,15 @@ export type FilesConfiguration = {
   configurationType: WidgetConfigurationType;
 };
 
+export type FilesFieldFile = {
+  __typename?: 'FilesFieldFile';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['UUID'];
+  path: Scalars['String'];
+  size: Scalars['Float'];
+  url: Scalars['String'];
+};
+
 export enum FilterIs {
   NotNull = 'NotNull',
   Null = 'Null'
@@ -1651,6 +1660,26 @@ export type Mutation = {
   updateWorkflowRunStep: WorkflowAction;
   updateWorkflowVersionPositions: Scalars['Boolean'];
   updateWorkflowVersionStep: WorkflowAction;
+  updateWorkspace: Workspace;
+  updateWorkspaceFeatureFlag: Scalars['Boolean'];
+  updateWorkspaceMemberRole: WorkspaceMember;
+  uploadApplicationFile: File;
+  /** @deprecated Use uploadFilesFieldFile instead */
+  uploadFile: SignedFile;
+  uploadFilesFieldFile: FilesFieldFile;
+  uploadImage: SignedFile;
+  uploadWorkspaceLogo: SignedFile;
+  uploadWorkspaceMemberProfilePicture: SignedFile;
+  upsertFieldPermissions: Array<FieldPermission>;
+  upsertObjectPermissions: Array<ObjectPermission>;
+  upsertPermissionFlags: Array<PermissionFlag>;
+  upsertRowLevelPermissionPredicates: UpsertRowLevelPermissionPredicatesResult;
+  userLookupAdminPanel: UserLookup;
+  validateApprovedAccessDomain: ApprovedAccessDomain;
+  verifyEmailAndGetLoginToken: VerifyEmailAndGetLoginTokenOutput;
+  verifyEmailAndGetWorkspaceAgnosticToken: AvailableWorkspacesAndAccessTokensOutput;
+  verifyEmailingDomain: EmailingDomain;
+  verifyTwoFactorAuthenticationMethodForAuthenticatedUser: VerifyTwoFactorAuthenticationMethodOutput;
 };
 
 
