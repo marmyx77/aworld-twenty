@@ -60,7 +60,6 @@ export const useUploadAttachmentFile = () => {
       const result = await uploadFilesFieldFile({
         variables: { file, fieldMetadataId: filesFieldMetadataId },
       });
-      console.log('result', result);
 
       const uploadedFile = result?.data?.uploadFilesFieldFile;
 
@@ -112,8 +111,6 @@ export const useUploadAttachmentFile = () => {
 
     const createdAttachment = await createOneAttachment(attachmentToCreate);
 
-    console.log('createdAttachment', createdAttachment);
-    console.log('isFilesFieldMigrated', isFilesFieldMigrated);
     return {
       attachmentAbsoluteURL: isFilesFieldMigrated
         ? fileUrl

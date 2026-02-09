@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { MigrateActivityRichTextAttachmentFileIdsCommand } from 'src/database/commands/upgrade-version-command/1-18/1-18-migrate-activity-rich-text-attachment-file-ids.command';
 import { MigrateAttachmentFilesCommand } from 'src/database/commands/upgrade-version-command/1-18/1-18-migrate-attachment-files.command';
 import { MigratePersonAvatarFilesCommand } from 'src/database/commands/upgrade-version-command/1-18/1-18-migrate-person-avatar-files.command';
 import { ApplicationModule } from 'src/engine/core-modules/application/application.module';
@@ -31,7 +32,15 @@ import { PersonWorkspaceEntity } from 'src/modules/person/standard-objects/perso
     FieldMetadataModule,
     ApplicationModule,
   ],
-  providers: [MigratePersonAvatarFilesCommand, MigrateAttachmentFilesCommand],
-  exports: [MigratePersonAvatarFilesCommand, MigrateAttachmentFilesCommand],
+  providers: [
+    MigratePersonAvatarFilesCommand,
+    MigrateAttachmentFilesCommand,
+    MigrateActivityRichTextAttachmentFileIdsCommand,
+  ],
+  exports: [
+    MigratePersonAvatarFilesCommand,
+    MigrateAttachmentFilesCommand,
+    MigrateActivityRichTextAttachmentFileIdsCommand,
+  ],
 })
 export class V1_18_UpgradeVersionCommandModule {}
