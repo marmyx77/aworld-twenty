@@ -46,7 +46,7 @@ const wrapEventHandler = (handler: () => void) => {
   };
 };
 
-const filterProps = (props: Record<string, unknown>) => {
+const filterProps = <T extends object>(props: T): T => {
   const filtered: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(props)) {
     if (INTERNAL_PROPS.has(key) || value === undefined) continue;
@@ -62,7 +62,7 @@ const filterProps = (props: Record<string, unknown>) => {
       }
     }
   }
-  return filtered;
+  return filtered as T;
 };`;
 };
 
@@ -99,8 +99,12 @@ const generateHtmlWrapperComponent = (component: ComponentSchema): string => {
 };
 
 const generateUiWrapperComponent = (component: ComponentSchema): string => {
-  return `const ${component.name}Wrapper = ({ children, ...props }: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement(${component.componentImport}, filterProps(props), children);
+  const propsType = isDefined(component.propsTypeName)
+    ? `${component.propsTypeName} & { children?: React.ReactNode }`
+    : '{ children?: React.ReactNode } & Record<string, unknown>';
+
+  return `const ${component.name}Wrapper = (props: ${propsType}) => {
+  return React.createElement(${component.componentImport}, filterProps(props));
 };`;
 };
 
@@ -129,10 +133,15 @@ ${entries}
 ]);`;
 };
 
+type ImportGroup = {
+  namedImports: string[];
+  typeImports: string[];
+};
+
 const groupImportsByPath = (
   components: ComponentSchema[],
-): Map<string, string[]> => {
-  const importsByPath = new Map<string, string[]>();
+): Map<string, ImportGroup> => {
+  const importsByPath = new Map<string, ImportGroup>();
 
   for (const component of components) {
     if (
@@ -140,10 +149,22 @@ const groupImportsByPath = (
       isDefined(component.componentPath) &&
       isDefined(component.componentImport)
     ) {
-      const existing = importsByPath.get(component.componentPath) ?? [];
-      if (!existing.includes(component.componentImport)) {
-        existing.push(component.componentImport);
+      const existing = importsByPath.get(component.componentPath) ?? {
+        namedImports: [],
+        typeImports: [],
+      };
+
+      if (!existing.namedImports.includes(component.componentImport)) {
+        existing.namedImports.push(component.componentImport);
       }
+
+      if (
+        isDefined(component.propsTypeName) &&
+        !existing.typeImports.includes(component.propsTypeName)
+      ) {
+        existing.typeImports.push(component.propsTypeName);
+      }
+
       importsByPath.set(component.componentPath, existing);
     }
   }
@@ -174,10 +195,18 @@ export const generateHostRegistry = (
 
   const uiImports = groupImportsByPath(components);
 
-  for (const [modulePath, namedImports] of uiImports) {
+  for (const [modulePath, importGroup] of uiImports) {
+    const allImports = [
+      ...importGroup.namedImports,
+      ...importGroup.typeImports.map((typeName) => ({
+        name: typeName,
+        isTypeOnly: true,
+      })),
+    ];
+
     sourceFile.addImportDeclaration({
       moduleSpecifier: modulePath,
-      namedImports,
+      namedImports: allImports,
     });
   }
 

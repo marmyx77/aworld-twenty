@@ -4,11 +4,11 @@ import * as path from 'path';
 import { IndentationText, Project, QuoteKind } from 'ts-morph';
 
 import { ALLOWED_HTML_ELEMENTS } from '../../src/sdk/front-component-common/AllowedHtmlElements';
-import { ALLOWED_UI_COMPONENTS } from '../../src/sdk/front-component-common/AllowedUiComponents';
 import { COMMON_HTML_EVENTS } from '../../src/sdk/front-component-common/CommonHtmlEvents';
 import { EVENT_TO_REACT } from '../../src/sdk/front-component-common/EventToReact';
 import { HTML_COMMON_PROPERTIES } from '../../src/sdk/front-component-common/HtmlCommonProperties';
 
+import { analyzeAllCategories } from './analyzers';
 import {
   type ComponentSchema,
   extractHtmlTag,
@@ -17,7 +17,6 @@ import {
   generateRemoteElements,
   HtmlElementConfigArrayZ,
   OUTPUT_FILES,
-  UiComponentConfigArrayZ,
 } from './generators';
 
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
@@ -61,24 +60,20 @@ const getHtmlElementSchemas = (): ComponentSchema[] => {
 };
 
 const getUiComponentSchemas = (): ComponentSchema[] => {
-  const result = UiComponentConfigArrayZ.safeParse(ALLOWED_UI_COMPONENTS);
+  const discoveredComponents = analyzeAllCategories({ verbose: true });
 
-  if (!result.success) {
-    throw new Error(
-      `Invalid UI component configuration:\n${formatZodError(result.error)}`,
-    );
-  }
-
-  return result.data.map((component) => ({
+  return discoveredComponents.map((component) => ({
     name: component.name,
     tagName: component.name,
     customElementName: component.tag,
     properties: component.properties,
-    events: COMMON_HTML_EVENTS,
+    slots: component.slots,
+    events: component.events,
     isHtmlElement: false,
     htmlTag: undefined,
     componentImport: component.componentImport,
     componentPath: component.componentPath,
+    propsTypeName: component.propsTypeName,
   }));
 };
 

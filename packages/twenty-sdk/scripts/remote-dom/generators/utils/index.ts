@@ -5,7 +5,6 @@ export { addStatement } from './add-statement';
 export { eventToReactProp } from './event-to-react-prop';
 export { extractHtmlTag } from './extract-html-tag';
 export { GENERATED_FILE_HEADER } from './generated-file-header';
-export { generatePropertiesConfig } from './generate-properties-config';
 export { generatePropertiesType } from './generate-properties-type';
 export { schemaTypeToConstructor } from './schema-type-to-constructor';
 export { schemaTypeToTs } from './schema-type-to-ts';

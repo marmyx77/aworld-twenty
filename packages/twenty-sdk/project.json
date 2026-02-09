@@ -102,7 +102,9 @@
       "cache": true,
       "inputs": [
         "{projectRoot}/scripts/remote-dom/**/*",
-        "{projectRoot}/src/front-component-constants/**/*"
+        "{projectRoot}/src/sdk/front-component-common/**/*",
+        "{workspaceRoot}/packages/twenty-ui/src/**/index.ts",
+        "{workspaceRoot}/packages/twenty-ui/src/**/*.tsx"
       ],
       "outputs": [
         "{projectRoot}/src/front-component/host/generated/*",

@@ -12,7 +12,93 @@ import {
   RemoteFragmentRenderer,
   createRemoteComponentRenderer,
 } from '@remote-dom/react/host';
-import { Button } from 'twenty-ui/input';
+import {
+  AnimatedButton,
+  AnimatedLightIconButton,
+  Button,
+  ButtonGroup,
+  FloatingButton,
+  FloatingButtonGroup,
+  FloatingIconButton,
+  FloatingIconButtonGroup,
+  InsideButton,
+  LightButton,
+  LightIconButton,
+  LightIconButtonGroup,
+  TabContent,
+  CoreEditorHeader,
+  ColorSchemeCard,
+  ColorSchemePicker,
+  Radio,
+  SearchInput,
+  Toggle,
+  type AnimatedButtonProps,
+  type AnimatedLightIconButtonProps,
+  type ButtonProps,
+  type ButtonGroupProps,
+  type FloatingButtonProps,
+  type FloatingButtonGroupProps,
+  type FloatingIconButtonProps,
+  type FloatingIconButtonGroupProps,
+  type InsideButtonProps,
+  type LightButtonProps,
+  type LightIconButtonProps,
+  type LightIconButtonGroupProps,
+  type TabContentProps,
+  type CoreEditorHeaderProps,
+  type ColorSchemeCardProps,
+  type ColorSchemePickerProps,
+  type RadioProps,
+  type SearchInputProps,
+  type ToggleProps,
+} from 'twenty-ui/input';
+import {
+  AvatarChip,
+  MultipleAvatarChip,
+  Chip,
+  LinkChip,
+  type AvatarChipProps,
+  type MultipleAvatarChipProps,
+  type ChipProps,
+  type LinkChipProps,
+} from 'twenty-ui/components';
+import {
+  Avatar,
+  AvatarGroup,
+  SidePanelInformationBanner,
+  AnimatedCheckmark,
+  Checkmark,
+  ColorSample,
+  Info,
+  AppTooltip,
+  type AvatarProps,
+  type AvatarGroupProps,
+  type SidePanelInformationBannerProps,
+  type AnimatedCheckmarkProps,
+  type CheckmarkProps,
+  type ColorSampleProps,
+  type InfoProps,
+  type AppTooltipProps,
+} from 'twenty-ui/display';
+import { ProgressBar, type ProgressBarProps } from 'twenty-ui/feedback';
+import {
+  MenuPicker,
+  MenuItem,
+  MenuItemAvatar,
+  MenuItemDraggable,
+  MenuItemHotKeys,
+  MenuItemNavigate,
+  MenuItemSuggestion,
+  MenuItemToggle,
+  type MenuPickerProps,
+  type MenuItemProps,
+  type MenuItemAvatarProps,
+  type MenuItemDraggableProps,
+  type MenuItemHotKeysProps,
+  type MenuItemNavigateProps,
+  type MenuItemSuggestionProps,
+  type MenuItemToggleProps,
+} from 'twenty-ui/navigation';
 const INTERNAL_PROPS = new Set(['element', 'receiver', 'components']);
 
 const EVENT_NAME_MAP: Record<string, string> = {
@@ -70,7 +156,7 @@ const wrapEventHandler = (handler: () => void) => {
   };
 };
 
-const filterProps = (props: Record<string, unknown>) => {
+const filterProps = <T extends object>(props: T): T => {
   const filtered: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(props)) {
     if (INTERNAL_PROPS.has(key) || value === undefined) continue;
@@ -86,7 +172,7 @@ const filterProps = (props: Record<string, unknown>) => {
       }
     }
   }
-  return filtered;
+  return filtered as T;
 };
 const HtmlDivWrapper = ({
   children,
@@ -346,11 +432,205 @@ const HtmlHrWrapper = ({
 }: { children?: React.ReactNode } & Record<string, unknown>) => {
   return React.createElement('hr', filterProps(props));
 };
-const TwentyUiButtonWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement(Button, filterProps(props), children);
+const TwentyUiAnimatedButtonWrapper = (
+  props: AnimatedButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(AnimatedButton, filterProps(props));
+};
+const TwentyUiAnimatedLightIconButtonWrapper = (
+  props: AnimatedLightIconButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(AnimatedLightIconButton, filterProps(props));
+};
+const TwentyUiButtonWrapper = (
+  props: ButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Button, filterProps(props));
+};
+const TwentyUiButtonGroupWrapper = (
+  props: ButtonGroupProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(ButtonGroup, filterProps(props));
+};
+const TwentyUiFloatingButtonWrapper = (
+  props: FloatingButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(FloatingButton, filterProps(props));
+};
+const TwentyUiFloatingButtonGroupWrapper = (
+  props: FloatingButtonGroupProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(FloatingButtonGroup, filterProps(props));
+};
+const TwentyUiFloatingIconButtonWrapper = (
+  props: FloatingIconButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(FloatingIconButton, filterProps(props));
+};
+const TwentyUiFloatingIconButtonGroupWrapper = (
+  props: FloatingIconButtonGroupProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(FloatingIconButtonGroup, filterProps(props));
+};
+const TwentyUiInsideButtonWrapper = (
+  props: InsideButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(InsideButton, filterProps(props));
+};
+const TwentyUiLightButtonWrapper = (
+  props: LightButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(LightButton, filterProps(props));
+};
+const TwentyUiLightIconButtonWrapper = (
+  props: LightIconButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(LightIconButton, filterProps(props));
+};
+const TwentyUiLightIconButtonGroupWrapper = (
+  props: LightIconButtonGroupProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(LightIconButtonGroup, filterProps(props));
+};
+const TwentyUiTabContentWrapper = (
+  props: TabContentProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(TabContent, filterProps(props));
+};
+const TwentyUiCoreEditorHeaderWrapper = (
+  props: CoreEditorHeaderProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(CoreEditorHeader, filterProps(props));
+};
+const TwentyUiColorSchemeCardWrapper = (
+  props: ColorSchemeCardProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(ColorSchemeCard, filterProps(props));
+};
+const TwentyUiColorSchemePickerWrapper = (
+  props: ColorSchemePickerProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(ColorSchemePicker, filterProps(props));
+};
+const TwentyUiRadioWrapper = (
+  props: RadioProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Radio, filterProps(props));
+};
+const TwentyUiSearchInputWrapper = (
+  props: SearchInputProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(SearchInput, filterProps(props));
+};
+const TwentyUiToggleWrapper = (
+  props: ToggleProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Toggle, filterProps(props));
+};
+const TwentyUiAvatarChipWrapper = (
+  props: AvatarChipProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(AvatarChip, filterProps(props));
+};
+const TwentyUiMultipleAvatarChipWrapper = (
+  props: MultipleAvatarChipProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MultipleAvatarChip, filterProps(props));
+};
+const TwentyUiChipWrapper = (
+  props: ChipProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Chip, filterProps(props));
+};
+const TwentyUiLinkChipWrapper = (
+  props: LinkChipProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(LinkChip, filterProps(props));
+};
+const TwentyUiAvatarWrapper = (
+  props: AvatarProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Avatar, filterProps(props));
+};
+const TwentyUiAvatarGroupWrapper = (
+  props: AvatarGroupProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(AvatarGroup, filterProps(props));
+};
+const TwentyUiSidePanelInformationBannerWrapper = (
+  props: SidePanelInformationBannerProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(SidePanelInformationBanner, filterProps(props));
+};
+const TwentyUiAnimatedCheckmarkWrapper = (
+  props: AnimatedCheckmarkProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(AnimatedCheckmark, filterProps(props));
+};
+const TwentyUiCheckmarkWrapper = (
+  props: CheckmarkProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Checkmark, filterProps(props));
+};
+const TwentyUiColorSampleWrapper = (
+  props: ColorSampleProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(ColorSample, filterProps(props));
+};
+const TwentyUiInfoWrapper = (
+  props: InfoProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Info, filterProps(props));
+};
+const TwentyUiAppTooltipWrapper = (
+  props: AppTooltipProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(AppTooltip, filterProps(props));
+};
+const TwentyUiProgressBarWrapper = (
+  props: ProgressBarProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(ProgressBar, filterProps(props));
+};
+const TwentyUiMenuPickerWrapper = (
+  props: MenuPickerProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuPicker, filterProps(props));
+};
+const TwentyUiMenuItemWrapper = (
+  props: MenuItemProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItem, filterProps(props));
+};
+const TwentyUiMenuItemAvatarWrapper = (
+  props: MenuItemAvatarProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemAvatar, filterProps(props));
+};
+const TwentyUiMenuItemDraggableWrapper = (
+  props: MenuItemDraggableProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemDraggable, filterProps(props));
+};
+const TwentyUiMenuItemHotKeysWrapper = (
+  props: MenuItemHotKeysProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemHotKeys, filterProps(props));
+};
+const TwentyUiMenuItemNavigateWrapper = (
+  props: MenuItemNavigateProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemNavigate, filterProps(props));
+};
+const TwentyUiMenuItemSuggestionWrapper = (
+  props: MenuItemSuggestionProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemSuggestion, filterProps(props));
+};
+const TwentyUiMenuItemToggleWrapper = (
+  props: MenuItemToggleProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemToggle, filterProps(props));
 };
 type ComponentRegistryValue =
   | ReturnType<typeof createRemoteComponentRenderer>
@@ -400,6 +680,147 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
   ['html-td', createRemoteComponentRenderer(HtmlTdWrapper)],
   ['html-br', createRemoteComponentRenderer(HtmlBrWrapper)],
   ['html-hr', createRemoteComponentRenderer(HtmlHrWrapper)],
+  [
+    'twenty-ui-animated-button',
+    createRemoteComponentRenderer(TwentyUiAnimatedButtonWrapper),
+  ],
+  [
+    'twenty-ui-animated-light-icon-button',
+    createRemoteComponentRenderer(TwentyUiAnimatedLightIconButtonWrapper),
+  ],
   ['twenty-ui-button', createRemoteComponentRenderer(TwentyUiButtonWrapper)],
+  [
+    'twenty-ui-button-group',
+    createRemoteComponentRenderer(TwentyUiButtonGroupWrapper),
+  ],
+  [
+    'twenty-ui-floating-button',
+    createRemoteComponentRenderer(TwentyUiFloatingButtonWrapper),
+  ],
+  [
+    'twenty-ui-floating-button-group',
+    createRemoteComponentRenderer(TwentyUiFloatingButtonGroupWrapper),
+  ],
+  [
+    'twenty-ui-floating-icon-button',
+    createRemoteComponentRenderer(TwentyUiFloatingIconButtonWrapper),
+  ],
+  [
+    'twenty-ui-floating-icon-button-group',
+    createRemoteComponentRenderer(TwentyUiFloatingIconButtonGroupWrapper),
+  ],
+  [
+    'twenty-ui-inside-button',
+    createRemoteComponentRenderer(TwentyUiInsideButtonWrapper),
+  ],
+  [
+    'twenty-ui-light-button',
+    createRemoteComponentRenderer(TwentyUiLightButtonWrapper),
+  ],
+  [
+    'twenty-ui-light-icon-button',
+    createRemoteComponentRenderer(TwentyUiLightIconButtonWrapper),
+  ],
+  [
+    'twenty-ui-light-icon-button-group',
+    createRemoteComponentRenderer(TwentyUiLightIconButtonGroupWrapper),
+  ],
+  [
+    'twenty-ui-tab-content',
+    createRemoteComponentRenderer(TwentyUiTabContentWrapper),
+  ],
+  [
+    'twenty-ui-core-editor-header',
+    createRemoteComponentRenderer(TwentyUiCoreEditorHeaderWrapper),
+  ],
+  [
+    'twenty-ui-color-scheme-card',
+    createRemoteComponentRenderer(TwentyUiColorSchemeCardWrapper),
+  ],
+  [
+    'twenty-ui-color-scheme-picker',
+    createRemoteComponentRenderer(TwentyUiColorSchemePickerWrapper),
+  ],
+  ['twenty-ui-radio', createRemoteComponentRenderer(TwentyUiRadioWrapper)],
+  [
+    'twenty-ui-search-input',
+    createRemoteComponentRenderer(TwentyUiSearchInputWrapper),
+  ],
+  ['twenty-ui-toggle', createRemoteComponentRenderer(TwentyUiToggleWrapper)],
+  [
+    'twenty-ui-avatar-chip',
+    createRemoteComponentRenderer(TwentyUiAvatarChipWrapper),
+  ],
+  [
+    'twenty-ui-multiple-avatar-chip',
+    createRemoteComponentRenderer(TwentyUiMultipleAvatarChipWrapper),
+  ],
+  ['twenty-ui-chip', createRemoteComponentRenderer(TwentyUiChipWrapper)],
+  [
+    'twenty-ui-link-chip',
+    createRemoteComponentRenderer(TwentyUiLinkChipWrapper),
+  ],
+  ['twenty-ui-avatar', createRemoteComponentRenderer(TwentyUiAvatarWrapper)],
+  [
+    'twenty-ui-avatar-group',
+    createRemoteComponentRenderer(TwentyUiAvatarGroupWrapper),
+  ],
+  [
+    'twenty-ui-side-panel-information-banner',
+    createRemoteComponentRenderer(TwentyUiSidePanelInformationBannerWrapper),
+  ],
+  [
+    'twenty-ui-animated-checkmark',
+    createRemoteComponentRenderer(TwentyUiAnimatedCheckmarkWrapper),
+  ],
+  [
+    'twenty-ui-checkmark',
+    createRemoteComponentRenderer(TwentyUiCheckmarkWrapper),
+  ],
+  [
+    'twenty-ui-color-sample',
+    createRemoteComponentRenderer(TwentyUiColorSampleWrapper),
+  ],
+  ['twenty-ui-info', createRemoteComponentRenderer(TwentyUiInfoWrapper)],
+  [
+    'twenty-ui-app-tooltip',
+    createRemoteComponentRenderer(TwentyUiAppTooltipWrapper),
+  ],
+  [
+    'twenty-ui-progress-bar',
+    createRemoteComponentRenderer(TwentyUiProgressBarWrapper),
+  ],
+  [
+    'twenty-ui-menu-picker',
+    createRemoteComponentRenderer(TwentyUiMenuPickerWrapper),
+  ],
+  [
+    'twenty-ui-menu-item',
+    createRemoteComponentRenderer(TwentyUiMenuItemWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-avatar',
+    createRemoteComponentRenderer(TwentyUiMenuItemAvatarWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-draggable',
+    createRemoteComponentRenderer(TwentyUiMenuItemDraggableWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-hot-keys',
+    createRemoteComponentRenderer(TwentyUiMenuItemHotKeysWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-navigate',
+    createRemoteComponentRenderer(TwentyUiMenuItemNavigateWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-suggestion',
+    createRemoteComponentRenderer(TwentyUiMenuItemSuggestionWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-toggle',
+    createRemoteComponentRenderer(TwentyUiMenuItemToggleWrapper),
+  ],
   ['remote-fragment', RemoteFragmentRenderer],
 ]);

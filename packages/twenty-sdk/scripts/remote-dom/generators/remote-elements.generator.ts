@@ -2,7 +2,6 @@ import {
   type Project,
   type SourceFile,
   VariableDeclarationKind,
-  type WriterFunction,
 } from 'ts-morph';
 
 import {
@@ -13,7 +12,6 @@ import {
 import { type ComponentSchema, type PropertySchema } from './schemas';
 import {
   addFileHeader,
-  generatePropertiesConfig,
   schemaTypeToConstructor,
   schemaTypeToTs,
 } from './utils';
@@ -145,7 +143,9 @@ const generateElementPropertyType = (
       isExported: true,
       name: `${component.name}Properties`,
       type: (writer) => {
-        writer.write(`${TYPE_NAMES.COMMON_PROPERTIES} & `);
+        if (component.isHtmlElement) {
+          writer.write(`${TYPE_NAMES.COMMON_PROPERTIES} & `);
+        }
         writer.block(() => {
           for (const entry of entries) {
             writer.writeLine(`${entry};`);
@@ -156,30 +156,30 @@ const generateElementPropertyType = (
   }
 };
 
-const createPropertiesConfigWriter = (
-  properties: Record<string, PropertySchema>,
-): WriterFunction => {
-  return (writer) => {
-    writer.write(generatePropertiesConfig(properties));
-  };
-};
-
 const generateElementDefinition = (
   sourceFile: SourceFile,
   component: ComponentSchema,
   specificProperties: Record<string, PropertySchema>,
   options: ElementGenerationOptions,
 ): void => {
-  const { useSharedEvents, useSharedPropertiesConfig } = options;
+  // Shared events only apply to HTML elements; UI components use per-component events
+  const useSharedEvents = options.useSharedEvents && component.isHtmlElement;
+  const { useSharedPropertiesConfig } = options;
   const hasEvents = component.events.length > 0;
   const hasSpecificProps = Object.keys(specificProperties).length > 0;
   const hasProps = Object.keys(component.properties).length > 0;
+  const hasSlots = (component.slots ?? []).length > 0;
 
   const propsType = hasSpecificProps
     ? `${component.name}Properties`
-    : hasProps
+    : hasProps && component.isHtmlElement
       ? TYPE_NAMES.COMMON_PROPERTIES
       : TYPE_NAMES.EMPTY_RECORD;
+
+  // Slots generic type: { slotName: true } for each slot
+  const slotsType = hasSlots
+    ? `{ ${(component.slots ?? []).map((slot) => `'${slot}': true`).join('; ')} }`
+    : TYPE_NAMES.EMPTY_RECORD;
 
   const eventsType = hasEvents
     ? useSharedEvents
@@ -199,13 +199,13 @@ const generateElementDefinition = (
           writer.indent(() => {
             writer.writeLine(`${propsType},`);
             writer.writeLine('Record<string, never>,');
-            writer.writeLine('Record<string, never>,');
+            writer.writeLine(`${slotsType},`);
             writer.write(eventsType);
           });
           writer.newLine();
           writer.write('>');
 
-          const hasConfig = hasProps || hasEvents;
+          const hasConfig = hasProps || hasEvents || hasSlots;
           if (!hasConfig) {
             writer.write('({})');
             return;
@@ -213,8 +213,14 @@ const generateElementDefinition = (
 
           writer.write('(');
           writer.block(() => {
+            if (hasSlots) {
+              writer.write(
+                `slots: [${(component.slots ?? []).map((slot) => `'${slot}'`).join(', ')}],`,
+              );
+              writer.newLine();
+            }
             if (hasProps) {
-              if (hasSpecificProps) {
+              if (hasSpecificProps && component.isHtmlElement) {
                 writer.write('properties: ');
                 writer.block(() => {
                   writer.writeLine(
@@ -233,14 +239,25 @@ const generateElementDefinition = (
                 });
                 writer.write(',');
                 writer.newLine();
-              } else if (useSharedPropertiesConfig) {
+              } else if (useSharedPropertiesConfig && component.isHtmlElement) {
                 writer.write(
                   `properties: ${TYPE_NAMES.COMMON_PROPERTIES_CONFIG},`,
                 );
                 writer.newLine();
               } else {
                 writer.write('properties: ');
-                createPropertiesConfigWriter(component.properties)(writer);
+                writer.block(() => {
+                  for (const [name, schema] of Object.entries(
+                    specificProperties,
+                  )) {
+                    const constructorType = schemaTypeToConstructor(
+                      schema.type,
+                    );
+                    writer.writeLine(
+                      `'${name}': { type: ${constructorType} },`,
+                    );
+                  }
+                });
                 writer.write(',');
                 writer.newLine();
               }
@@ -311,10 +328,9 @@ const prepareComponentsWithSpecificProps = (
 ): ComponentWithSpecificProps[] => {
   return components.map((component) => ({
     component,
-    specificProperties: getElementSpecificProperties(
-      component,
-      commonPropertyNames,
-    ),
+    specificProperties: component.isHtmlElement
+      ? getElementSpecificProperties(component, commonPropertyNames)
+      : component.properties,
   }));
 };
 
@@ -374,12 +390,9 @@ export const generateRemoteElements = (
 
   generateCustomElementRegistrations(sourceFile, components);
 
-  sourceFile.addExportDeclaration({
-    namedExports: [
-      INTERNAL_ELEMENT_CLASSES.ROOT,
-      INTERNAL_ELEMENT_CLASSES.FRAGMENT,
-    ],
-  });
+  sourceFile.addStatements(
+    `export { ${INTERNAL_ELEMENT_CLASSES.ROOT}, ${INTERNAL_ELEMENT_CLASSES.FRAGMENT} };`,
+  );
 
   generateTagNameMapDeclaration(sourceFile, components);
 
