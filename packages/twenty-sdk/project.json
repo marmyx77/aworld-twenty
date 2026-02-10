@@ -113,6 +113,11 @@
       "options": {
         "cwd": "packages/twenty-sdk",
         "command": "tsx -r tsconfig-paths/register scripts/remote-dom/generate-remote-dom-elements.ts"
+      },
+      "configurations": {
+        "verbose": {
+          "command": "tsx -r tsconfig-paths/register scripts/remote-dom/generate-remote-dom-elements.ts --verbose"
+        }
       }
     },
     "storybook:prebuild": {

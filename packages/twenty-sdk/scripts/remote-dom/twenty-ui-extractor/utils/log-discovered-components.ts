@@ -6,6 +6,7 @@ import {
   formatSlots,
   logCountInline,
   logDimText,
+  logLine,
 } from '../../utils/logger';
 
 type ComponentSummary = {
@@ -25,7 +26,7 @@ export const logDiscoveredComponents = (
     return;
   }
 
-  console.log(
+  logLine(
     '    ' +
       logCountInline(
         discoveredComponents.length,
@@ -49,7 +50,7 @@ export const logDiscoveredComponents = (
       parts.push(formatSlots(slotCount, discoveredComponent.slots));
     }
 
-    console.log(
+    logLine(
       chalk.green('      · ') +
         chalk.green(discoveredComponent.componentImport) +
         chalk.gray(' -> ') +

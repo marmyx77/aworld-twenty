@@ -2,13 +2,23 @@ import chalk from 'chalk';
 
 const SEPARATOR_WIDTH = 60;
 
+let _verbose = false;
+
+export const setVerbose = (value: boolean): void => {
+  _verbose = value;
+};
+
+export const isVerbose = (): boolean => _verbose;
+
 export const logSeparator = (): void => {
+  if (!_verbose) return;
   console.log('');
   console.log(chalk.gray('─'.repeat(SEPARATOR_WIDTH)));
   console.log('');
 };
 
 export const logTitle = (text: string): void => {
+  if (!_verbose) return;
   console.log('');
   console.log(chalk.bold.white(`  ${text}`));
   console.log('');
@@ -17,15 +27,18 @@ export const logTitle = (text: string): void => {
 };
 
 export const logSectionHeader = (text: string): void => {
+  if (!_verbose) return;
   console.log(chalk.bold.white(`  ${text}`));
   console.log('');
 };
 
 export const logCategory = (name: string): void => {
+  if (!_verbose) return;
   console.log(chalk.green('  ▸ ') + chalk.green.bold(name));
 };
 
 export const logSubItem = (label: string, value: string): void => {
+  if (!_verbose) return;
   console.log(
     chalk.gray('    ') +
       chalk.green(label) +
@@ -43,6 +56,7 @@ export const logCount = (
   singularUnit: string,
   pluralUnit?: string,
 ): void => {
+  if (!_verbose) return;
   const unit = pluralize(count, singularUnit, pluralUnit ?? singularUnit + 's');
   console.log(
     chalk.green(`  ${label}  `) +
@@ -52,22 +66,27 @@ export const logCount = (
 };
 
 export const logDetail = (text: string): void => {
+  if (!_verbose) return;
   console.log(chalk.gray(`    ${text}`));
 };
 
 export const logDimText = (text: string): void => {
+  if (!_verbose) return;
   console.log(chalk.gray(text));
 };
 
 export const logFileWritten = (filePath: string): void => {
+  if (!_verbose) return;
   console.log(chalk.green('  ✓ ') + chalk.gray(filePath));
 };
 
 export const logGroupLabel = (text: string): void => {
+  if (!_verbose) return;
   console.log(chalk.green(`  ${text}`));
 };
 
 export const logSuccess = (message: string, detail?: string): void => {
+  if (!_verbose) return;
   const detailSuffix = detail ? chalk.gray(` ${detail}`) : '';
 
   console.log(chalk.green(`  ✔ `) + chalk.green.bold(message) + detailSuffix);
@@ -78,11 +97,18 @@ export const logError = (message: string, error?: unknown): void => {
 };
 
 export const logWarning = (message: string): void => {
+  if (!_verbose) return;
   console.warn(chalk.yellow(`  ${message}`));
 };
 
 export const logEmpty = (): void => {
+  if (!_verbose) return;
   console.log('');
+};
+
+export const logLine = (text: string): void => {
+  if (!_verbose) return;
+  console.log(text);
 };
 
 export const logCountInline = (

@@ -9,6 +9,7 @@ import {
   logCountInline,
   logDimText,
   logEmpty,
+  logLine,
   logWarning,
 } from '../utils/logger';
 import {
@@ -127,7 +128,7 @@ export const extractAllComponents = (): DiscoveredComponent[] => {
     skipAddingFilesFromTsConfig: false,
   });
 
-  console.log(
+  logLine(
     '  ' +
       logCountInline(
         project.getSourceFiles().length,

@@ -29,7 +29,12 @@ import {
   logSeparator,
   logSuccess,
   logTitle,
+  setVerbose,
 } from './utils/logger';
+
+const parseVerboseFlag = (): boolean => {
+  return process.argv.includes('--verbose');
+};
 
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
 const PACKAGE_PATH = path.resolve(SCRIPT_DIR, '../..');
@@ -126,6 +131,9 @@ const ensureDirectoriesExist = (): void => {
 };
 
 const main = (): void => {
+  const verbose = parseVerboseFlag();
+  setVerbose(verbose);
+
   logTitle('Remote DOM Elements Generator');
 
   let htmlElements: ComponentSchema[];
