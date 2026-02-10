@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { Project, type Type } from 'ts-morph';
+import { pascalToKebab } from 'twenty-shared/utils';
 
 import { type PropertySchema } from '@/front-component/types/PropertySchema';
 import {
@@ -8,7 +9,6 @@ import {
   type CategoryConfig,
 } from './constants';
 import { extractPropsAndSlots } from './utils/extractPropsAndSlots';
-import { pascalToKebab } from './utils/pascalToKebab';
 import { shouldSkipExport } from './utils/shouldSkipExport';
 
 export type DiscoveredComponent = {
