@@ -393,7 +393,7 @@
       ],
       "rules": {
         "unicorn/filename-case": ["warn", { "cases": { "pascalCase": true } }],
-        "twenty/max-consts-per-file": "error",
+        "twenty/max-consts-per-file": ["error", { "max": 1 }],
         "twenty/no-unlocalized-strings": "off"
       }
     },
