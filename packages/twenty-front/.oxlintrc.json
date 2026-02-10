@@ -75,6 +75,12 @@
     "twenty/useRecoilCallback-has-dependency-array": "error",
     "twenty/no-navigate-prefer-link": "error",
 
+    "twenty/t-call-in-function": "error",
+    "twenty/no-single-tag-to-translate": "warn",
+    "twenty/no-single-variables-to-translate": "warn",
+    "twenty/no-trans-inside-trans": "warn",
+    "twenty/no-expression-in-message": "warn",
+
     "twenty/no-unlocalized-strings": ["error", {
       "ignore": [
         "^(?![A-Z])\\S+$",

@@ -11,10 +11,20 @@
 import { eslintCompatPlugin } from '@oxlint/plugins';
 
 // eslint-plugin-lingui: bundled via esbuild with typescript aliased to a
-// lightweight shim (TypeFlags constants only). The rule's TypeScript type
-// checker path (useTsTypes) gracefully degrades via try-catch.
+// lightweight shim (TypeFlags constants only). The type checker path in
+// no-unlocalized-strings (useTsTypes) gracefully degrades via try-catch.
 // @ts-expect-error — importing compiled CJS from node_modules
 import { rule as linguiNoUnlocalizedStrings } from 'eslint-plugin-lingui/lib/rules/no-unlocalized-strings';
+// @ts-expect-error
+import { rule as linguiTCallInFunction } from 'eslint-plugin-lingui/lib/rules/t-call-in-function';
+// @ts-expect-error
+import { rule as linguiNoSingleTagToTranslate } from 'eslint-plugin-lingui/lib/rules/no-single-tag-to-translate';
+// @ts-expect-error
+import { rule as linguiNoSingleVariablesToTranslate } from 'eslint-plugin-lingui/lib/rules/no-single-variables-to-translate';
+// @ts-expect-error
+import { rule as linguiNoTransInsideTrans } from 'eslint-plugin-lingui/lib/rules/no-trans-inside-trans';
+// @ts-expect-error
+import { rule as linguiNoExpressionInMessage } from 'eslint-plugin-lingui/lib/rules/no-expression-in-message';
 
 import {
   rule as componentPropsNaming,
@@ -89,7 +99,12 @@ export default eslintCompatPlugin({
     [noNavigatePreferLinkName]: noNavigatePreferLink,
 
     // Third-party rules — bundled from eslint-plugin-lingui.
-    // Also uses `create` for per-file state (visited WeakSet) and context.options.
+    // Uses `create` (not createOnce) for per-file state and context.options.
     'no-unlocalized-strings': linguiNoUnlocalizedStrings,
+    't-call-in-function': linguiTCallInFunction,
+    'no-single-tag-to-translate': linguiNoSingleTagToTranslate,
+    'no-single-variables-to-translate': linguiNoSingleVariablesToTranslate,
+    'no-trans-inside-trans': linguiNoTransInsideTrans,
+    'no-expression-in-message': linguiNoExpressionInMessage,
   },
 });
