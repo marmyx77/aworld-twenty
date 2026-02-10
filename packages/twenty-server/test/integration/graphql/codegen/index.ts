@@ -6,10 +6,10 @@ import { pascalToKebab } from 'twenty-shared/utils';
 
 import { INTROSPECTION_QUERY } from './introspection-query';
 import {
-    type Field,
-    type InputValue,
-    type IntrospectionResponse,
-    type TypeRef,
+  type Field,
+  type InputValue,
+  type IntrospectionResponse,
+  type TypeRef,
 } from './introspection.interface';
 
 const GRAPHQL_URL = 'http://localhost:3000/graphql';
