@@ -5,6 +5,13 @@ import {
   ALL_METADATA_NAME,
   type AllMetadataName,
 } from 'twenty-shared/metadata';
+import {
+  MetadataRecordCreateEvent,
+  MetadataRecordDeleteEvent,
+  MetadataRecordDiff,
+  MetadataRecordUpdateEvent,
+} from 'twenty-shared/metadata-events';
+import { FromTo } from 'twenty-shared/types';
 import { assertUnreachable, isDefined } from 'twenty-shared/utils';
 
 import { getWorkspaceAuthContext } from 'src/engine/core-modules/auth/storage/workspace-auth-context.storage';
@@ -15,25 +22,16 @@ import {
   type MetadataRecordEventByAction,
 } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { computeMetadataEventName } from 'src/engine/metadata-event-emitter/utils/compute-metadata-event-name.util';
-foimport { MetadataFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity-maps.type';
+import { FlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/flat-entity-maps.type';
+import { MetadataFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity-maps.type';
 import { MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity.type';
-import { findFlatEntityByIdInFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-id-in-flat-entity-maps.util';
+import { MetadataUniversalFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-universal-flat-entity.type';
 import { findFlatEntityByUniversalIdentifier } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-universal-identifier.util';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
 import type { FromToAllFlatEntityMaps } from 'src/engine/workspace-manager/workspace-migration/types/workspace-migration-orchestrator.type';
-import { UniversalSyncableFlatEntity } from 'src/engine/workspace-manager/workspace-migration/universal-flat-entity/types/universal-flat-entity-from.type';
+import { UniversalFlatFieldMetadata } from 'src/engine/workspace-manager/workspace-migration/universal-flat-entity/types/universal-flat-field-metadata.type';
 import { WorkspaceMigration } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration';
 import type { AllUniversalWorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
-import {
-  MetadataRecordCreateEvent,
-  MetadataRecordDeleteEvent,
-  MetadataRecordUpdateEvent,
-} from 'twenty-shared/metadata-events';
-import { FromTo } from 'twenty-shared/types';
-import { from } from 'rxjs';
-import { MetadataFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity-maps.type';
-import { MetadataUniversalFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-universal-flat-entity.type';
-import { UniversalFlatFieldMetadata } from 'src/engine/workspace-manager/workspace-migration/universal-flat-entity/types/universal-flat-field-metadata.type';
 
 type MetadataEventInitiatorContext = WorkspaceAuthContext;
 
@@ -56,18 +54,21 @@ export type MetadataBatchEventInput<
   apiKeyId?: string;
 };
 
-type GroupedMetadataEvents = {
-  [P in AllMetadataName]: {
-    create: MetadataRecordCreateEvent<MetadataFlatEntity<P>>[];
-    update: MetadataRecordUpdateEvent<MetadataFlatEntity<P>>[];
-    delete: MetadataRecordDeleteEvent<MetadataFlatEntity<P>>[];
-  };
-};
+type GroupedMetadataEvents = Record<
+  AllMetadataName,
+  {
+    create: MetadataRecordCreateEvent<MetadataFlatEntity<AllMetadataName>>[];
+    update: MetadataRecordUpdateEvent<MetadataFlatEntity<AllMetadataName>>[];
+    delete: MetadataRecordDeleteEvent<MetadataFlatEntity<AllMetadataName>>[];
+  }
+>;
 
 // Quite redundant
-type MetadataCreateEventWithMetadataName = {
-  metadataName: AllMetadataName;
-  event: MetadataRecordCreateEvent<MetadataFlatEntity<AllMetadataName>>;
+type MetadataCreateEventWithMetadataName<
+  T extends AllMetadataName = AllMetadataName,
+> = {
+  metadataName: T;
+  event: MetadataRecordCreateEvent<MetadataFlatEntity<T>>;
 };
 
 type MetadataUpdateEventWithMetadataName = {
@@ -142,10 +143,10 @@ export class MetadataEventEmitter {
       return;
     }
 
-    const groupedEvents = this.groupActionsByMetadataNameAndAction(
+    const groupedEvents = this.groupActionsByMetadataNameAndAction({
       actions,
       fromToAllFlatEntityMaps,
-    );
+    });
 
     let resolvedInitiatorContext = initiatorContext;
 
@@ -202,10 +203,13 @@ export class MetadataEventEmitter {
     }
   }
 
-  private groupActionsByMetadataNameAndAction(
-    actions: AllUniversalWorkspaceMigrationAction[],
-    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps,
-  ): GroupedMetadataEvents {
+  private groupActionsByMetadataNameAndAction({
+    actions,
+    fromToAllFlatEntityMaps,
+  }: {
+    actions: AllUniversalWorkspaceMigrationAction[];
+    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
+  }): GroupedMetadataEvents {
     const result = getEmptyGroupedEvents();
 
     for (const action of actions) {
@@ -218,7 +222,6 @@ export class MetadataEventEmitter {
             });
 
           for (const { metadataName, event } of metadataCreateEvents) {
-            // TODO fix typing
             result[metadataName].create.push(event);
           }
           continue;
@@ -231,7 +234,6 @@ export class MetadataEventEmitter {
             });
 
           if (isDefined(updateEvent)) {
-            // TODO fix typing
             result[updateEvent.metadataName].update.push(updateEvent.event);
           }
           continue;
@@ -244,7 +246,6 @@ export class MetadataEventEmitter {
             });
 
           if (isDefined(deleteEvent)) {
-            // TODO fix typing
             result[deleteEvent.metadataName].delete.push(deleteEvent.event);
           }
           continue;
@@ -291,6 +292,7 @@ export class MetadataEventEmitter {
           fromToAllFlatEntityMaps,
           universalFlatFieldMetadatas,
         });
+
         return fieldCreateMetadataEvents;
       }
       case 'view':
@@ -364,9 +366,7 @@ export class MetadataEventEmitter {
     if (!isDefined(fromToFlatEntityMaps)) {
       return undefined;
     }
-    const {  to: toFlatEntityMaps } =
-      fromToFlatEntityMaps;
-
+    const { to: toFlatEntityMaps } = fromToFlatEntityMaps;
 
     const { universalIdentifier } = flatEntity;
 
@@ -399,8 +399,8 @@ export class MetadataEventEmitter {
     switch (action.metadataName) {
       case 'index': {
         // TODO implement custom index update action transpiler as it's not like the others
-        return undefined
-      };
+        return undefined;
+      }
       // Universal workspace migration migrated
       case 'objectMetadata':
       case 'fieldMetadata': {
@@ -429,19 +429,19 @@ export class MetadataEventEmitter {
       case 'navigationMenuItem':
       case 'frontComponent':
       case 'webhook': {
-        const { entityId } = action;
+        const { universalIdentifier } = action;
         const flatMapsKey = getMetadataFlatEntityMapsKey(action.metadataName);
-        const fromTo = fromToAllFlatEntityMaps[flatMapsKey] as FromTo<
-          MetadataFlatEntityMaps<typeof action.metadataName>
-        >;
+        const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
 
         if (!isDefined(fromTo)) {
           return undefined;
         }
 
-        const existingEntity = findFlatEntityByIdInFlatEntityMaps({
+        const existingEntity = findFlatEntityByUniversalIdentifier<
+          MetadataUniversalFlatEntity<typeof action.metadataName>
+        >({
           flatEntityMaps: fromTo.from,
-          flatEntityId: entityId,
+          universalIdentifier,
         });
 
         if (!isDefined(existingEntity)) {
@@ -476,6 +476,7 @@ export class MetadataEventEmitter {
     if (!isDefined(fromToFlatEntityMaps)) {
       return undefined;
     }
+
     const { from: fromFlatEntityMaps, to: toFlatEntityMaps } =
       fromToFlatEntityMaps;
 
@@ -497,6 +498,27 @@ export class MetadataEventEmitter {
       return undefined;
     }
 
+    const updatedFields = Object.keys(
+      action.update,
+    ) as (keyof MetadataFlatEntity<typeof action.metadataName>)[];
+    const diff = updatedFields.reduce(
+      (acc, field) => {
+        const before = beforeFlatEntity[field];
+        const after = afterFlatEntity[field];
+
+        return {
+          ...acc,
+          [field]: {
+            before,
+            after,
+          },
+        };
+      },
+      {} as Partial<
+        MetadataRecordDiff<MetadataFlatEntity<typeof action.metadataName>>
+      >,
+    );
+
     return {
       metadataName: action.metadataName,
       event: {
@@ -506,8 +528,7 @@ export class MetadataEventEmitter {
           before: beforeFlatEntity,
           after: afterFlatEntity,
           updatedFields: Object.keys(action.update),
-          // TODO FIX TYPING
-          diff: action.update,
+          diff,
         },
       },
     };
@@ -523,13 +544,18 @@ export class MetadataEventEmitter {
     const metadataName = action.metadataName;
     const universalIdentifier = action.universalIdentifier;
     const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
-    const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
+    const fromTo = fromToAllFlatEntityMaps[flatMapsKey] as FromTo<
+      FlatEntityMaps<MetadataFlatEntity<typeof action.metadataName>>
+    >;
 
     if (!isDefined(fromTo)) {
       return undefined;
     }
 
-    const deleted = fromTo.from.byUniversalIdentifier[universalIdentifier];
+    const deleted = findFlatEntityByUniversalIdentifier({
+      flatEntityMaps: fromTo.to,
+      universalIdentifier,
+    });
 
     if (!isDefined(deleted)) {
       return undefined;
@@ -538,9 +564,11 @@ export class MetadataEventEmitter {
     return {
       metadataName,
       event: {
+        properties: {
+          before: deleted,
+        },
         type: 'delete',
         recordId: deleted.id,
-        properties: { before: deleted },
       },
     };
   }
