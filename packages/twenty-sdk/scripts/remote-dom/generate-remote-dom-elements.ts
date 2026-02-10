@@ -18,6 +18,18 @@ import {
   OUTPUT_FILES,
 } from './generators';
 import { extractAllComponents } from './twenty-ui-extractor';
+import {
+  logCount,
+  logDetail,
+  logEmpty,
+  logError,
+  logFileWritten,
+  logGroupLabel,
+  logSectionHeader,
+  logSeparator,
+  logSuccess,
+  logTitle,
+} from './utils/logger';
 
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
 const PACKAGE_PATH = path.resolve(SCRIPT_DIR, '../..');
@@ -101,7 +113,7 @@ const writeGeneratedFile = (
     endOfLine: 'lf',
   });
   fs.writeFileSync(filePath, formattedContent, 'utf-8');
-  console.log(`✓ Generated ${filePath}`);
+  logFileWritten(filePath);
 };
 
 const ensureDirectoriesExist = (): void => {
@@ -114,7 +126,7 @@ const ensureDirectoriesExist = (): void => {
 };
 
 const main = (): void => {
-  console.log('📖 Generating remote DOM elements...\n');
+  logTitle('Remote DOM Elements Generator');
 
   let htmlElements: ComponentSchema[];
   let uiComponents: ComponentSchema[];
@@ -123,23 +135,24 @@ const main = (): void => {
     htmlElements = getHtmlElementSchemas();
     uiComponents = getUiComponentSchemas();
   } catch (error) {
-    console.error('❌ Validation failed:', error);
+    logError('Validation failed:', error);
     process.exit(1);
   }
 
-  console.log(`HTML Elements: ${htmlElements.length} elements`);
-  console.log(
-    `  Tags: ${htmlElements.map((element) => element.htmlTag).join(', ')}`,
-  );
-  console.log(
-    `  Events: ${COMMON_HTML_EVENTS.length} common events per element`,
-  );
+  logSeparator();
+  logSectionHeader('Summary');
 
-  console.log(`\nUI Components: ${uiComponents.length} components`);
-  console.log(
-    `  Tags: ${uiComponents.map((component) => component.customElementName).join(', ')}`,
+  logCount('HTML Elements', htmlElements.length, 'element', 'elements');
+  logDetail(
+    `Tags: ${htmlElements.map((element) => element.htmlTag).join(', ')}`,
   );
-  console.log('');
+  logDetail(`Events: ${COMMON_HTML_EVENTS.length} common events per element`);
+
+  logEmpty();
+  logCount('UI Components', uiComponents.length, 'component', 'components');
+  logDetail(
+    `Tags: ${uiComponents.map((component) => component.customElementName).join(', ')}`,
+  );
 
   const allComponents = [...htmlElements, ...uiComponents];
 
@@ -147,7 +160,11 @@ const main = (): void => {
 
   const project = createProject();
 
-  console.log('Host files:');
+  logSeparator();
+  logSectionHeader('Writing Files');
+
+  logGroupLabel('Host');
+
   const hostRegistry = generateHostRegistry(
     project,
     allComponents,
@@ -159,7 +176,9 @@ const main = (): void => {
     hostRegistry.getFullText(),
   );
 
-  console.log('\nRemote files:');
+  logEmpty();
+  logGroupLabel('Remote');
+
   const remoteElements = generateRemoteElements(
     project,
     allComponents,
@@ -179,9 +198,11 @@ const main = (): void => {
     remoteComponents.getFullText(),
   );
 
-  console.log('\n✅ All generated files created');
-  console.log(`   Host: ${HOST_GENERATED_DIR}`);
-  console.log(`   Remote: ${REMOTE_GENERATED_DIR}`);
+  logSeparator();
+  logSuccess('Done!', 'All generated files created.');
+  logDetail(`Host:   ${HOST_GENERATED_DIR}`);
+  logDetail(`Remote: ${REMOTE_GENERATED_DIR}`);
+  logEmpty();
 };
 
 main();

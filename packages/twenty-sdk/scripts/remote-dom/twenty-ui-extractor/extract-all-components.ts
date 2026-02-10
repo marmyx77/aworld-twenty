@@ -3,6 +3,14 @@ import { Project, type Type } from 'ts-morph';
 import { isDefined, pascalToKebab } from 'twenty-shared/utils';
 
 import { type PropertySchema } from '@/front-component/types/PropertySchema';
+
+import {
+  logCategory,
+  logCountInline,
+  logDimText,
+  logEmpty,
+  logWarning,
+} from '../utils/logger';
 import {
   COMPONENT_CATEGORIES,
   TWENTY_UI_ROOT_PATH,
@@ -31,7 +39,7 @@ const extractComponentsFromCategory = (
   const sourceFile = project.getSourceFile(indexPath);
 
   if (!isDefined(sourceFile)) {
-    console.warn(`  Warning: Could not find barrel file at ${indexPath}`);
+    logWarning(`Could not find barrel file at ${indexPath}`);
 
     return [];
   }
@@ -112,7 +120,7 @@ const extractComponentsFromCategory = (
 };
 
 export const extractAllComponents = (): DiscoveredComponent[] => {
-  console.log('Loading twenty-ui TypeScript project...');
+  logDimText('  Loading twenty-ui TypeScript project...');
 
   const project = new Project({
     tsConfigFilePath: path.join(TWENTY_UI_ROOT_PATH, 'tsconfig.json'),
@@ -120,13 +128,22 @@ export const extractAllComponents = (): DiscoveredComponent[] => {
   });
 
   console.log(
-    `Loaded ${project.getSourceFiles().length} source files from twenty-ui\n`,
+    '  ' +
+      logCountInline(
+        project.getSourceFiles().length,
+        'source files loaded from twenty-ui',
+      ),
   );
+  logEmpty();
 
   const allDiscoveredComponents: DiscoveredComponent[] = [];
 
-  for (const categoryConfig of COMPONENT_CATEGORIES) {
-    console.log(`Extracting category: ${categoryConfig.category}`);
+  for (const [index, categoryConfig] of COMPONENT_CATEGORIES.entries()) {
+    if (index > 0) {
+      logEmpty();
+    }
+
+    logCategory(categoryConfig.category);
 
     const discoveredComponents = extractComponentsFromCategory(
       project,
