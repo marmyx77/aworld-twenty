@@ -131,6 +131,7 @@ export const extractAllComponents = (): DiscoveredComponent[] => {
     '  ' +
       logCountInline(
         project.getSourceFiles().length,
+        'source file loaded from twenty-ui',
         'source files loaded from twenty-ui',
       ),
   );
