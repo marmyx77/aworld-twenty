@@ -4,41 +4,46 @@ import { type PropertySchema } from '@/front-component/types/PropertySchema';
 
 type PropertyType = PropertySchema['type'];
 
-export const classifyPropertyType = (type: Type): PropertyType | null => {
-  if (type.isString() || type.isStringLiteral()) return 'string';
-  if (type.isNumber() || type.isNumberLiteral()) return 'number';
-  if (type.isBoolean() || type.isBooleanLiteral()) return 'boolean';
+export const classifyPropertyType = (
+  propertyType: Type,
+): PropertyType | null => {
+  if (propertyType.isString() || propertyType.isStringLiteral())
+    return 'string';
+  if (propertyType.isNumber() || propertyType.isNumberLiteral())
+    return 'number';
+  if (propertyType.isBoolean() || propertyType.isBooleanLiteral())
+    return 'boolean';
 
-  if (type.isArray()) return 'array';
+  if (propertyType.isArray()) return 'array';
 
-  if (type.isTuple()) return 'array';
+  if (propertyType.isTuple()) return 'array';
 
-  const callSignatures = type.getCallSignatures();
+  const callSignatures = propertyType.getCallSignatures();
   if (callSignatures.length > 0) return 'function';
 
-  if (type.isUnion()) {
-    const unionTypes = type.getUnionTypes();
+  if (propertyType.isUnion()) {
+    const unionMemberTypes = propertyType.getUnionTypes();
 
-    const nonNullTypes = unionTypes.filter(
-      (unionType) => !unionType.isUndefined() && !unionType.isNull(),
+    const nonNullableTypes = unionMemberTypes.filter(
+      (memberType) => !memberType.isUndefined() && !memberType.isNull(),
     );
 
-    if (nonNullTypes.length === 0) return null;
+    if (nonNullableTypes.length === 0) return null;
 
-    const classifiedTypes = new Set(
-      nonNullTypes.map((unionType) => classifyPropertyType(unionType)),
+    const classifiedTypeSet = new Set(
+      nonNullableTypes.map((memberType) => classifyPropertyType(memberType)),
     );
 
-    if (classifiedTypes.size === 1) {
-      return [...classifiedTypes][0];
+    if (classifiedTypeSet.size === 1) {
+      return [...classifiedTypeSet][0];
     }
   }
 
-  if (type.isEnum() || type.isEnumLiteral()) {
+  if (propertyType.isEnum() || propertyType.isEnumLiteral()) {
     return 'string';
   }
 
-  if (type.isObject() && !type.isArray()) {
+  if (propertyType.isObject() && !propertyType.isArray()) {
     return 'object';
   }
 

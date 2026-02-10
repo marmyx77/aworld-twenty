@@ -1,36 +1,37 @@
 import * as path from 'path';
 
 import { type CategoryConfig } from './CategoryConfig';
+import { TWENTY_UI_ROOT_PATH } from './TwentyUiRootPath';
 
-const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
-const WORKSPACE_ROOT = path.resolve(SCRIPT_DIR, '../../../../../../..');
-const TWENTY_UI_ROOT = path.join(WORKSPACE_ROOT, 'packages/twenty-ui');
-const TWENTY_UI_SRC = path.join(TWENTY_UI_ROOT, 'src');
+const TWENTY_UI_SRC_PATH = path.join(TWENTY_UI_ROOT_PATH, 'src');
 
 export const COMPONENT_CATEGORIES: CategoryConfig[] = [
-  { category: 'input', indexPath: path.join(TWENTY_UI_SRC, 'input/index.ts') },
+  {
+    category: 'input',
+    indexPath: path.join(TWENTY_UI_SRC_PATH, 'input/index.ts'),
+  },
   {
     category: 'components',
-    indexPath: path.join(TWENTY_UI_SRC, 'components/index.ts'),
+    indexPath: path.join(TWENTY_UI_SRC_PATH, 'components/index.ts'),
   },
   {
     category: 'display',
-    indexPath: path.join(TWENTY_UI_SRC, 'display/index.ts'),
+    indexPath: path.join(TWENTY_UI_SRC_PATH, 'display/index.ts'),
   },
   {
     category: 'feedback',
-    indexPath: path.join(TWENTY_UI_SRC, 'feedback/index.ts'),
+    indexPath: path.join(TWENTY_UI_SRC_PATH, 'feedback/index.ts'),
   },
   {
     category: 'layout',
-    indexPath: path.join(TWENTY_UI_SRC, 'layout/index.ts'),
+    indexPath: path.join(TWENTY_UI_SRC_PATH, 'layout/index.ts'),
   },
   {
     category: 'navigation',
-    indexPath: path.join(TWENTY_UI_SRC, 'navigation/index.ts'),
+    indexPath: path.join(TWENTY_UI_SRC_PATH, 'navigation/index.ts'),
   },
   {
     category: 'accessibility',
-    indexPath: path.join(TWENTY_UI_SRC, 'accessibility/index.ts'),
+    indexPath: path.join(TWENTY_UI_SRC_PATH, 'accessibility/index.ts'),
   },
 ];

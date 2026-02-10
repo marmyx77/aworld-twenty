@@ -16,35 +16,37 @@ export const extractPropsAndSlots = (propsType: Type): ExtractedProps => {
   const properties: Record<string, PropertySchema> = {};
   const events: string[] = [];
   const slots: string[] = [];
-  const propsProperties = propsType.getProperties();
+  const propsTypeProperties = propsType.getProperties();
 
-  for (const prop of propsProperties) {
-    const propName = prop.getName();
+  for (const propertySymbol of propsTypeProperties) {
+    const propertyName = propertySymbol.getName();
 
-    const domEvent = REACT_PROP_TO_DOM_EVENT[propName];
+    const correspondingDomEvent = REACT_PROP_TO_DOM_EVENT[propertyName];
 
-    if (domEvent !== undefined) {
-      events.push(domEvent);
+    if (correspondingDomEvent !== undefined) {
+      events.push(correspondingDomEvent);
       continue;
     }
 
-    const declarations = prop.getDeclarations();
-    if (declarations.length === 0) continue;
+    const propertyDeclarations = propertySymbol.getDeclarations();
+    if (propertyDeclarations.length === 0) continue;
 
-    const declaration = declarations[0];
-    const propType = declaration.getType();
+    const firstDeclaration = propertyDeclarations[0];
+    const propertyType = firstDeclaration.getType();
     const isOptional =
-      prop.isOptional() || propType.isNullable() || propType.isUndefined();
+      propertySymbol.isOptional() ||
+      propertyType.isNullable() ||
+      propertyType.isUndefined();
 
-    if (isReactElementType(propType)) {
-      slots.push(propName);
+    if (isReactElementType(propertyType)) {
+      slots.push(propertyName);
       continue;
     }
 
-    const classifiedType = classifyPropertyType(propType);
+    const classifiedType = classifyPropertyType(propertyType);
 
     if (isDefined(classifiedType)) {
-      properties[propName] = {
+      properties[propertyName] = {
         type: classifiedType,
         optional: isOptional,
       };

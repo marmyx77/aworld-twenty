@@ -34,13 +34,13 @@ const analyzeCategory = (
     return [];
   }
 
-  const discovered: DiscoveredComponent[] = [];
+  const discoveredComponents: DiscoveredComponent[] = [];
 
   const propsTypeNames = new Set<string>();
   const exportDeclarations = sourceFile.getExportDeclarations();
 
-  for (const exportDecl of exportDeclarations) {
-    for (const namedExport of exportDecl.getNamedExports()) {
+  for (const exportDeclaration of exportDeclarations) {
+    for (const namedExport of exportDeclaration.getNamedExports()) {
       const exportName = namedExport.getName();
       if (exportName.endsWith('Props')) {
         propsTypeNames.add(exportName);
@@ -48,32 +48,32 @@ const analyzeCategory = (
     }
   }
 
-  for (const exportDecl of exportDeclarations) {
-    for (const namedExport of exportDecl.getNamedExports()) {
+  for (const exportDeclaration of exportDeclarations) {
+    for (const namedExport of exportDeclaration.getNamedExports()) {
       const exportName = namedExport.getName();
 
       if (shouldSkipExport(exportName)) continue;
 
-      const expectedPropsName = `${exportName}Props`;
-      if (!propsTypeNames.has(expectedPropsName)) continue;
+      const expectedPropsTypeName = `${exportName}Props`;
+      if (!propsTypeNames.has(expectedPropsTypeName)) continue;
 
       const propsTypeSymbol =
-        sourceFile.getLocal(expectedPropsName) ??
+        sourceFile.getLocal(expectedPropsTypeName) ??
         sourceFile
           .getExportedDeclarations()
-          .get(expectedPropsName)?.[0]
+          .get(expectedPropsTypeName)?.[0]
           ?.getSymbol?.();
 
       if (!propsTypeSymbol) continue;
 
       let propsType: Type | undefined;
 
-      const propsDeclarations = sourceFile
+      const propsTypeDeclarations = sourceFile
         .getExportedDeclarations()
-        .get(expectedPropsName);
+        .get(expectedPropsTypeName);
 
-      if (propsDeclarations && propsDeclarations.length > 0) {
-        propsType = propsDeclarations[0].getType();
+      if (propsTypeDeclarations && propsTypeDeclarations.length > 0) {
+        propsType = propsTypeDeclarations[0].getType();
       }
 
       if (!propsType) continue;
@@ -81,7 +81,7 @@ const analyzeCategory = (
       const { properties, events, slots } = extractPropsAndSlots(propsType);
       const kebabName = pascalToKebab(exportName);
 
-      discovered.push({
+      discoveredComponents.push({
         tag: `twenty-ui-${kebabName}`,
         name: `TwentyUi${exportName}`,
         properties,
@@ -89,58 +89,58 @@ const analyzeCategory = (
         slots,
         componentImport: exportName,
         componentPath: `twenty-ui/${category}`,
-        propsTypeName: expectedPropsName,
+        propsTypeName: expectedPropsTypeName,
       });
     }
   }
 
-  return discovered;
+  return discoveredComponents;
 };
 
 export const analyzeAllCategories = (
   options: { verbose?: boolean } = {},
 ): DiscoveredComponent[] => {
-  const log = options.verbose
+  const verboseLog = options.verbose
     ? (...args: Parameters<typeof console.log>) => console.log(...args)
     : () => {};
 
-  log('Loading twenty-ui TypeScript project...');
+  verboseLog('Loading twenty-ui TypeScript project...');
 
   const project = new Project({
     tsConfigFilePath: path.join(TWENTY_UI_ROOT_PATH, 'tsconfig.json'),
     skipAddingFilesFromTsConfig: false,
   });
 
-  log(
+  verboseLog(
     `Loaded ${project.getSourceFiles().length} source files from twenty-ui\n`,
   );
 
-  const allComponents: DiscoveredComponent[] = [];
+  const allDiscoveredComponents: DiscoveredComponent[] = [];
 
   for (const categoryConfig of COMPONENT_CATEGORIES) {
-    log(`Analyzing category: ${categoryConfig.category}`);
-    const components = analyzeCategory(project, categoryConfig);
-    log(`  Found ${components.length} components`);
+    verboseLog(`Analyzing category: ${categoryConfig.category}`);
+    const discoveredComponents = analyzeCategory(project, categoryConfig);
+    verboseLog(`  Found ${discoveredComponents.length} components`);
 
-    for (const component of components) {
-      const propCount = Object.keys(component.properties).length;
-      const eventCount = component.events.length;
-      const slotCount = component.slots.length;
-      const eventInfo =
+    for (const discoveredComponent of discoveredComponents) {
+      const propertyCount = Object.keys(discoveredComponent.properties).length;
+      const eventCount = discoveredComponent.events.length;
+      const slotCount = discoveredComponent.slots.length;
+      const eventSummary =
         eventCount > 0
-          ? `, ${eventCount} events: [${component.events.join(', ')}]`
+          ? `, ${eventCount} events: [${discoveredComponent.events.join(', ')}]`
           : '';
-      const slotInfo =
+      const slotSummary =
         slotCount > 0
-          ? `, ${slotCount} slots: [${component.slots.join(', ')}]`
+          ? `, ${slotCount} slots: [${discoveredComponent.slots.join(', ')}]`
           : '';
-      log(
-        `    ${component.componentImport} -> ${component.tag} (${propCount} props${eventInfo}${slotInfo})`,
+      verboseLog(
+        `    ${discoveredComponent.componentImport} -> ${discoveredComponent.tag} (${propertyCount} props${eventSummary}${slotSummary})`,
       );
     }
 
-    allComponents.push(...components);
+    allDiscoveredComponents.push(...discoveredComponents);
   }
 
-  return allComponents;
+  return allDiscoveredComponents;
 };

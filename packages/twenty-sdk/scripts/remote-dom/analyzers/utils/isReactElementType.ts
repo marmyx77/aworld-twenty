@@ -1,31 +1,41 @@
 import { type Type } from 'ts-morph';
 
-export const isReactElementType = (type: Type): boolean => {
-  const typeText = type.getText();
+const REACT_ELEMENT_TYPE_NAMES = ['ReactNode', 'ReactElement', 'JSX.Element'];
 
-  if (
-    typeText.includes('ReactNode') ||
-    typeText.includes('ReactElement') ||
-    typeText.includes('JSX.Element')
-  ) {
+const REACT_COMPONENT_TYPE_NAMES = [
+  'FunctionComponent',
+  'ComponentType',
+  'IconComponent',
+];
+
+export const isReactElementType = (propertyType: Type): boolean => {
+  const typeTextRepresentation = propertyType.getText();
+
+  const isReactElement = REACT_ELEMENT_TYPE_NAMES.some((typeName) =>
+    typeTextRepresentation.includes(typeName),
+  );
+
+  if (isReactElement) {
     return true;
   }
 
-  if (
-    typeText.includes('FunctionComponent') ||
-    typeText.includes('ComponentType') ||
-    typeText.includes('IconComponent')
-  ) {
+  const isReactComponent = REACT_COMPONENT_TYPE_NAMES.some((typeName) =>
+    typeTextRepresentation.includes(typeName),
+  );
+
+  if (isReactComponent) {
     return true;
   }
 
-  if (type.isUnion()) {
-    const unionTypes = type.getUnionTypes();
-    const nonNullTypes = unionTypes.filter(
-      (unionType) => !unionType.isUndefined() && !unionType.isNull(),
+  if (propertyType.isUnion()) {
+    const unionMemberTypes = propertyType.getUnionTypes();
+    const nonNullableTypes = unionMemberTypes.filter(
+      (memberType) => !memberType.isUndefined() && !memberType.isNull(),
     );
 
-    return nonNullTypes.some((unionType) => isReactElementType(unionType));
+    return nonNullableTypes.some((memberType) =>
+      isReactElementType(memberType),
+    );
   }
 
   return false;
