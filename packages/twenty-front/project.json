@@ -65,15 +65,32 @@
     },
     "typecheck": {},
     "lint": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        { "projects": ["twenty-eslint-rules"], "target": "build" }
+      ],
       "options": {
-        "maxWarnings": 0
+        "command": "npx oxlint -c {projectRoot}/.oxlintrc.json {projectRoot}/src"
       },
       "configurations": {
         "ci": {},
+        "fix": {
+          "command": "npx oxlint -c {projectRoot}/.oxlintrc.json {projectRoot}/src --fix"
+        }
+      }
+    },
+    "lint:diff-with-main": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        { "projects": ["twenty-eslint-rules"], "target": "build" }
+      ],
+      "options": {
+        "command": "bash -c 'files=$(git diff --name-only --diff-filter=d main -- {projectRoot}/src | grep -E \"\\.(ts|tsx|js|jsx)$\"); [ -n \"$files\" ] && echo \"$files\" | xargs npx oxlint -c {projectRoot}/.oxlintrc.json || echo \"No changed files to lint\"'"
+      },
+      "configurations": {
         "fix": {}
       }
     },
-    "lint:diff-with-main": {},
     "fmt": {
       "options": {
         "files": "src"
