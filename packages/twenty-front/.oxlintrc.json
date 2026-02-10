@@ -2,10 +2,11 @@
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": ["react", "typescript", "unicorn", "import"],
   "categories": {
-    "correctness": "warn"
+    "correctness": "off"
   },
   "jsPlugins": ["../twenty-eslint-rules/dist/oxlint-plugin.mjs"],
   "rules": {
+    "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
     "no-console": ["warn", { "allow": ["group", "groupCollapsed", "groupEnd"] }],
     "no-control-regex": "off",
     "no-debugger": "error",
