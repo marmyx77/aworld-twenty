@@ -8,9 +8,9 @@ import {
   TWENTY_UI_ROOT_PATH,
   type CategoryConfig,
 } from './constants';
-import { extractPropsAndSlots } from './utils/extractPropsAndSlots';
-import { logDiscoveredComponents } from './utils/logDiscoveredComponents';
-import { shouldSkipExport } from './utils/shouldSkipExport';
+import { extractPropsAndSlots } from './utils/extract-props-and-slots';
+import { logDiscoveredComponents } from './utils/log-discovered-components';
+import { shouldSkipExport } from './utils/should-skip-export';
 
 export type DiscoveredComponent = {
   tag: string;
@@ -23,7 +23,7 @@ export type DiscoveredComponent = {
   propsTypeName: string;
 };
 
-const analyzeCategory = (
+const extractComponentsFromCategory = (
   project: Project,
   categoryConfig: CategoryConfig,
 ): DiscoveredComponent[] => {
@@ -111,7 +111,7 @@ const analyzeCategory = (
   return discoveredComponents;
 };
 
-export const analyzeAllCategories = (): DiscoveredComponent[] => {
+export const extractAllComponents = (): DiscoveredComponent[] => {
   console.log('Loading twenty-ui TypeScript project...');
 
   const project = new Project({
@@ -126,9 +126,12 @@ export const analyzeAllCategories = (): DiscoveredComponent[] => {
   const allDiscoveredComponents: DiscoveredComponent[] = [];
 
   for (const categoryConfig of COMPONENT_CATEGORIES) {
-    console.log(`Analyzing category: ${categoryConfig.category}`);
+    console.log(`Extracting category: ${categoryConfig.category}`);
 
-    const discoveredComponents = analyzeCategory(project, categoryConfig);
+    const discoveredComponents = extractComponentsFromCategory(
+      project,
+      categoryConfig,
+    );
 
     logDiscoveredComponents(discoveredComponents);
 

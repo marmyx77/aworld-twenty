@@ -8,7 +8,6 @@ import { COMMON_HTML_EVENTS } from '../../src/sdk/front-component-common/CommonH
 import { EVENT_TO_REACT } from '../../src/sdk/front-component-common/EventToReact';
 import { HTML_COMMON_PROPERTIES } from '../../src/sdk/front-component-common/HtmlCommonProperties';
 
-import { analyzeAllCategories } from './analyzers';
 import {
   type ComponentSchema,
   extractHtmlTag,
@@ -18,6 +17,7 @@ import {
   HtmlElementConfigArrayZ,
   OUTPUT_FILES,
 } from './generators';
+import { extractAllComponents } from './twenty-ui-extractor';
 
 const SCRIPT_DIR = path.dirname(new URL(import.meta.url).pathname);
 const PACKAGE_PATH = path.resolve(SCRIPT_DIR, '../..');
@@ -60,7 +60,7 @@ const getHtmlElementSchemas = (): ComponentSchema[] => {
 };
 
 const getUiComponentSchemas = (): ComponentSchema[] => {
-  const discoveredComponents = analyzeAllCategories();
+  const discoveredComponents = extractAllComponents();
 
   return discoveredComponents.map((component) => ({
     name: component.name,

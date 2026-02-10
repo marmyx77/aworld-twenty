@@ -111,7 +111,7 @@
         "{projectRoot}/src/front-component/remote/generated/*"
       ],
       "options": {
-        "command": "tsx {projectRoot}/scripts/remote-dom/generateRemoteDomElements.ts"
+        "command": "tsx {projectRoot}/scripts/remote-dom/generate-remote-dom-elements.ts"
       }
     },
     "storybook:prebuild": {

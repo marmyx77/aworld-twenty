@@ -3,8 +3,8 @@ import { type Type } from 'ts-morph';
 import { type PropertySchema } from '@/front-component/types/PropertySchema';
 import { isDefined } from 'twenty-shared/utils';
 import { REACT_PROP_TO_DOM_EVENT } from '../constants/ReactPropToDomEvent';
-import { classifyPropertyType } from './classifyPropertyType';
-import { isReactElementType } from './isReactElementType';
+import { classifyPropertyType } from './classify-property-type';
+import { isReactElementType } from './is-react-element-type';
 
 export type ExtractedProps = {
   properties: Record<string, PropertySchema>;
