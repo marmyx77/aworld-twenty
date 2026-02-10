@@ -623,6 +623,7 @@ export type TwentyUiAnimatedButtonProperties = {
   justify?: string;
   disabled?: boolean;
   focus?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
   to?: string;
   target?: string;
   dataTestId?: string;
@@ -639,7 +640,7 @@ export const TwentyUiAnimatedButtonElement = createRemoteElement<
   TwentyUiAnimatedButtonProperties,
   Record<string, never>,
   { Icon: true; animatedSvg: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon', 'animatedSvg'],
   properties: {
@@ -655,6 +656,7 @@ export const TwentyUiAnimatedButtonElement = createRemoteElement<
     justify: { type: String },
     disabled: { type: Boolean },
     focus: { type: Boolean },
+    onClick: { type: Function },
     to: { type: String },
     target: { type: String },
     dataTestId: { type: String },
@@ -666,7 +668,6 @@ export const TwentyUiAnimatedButtonElement = createRemoteElement<
     dataGloballyPreventClickOutside: { type: Boolean },
     soonLabel: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiAnimatedLightIconButtonProperties = {
@@ -678,6 +679,7 @@ export type TwentyUiAnimatedLightIconButtonProperties = {
   active?: boolean;
   disabled?: boolean;
   focus?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
   'aria-label'?: string;
 };
 
@@ -685,7 +687,7 @@ export const TwentyUiAnimatedLightIconButtonElement = createRemoteElement<
   TwentyUiAnimatedLightIconButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
@@ -697,9 +699,9 @@ export const TwentyUiAnimatedLightIconButtonElement = createRemoteElement<
     active: { type: Boolean },
     disabled: { type: Boolean },
     focus: { type: Boolean },
+    onClick: { type: Function },
     'aria-label': { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiButtonProperties = {
@@ -715,6 +717,7 @@ export type TwentyUiButtonProperties = {
   justify?: string;
   disabled?: boolean;
   focus?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
   to?: string;
   target?: string;
   dataTestId?: string;
@@ -730,7 +733,7 @@ export const TwentyUiButtonElement = createRemoteElement<
   TwentyUiButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
@@ -746,6 +749,7 @@ export const TwentyUiButtonElement = createRemoteElement<
     justify: { type: String },
     disabled: { type: Boolean },
     focus: { type: Boolean },
+    onClick: { type: Function },
     to: { type: String },
     target: { type: String },
     dataTestId: { type: String },
@@ -756,7 +760,6 @@ export const TwentyUiButtonElement = createRemoteElement<
     dataClickOutsideId: { type: String },
     dataGloballyPreventClickOutside: { type: Boolean },
   },
-  events: ['click'],
 });
 
 export type TwentyUiButtonGroupProperties = {
@@ -783,6 +786,7 @@ export const TwentyUiButtonGroupElement = createRemoteElement<
 
 export type TwentyUiColorPickerButtonProperties = {
   colorName: string;
+  onClick?: (...args: unknown[]) => unknown;
   isSelected?: boolean;
 };
 
@@ -790,13 +794,13 @@ export const TwentyUiColorPickerButtonElement = createRemoteElement<
   TwentyUiColorPickerButtonProperties,
   Record<string, never>,
   Record<string, never>,
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     colorName: { type: String },
+    onClick: { type: Function },
     isSelected: { type: Boolean },
   },
-  events: ['click'],
 });
 
 export type TwentyUiFloatingButtonProperties = {
@@ -857,6 +861,7 @@ export type TwentyUiFloatingIconButtonProperties = {
   applyBlur?: boolean;
   disabled?: boolean;
   focus?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
   isActive?: boolean;
 };
 
@@ -864,7 +869,7 @@ export const TwentyUiFloatingIconButtonElement = createRemoteElement<
   TwentyUiFloatingIconButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
@@ -875,9 +880,9 @@ export const TwentyUiFloatingIconButtonElement = createRemoteElement<
     applyBlur: { type: Boolean },
     disabled: { type: Boolean },
     focus: { type: Boolean },
+    onClick: { type: Function },
     isActive: { type: Boolean },
   },
-  events: ['click'],
 });
 
 export type TwentyUiFloatingIconButtonGroupProperties = {
@@ -900,6 +905,7 @@ export const TwentyUiFloatingIconButtonGroupElement = createRemoteElement<
 
 export type TwentyUiInsideButtonProperties = {
   className?: string;
+  onClick?: (...args: unknown[]) => unknown;
   disabled?: boolean;
 };
 
@@ -907,14 +913,14 @@ export const TwentyUiInsideButtonElement = createRemoteElement<
   TwentyUiInsideButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
     className: { type: String },
+    onClick: { type: Function },
     disabled: { type: Boolean },
   },
-  events: ['click'],
 });
 
 export type TwentyUiLightButtonProperties = {
@@ -924,6 +930,7 @@ export type TwentyUiLightButtonProperties = {
   active?: boolean;
   disabled?: boolean;
   focus?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
   type?: string;
 };
 
@@ -931,7 +938,7 @@ export const TwentyUiLightButtonElement = createRemoteElement<
   TwentyUiLightButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
@@ -941,9 +948,9 @@ export const TwentyUiLightButtonElement = createRemoteElement<
     active: { type: Boolean },
     disabled: { type: Boolean },
     focus: { type: Boolean },
+    onClick: { type: Function },
     type: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiLightIconButtonProperties = {
@@ -955,6 +962,7 @@ export type TwentyUiLightIconButtonProperties = {
   active?: boolean;
   disabled?: boolean;
   focus?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
   'aria-label'?: string;
 };
 
@@ -962,7 +970,7 @@ export const TwentyUiLightIconButtonElement = createRemoteElement<
   TwentyUiLightIconButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
@@ -974,9 +982,9 @@ export const TwentyUiLightIconButtonElement = createRemoteElement<
     active: { type: Boolean },
     disabled: { type: Boolean },
     focus: { type: Boolean },
+    onClick: { type: Function },
     'aria-label': { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiLightIconButtonGroupProperties = {
@@ -1115,14 +1123,19 @@ export type TwentyUiMainButtonProperties = {
   onCompositionStartCapture?: (...args: unknown[]) => unknown;
   onCompositionUpdate?: (...args: unknown[]) => unknown;
   onCompositionUpdateCapture?: (...args: unknown[]) => unknown;
+  onFocus?: (...args: unknown[]) => unknown;
   onFocusCapture?: (...args: unknown[]) => unknown;
+  onBlur?: (...args: unknown[]) => unknown;
   onBlurCapture?: (...args: unknown[]) => unknown;
+  onChange?: (...args: unknown[]) => unknown;
   onChangeCapture?: (...args: unknown[]) => unknown;
   onBeforeInput?: (...args: unknown[]) => unknown;
   onBeforeInputCapture?: (...args: unknown[]) => unknown;
+  onInput?: (...args: unknown[]) => unknown;
   onInputCapture?: (...args: unknown[]) => unknown;
   onReset?: (...args: unknown[]) => unknown;
   onResetCapture?: (...args: unknown[]) => unknown;
+  onSubmit?: (...args: unknown[]) => unknown;
   onSubmitCapture?: (...args: unknown[]) => unknown;
   onInvalid?: (...args: unknown[]) => unknown;
   onInvalidCapture?: (...args: unknown[]) => unknown;
@@ -1130,8 +1143,11 @@ export type TwentyUiMainButtonProperties = {
   onLoadCapture?: (...args: unknown[]) => unknown;
   onError?: (...args: unknown[]) => unknown;
   onErrorCapture?: (...args: unknown[]) => unknown;
+  onKeyDown?: (...args: unknown[]) => unknown;
   onKeyDownCapture?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
   onKeyPressCapture?: (...args: unknown[]) => unknown;
+  onKeyUp?: (...args: unknown[]) => unknown;
   onKeyUpCapture?: (...args: unknown[]) => unknown;
   onAbort?: (...args: unknown[]) => unknown;
   onAbortCapture?: (...args: unknown[]) => unknown;
@@ -1181,9 +1197,13 @@ export type TwentyUiMainButtonProperties = {
   onWaitingCapture?: (...args: unknown[]) => unknown;
   onAuxClick?: (...args: unknown[]) => unknown;
   onAuxClickCapture?: (...args: unknown[]) => unknown;
+  onClick?: (...args: unknown[]) => unknown;
   onClickCapture?: (...args: unknown[]) => unknown;
+  onContextMenu?: (...args: unknown[]) => unknown;
   onContextMenuCapture?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
   onDoubleClickCapture?: (...args: unknown[]) => unknown;
+  onDrag?: (...args: unknown[]) => unknown;
   onDragCapture?: (...args: unknown[]) => unknown;
   onDragEnd?: (...args: unknown[]) => unknown;
   onDragEndCapture?: (...args: unknown[]) => unknown;
@@ -1199,11 +1219,17 @@ export type TwentyUiMainButtonProperties = {
   onDragStartCapture?: (...args: unknown[]) => unknown;
   onDrop?: (...args: unknown[]) => unknown;
   onDropCapture?: (...args: unknown[]) => unknown;
+  onMouseDown?: (...args: unknown[]) => unknown;
   onMouseDownCapture?: (...args: unknown[]) => unknown;
+  onMouseEnter?: (...args: unknown[]) => unknown;
+  onMouseLeave?: (...args: unknown[]) => unknown;
   onMouseMove?: (...args: unknown[]) => unknown;
   onMouseMoveCapture?: (...args: unknown[]) => unknown;
+  onMouseOut?: (...args: unknown[]) => unknown;
   onMouseOutCapture?: (...args: unknown[]) => unknown;
+  onMouseOver?: (...args: unknown[]) => unknown;
   onMouseOverCapture?: (...args: unknown[]) => unknown;
+  onMouseUp?: (...args: unknown[]) => unknown;
   onMouseUpCapture?: (...args: unknown[]) => unknown;
   onSelect?: (...args: unknown[]) => unknown;
   onSelectCapture?: (...args: unknown[]) => unknown;
@@ -1233,7 +1259,9 @@ export type TwentyUiMainButtonProperties = {
   onGotPointerCaptureCapture?: (...args: unknown[]) => unknown;
   onLostPointerCapture?: (...args: unknown[]) => unknown;
   onLostPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onScroll?: (...args: unknown[]) => unknown;
   onScrollCapture?: (...args: unknown[]) => unknown;
+  onWheel?: (...args: unknown[]) => unknown;
   onWheelCapture?: (...args: unknown[]) => unknown;
   onAnimationStart?: (...args: unknown[]) => unknown;
   onAnimationStartCapture?: (...args: unknown[]) => unknown;
@@ -1249,28 +1277,7 @@ export const TwentyUiMainButtonElement = createRemoteElement<
   TwentyUiMainButtonProperties,
   Record<string, never>,
   { 'data-tooltip-wrapper': true; children: true; Icon: true },
-  {
-    focus(event: RemoteEvent<SerializedEventData>): void;
-    blur(event: RemoteEvent<SerializedEventData>): void;
-    change(event: RemoteEvent<SerializedEventData>): void;
-    input(event: RemoteEvent<SerializedEventData>): void;
-    submit(event: RemoteEvent<SerializedEventData>): void;
-    keydown(event: RemoteEvent<SerializedEventData>): void;
-    keypress(event: RemoteEvent<SerializedEventData>): void;
-    keyup(event: RemoteEvent<SerializedEventData>): void;
-    click(event: RemoteEvent<SerializedEventData>): void;
-    contextmenu(event: RemoteEvent<SerializedEventData>): void;
-    dblclick(event: RemoteEvent<SerializedEventData>): void;
-    drag(event: RemoteEvent<SerializedEventData>): void;
-    mousedown(event: RemoteEvent<SerializedEventData>): void;
-    mouseenter(event: RemoteEvent<SerializedEventData>): void;
-    mouseleave(event: RemoteEvent<SerializedEventData>): void;
-    mouseout(event: RemoteEvent<SerializedEventData>): void;
-    mouseover(event: RemoteEvent<SerializedEventData>): void;
-    mouseup(event: RemoteEvent<SerializedEventData>): void;
-    scroll(event: RemoteEvent<SerializedEventData>): void;
-    wheel(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: ['data-tooltip-wrapper', 'children', 'Icon'],
   properties: {
@@ -1391,14 +1398,19 @@ export const TwentyUiMainButtonElement = createRemoteElement<
     onCompositionStartCapture: { type: Function },
     onCompositionUpdate: { type: Function },
     onCompositionUpdateCapture: { type: Function },
+    onFocus: { type: Function },
     onFocusCapture: { type: Function },
+    onBlur: { type: Function },
     onBlurCapture: { type: Function },
+    onChange: { type: Function },
     onChangeCapture: { type: Function },
     onBeforeInput: { type: Function },
     onBeforeInputCapture: { type: Function },
+    onInput: { type: Function },
     onInputCapture: { type: Function },
     onReset: { type: Function },
     onResetCapture: { type: Function },
+    onSubmit: { type: Function },
     onSubmitCapture: { type: Function },
     onInvalid: { type: Function },
     onInvalidCapture: { type: Function },
@@ -1406,8 +1418,11 @@ export const TwentyUiMainButtonElement = createRemoteElement<
     onLoadCapture: { type: Function },
     onError: { type: Function },
     onErrorCapture: { type: Function },
+    onKeyDown: { type: Function },
     onKeyDownCapture: { type: Function },
+    onKeyPress: { type: Function },
     onKeyPressCapture: { type: Function },
+    onKeyUp: { type: Function },
     onKeyUpCapture: { type: Function },
     onAbort: { type: Function },
     onAbortCapture: { type: Function },
@@ -1457,9 +1472,13 @@ export const TwentyUiMainButtonElement = createRemoteElement<
     onWaitingCapture: { type: Function },
     onAuxClick: { type: Function },
     onAuxClickCapture: { type: Function },
+    onClick: { type: Function },
     onClickCapture: { type: Function },
+    onContextMenu: { type: Function },
     onContextMenuCapture: { type: Function },
+    onDoubleClick: { type: Function },
     onDoubleClickCapture: { type: Function },
+    onDrag: { type: Function },
     onDragCapture: { type: Function },
     onDragEnd: { type: Function },
     onDragEndCapture: { type: Function },
@@ -1475,11 +1494,17 @@ export const TwentyUiMainButtonElement = createRemoteElement<
     onDragStartCapture: { type: Function },
     onDrop: { type: Function },
     onDropCapture: { type: Function },
+    onMouseDown: { type: Function },
     onMouseDownCapture: { type: Function },
+    onMouseEnter: { type: Function },
+    onMouseLeave: { type: Function },
     onMouseMove: { type: Function },
     onMouseMoveCapture: { type: Function },
+    onMouseOut: { type: Function },
     onMouseOutCapture: { type: Function },
+    onMouseOver: { type: Function },
     onMouseOverCapture: { type: Function },
+    onMouseUp: { type: Function },
     onMouseUpCapture: { type: Function },
     onSelect: { type: Function },
     onSelectCapture: { type: Function },
@@ -1509,7 +1534,9 @@ export const TwentyUiMainButtonElement = createRemoteElement<
     onGotPointerCaptureCapture: { type: Function },
     onLostPointerCapture: { type: Function },
     onLostPointerCaptureCapture: { type: Function },
+    onScroll: { type: Function },
     onScrollCapture: { type: Function },
+    onWheel: { type: Function },
     onWheelCapture: { type: Function },
     onAnimationStart: { type: Function },
     onAnimationStartCapture: { type: Function },
@@ -1520,28 +1547,6 @@ export const TwentyUiMainButtonElement = createRemoteElement<
     onTransitionEnd: { type: Function },
     onTransitionEndCapture: { type: Function },
   },
-  events: [
-    'focus',
-    'blur',
-    'change',
-    'input',
-    'submit',
-    'keydown',
-    'keypress',
-    'keyup',
-    'click',
-    'contextmenu',
-    'dblclick',
-    'drag',
-    'mousedown',
-    'mouseenter',
-    'mouseleave',
-    'mouseout',
-    'mouseover',
-    'mouseup',
-    'scroll',
-    'wheel',
-  ],
 });
 
 export type TwentyUiRoundedIconButtonProperties = {
@@ -1659,14 +1664,19 @@ export type TwentyUiRoundedIconButtonProperties = {
   onCompositionStartCapture?: (...args: unknown[]) => unknown;
   onCompositionUpdate?: (...args: unknown[]) => unknown;
   onCompositionUpdateCapture?: (...args: unknown[]) => unknown;
+  onFocus?: (...args: unknown[]) => unknown;
   onFocusCapture?: (...args: unknown[]) => unknown;
+  onBlur?: (...args: unknown[]) => unknown;
   onBlurCapture?: (...args: unknown[]) => unknown;
+  onChange?: (...args: unknown[]) => unknown;
   onChangeCapture?: (...args: unknown[]) => unknown;
   onBeforeInput?: (...args: unknown[]) => unknown;
   onBeforeInputCapture?: (...args: unknown[]) => unknown;
+  onInput?: (...args: unknown[]) => unknown;
   onInputCapture?: (...args: unknown[]) => unknown;
   onReset?: (...args: unknown[]) => unknown;
   onResetCapture?: (...args: unknown[]) => unknown;
+  onSubmit?: (...args: unknown[]) => unknown;
   onSubmitCapture?: (...args: unknown[]) => unknown;
   onInvalid?: (...args: unknown[]) => unknown;
   onInvalidCapture?: (...args: unknown[]) => unknown;
@@ -1674,8 +1684,11 @@ export type TwentyUiRoundedIconButtonProperties = {
   onLoadCapture?: (...args: unknown[]) => unknown;
   onError?: (...args: unknown[]) => unknown;
   onErrorCapture?: (...args: unknown[]) => unknown;
+  onKeyDown?: (...args: unknown[]) => unknown;
   onKeyDownCapture?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
   onKeyPressCapture?: (...args: unknown[]) => unknown;
+  onKeyUp?: (...args: unknown[]) => unknown;
   onKeyUpCapture?: (...args: unknown[]) => unknown;
   onAbort?: (...args: unknown[]) => unknown;
   onAbortCapture?: (...args: unknown[]) => unknown;
@@ -1725,9 +1738,13 @@ export type TwentyUiRoundedIconButtonProperties = {
   onWaitingCapture?: (...args: unknown[]) => unknown;
   onAuxClick?: (...args: unknown[]) => unknown;
   onAuxClickCapture?: (...args: unknown[]) => unknown;
+  onClick?: (...args: unknown[]) => unknown;
   onClickCapture?: (...args: unknown[]) => unknown;
+  onContextMenu?: (...args: unknown[]) => unknown;
   onContextMenuCapture?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
   onDoubleClickCapture?: (...args: unknown[]) => unknown;
+  onDrag?: (...args: unknown[]) => unknown;
   onDragCapture?: (...args: unknown[]) => unknown;
   onDragEnd?: (...args: unknown[]) => unknown;
   onDragEndCapture?: (...args: unknown[]) => unknown;
@@ -1743,11 +1760,17 @@ export type TwentyUiRoundedIconButtonProperties = {
   onDragStartCapture?: (...args: unknown[]) => unknown;
   onDrop?: (...args: unknown[]) => unknown;
   onDropCapture?: (...args: unknown[]) => unknown;
+  onMouseDown?: (...args: unknown[]) => unknown;
   onMouseDownCapture?: (...args: unknown[]) => unknown;
+  onMouseEnter?: (...args: unknown[]) => unknown;
+  onMouseLeave?: (...args: unknown[]) => unknown;
   onMouseMove?: (...args: unknown[]) => unknown;
   onMouseMoveCapture?: (...args: unknown[]) => unknown;
+  onMouseOut?: (...args: unknown[]) => unknown;
   onMouseOutCapture?: (...args: unknown[]) => unknown;
+  onMouseOver?: (...args: unknown[]) => unknown;
   onMouseOverCapture?: (...args: unknown[]) => unknown;
+  onMouseUp?: (...args: unknown[]) => unknown;
   onMouseUpCapture?: (...args: unknown[]) => unknown;
   onSelect?: (...args: unknown[]) => unknown;
   onSelectCapture?: (...args: unknown[]) => unknown;
@@ -1777,7 +1800,9 @@ export type TwentyUiRoundedIconButtonProperties = {
   onGotPointerCaptureCapture?: (...args: unknown[]) => unknown;
   onLostPointerCapture?: (...args: unknown[]) => unknown;
   onLostPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onScroll?: (...args: unknown[]) => unknown;
   onScrollCapture?: (...args: unknown[]) => unknown;
+  onWheel?: (...args: unknown[]) => unknown;
   onWheelCapture?: (...args: unknown[]) => unknown;
   onAnimationStart?: (...args: unknown[]) => unknown;
   onAnimationStartCapture?: (...args: unknown[]) => unknown;
@@ -1793,28 +1818,7 @@ export const TwentyUiRoundedIconButtonElement = createRemoteElement<
   TwentyUiRoundedIconButtonProperties,
   Record<string, never>,
   { Icon: true; 'data-tooltip-wrapper': true; children: true },
-  {
-    focus(event: RemoteEvent<SerializedEventData>): void;
-    blur(event: RemoteEvent<SerializedEventData>): void;
-    change(event: RemoteEvent<SerializedEventData>): void;
-    input(event: RemoteEvent<SerializedEventData>): void;
-    submit(event: RemoteEvent<SerializedEventData>): void;
-    keydown(event: RemoteEvent<SerializedEventData>): void;
-    keypress(event: RemoteEvent<SerializedEventData>): void;
-    keyup(event: RemoteEvent<SerializedEventData>): void;
-    click(event: RemoteEvent<SerializedEventData>): void;
-    contextmenu(event: RemoteEvent<SerializedEventData>): void;
-    dblclick(event: RemoteEvent<SerializedEventData>): void;
-    drag(event: RemoteEvent<SerializedEventData>): void;
-    mousedown(event: RemoteEvent<SerializedEventData>): void;
-    mouseenter(event: RemoteEvent<SerializedEventData>): void;
-    mouseleave(event: RemoteEvent<SerializedEventData>): void;
-    mouseout(event: RemoteEvent<SerializedEventData>): void;
-    mouseover(event: RemoteEvent<SerializedEventData>): void;
-    mouseup(event: RemoteEvent<SerializedEventData>): void;
-    scroll(event: RemoteEvent<SerializedEventData>): void;
-    wheel(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: ['Icon', 'data-tooltip-wrapper', 'children'],
   properties: {
@@ -1932,14 +1936,19 @@ export const TwentyUiRoundedIconButtonElement = createRemoteElement<
     onCompositionStartCapture: { type: Function },
     onCompositionUpdate: { type: Function },
     onCompositionUpdateCapture: { type: Function },
+    onFocus: { type: Function },
     onFocusCapture: { type: Function },
+    onBlur: { type: Function },
     onBlurCapture: { type: Function },
+    onChange: { type: Function },
     onChangeCapture: { type: Function },
     onBeforeInput: { type: Function },
     onBeforeInputCapture: { type: Function },
+    onInput: { type: Function },
     onInputCapture: { type: Function },
     onReset: { type: Function },
     onResetCapture: { type: Function },
+    onSubmit: { type: Function },
     onSubmitCapture: { type: Function },
     onInvalid: { type: Function },
     onInvalidCapture: { type: Function },
@@ -1947,8 +1956,11 @@ export const TwentyUiRoundedIconButtonElement = createRemoteElement<
     onLoadCapture: { type: Function },
     onError: { type: Function },
     onErrorCapture: { type: Function },
+    onKeyDown: { type: Function },
     onKeyDownCapture: { type: Function },
+    onKeyPress: { type: Function },
     onKeyPressCapture: { type: Function },
+    onKeyUp: { type: Function },
     onKeyUpCapture: { type: Function },
     onAbort: { type: Function },
     onAbortCapture: { type: Function },
@@ -1998,9 +2010,13 @@ export const TwentyUiRoundedIconButtonElement = createRemoteElement<
     onWaitingCapture: { type: Function },
     onAuxClick: { type: Function },
     onAuxClickCapture: { type: Function },
+    onClick: { type: Function },
     onClickCapture: { type: Function },
+    onContextMenu: { type: Function },
     onContextMenuCapture: { type: Function },
+    onDoubleClick: { type: Function },
     onDoubleClickCapture: { type: Function },
+    onDrag: { type: Function },
     onDragCapture: { type: Function },
     onDragEnd: { type: Function },
     onDragEndCapture: { type: Function },
@@ -2016,11 +2032,17 @@ export const TwentyUiRoundedIconButtonElement = createRemoteElement<
     onDragStartCapture: { type: Function },
     onDrop: { type: Function },
     onDropCapture: { type: Function },
+    onMouseDown: { type: Function },
     onMouseDownCapture: { type: Function },
+    onMouseEnter: { type: Function },
+    onMouseLeave: { type: Function },
     onMouseMove: { type: Function },
     onMouseMoveCapture: { type: Function },
+    onMouseOut: { type: Function },
     onMouseOutCapture: { type: Function },
+    onMouseOver: { type: Function },
     onMouseOverCapture: { type: Function },
+    onMouseUp: { type: Function },
     onMouseUpCapture: { type: Function },
     onSelect: { type: Function },
     onSelectCapture: { type: Function },
@@ -2050,7 +2072,9 @@ export const TwentyUiRoundedIconButtonElement = createRemoteElement<
     onGotPointerCaptureCapture: { type: Function },
     onLostPointerCapture: { type: Function },
     onLostPointerCaptureCapture: { type: Function },
+    onScroll: { type: Function },
     onScrollCapture: { type: Function },
+    onWheel: { type: Function },
     onWheelCapture: { type: Function },
     onAnimationStart: { type: Function },
     onAnimationStartCapture: { type: Function },
@@ -2061,28 +2085,6 @@ export const TwentyUiRoundedIconButtonElement = createRemoteElement<
     onTransitionEnd: { type: Function },
     onTransitionEndCapture: { type: Function },
   },
-  events: [
-    'focus',
-    'blur',
-    'change',
-    'input',
-    'submit',
-    'keydown',
-    'keypress',
-    'keyup',
-    'click',
-    'contextmenu',
-    'dblclick',
-    'drag',
-    'mousedown',
-    'mouseenter',
-    'mouseleave',
-    'mouseout',
-    'mouseover',
-    'mouseup',
-    'scroll',
-    'wheel',
-  ],
 });
 
 export type TwentyUiTabContentProperties = {
@@ -2120,6 +2122,7 @@ export type TwentyUiTabButtonProperties = {
   to?: string;
   className?: string;
   title?: string;
+  onClick?: (...args: unknown[]) => unknown;
   logo?: string;
   contentSize?: string;
   disableTestId?: boolean;
@@ -2129,7 +2132,7 @@ export const TwentyUiTabButtonElement = createRemoteElement<
   TwentyUiTabButtonProperties,
   Record<string, never>,
   { LeftIcon: true; RightIcon: true; pill: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['LeftIcon', 'RightIcon', 'pill'],
   properties: {
@@ -2139,11 +2142,11 @@ export const TwentyUiTabButtonElement = createRemoteElement<
     to: { type: String },
     className: { type: String },
     title: { type: String },
+    onClick: { type: Function },
     logo: { type: String },
     contentSize: { type: String },
     disableTestId: { type: Boolean },
   },
-  events: ['click'],
 });
 
 export type TwentyUiCodeEditorProperties = {
@@ -2152,6 +2155,7 @@ export type TwentyUiCodeEditorProperties = {
   onMount?: (...args: unknown[]) => unknown;
   onValidate?: (...args: unknown[]) => unknown;
   options?: Record<string, unknown>;
+  onChange?: (...args: unknown[]) => unknown;
   setMarkers?: (...args: unknown[]) => unknown;
   variant?: string;
   isLoading?: boolean;
@@ -2162,7 +2166,7 @@ export const TwentyUiCodeEditorElement = createRemoteElement<
   TwentyUiCodeEditorProperties,
   Record<string, never>,
   Record<string, never>,
-  { change(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     value: { type: String },
@@ -2170,12 +2174,12 @@ export const TwentyUiCodeEditorElement = createRemoteElement<
     onMount: { type: Function },
     onValidate: { type: Function },
     options: { type: Object },
+    onChange: { type: Function },
     setMarkers: { type: Function },
     variant: { type: String },
     isLoading: { type: Boolean },
     transparentBackground: { type: Boolean },
   },
-  events: ['change'],
 });
 
 export type TwentyUiCoreEditorHeaderProperties = {
@@ -2258,14 +2262,19 @@ export type TwentyUiColorSchemeCardProperties = {
   onCompositionStartCapture?: (...args: unknown[]) => unknown;
   onCompositionUpdate?: (...args: unknown[]) => unknown;
   onCompositionUpdateCapture?: (...args: unknown[]) => unknown;
+  onFocus?: (...args: unknown[]) => unknown;
   onFocusCapture?: (...args: unknown[]) => unknown;
+  onBlur?: (...args: unknown[]) => unknown;
   onBlurCapture?: (...args: unknown[]) => unknown;
+  onChange?: (...args: unknown[]) => unknown;
   onChangeCapture?: (...args: unknown[]) => unknown;
   onBeforeInput?: (...args: unknown[]) => unknown;
   onBeforeInputCapture?: (...args: unknown[]) => unknown;
+  onInput?: (...args: unknown[]) => unknown;
   onInputCapture?: (...args: unknown[]) => unknown;
   onReset?: (...args: unknown[]) => unknown;
   onResetCapture?: (...args: unknown[]) => unknown;
+  onSubmit?: (...args: unknown[]) => unknown;
   onSubmitCapture?: (...args: unknown[]) => unknown;
   onInvalid?: (...args: unknown[]) => unknown;
   onInvalidCapture?: (...args: unknown[]) => unknown;
@@ -2273,8 +2282,11 @@ export type TwentyUiColorSchemeCardProperties = {
   onLoadCapture?: (...args: unknown[]) => unknown;
   onError?: (...args: unknown[]) => unknown;
   onErrorCapture?: (...args: unknown[]) => unknown;
+  onKeyDown?: (...args: unknown[]) => unknown;
   onKeyDownCapture?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
   onKeyPressCapture?: (...args: unknown[]) => unknown;
+  onKeyUp?: (...args: unknown[]) => unknown;
   onKeyUpCapture?: (...args: unknown[]) => unknown;
   onAbort?: (...args: unknown[]) => unknown;
   onAbortCapture?: (...args: unknown[]) => unknown;
@@ -2324,9 +2336,13 @@ export type TwentyUiColorSchemeCardProperties = {
   onWaitingCapture?: (...args: unknown[]) => unknown;
   onAuxClick?: (...args: unknown[]) => unknown;
   onAuxClickCapture?: (...args: unknown[]) => unknown;
+  onClick?: (...args: unknown[]) => unknown;
   onClickCapture?: (...args: unknown[]) => unknown;
+  onContextMenu?: (...args: unknown[]) => unknown;
   onContextMenuCapture?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
   onDoubleClickCapture?: (...args: unknown[]) => unknown;
+  onDrag?: (...args: unknown[]) => unknown;
   onDragCapture?: (...args: unknown[]) => unknown;
   onDragEnd?: (...args: unknown[]) => unknown;
   onDragEndCapture?: (...args: unknown[]) => unknown;
@@ -2342,11 +2358,17 @@ export type TwentyUiColorSchemeCardProperties = {
   onDragStartCapture?: (...args: unknown[]) => unknown;
   onDrop?: (...args: unknown[]) => unknown;
   onDropCapture?: (...args: unknown[]) => unknown;
+  onMouseDown?: (...args: unknown[]) => unknown;
   onMouseDownCapture?: (...args: unknown[]) => unknown;
+  onMouseEnter?: (...args: unknown[]) => unknown;
+  onMouseLeave?: (...args: unknown[]) => unknown;
   onMouseMove?: (...args: unknown[]) => unknown;
   onMouseMoveCapture?: (...args: unknown[]) => unknown;
+  onMouseOut?: (...args: unknown[]) => unknown;
   onMouseOutCapture?: (...args: unknown[]) => unknown;
+  onMouseOver?: (...args: unknown[]) => unknown;
   onMouseOverCapture?: (...args: unknown[]) => unknown;
+  onMouseUp?: (...args: unknown[]) => unknown;
   onMouseUpCapture?: (...args: unknown[]) => unknown;
   onSelect?: (...args: unknown[]) => unknown;
   onSelectCapture?: (...args: unknown[]) => unknown;
@@ -2376,7 +2398,9 @@ export type TwentyUiColorSchemeCardProperties = {
   onGotPointerCaptureCapture?: (...args: unknown[]) => unknown;
   onLostPointerCapture?: (...args: unknown[]) => unknown;
   onLostPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onScroll?: (...args: unknown[]) => unknown;
   onScrollCapture?: (...args: unknown[]) => unknown;
+  onWheel?: (...args: unknown[]) => unknown;
   onWheelCapture?: (...args: unknown[]) => unknown;
   onAnimationStart?: (...args: unknown[]) => unknown;
   onAnimationStartCapture?: (...args: unknown[]) => unknown;
@@ -2435,28 +2459,7 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
   TwentyUiColorSchemeCardProperties,
   Record<string, never>,
   { children: true; 'data-tooltip-wrapper': true },
-  {
-    focus(event: RemoteEvent<SerializedEventData>): void;
-    blur(event: RemoteEvent<SerializedEventData>): void;
-    change(event: RemoteEvent<SerializedEventData>): void;
-    input(event: RemoteEvent<SerializedEventData>): void;
-    submit(event: RemoteEvent<SerializedEventData>): void;
-    keydown(event: RemoteEvent<SerializedEventData>): void;
-    keypress(event: RemoteEvent<SerializedEventData>): void;
-    keyup(event: RemoteEvent<SerializedEventData>): void;
-    click(event: RemoteEvent<SerializedEventData>): void;
-    contextmenu(event: RemoteEvent<SerializedEventData>): void;
-    dblclick(event: RemoteEvent<SerializedEventData>): void;
-    drag(event: RemoteEvent<SerializedEventData>): void;
-    mousedown(event: RemoteEvent<SerializedEventData>): void;
-    mouseenter(event: RemoteEvent<SerializedEventData>): void;
-    mouseleave(event: RemoteEvent<SerializedEventData>): void;
-    mouseout(event: RemoteEvent<SerializedEventData>): void;
-    mouseover(event: RemoteEvent<SerializedEventData>): void;
-    mouseup(event: RemoteEvent<SerializedEventData>): void;
-    scroll(event: RemoteEvent<SerializedEventData>): void;
-    wheel(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: ['children', 'data-tooltip-wrapper'],
   properties: {
@@ -2523,14 +2526,19 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
     onCompositionStartCapture: { type: Function },
     onCompositionUpdate: { type: Function },
     onCompositionUpdateCapture: { type: Function },
+    onFocus: { type: Function },
     onFocusCapture: { type: Function },
+    onBlur: { type: Function },
     onBlurCapture: { type: Function },
+    onChange: { type: Function },
     onChangeCapture: { type: Function },
     onBeforeInput: { type: Function },
     onBeforeInputCapture: { type: Function },
+    onInput: { type: Function },
     onInputCapture: { type: Function },
     onReset: { type: Function },
     onResetCapture: { type: Function },
+    onSubmit: { type: Function },
     onSubmitCapture: { type: Function },
     onInvalid: { type: Function },
     onInvalidCapture: { type: Function },
@@ -2538,8 +2546,11 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
     onLoadCapture: { type: Function },
     onError: { type: Function },
     onErrorCapture: { type: Function },
+    onKeyDown: { type: Function },
     onKeyDownCapture: { type: Function },
+    onKeyPress: { type: Function },
     onKeyPressCapture: { type: Function },
+    onKeyUp: { type: Function },
     onKeyUpCapture: { type: Function },
     onAbort: { type: Function },
     onAbortCapture: { type: Function },
@@ -2589,9 +2600,13 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
     onWaitingCapture: { type: Function },
     onAuxClick: { type: Function },
     onAuxClickCapture: { type: Function },
+    onClick: { type: Function },
     onClickCapture: { type: Function },
+    onContextMenu: { type: Function },
     onContextMenuCapture: { type: Function },
+    onDoubleClick: { type: Function },
     onDoubleClickCapture: { type: Function },
+    onDrag: { type: Function },
     onDragCapture: { type: Function },
     onDragEnd: { type: Function },
     onDragEndCapture: { type: Function },
@@ -2607,11 +2622,17 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
     onDragStartCapture: { type: Function },
     onDrop: { type: Function },
     onDropCapture: { type: Function },
+    onMouseDown: { type: Function },
     onMouseDownCapture: { type: Function },
+    onMouseEnter: { type: Function },
+    onMouseLeave: { type: Function },
     onMouseMove: { type: Function },
     onMouseMoveCapture: { type: Function },
+    onMouseOut: { type: Function },
     onMouseOutCapture: { type: Function },
+    onMouseOver: { type: Function },
     onMouseOverCapture: { type: Function },
+    onMouseUp: { type: Function },
     onMouseUpCapture: { type: Function },
     onSelect: { type: Function },
     onSelectCapture: { type: Function },
@@ -2641,7 +2662,9 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
     onGotPointerCaptureCapture: { type: Function },
     onLostPointerCapture: { type: Function },
     onLostPointerCaptureCapture: { type: Function },
+    onScroll: { type: Function },
     onScrollCapture: { type: Function },
+    onWheel: { type: Function },
     onWheelCapture: { type: Function },
     onAnimationStart: { type: Function },
     onAnimationStartCapture: { type: Function },
@@ -2695,33 +2718,12 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
     'data-tooltip-hidden': { type: Boolean },
     'data-tooltip-class-name': { type: String },
   },
-  events: [
-    'focus',
-    'blur',
-    'change',
-    'input',
-    'submit',
-    'keydown',
-    'keypress',
-    'keyup',
-    'click',
-    'contextmenu',
-    'dblclick',
-    'drag',
-    'mousedown',
-    'mouseenter',
-    'mouseleave',
-    'mouseout',
-    'mouseover',
-    'mouseup',
-    'scroll',
-    'wheel',
-  ],
 });
 
 export type TwentyUiColorSchemePickerProperties = {
   value: string;
   className?: string;
+  onChange: (...args: unknown[]) => unknown;
   lightLabel: string;
   darkLabel: string;
   systemLabel: string;
@@ -2731,16 +2733,16 @@ export const TwentyUiColorSchemePickerElement = createRemoteElement<
   TwentyUiColorSchemePickerProperties,
   Record<string, never>,
   Record<string, never>,
-  { change(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     value: { type: String },
     className: { type: String },
+    onChange: { type: Function },
     lightLabel: { type: String },
     darkLabel: { type: String },
     systemLabel: { type: String },
   },
-  events: ['change'],
 });
 
 export type TwentyUiCardPickerProperties = {
@@ -2765,6 +2767,7 @@ export type TwentyUiCheckboxProperties = {
   checked: boolean;
   indeterminate?: boolean;
   hoverable?: boolean;
+  onChange?: (...args: unknown[]) => unknown;
   onCheckedChange?: (...args: unknown[]) => unknown;
   variant?: string;
   size?: string;
@@ -2778,12 +2781,13 @@ export const TwentyUiCheckboxElement = createRemoteElement<
   TwentyUiCheckboxProperties,
   Record<string, never>,
   Record<string, never>,
-  { change(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     checked: { type: Boolean },
     indeterminate: { type: Boolean },
     hoverable: { type: Boolean },
+    onChange: { type: Function },
     onCheckedChange: { type: Function },
     variant: { type: String },
     size: { type: String },
@@ -2792,7 +2796,6 @@ export const TwentyUiCheckboxElement = createRemoteElement<
     disabled: { type: Boolean },
     accent: { type: String },
   },
-  events: ['change'],
 });
 
 export type TwentyUiRadioProperties = {
@@ -2802,6 +2805,7 @@ export type TwentyUiRadioProperties = {
   disabled?: boolean;
   label?: string;
   labelPosition?: string;
+  onChange?: (...args: unknown[]) => unknown;
   onCheckedChange?: (...args: unknown[]) => unknown;
   size?: string;
   style?: Record<string, unknown>;
@@ -2812,7 +2816,7 @@ export const TwentyUiRadioElement = createRemoteElement<
   TwentyUiRadioProperties,
   Record<string, never>,
   Record<string, never>,
-  { change(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     checked: { type: Boolean },
@@ -2821,16 +2825,17 @@ export const TwentyUiRadioElement = createRemoteElement<
     disabled: { type: Boolean },
     label: { type: String },
     labelPosition: { type: String },
+    onChange: { type: Function },
     onCheckedChange: { type: Function },
     size: { type: String },
     style: { type: Object },
     value: { type: String },
   },
-  events: ['change'],
 });
 
 export type TwentyUiRadioGroupProperties = {
   value?: string;
+  onChange?: (...args: unknown[]) => unknown;
   onValueChange?: (...args: unknown[]) => unknown;
 };
 
@@ -2838,18 +2843,19 @@ export const TwentyUiRadioGroupElement = createRemoteElement<
   TwentyUiRadioGroupProperties,
   Record<string, never>,
   { children: true },
-  { change(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['children'],
   properties: {
     value: { type: String },
+    onChange: { type: Function },
     onValueChange: { type: Function },
   },
-  events: ['change'],
 });
 
 export type TwentyUiSearchInputProperties = {
   value: string;
+  onChange: (...args: unknown[]) => unknown;
   placeholder?: string;
   autoFocus?: boolean;
   disabled?: boolean;
@@ -2860,22 +2866,23 @@ export const TwentyUiSearchInputElement = createRemoteElement<
   TwentyUiSearchInputProperties,
   Record<string, never>,
   { filterDropdown: true },
-  { change(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['filterDropdown'],
   properties: {
     value: { type: String },
+    onChange: { type: Function },
     placeholder: { type: String },
     autoFocus: { type: Boolean },
     disabled: { type: Boolean },
     className: { type: String },
   },
-  events: ['change'],
 });
 
 export type TwentyUiToggleProperties = {
   id?: string;
   value?: boolean;
+  onChange?: (...args: unknown[]) => unknown;
   color?: string;
   toggleSize?: string;
   className?: string;
@@ -2886,17 +2893,17 @@ export const TwentyUiToggleElement = createRemoteElement<
   TwentyUiToggleProperties,
   Record<string, never>,
   Record<string, never>,
-  { change(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     id: { type: String },
     value: { type: Boolean },
+    onChange: { type: Function },
     color: { type: String },
     toggleSize: { type: String },
     className: { type: String },
     disabled: { type: Boolean },
   },
-  events: ['change'],
 });
 
 export type TwentyUiAvatarChipProperties = {
@@ -2908,13 +2915,14 @@ export type TwentyUiAvatarChipProperties = {
   isIconInverted?: boolean;
   placeholderColorSeed?: string;
   divider?: string;
+  onClick?: (...args: unknown[]) => unknown;
 };
 
 export const TwentyUiAvatarChipElement = createRemoteElement<
   TwentyUiAvatarChipProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
@@ -2926,12 +2934,13 @@ export const TwentyUiAvatarChipElement = createRemoteElement<
     isIconInverted: { type: Boolean },
     placeholderColorSeed: { type: String },
     divider: { type: String },
+    onClick: { type: Function },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMultipleAvatarChipProperties = {
   text?: string;
+  onClick?: (...args: unknown[]) => unknown;
   testId?: string;
   maxWidth?: number;
   forceEmptyText?: boolean;
@@ -2943,18 +2952,18 @@ export const TwentyUiMultipleAvatarChipElement = createRemoteElement<
   TwentyUiMultipleAvatarChipProperties,
   Record<string, never>,
   { Icons: true; rightComponent: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icons', 'rightComponent'],
   properties: {
     text: { type: String },
+    onClick: { type: Function },
     testId: { type: String },
     maxWidth: { type: Number },
     forceEmptyText: { type: Boolean },
     variant: { type: String },
     emptyLabel: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiChipProperties = {
@@ -3004,6 +3013,8 @@ export type TwentyUiLinkChipProperties = {
   forceEmptyText?: boolean;
   emptyLabel?: string;
   to: string;
+  onClick?: (...args: unknown[]) => unknown;
+  onMouseDown?: (...args: unknown[]) => unknown;
   triggerEvent?: string;
   target?: string;
 };
@@ -3012,10 +3023,7 @@ export const TwentyUiLinkChipElement = createRemoteElement<
   TwentyUiLinkChipProperties,
   Record<string, never>,
   { leftComponent: true; rightComponent: true },
-  {
-    click(event: RemoteEvent<SerializedEventData>): void;
-    mousedown(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: ['leftComponent', 'rightComponent'],
   properties: {
@@ -3029,10 +3037,11 @@ export const TwentyUiLinkChipElement = createRemoteElement<
     forceEmptyText: { type: Boolean },
     emptyLabel: { type: String },
     to: { type: String },
+    onClick: { type: Function },
+    onMouseDown: { type: Function },
     triggerEvent: { type: String },
     target: { type: String },
   },
-  events: ['click', 'mousedown'],
 });
 
 export type TwentyUiPillProperties = {
@@ -3057,6 +3066,7 @@ export type TwentyUiTagProperties = {
   className?: string;
   color: string;
   text: string;
+  onClick?: (...args: unknown[]) => unknown;
   weight?: string;
   variant?: string;
   preventShrink?: boolean;
@@ -3067,19 +3077,19 @@ export const TwentyUiTagElement = createRemoteElement<
   TwentyUiTagProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
     className: { type: String },
     color: { type: String },
     text: { type: String },
+    onClick: { type: Function },
     weight: { type: String },
     variant: { type: String },
     preventShrink: { type: Boolean },
     preventPadding: { type: Boolean },
   },
-  events: ['click'],
 });
 
 export type TwentyUiAvatarProperties = {
@@ -3092,13 +3102,14 @@ export type TwentyUiAvatarProperties = {
   type?: string;
   color?: string;
   backgroundColor?: string;
+  onClick?: (...args: unknown[]) => unknown;
 };
 
 export const TwentyUiAvatarElement = createRemoteElement<
   TwentyUiAvatarProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
@@ -3111,8 +3122,8 @@ export const TwentyUiAvatarElement = createRemoteElement<
     type: { type: String },
     color: { type: String },
     backgroundColor: { type: String },
+    onClick: { type: Function },
   },
-  events: ['click'],
 });
 export const TwentyUiAvatarGroupElement = createRemoteElement<
   Record<string, never>,
@@ -3229,14 +3240,19 @@ export type TwentyUiBannerProperties = {
   onCompositionStartCapture?: (...args: unknown[]) => unknown;
   onCompositionUpdate?: (...args: unknown[]) => unknown;
   onCompositionUpdateCapture?: (...args: unknown[]) => unknown;
+  onFocus?: (...args: unknown[]) => unknown;
   onFocusCapture?: (...args: unknown[]) => unknown;
+  onBlur?: (...args: unknown[]) => unknown;
   onBlurCapture?: (...args: unknown[]) => unknown;
+  onChange?: (...args: unknown[]) => unknown;
   onChangeCapture?: (...args: unknown[]) => unknown;
   onBeforeInput?: (...args: unknown[]) => unknown;
   onBeforeInputCapture?: (...args: unknown[]) => unknown;
+  onInput?: (...args: unknown[]) => unknown;
   onInputCapture?: (...args: unknown[]) => unknown;
   onReset?: (...args: unknown[]) => unknown;
   onResetCapture?: (...args: unknown[]) => unknown;
+  onSubmit?: (...args: unknown[]) => unknown;
   onSubmitCapture?: (...args: unknown[]) => unknown;
   onInvalid?: (...args: unknown[]) => unknown;
   onInvalidCapture?: (...args: unknown[]) => unknown;
@@ -3244,8 +3260,11 @@ export type TwentyUiBannerProperties = {
   onLoadCapture?: (...args: unknown[]) => unknown;
   onError?: (...args: unknown[]) => unknown;
   onErrorCapture?: (...args: unknown[]) => unknown;
+  onKeyDown?: (...args: unknown[]) => unknown;
   onKeyDownCapture?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
   onKeyPressCapture?: (...args: unknown[]) => unknown;
+  onKeyUp?: (...args: unknown[]) => unknown;
   onKeyUpCapture?: (...args: unknown[]) => unknown;
   onAbort?: (...args: unknown[]) => unknown;
   onAbortCapture?: (...args: unknown[]) => unknown;
@@ -3295,9 +3314,13 @@ export type TwentyUiBannerProperties = {
   onWaitingCapture?: (...args: unknown[]) => unknown;
   onAuxClick?: (...args: unknown[]) => unknown;
   onAuxClickCapture?: (...args: unknown[]) => unknown;
+  onClick?: (...args: unknown[]) => unknown;
   onClickCapture?: (...args: unknown[]) => unknown;
+  onContextMenu?: (...args: unknown[]) => unknown;
   onContextMenuCapture?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
   onDoubleClickCapture?: (...args: unknown[]) => unknown;
+  onDrag?: (...args: unknown[]) => unknown;
   onDragCapture?: (...args: unknown[]) => unknown;
   onDragEnd?: (...args: unknown[]) => unknown;
   onDragEndCapture?: (...args: unknown[]) => unknown;
@@ -3313,11 +3336,17 @@ export type TwentyUiBannerProperties = {
   onDragStartCapture?: (...args: unknown[]) => unknown;
   onDrop?: (...args: unknown[]) => unknown;
   onDropCapture?: (...args: unknown[]) => unknown;
+  onMouseDown?: (...args: unknown[]) => unknown;
   onMouseDownCapture?: (...args: unknown[]) => unknown;
+  onMouseEnter?: (...args: unknown[]) => unknown;
+  onMouseLeave?: (...args: unknown[]) => unknown;
   onMouseMove?: (...args: unknown[]) => unknown;
   onMouseMoveCapture?: (...args: unknown[]) => unknown;
+  onMouseOut?: (...args: unknown[]) => unknown;
   onMouseOutCapture?: (...args: unknown[]) => unknown;
+  onMouseOver?: (...args: unknown[]) => unknown;
   onMouseOverCapture?: (...args: unknown[]) => unknown;
+  onMouseUp?: (...args: unknown[]) => unknown;
   onMouseUpCapture?: (...args: unknown[]) => unknown;
   onSelect?: (...args: unknown[]) => unknown;
   onSelectCapture?: (...args: unknown[]) => unknown;
@@ -3347,7 +3376,9 @@ export type TwentyUiBannerProperties = {
   onGotPointerCaptureCapture?: (...args: unknown[]) => unknown;
   onLostPointerCapture?: (...args: unknown[]) => unknown;
   onLostPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onScroll?: (...args: unknown[]) => unknown;
   onScrollCapture?: (...args: unknown[]) => unknown;
+  onWheel?: (...args: unknown[]) => unknown;
   onWheelCapture?: (...args: unknown[]) => unknown;
   onAnimationStart?: (...args: unknown[]) => unknown;
   onAnimationStartCapture?: (...args: unknown[]) => unknown;
@@ -3363,28 +3394,7 @@ export const TwentyUiBannerElement = createRemoteElement<
   TwentyUiBannerProperties,
   Record<string, never>,
   { children: true; 'data-tooltip-wrapper': true },
-  {
-    focus(event: RemoteEvent<SerializedEventData>): void;
-    blur(event: RemoteEvent<SerializedEventData>): void;
-    change(event: RemoteEvent<SerializedEventData>): void;
-    input(event: RemoteEvent<SerializedEventData>): void;
-    submit(event: RemoteEvent<SerializedEventData>): void;
-    keydown(event: RemoteEvent<SerializedEventData>): void;
-    keypress(event: RemoteEvent<SerializedEventData>): void;
-    keyup(event: RemoteEvent<SerializedEventData>): void;
-    click(event: RemoteEvent<SerializedEventData>): void;
-    contextmenu(event: RemoteEvent<SerializedEventData>): void;
-    dblclick(event: RemoteEvent<SerializedEventData>): void;
-    drag(event: RemoteEvent<SerializedEventData>): void;
-    mousedown(event: RemoteEvent<SerializedEventData>): void;
-    mouseenter(event: RemoteEvent<SerializedEventData>): void;
-    mouseleave(event: RemoteEvent<SerializedEventData>): void;
-    mouseout(event: RemoteEvent<SerializedEventData>): void;
-    mouseover(event: RemoteEvent<SerializedEventData>): void;
-    mouseup(event: RemoteEvent<SerializedEventData>): void;
-    scroll(event: RemoteEvent<SerializedEventData>): void;
-    wheel(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: ['children', 'data-tooltip-wrapper'],
   properties: {
@@ -3493,14 +3503,19 @@ export const TwentyUiBannerElement = createRemoteElement<
     onCompositionStartCapture: { type: Function },
     onCompositionUpdate: { type: Function },
     onCompositionUpdateCapture: { type: Function },
+    onFocus: { type: Function },
     onFocusCapture: { type: Function },
+    onBlur: { type: Function },
     onBlurCapture: { type: Function },
+    onChange: { type: Function },
     onChangeCapture: { type: Function },
     onBeforeInput: { type: Function },
     onBeforeInputCapture: { type: Function },
+    onInput: { type: Function },
     onInputCapture: { type: Function },
     onReset: { type: Function },
     onResetCapture: { type: Function },
+    onSubmit: { type: Function },
     onSubmitCapture: { type: Function },
     onInvalid: { type: Function },
     onInvalidCapture: { type: Function },
@@ -3508,8 +3523,11 @@ export const TwentyUiBannerElement = createRemoteElement<
     onLoadCapture: { type: Function },
     onError: { type: Function },
     onErrorCapture: { type: Function },
+    onKeyDown: { type: Function },
     onKeyDownCapture: { type: Function },
+    onKeyPress: { type: Function },
     onKeyPressCapture: { type: Function },
+    onKeyUp: { type: Function },
     onKeyUpCapture: { type: Function },
     onAbort: { type: Function },
     onAbortCapture: { type: Function },
@@ -3559,9 +3577,13 @@ export const TwentyUiBannerElement = createRemoteElement<
     onWaitingCapture: { type: Function },
     onAuxClick: { type: Function },
     onAuxClickCapture: { type: Function },
+    onClick: { type: Function },
     onClickCapture: { type: Function },
+    onContextMenu: { type: Function },
     onContextMenuCapture: { type: Function },
+    onDoubleClick: { type: Function },
     onDoubleClickCapture: { type: Function },
+    onDrag: { type: Function },
     onDragCapture: { type: Function },
     onDragEnd: { type: Function },
     onDragEndCapture: { type: Function },
@@ -3577,11 +3599,17 @@ export const TwentyUiBannerElement = createRemoteElement<
     onDragStartCapture: { type: Function },
     onDrop: { type: Function },
     onDropCapture: { type: Function },
+    onMouseDown: { type: Function },
     onMouseDownCapture: { type: Function },
+    onMouseEnter: { type: Function },
+    onMouseLeave: { type: Function },
     onMouseMove: { type: Function },
     onMouseMoveCapture: { type: Function },
+    onMouseOut: { type: Function },
     onMouseOutCapture: { type: Function },
+    onMouseOver: { type: Function },
     onMouseOverCapture: { type: Function },
+    onMouseUp: { type: Function },
     onMouseUpCapture: { type: Function },
     onSelect: { type: Function },
     onSelectCapture: { type: Function },
@@ -3611,7 +3639,9 @@ export const TwentyUiBannerElement = createRemoteElement<
     onGotPointerCaptureCapture: { type: Function },
     onLostPointerCapture: { type: Function },
     onLostPointerCaptureCapture: { type: Function },
+    onScroll: { type: Function },
     onScrollCapture: { type: Function },
+    onWheel: { type: Function },
     onWheelCapture: { type: Function },
     onAnimationStart: { type: Function },
     onAnimationStartCapture: { type: Function },
@@ -3622,28 +3652,6 @@ export const TwentyUiBannerElement = createRemoteElement<
     onTransitionEnd: { type: Function },
     onTransitionEndCapture: { type: Function },
   },
-  events: [
-    'focus',
-    'blur',
-    'change',
-    'input',
-    'submit',
-    'keydown',
-    'keypress',
-    'keyup',
-    'click',
-    'contextmenu',
-    'dblclick',
-    'drag',
-    'mousedown',
-    'mouseenter',
-    'mouseleave',
-    'mouseout',
-    'mouseover',
-    'mouseup',
-    'scroll',
-    'wheel',
-  ],
 });
 
 export type TwentyUiSidePanelInformationBannerProperties = {
@@ -3782,14 +3790,19 @@ export type TwentyUiAnimatedCheckmarkProperties = {
   onCompositionStartCapture?: (...args: unknown[]) => unknown;
   onCompositionUpdate?: (...args: unknown[]) => unknown;
   onCompositionUpdateCapture?: (...args: unknown[]) => unknown;
+  onFocus?: (...args: unknown[]) => unknown;
   onFocusCapture?: (...args: unknown[]) => unknown;
+  onBlur?: (...args: unknown[]) => unknown;
   onBlurCapture?: (...args: unknown[]) => unknown;
+  onChange?: (...args: unknown[]) => unknown;
   onChangeCapture?: (...args: unknown[]) => unknown;
   onBeforeInput?: (...args: unknown[]) => unknown;
   onBeforeInputCapture?: (...args: unknown[]) => unknown;
+  onInput?: (...args: unknown[]) => unknown;
   onInputCapture?: (...args: unknown[]) => unknown;
   onReset?: (...args: unknown[]) => unknown;
   onResetCapture?: (...args: unknown[]) => unknown;
+  onSubmit?: (...args: unknown[]) => unknown;
   onSubmitCapture?: (...args: unknown[]) => unknown;
   onInvalid?: (...args: unknown[]) => unknown;
   onInvalidCapture?: (...args: unknown[]) => unknown;
@@ -3797,8 +3810,11 @@ export type TwentyUiAnimatedCheckmarkProperties = {
   onLoadCapture?: (...args: unknown[]) => unknown;
   onError?: (...args: unknown[]) => unknown;
   onErrorCapture?: (...args: unknown[]) => unknown;
+  onKeyDown?: (...args: unknown[]) => unknown;
   onKeyDownCapture?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
   onKeyPressCapture?: (...args: unknown[]) => unknown;
+  onKeyUp?: (...args: unknown[]) => unknown;
   onKeyUpCapture?: (...args: unknown[]) => unknown;
   onAbort?: (...args: unknown[]) => unknown;
   onAbortCapture?: (...args: unknown[]) => unknown;
@@ -3848,8 +3864,11 @@ export type TwentyUiAnimatedCheckmarkProperties = {
   onWaitingCapture?: (...args: unknown[]) => unknown;
   onAuxClick?: (...args: unknown[]) => unknown;
   onAuxClickCapture?: (...args: unknown[]) => unknown;
+  onClick?: (...args: unknown[]) => unknown;
   onClickCapture?: (...args: unknown[]) => unknown;
+  onContextMenu?: (...args: unknown[]) => unknown;
   onContextMenuCapture?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
   onDoubleClickCapture?: (...args: unknown[]) => unknown;
   onDragCapture?: (...args: unknown[]) => unknown;
   onDragEndCapture?: (...args: unknown[]) => unknown;
@@ -3864,11 +3883,17 @@ export type TwentyUiAnimatedCheckmarkProperties = {
   onDragStartCapture?: (...args: unknown[]) => unknown;
   onDrop?: (...args: unknown[]) => unknown;
   onDropCapture?: (...args: unknown[]) => unknown;
+  onMouseDown?: (...args: unknown[]) => unknown;
   onMouseDownCapture?: (...args: unknown[]) => unknown;
+  onMouseEnter?: (...args: unknown[]) => unknown;
+  onMouseLeave?: (...args: unknown[]) => unknown;
   onMouseMove?: (...args: unknown[]) => unknown;
   onMouseMoveCapture?: (...args: unknown[]) => unknown;
+  onMouseOut?: (...args: unknown[]) => unknown;
   onMouseOutCapture?: (...args: unknown[]) => unknown;
+  onMouseOver?: (...args: unknown[]) => unknown;
   onMouseOverCapture?: (...args: unknown[]) => unknown;
+  onMouseUp?: (...args: unknown[]) => unknown;
   onMouseUpCapture?: (...args: unknown[]) => unknown;
   onSelect?: (...args: unknown[]) => unknown;
   onSelectCapture?: (...args: unknown[]) => unknown;
@@ -3898,7 +3923,9 @@ export type TwentyUiAnimatedCheckmarkProperties = {
   onGotPointerCaptureCapture?: (...args: unknown[]) => unknown;
   onLostPointerCapture?: (...args: unknown[]) => unknown;
   onLostPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onScroll?: (...args: unknown[]) => unknown;
   onScrollCapture?: (...args: unknown[]) => unknown;
+  onWheel?: (...args: unknown[]) => unknown;
   onWheelCapture?: (...args: unknown[]) => unknown;
   onAnimationStartCapture?: (...args: unknown[]) => unknown;
   onAnimationEnd?: (...args: unknown[]) => unknown;
@@ -3940,6 +3967,7 @@ export type TwentyUiAnimatedCheckmarkProperties = {
   _dragY?: Record<string, unknown>;
   onDragStart?: (...args: unknown[]) => unknown;
   onDragEnd?: (...args: unknown[]) => unknown;
+  onDrag?: (...args: unknown[]) => unknown;
   onDirectionLock?: (...args: unknown[]) => unknown;
   onDragTransitionEnd?: (...args: unknown[]) => unknown;
   layoutId?: string;
@@ -3959,28 +3987,7 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
   TwentyUiAnimatedCheckmarkProperties,
   Record<string, never>,
   { children: true },
-  {
-    focus(event: RemoteEvent<SerializedEventData>): void;
-    blur(event: RemoteEvent<SerializedEventData>): void;
-    change(event: RemoteEvent<SerializedEventData>): void;
-    input(event: RemoteEvent<SerializedEventData>): void;
-    submit(event: RemoteEvent<SerializedEventData>): void;
-    keydown(event: RemoteEvent<SerializedEventData>): void;
-    keypress(event: RemoteEvent<SerializedEventData>): void;
-    keyup(event: RemoteEvent<SerializedEventData>): void;
-    click(event: RemoteEvent<SerializedEventData>): void;
-    contextmenu(event: RemoteEvent<SerializedEventData>): void;
-    dblclick(event: RemoteEvent<SerializedEventData>): void;
-    mousedown(event: RemoteEvent<SerializedEventData>): void;
-    mouseenter(event: RemoteEvent<SerializedEventData>): void;
-    mouseleave(event: RemoteEvent<SerializedEventData>): void;
-    mouseout(event: RemoteEvent<SerializedEventData>): void;
-    mouseover(event: RemoteEvent<SerializedEventData>): void;
-    mouseup(event: RemoteEvent<SerializedEventData>): void;
-    scroll(event: RemoteEvent<SerializedEventData>): void;
-    wheel(event: RemoteEvent<SerializedEventData>): void;
-    drag(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: ['children'],
   properties: {
@@ -4098,14 +4105,19 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     onCompositionStartCapture: { type: Function },
     onCompositionUpdate: { type: Function },
     onCompositionUpdateCapture: { type: Function },
+    onFocus: { type: Function },
     onFocusCapture: { type: Function },
+    onBlur: { type: Function },
     onBlurCapture: { type: Function },
+    onChange: { type: Function },
     onChangeCapture: { type: Function },
     onBeforeInput: { type: Function },
     onBeforeInputCapture: { type: Function },
+    onInput: { type: Function },
     onInputCapture: { type: Function },
     onReset: { type: Function },
     onResetCapture: { type: Function },
+    onSubmit: { type: Function },
     onSubmitCapture: { type: Function },
     onInvalid: { type: Function },
     onInvalidCapture: { type: Function },
@@ -4113,8 +4125,11 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     onLoadCapture: { type: Function },
     onError: { type: Function },
     onErrorCapture: { type: Function },
+    onKeyDown: { type: Function },
     onKeyDownCapture: { type: Function },
+    onKeyPress: { type: Function },
     onKeyPressCapture: { type: Function },
+    onKeyUp: { type: Function },
     onKeyUpCapture: { type: Function },
     onAbort: { type: Function },
     onAbortCapture: { type: Function },
@@ -4164,8 +4179,11 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     onWaitingCapture: { type: Function },
     onAuxClick: { type: Function },
     onAuxClickCapture: { type: Function },
+    onClick: { type: Function },
     onClickCapture: { type: Function },
+    onContextMenu: { type: Function },
     onContextMenuCapture: { type: Function },
+    onDoubleClick: { type: Function },
     onDoubleClickCapture: { type: Function },
     onDragCapture: { type: Function },
     onDragEndCapture: { type: Function },
@@ -4180,11 +4198,17 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     onDragStartCapture: { type: Function },
     onDrop: { type: Function },
     onDropCapture: { type: Function },
+    onMouseDown: { type: Function },
     onMouseDownCapture: { type: Function },
+    onMouseEnter: { type: Function },
+    onMouseLeave: { type: Function },
     onMouseMove: { type: Function },
     onMouseMoveCapture: { type: Function },
+    onMouseOut: { type: Function },
     onMouseOutCapture: { type: Function },
+    onMouseOver: { type: Function },
     onMouseOverCapture: { type: Function },
+    onMouseUp: { type: Function },
     onMouseUpCapture: { type: Function },
     onSelect: { type: Function },
     onSelectCapture: { type: Function },
@@ -4214,7 +4238,9 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     onGotPointerCaptureCapture: { type: Function },
     onLostPointerCapture: { type: Function },
     onLostPointerCaptureCapture: { type: Function },
+    onScroll: { type: Function },
     onScrollCapture: { type: Function },
+    onWheel: { type: Function },
     onWheelCapture: { type: Function },
     onAnimationStartCapture: { type: Function },
     onAnimationEnd: { type: Function },
@@ -4256,6 +4282,7 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     _dragY: { type: Object },
     onDragStart: { type: Function },
     onDragEnd: { type: Function },
+    onDrag: { type: Function },
     onDirectionLock: { type: Function },
     onDragTransitionEnd: { type: Function },
     layoutId: { type: String },
@@ -4270,28 +4297,6 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     duration: { type: Number },
     size: { type: Number },
   },
-  events: [
-    'focus',
-    'blur',
-    'change',
-    'input',
-    'submit',
-    'keydown',
-    'keypress',
-    'keyup',
-    'click',
-    'contextmenu',
-    'dblclick',
-    'mousedown',
-    'mouseenter',
-    'mouseleave',
-    'mouseout',
-    'mouseover',
-    'mouseup',
-    'scroll',
-    'wheel',
-    'drag',
-  ],
 });
 
 export type TwentyUiCheckmarkProperties = {
@@ -4356,14 +4361,19 @@ export type TwentyUiCheckmarkProperties = {
   onCompositionStartCapture?: (...args: unknown[]) => unknown;
   onCompositionUpdate?: (...args: unknown[]) => unknown;
   onCompositionUpdateCapture?: (...args: unknown[]) => unknown;
+  onFocus?: (...args: unknown[]) => unknown;
   onFocusCapture?: (...args: unknown[]) => unknown;
+  onBlur?: (...args: unknown[]) => unknown;
   onBlurCapture?: (...args: unknown[]) => unknown;
+  onChange?: (...args: unknown[]) => unknown;
   onChangeCapture?: (...args: unknown[]) => unknown;
   onBeforeInput?: (...args: unknown[]) => unknown;
   onBeforeInputCapture?: (...args: unknown[]) => unknown;
+  onInput?: (...args: unknown[]) => unknown;
   onInputCapture?: (...args: unknown[]) => unknown;
   onReset?: (...args: unknown[]) => unknown;
   onResetCapture?: (...args: unknown[]) => unknown;
+  onSubmit?: (...args: unknown[]) => unknown;
   onSubmitCapture?: (...args: unknown[]) => unknown;
   onInvalid?: (...args: unknown[]) => unknown;
   onInvalidCapture?: (...args: unknown[]) => unknown;
@@ -4371,8 +4381,11 @@ export type TwentyUiCheckmarkProperties = {
   onLoadCapture?: (...args: unknown[]) => unknown;
   onError?: (...args: unknown[]) => unknown;
   onErrorCapture?: (...args: unknown[]) => unknown;
+  onKeyDown?: (...args: unknown[]) => unknown;
   onKeyDownCapture?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
   onKeyPressCapture?: (...args: unknown[]) => unknown;
+  onKeyUp?: (...args: unknown[]) => unknown;
   onKeyUpCapture?: (...args: unknown[]) => unknown;
   onAbort?: (...args: unknown[]) => unknown;
   onAbortCapture?: (...args: unknown[]) => unknown;
@@ -4422,9 +4435,13 @@ export type TwentyUiCheckmarkProperties = {
   onWaitingCapture?: (...args: unknown[]) => unknown;
   onAuxClick?: (...args: unknown[]) => unknown;
   onAuxClickCapture?: (...args: unknown[]) => unknown;
+  onClick?: (...args: unknown[]) => unknown;
   onClickCapture?: (...args: unknown[]) => unknown;
+  onContextMenu?: (...args: unknown[]) => unknown;
   onContextMenuCapture?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
   onDoubleClickCapture?: (...args: unknown[]) => unknown;
+  onDrag?: (...args: unknown[]) => unknown;
   onDragCapture?: (...args: unknown[]) => unknown;
   onDragEnd?: (...args: unknown[]) => unknown;
   onDragEndCapture?: (...args: unknown[]) => unknown;
@@ -4440,11 +4457,17 @@ export type TwentyUiCheckmarkProperties = {
   onDragStartCapture?: (...args: unknown[]) => unknown;
   onDrop?: (...args: unknown[]) => unknown;
   onDropCapture?: (...args: unknown[]) => unknown;
+  onMouseDown?: (...args: unknown[]) => unknown;
   onMouseDownCapture?: (...args: unknown[]) => unknown;
+  onMouseEnter?: (...args: unknown[]) => unknown;
+  onMouseLeave?: (...args: unknown[]) => unknown;
   onMouseMove?: (...args: unknown[]) => unknown;
   onMouseMoveCapture?: (...args: unknown[]) => unknown;
+  onMouseOut?: (...args: unknown[]) => unknown;
   onMouseOutCapture?: (...args: unknown[]) => unknown;
+  onMouseOver?: (...args: unknown[]) => unknown;
   onMouseOverCapture?: (...args: unknown[]) => unknown;
+  onMouseUp?: (...args: unknown[]) => unknown;
   onMouseUpCapture?: (...args: unknown[]) => unknown;
   onSelect?: (...args: unknown[]) => unknown;
   onSelectCapture?: (...args: unknown[]) => unknown;
@@ -4474,7 +4497,9 @@ export type TwentyUiCheckmarkProperties = {
   onGotPointerCaptureCapture?: (...args: unknown[]) => unknown;
   onLostPointerCapture?: (...args: unknown[]) => unknown;
   onLostPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onScroll?: (...args: unknown[]) => unknown;
   onScrollCapture?: (...args: unknown[]) => unknown;
+  onWheel?: (...args: unknown[]) => unknown;
   onWheelCapture?: (...args: unknown[]) => unknown;
   onAnimationStart?: (...args: unknown[]) => unknown;
   onAnimationStartCapture?: (...args: unknown[]) => unknown;
@@ -4533,28 +4558,7 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
   TwentyUiCheckmarkProperties,
   Record<string, never>,
   { children: true; 'data-tooltip-wrapper': true },
-  {
-    focus(event: RemoteEvent<SerializedEventData>): void;
-    blur(event: RemoteEvent<SerializedEventData>): void;
-    change(event: RemoteEvent<SerializedEventData>): void;
-    input(event: RemoteEvent<SerializedEventData>): void;
-    submit(event: RemoteEvent<SerializedEventData>): void;
-    keydown(event: RemoteEvent<SerializedEventData>): void;
-    keypress(event: RemoteEvent<SerializedEventData>): void;
-    keyup(event: RemoteEvent<SerializedEventData>): void;
-    click(event: RemoteEvent<SerializedEventData>): void;
-    contextmenu(event: RemoteEvent<SerializedEventData>): void;
-    dblclick(event: RemoteEvent<SerializedEventData>): void;
-    drag(event: RemoteEvent<SerializedEventData>): void;
-    mousedown(event: RemoteEvent<SerializedEventData>): void;
-    mouseenter(event: RemoteEvent<SerializedEventData>): void;
-    mouseleave(event: RemoteEvent<SerializedEventData>): void;
-    mouseout(event: RemoteEvent<SerializedEventData>): void;
-    mouseover(event: RemoteEvent<SerializedEventData>): void;
-    mouseup(event: RemoteEvent<SerializedEventData>): void;
-    scroll(event: RemoteEvent<SerializedEventData>): void;
-    wheel(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: ['children', 'data-tooltip-wrapper'],
   properties: {
@@ -4619,14 +4623,19 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
     onCompositionStartCapture: { type: Function },
     onCompositionUpdate: { type: Function },
     onCompositionUpdateCapture: { type: Function },
+    onFocus: { type: Function },
     onFocusCapture: { type: Function },
+    onBlur: { type: Function },
     onBlurCapture: { type: Function },
+    onChange: { type: Function },
     onChangeCapture: { type: Function },
     onBeforeInput: { type: Function },
     onBeforeInputCapture: { type: Function },
+    onInput: { type: Function },
     onInputCapture: { type: Function },
     onReset: { type: Function },
     onResetCapture: { type: Function },
+    onSubmit: { type: Function },
     onSubmitCapture: { type: Function },
     onInvalid: { type: Function },
     onInvalidCapture: { type: Function },
@@ -4634,8 +4643,11 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
     onLoadCapture: { type: Function },
     onError: { type: Function },
     onErrorCapture: { type: Function },
+    onKeyDown: { type: Function },
     onKeyDownCapture: { type: Function },
+    onKeyPress: { type: Function },
     onKeyPressCapture: { type: Function },
+    onKeyUp: { type: Function },
     onKeyUpCapture: { type: Function },
     onAbort: { type: Function },
     onAbortCapture: { type: Function },
@@ -4685,9 +4697,13 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
     onWaitingCapture: { type: Function },
     onAuxClick: { type: Function },
     onAuxClickCapture: { type: Function },
+    onClick: { type: Function },
     onClickCapture: { type: Function },
+    onContextMenu: { type: Function },
     onContextMenuCapture: { type: Function },
+    onDoubleClick: { type: Function },
     onDoubleClickCapture: { type: Function },
+    onDrag: { type: Function },
     onDragCapture: { type: Function },
     onDragEnd: { type: Function },
     onDragEndCapture: { type: Function },
@@ -4703,11 +4719,17 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
     onDragStartCapture: { type: Function },
     onDrop: { type: Function },
     onDropCapture: { type: Function },
+    onMouseDown: { type: Function },
     onMouseDownCapture: { type: Function },
+    onMouseEnter: { type: Function },
+    onMouseLeave: { type: Function },
     onMouseMove: { type: Function },
     onMouseMoveCapture: { type: Function },
+    onMouseOut: { type: Function },
     onMouseOutCapture: { type: Function },
+    onMouseOver: { type: Function },
     onMouseOverCapture: { type: Function },
+    onMouseUp: { type: Function },
     onMouseUpCapture: { type: Function },
     onSelect: { type: Function },
     onSelectCapture: { type: Function },
@@ -4737,7 +4759,9 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
     onGotPointerCaptureCapture: { type: Function },
     onLostPointerCapture: { type: Function },
     onLostPointerCaptureCapture: { type: Function },
+    onScroll: { type: Function },
     onScrollCapture: { type: Function },
+    onWheel: { type: Function },
     onWheelCapture: { type: Function },
     onAnimationStart: { type: Function },
     onAnimationStartCapture: { type: Function },
@@ -4791,28 +4815,6 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
     'data-tooltip-hidden': { type: Boolean },
     'data-tooltip-class-name': { type: String },
   },
-  events: [
-    'focus',
-    'blur',
-    'change',
-    'input',
-    'submit',
-    'keydown',
-    'keypress',
-    'keyup',
-    'click',
-    'contextmenu',
-    'dblclick',
-    'drag',
-    'mousedown',
-    'mouseenter',
-    'mouseleave',
-    'mouseout',
-    'mouseover',
-    'mouseup',
-    'scroll',
-    'wheel',
-  ],
 });
 
 export type TwentyUiColorSampleProperties = {
@@ -4875,6 +4877,7 @@ export type TwentyUiInfoProperties = {
   accent?: string;
   text: string;
   buttonTitle?: string;
+  onClick?: (...args: unknown[]) => unknown;
   to?: string;
 };
 
@@ -4882,15 +4885,15 @@ export const TwentyUiInfoElement = createRemoteElement<
   TwentyUiInfoProperties,
   Record<string, never>,
   Record<string, never>,
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     accent: { type: String },
     text: { type: String },
     buttonTitle: { type: String },
+    onClick: { type: Function },
     to: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiStatusProperties = {
@@ -4898,6 +4901,7 @@ export type TwentyUiStatusProperties = {
   color: string;
   isLoaderVisible?: boolean;
   text: string;
+  onClick?: (...args: unknown[]) => unknown;
   weight?: string;
 };
 
@@ -4905,16 +4909,16 @@ export const TwentyUiStatusElement = createRemoteElement<
   TwentyUiStatusProperties,
   Record<string, never>,
   Record<string, never>,
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     className: { type: String },
     color: { type: String },
     isLoaderVisible: { type: Boolean },
     text: { type: String },
+    onClick: { type: Function },
     weight: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiHorizontalSeparatorProperties = {
@@ -5301,14 +5305,19 @@ export type TwentyUiClickToActionLinkProperties = {
   onCompositionStartCapture?: (...args: unknown[]) => unknown;
   onCompositionUpdate?: (...args: unknown[]) => unknown;
   onCompositionUpdateCapture?: (...args: unknown[]) => unknown;
+  onFocus?: (...args: unknown[]) => unknown;
   onFocusCapture?: (...args: unknown[]) => unknown;
+  onBlur?: (...args: unknown[]) => unknown;
   onBlurCapture?: (...args: unknown[]) => unknown;
+  onChange?: (...args: unknown[]) => unknown;
   onChangeCapture?: (...args: unknown[]) => unknown;
   onBeforeInput?: (...args: unknown[]) => unknown;
   onBeforeInputCapture?: (...args: unknown[]) => unknown;
+  onInput?: (...args: unknown[]) => unknown;
   onInputCapture?: (...args: unknown[]) => unknown;
   onReset?: (...args: unknown[]) => unknown;
   onResetCapture?: (...args: unknown[]) => unknown;
+  onSubmit?: (...args: unknown[]) => unknown;
   onSubmitCapture?: (...args: unknown[]) => unknown;
   onInvalid?: (...args: unknown[]) => unknown;
   onInvalidCapture?: (...args: unknown[]) => unknown;
@@ -5316,8 +5325,11 @@ export type TwentyUiClickToActionLinkProperties = {
   onLoadCapture?: (...args: unknown[]) => unknown;
   onError?: (...args: unknown[]) => unknown;
   onErrorCapture?: (...args: unknown[]) => unknown;
+  onKeyDown?: (...args: unknown[]) => unknown;
   onKeyDownCapture?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
   onKeyPressCapture?: (...args: unknown[]) => unknown;
+  onKeyUp?: (...args: unknown[]) => unknown;
   onKeyUpCapture?: (...args: unknown[]) => unknown;
   onAbort?: (...args: unknown[]) => unknown;
   onAbortCapture?: (...args: unknown[]) => unknown;
@@ -5367,9 +5379,13 @@ export type TwentyUiClickToActionLinkProperties = {
   onWaitingCapture?: (...args: unknown[]) => unknown;
   onAuxClick?: (...args: unknown[]) => unknown;
   onAuxClickCapture?: (...args: unknown[]) => unknown;
+  onClick?: (...args: unknown[]) => unknown;
   onClickCapture?: (...args: unknown[]) => unknown;
+  onContextMenu?: (...args: unknown[]) => unknown;
   onContextMenuCapture?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
   onDoubleClickCapture?: (...args: unknown[]) => unknown;
+  onDrag?: (...args: unknown[]) => unknown;
   onDragCapture?: (...args: unknown[]) => unknown;
   onDragEnd?: (...args: unknown[]) => unknown;
   onDragEndCapture?: (...args: unknown[]) => unknown;
@@ -5385,11 +5401,17 @@ export type TwentyUiClickToActionLinkProperties = {
   onDragStartCapture?: (...args: unknown[]) => unknown;
   onDrop?: (...args: unknown[]) => unknown;
   onDropCapture?: (...args: unknown[]) => unknown;
+  onMouseDown?: (...args: unknown[]) => unknown;
   onMouseDownCapture?: (...args: unknown[]) => unknown;
+  onMouseEnter?: (...args: unknown[]) => unknown;
+  onMouseLeave?: (...args: unknown[]) => unknown;
   onMouseMove?: (...args: unknown[]) => unknown;
   onMouseMoveCapture?: (...args: unknown[]) => unknown;
+  onMouseOut?: (...args: unknown[]) => unknown;
   onMouseOutCapture?: (...args: unknown[]) => unknown;
+  onMouseOver?: (...args: unknown[]) => unknown;
   onMouseOverCapture?: (...args: unknown[]) => unknown;
+  onMouseUp?: (...args: unknown[]) => unknown;
   onMouseUpCapture?: (...args: unknown[]) => unknown;
   onSelect?: (...args: unknown[]) => unknown;
   onSelectCapture?: (...args: unknown[]) => unknown;
@@ -5419,7 +5441,9 @@ export type TwentyUiClickToActionLinkProperties = {
   onGotPointerCaptureCapture?: (...args: unknown[]) => unknown;
   onLostPointerCapture?: (...args: unknown[]) => unknown;
   onLostPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onScroll?: (...args: unknown[]) => unknown;
   onScrollCapture?: (...args: unknown[]) => unknown;
+  onWheel?: (...args: unknown[]) => unknown;
   onWheelCapture?: (...args: unknown[]) => unknown;
   onAnimationStart?: (...args: unknown[]) => unknown;
   onAnimationStartCapture?: (...args: unknown[]) => unknown;
@@ -5435,28 +5459,7 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
   TwentyUiClickToActionLinkProperties,
   Record<string, never>,
   { 'data-tooltip-wrapper': true; children: true },
-  {
-    focus(event: RemoteEvent<SerializedEventData>): void;
-    blur(event: RemoteEvent<SerializedEventData>): void;
-    change(event: RemoteEvent<SerializedEventData>): void;
-    input(event: RemoteEvent<SerializedEventData>): void;
-    submit(event: RemoteEvent<SerializedEventData>): void;
-    keydown(event: RemoteEvent<SerializedEventData>): void;
-    keypress(event: RemoteEvent<SerializedEventData>): void;
-    keyup(event: RemoteEvent<SerializedEventData>): void;
-    click(event: RemoteEvent<SerializedEventData>): void;
-    contextmenu(event: RemoteEvent<SerializedEventData>): void;
-    dblclick(event: RemoteEvent<SerializedEventData>): void;
-    drag(event: RemoteEvent<SerializedEventData>): void;
-    mousedown(event: RemoteEvent<SerializedEventData>): void;
-    mouseenter(event: RemoteEvent<SerializedEventData>): void;
-    mouseleave(event: RemoteEvent<SerializedEventData>): void;
-    mouseout(event: RemoteEvent<SerializedEventData>): void;
-    mouseover(event: RemoteEvent<SerializedEventData>): void;
-    mouseup(event: RemoteEvent<SerializedEventData>): void;
-    scroll(event: RemoteEvent<SerializedEventData>): void;
-    wheel(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: ['data-tooltip-wrapper', 'children'],
   properties: {
@@ -5570,14 +5573,19 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
     onCompositionStartCapture: { type: Function },
     onCompositionUpdate: { type: Function },
     onCompositionUpdateCapture: { type: Function },
+    onFocus: { type: Function },
     onFocusCapture: { type: Function },
+    onBlur: { type: Function },
     onBlurCapture: { type: Function },
+    onChange: { type: Function },
     onChangeCapture: { type: Function },
     onBeforeInput: { type: Function },
     onBeforeInputCapture: { type: Function },
+    onInput: { type: Function },
     onInputCapture: { type: Function },
     onReset: { type: Function },
     onResetCapture: { type: Function },
+    onSubmit: { type: Function },
     onSubmitCapture: { type: Function },
     onInvalid: { type: Function },
     onInvalidCapture: { type: Function },
@@ -5585,8 +5593,11 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
     onLoadCapture: { type: Function },
     onError: { type: Function },
     onErrorCapture: { type: Function },
+    onKeyDown: { type: Function },
     onKeyDownCapture: { type: Function },
+    onKeyPress: { type: Function },
     onKeyPressCapture: { type: Function },
+    onKeyUp: { type: Function },
     onKeyUpCapture: { type: Function },
     onAbort: { type: Function },
     onAbortCapture: { type: Function },
@@ -5636,9 +5647,13 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
     onWaitingCapture: { type: Function },
     onAuxClick: { type: Function },
     onAuxClickCapture: { type: Function },
+    onClick: { type: Function },
     onClickCapture: { type: Function },
+    onContextMenu: { type: Function },
     onContextMenuCapture: { type: Function },
+    onDoubleClick: { type: Function },
     onDoubleClickCapture: { type: Function },
+    onDrag: { type: Function },
     onDragCapture: { type: Function },
     onDragEnd: { type: Function },
     onDragEndCapture: { type: Function },
@@ -5654,11 +5669,17 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
     onDragStartCapture: { type: Function },
     onDrop: { type: Function },
     onDropCapture: { type: Function },
+    onMouseDown: { type: Function },
     onMouseDownCapture: { type: Function },
+    onMouseEnter: { type: Function },
+    onMouseLeave: { type: Function },
     onMouseMove: { type: Function },
     onMouseMoveCapture: { type: Function },
+    onMouseOut: { type: Function },
     onMouseOutCapture: { type: Function },
+    onMouseOver: { type: Function },
     onMouseOverCapture: { type: Function },
+    onMouseUp: { type: Function },
     onMouseUpCapture: { type: Function },
     onSelect: { type: Function },
     onSelectCapture: { type: Function },
@@ -5688,7 +5709,9 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
     onGotPointerCaptureCapture: { type: Function },
     onLostPointerCapture: { type: Function },
     onLostPointerCaptureCapture: { type: Function },
+    onScroll: { type: Function },
     onScrollCapture: { type: Function },
+    onWheel: { type: Function },
     onWheelCapture: { type: Function },
     onAnimationStart: { type: Function },
     onAnimationStartCapture: { type: Function },
@@ -5699,32 +5722,11 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
     onTransitionEnd: { type: Function },
     onTransitionEndCapture: { type: Function },
   },
-  events: [
-    'focus',
-    'blur',
-    'change',
-    'input',
-    'submit',
-    'keydown',
-    'keypress',
-    'keyup',
-    'click',
-    'contextmenu',
-    'dblclick',
-    'drag',
-    'mousedown',
-    'mouseenter',
-    'mouseleave',
-    'mouseout',
-    'mouseover',
-    'mouseup',
-    'scroll',
-    'wheel',
-  ],
 });
 
 export type TwentyUiContactLinkProperties = {
   href: string;
+  onClick?: (...args: unknown[]) => unknown;
   maxWidth?: number;
 };
 
@@ -5732,14 +5734,14 @@ export const TwentyUiContactLinkElement = createRemoteElement<
   TwentyUiContactLinkProperties,
   Record<string, never>,
   { children: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['children'],
   properties: {
     href: { type: String },
+    onClick: { type: Function },
     maxWidth: { type: Number },
   },
-  events: ['click'],
 });
 
 export type TwentyUiGithubVersionLinkProperties = {
@@ -5760,25 +5762,27 @@ export const TwentyUiGithubVersionLinkElement = createRemoteElement<
 export type TwentyUiRawLinkProperties = {
   className?: string;
   href: string;
+  onClick?: (...args: unknown[]) => unknown;
 };
 
 export const TwentyUiRawLinkElement = createRemoteElement<
   TwentyUiRawLinkProperties,
   Record<string, never>,
   { children: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['children'],
   properties: {
     className: { type: String },
     href: { type: String },
+    onClick: { type: Function },
   },
-  events: ['click'],
 });
 
 export type TwentyUiRoundedLinkProperties = {
   href: string;
   label?: string;
+  onClick?: (...args: unknown[]) => unknown;
   className?: string;
 };
 
@@ -5786,38 +5790,40 @@ export const TwentyUiRoundedLinkElement = createRemoteElement<
   TwentyUiRoundedLinkProperties,
   Record<string, never>,
   Record<string, never>,
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     href: { type: String },
     label: { type: String },
+    onClick: { type: Function },
     className: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiSocialLinkProperties = {
   label: string;
   href: string;
   type: string;
+  onClick?: (...args: unknown[]) => unknown;
 };
 
 export const TwentyUiSocialLinkElement = createRemoteElement<
   TwentyUiSocialLinkProperties,
   Record<string, never>,
   Record<string, never>,
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     label: { type: String },
     href: { type: String },
     type: { type: String },
+    onClick: { type: Function },
   },
-  events: ['click'],
 });
 
 export type TwentyUiUndecoratedLinkProperties = {
   replace?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
   fullWidth?: boolean;
 };
 
@@ -5825,14 +5831,14 @@ export const TwentyUiUndecoratedLinkElement = createRemoteElement<
   TwentyUiUndecoratedLinkProperties,
   Record<string, never>,
   { children: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['children'],
   properties: {
     replace: { type: Boolean },
+    onClick: { type: Function },
     fullWidth: { type: Boolean },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuPickerProperties = {
@@ -5840,6 +5846,7 @@ export type TwentyUiMenuPickerProperties = {
   className?: string;
   disabled?: boolean;
   label?: string;
+  onClick?: (...args: unknown[]) => unknown;
   selected?: boolean;
   showLabel?: boolean;
   testId?: string;
@@ -5852,7 +5859,7 @@ export const TwentyUiMenuPickerElement = createRemoteElement<
   TwentyUiMenuPickerProperties,
   Record<string, never>,
   { icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['icon'],
   properties: {
@@ -5860,6 +5867,7 @@ export const TwentyUiMenuPickerElement = createRemoteElement<
     className: { type: String },
     disabled: { type: Boolean },
     label: { type: String },
+    onClick: { type: Function },
     selected: { type: Boolean },
     showLabel: { type: Boolean },
     testId: { type: String },
@@ -5867,7 +5875,6 @@ export const TwentyUiMenuPickerElement = createRemoteElement<
     tooltipDelay: { type: String },
     tooltipOffset: { type: Number },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuItemProperties = {
@@ -5877,6 +5884,9 @@ export type TwentyUiMenuItemProperties = {
   iconButtons?: unknown[];
   isIconDisplayedOnHoverOnly?: boolean;
   isTooltipOpen?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
+  onMouseEnter?: (...args: unknown[]) => unknown;
+  onMouseLeave?: (...args: unknown[]) => unknown;
   testId?: string;
   disabled?: boolean;
   contextualTextPosition?: string;
@@ -5897,11 +5907,7 @@ export const TwentyUiMenuItemElement = createRemoteElement<
     text: true;
     contextualText: true;
   },
-  {
-    click(event: RemoteEvent<SerializedEventData>): void;
-    mouseenter(event: RemoteEvent<SerializedEventData>): void;
-    mouseleave(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: [
     'LeftIcon',
@@ -5918,6 +5924,9 @@ export const TwentyUiMenuItemElement = createRemoteElement<
     iconButtons: { type: Array },
     isIconDisplayedOnHoverOnly: { type: Boolean },
     isTooltipOpen: { type: Boolean },
+    onClick: { type: Function },
+    onMouseEnter: { type: Function },
+    onMouseLeave: { type: Function },
     testId: { type: String },
     disabled: { type: Boolean },
     contextualTextPosition: { type: String },
@@ -5926,7 +5935,6 @@ export const TwentyUiMenuItemElement = createRemoteElement<
     hotKeys: { type: Array },
     isSubMenuOpened: { type: Boolean },
   },
-  events: ['click', 'mouseenter', 'mouseleave'],
 });
 
 export type TwentyUiMenuItemAvatarProperties = {
@@ -5936,6 +5944,9 @@ export type TwentyUiMenuItemAvatarProperties = {
   isIconDisplayedOnHoverOnly?: boolean;
   isTooltipOpen?: boolean;
   avatar?: Record<string, unknown>;
+  onClick?: (...args: unknown[]) => unknown;
+  onMouseEnter?: (...args: unknown[]) => unknown;
+  onMouseLeave?: (...args: unknown[]) => unknown;
   testId?: string;
   text: string;
   hasSubMenu?: boolean;
@@ -5945,11 +5956,7 @@ export const TwentyUiMenuItemAvatarElement = createRemoteElement<
   TwentyUiMenuItemAvatarProperties,
   Record<string, never>,
   { contextualText: true },
-  {
-    click(event: RemoteEvent<SerializedEventData>): void;
-    mouseenter(event: RemoteEvent<SerializedEventData>): void;
-    mouseleave(event: RemoteEvent<SerializedEventData>): void;
-  }
+  Record<string, never>
 >({
   slots: ['contextualText'],
   properties: {
@@ -5959,11 +5966,13 @@ export const TwentyUiMenuItemAvatarElement = createRemoteElement<
     isIconDisplayedOnHoverOnly: { type: Boolean },
     isTooltipOpen: { type: Boolean },
     avatar: { type: Object },
+    onClick: { type: Function },
+    onMouseEnter: { type: Function },
+    onMouseLeave: { type: Function },
     testId: { type: String },
     text: { type: String },
     hasSubMenu: { type: Boolean },
   },
-  events: ['click', 'mouseenter', 'mouseleave'],
 });
 
 export type TwentyUiMenuItemDraggableProperties = {
@@ -5971,6 +5980,7 @@ export type TwentyUiMenuItemDraggableProperties = {
   accent?: string;
   iconButtons?: unknown[];
   isTooltipOpen?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
   className?: string;
   isIconDisplayedOnHoverOnly?: boolean;
   showGrip?: boolean;
@@ -5982,7 +5992,7 @@ export const TwentyUiMenuItemDraggableElement = createRemoteElement<
   TwentyUiMenuItemDraggableProperties,
   Record<string, never>,
   { LeftIcon: true; text: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['LeftIcon', 'text'],
   properties: {
@@ -5990,13 +6000,13 @@ export const TwentyUiMenuItemDraggableElement = createRemoteElement<
     accent: { type: String },
     iconButtons: { type: Array },
     isTooltipOpen: { type: Boolean },
+    onClick: { type: Function },
     className: { type: String },
     isIconDisplayedOnHoverOnly: { type: Boolean },
     showGrip: { type: Boolean },
     isDragDisabled: { type: Boolean },
     isHoverDisabled: { type: Boolean },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuItemHotKeysProperties = {
@@ -6074,6 +6084,7 @@ export type TwentyUiMenuItemMultiSelectTagProperties = {
   selected: boolean;
   className?: string;
   isKeySelected?: boolean;
+  onClick?: (...args: unknown[]) => unknown;
   color: string;
   text: string;
 };
@@ -6082,22 +6093,23 @@ export const TwentyUiMenuItemMultiSelectTagElement = createRemoteElement<
   TwentyUiMenuItemMultiSelectTagProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
     selected: { type: Boolean },
     className: { type: String },
     isKeySelected: { type: Boolean },
+    onClick: { type: Function },
     color: { type: String },
     text: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuItemNavigateProperties = {
   withIconContainer?: boolean;
   text: string;
+  onClick?: (...args: unknown[]) => unknown;
   className?: string;
 };
 
@@ -6105,15 +6117,15 @@ export const TwentyUiMenuItemNavigateElement = createRemoteElement<
   TwentyUiMenuItemNavigateProperties,
   Record<string, never>,
   { LeftIcon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['LeftIcon'],
   properties: {
     withIconContainer: { type: Boolean },
     text: { type: String },
+    onClick: { type: Function },
     className: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuItemSelectProperties = {
@@ -6122,6 +6134,7 @@ export type TwentyUiMenuItemSelectProperties = {
   needIconCheck?: boolean;
   text: string;
   className?: string;
+  onClick?: (...args: unknown[]) => unknown;
   disabled?: boolean;
   focused?: boolean;
   hasSubMenu?: boolean;
@@ -6132,7 +6145,7 @@ export const TwentyUiMenuItemSelectElement = createRemoteElement<
   TwentyUiMenuItemSelectProperties,
   Record<string, never>,
   { LeftIcon: true; contextualText: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['LeftIcon', 'contextualText'],
   properties: {
@@ -6141,12 +6154,12 @@ export const TwentyUiMenuItemSelectElement = createRemoteElement<
     needIconCheck: { type: Boolean },
     text: { type: String },
     className: { type: String },
+    onClick: { type: Function },
     disabled: { type: Boolean },
     focused: { type: Boolean },
     hasSubMenu: { type: Boolean },
     contextualTextPosition: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuItemSelectAvatarProperties = {
@@ -6154,6 +6167,7 @@ export type TwentyUiMenuItemSelectAvatarProperties = {
   text: string;
   contextualText?: string;
   className?: string;
+  onClick?: (...args: unknown[]) => unknown;
   disabled?: boolean;
   focused?: boolean;
   testId?: string;
@@ -6163,7 +6177,7 @@ export const TwentyUiMenuItemSelectAvatarElement = createRemoteElement<
   TwentyUiMenuItemSelectAvatarProperties,
   Record<string, never>,
   { avatar: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['avatar'],
   properties: {
@@ -6171,16 +6185,17 @@ export const TwentyUiMenuItemSelectAvatarElement = createRemoteElement<
     text: { type: String },
     contextualText: { type: String },
     className: { type: String },
+    onClick: { type: Function },
     disabled: { type: Boolean },
     focused: { type: Boolean },
     testId: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuItemSelectColorProperties = {
   selected: boolean;
   className?: string;
+  onClick?: (...args: unknown[]) => unknown;
   disabled?: boolean;
   focused?: boolean;
   color: string;
@@ -6192,18 +6207,18 @@ export const TwentyUiMenuItemSelectColorElement = createRemoteElement<
   TwentyUiMenuItemSelectColorProperties,
   Record<string, never>,
   Record<string, never>,
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   properties: {
     selected: { type: Boolean },
     className: { type: String },
+    onClick: { type: Function },
     disabled: { type: Boolean },
     focused: { type: Boolean },
     color: { type: String },
     variant: { type: String },
     colorLabels: { type: Object },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuItemSelectTagProperties = {
@@ -6211,6 +6226,7 @@ export type TwentyUiMenuItemSelectTagProperties = {
   focused?: boolean;
   isKeySelected?: boolean;
   className?: string;
+  onClick?: (...args: unknown[]) => unknown;
   color: string;
   text: string;
   variant?: string;
@@ -6220,7 +6236,7 @@ export const TwentyUiMenuItemSelectTagElement = createRemoteElement<
   TwentyUiMenuItemSelectTagProperties,
   Record<string, never>,
   { LeftIcon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['LeftIcon'],
   properties: {
@@ -6228,11 +6244,11 @@ export const TwentyUiMenuItemSelectTagElement = createRemoteElement<
     focused: { type: Boolean },
     isKeySelected: { type: Boolean },
     className: { type: String },
+    onClick: { type: Function },
     color: { type: String },
     text: { type: String },
     variant: { type: String },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuItemSuggestionProperties = {
@@ -6240,13 +6256,14 @@ export type TwentyUiMenuItemSuggestionProperties = {
   text: string;
   selected?: boolean;
   className?: string;
+  onClick?: (...args: unknown[]) => unknown;
 };
 
 export const TwentyUiMenuItemSuggestionElement = createRemoteElement<
   TwentyUiMenuItemSuggestionProperties,
   Record<string, never>,
   { LeftIcon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['LeftIcon'],
   properties: {
@@ -6254,8 +6271,8 @@ export const TwentyUiMenuItemSuggestionElement = createRemoteElement<
     text: { type: String },
     selected: { type: Boolean },
     className: { type: String },
+    onClick: { type: Function },
   },
-  events: ['click'],
 });
 
 export type TwentyUiMenuItemToggleProperties = {
@@ -6330,19 +6347,20 @@ export const TwentyUiNavigationBarElement = createRemoteElement<
 
 export type TwentyUiNavigationBarItemProperties = {
   isActive: boolean;
+  onClick: (...args: unknown[]) => unknown;
 };
 
 export const TwentyUiNavigationBarItemElement = createRemoteElement<
   TwentyUiNavigationBarItemProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent<SerializedEventData>): void }
+  Record<string, never>
 >({
   slots: ['Icon'],
   properties: {
     isActive: { type: Boolean },
+    onClick: { type: Function },
   },
-  events: ['click'],
 });
 
 export type TwentyUiNotificationCounterProperties = {

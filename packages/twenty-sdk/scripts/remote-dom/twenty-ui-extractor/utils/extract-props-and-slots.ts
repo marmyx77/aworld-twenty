@@ -2,31 +2,21 @@ import { type Type } from 'ts-morph';
 
 import { type PropertySchema } from '@/front-component/types/PropertySchema';
 import { isDefined } from 'twenty-shared/utils';
-import { REACT_PROP_TO_DOM_EVENT } from '../constants/ReactPropToDomEvent';
 import { classifyPropertyType } from './classify-property-type';
 import { isReactElementType } from './is-react-element-type';
 
 export type ExtractedProps = {
   properties: Record<string, PropertySchema>;
-  events: string[];
   slots: string[];
 };
 
 export const extractPropsAndSlots = (propsType: Type): ExtractedProps => {
   const properties: Record<string, PropertySchema> = {};
-  const events: string[] = [];
   const slots: string[] = [];
   const propsTypeProperties = propsType.getProperties();
 
   for (const propertySymbol of propsTypeProperties) {
     const propertyName = propertySymbol.getName();
-
-    const correspondingDomEvent = REACT_PROP_TO_DOM_EVENT[propertyName];
-
-    if (correspondingDomEvent !== undefined) {
-      events.push(correspondingDomEvent);
-      continue;
-    }
 
     const propertyDeclarations = propertySymbol.getDeclarations();
     if (propertyDeclarations.length === 0) continue;
@@ -53,5 +43,5 @@ export const extractPropsAndSlots = (propsType: Type): ExtractedProps => {
     }
   }
 
-  return { properties, events, slots };
+  return { properties, slots };
 };

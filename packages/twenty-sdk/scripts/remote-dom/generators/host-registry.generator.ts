@@ -98,7 +98,7 @@ const wrapEventHandler = (handler: (detail: SerializedEventData) => void) => {
   };
 };
 
-const filterProps = <T extends object>(props: T): T => {
+const filterHtmlProps = <T extends object>(props: T): T => {
   const filtered: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(props)) {
     if (INTERNAL_PROPS.has(key) || value === undefined) continue;
@@ -112,6 +112,20 @@ const filterProps = <T extends object>(props: T): T => {
       } else {
         filtered[normalizedKey] = value;
       }
+    }
+  }
+  return filtered as T;
+};
+
+const filterUiProps = <T extends object>(props: T): T => {
+  const filtered: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(props)) {
+    if (INTERNAL_PROPS.has(key) || value === undefined) continue;
+
+    if (key === 'style') {
+      filtered.style = parseStyle(value as string | undefined);
+    } else {
+      filtered[key] = value;
     }
   }
   return filtered as T;
@@ -141,12 +155,12 @@ const generateHtmlWrapperComponent = (component: ComponentSchema): string => {
 
   if (isVoidElement) {
     return `const ${component.name}Wrapper = ({ children: _children, ...props }: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('${component.htmlTag}', filterProps(props));
+  return React.createElement('${component.htmlTag}', filterHtmlProps(props));
 };`;
   }
 
   return `const ${component.name}Wrapper = ({ children, ...props }: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('${component.htmlTag}', filterProps(props), children);
+  return React.createElement('${component.htmlTag}', filterHtmlProps(props), children);
 };`;
 };
 
@@ -156,7 +170,7 @@ const generateUiWrapperComponent = (component: ComponentSchema): string => {
     : '{ children?: React.ReactNode } & Record<string, unknown>';
 
   return `const ${component.name}Wrapper = (props: ${propsType}) => {
-  return React.createElement(${component.componentImport}, filterProps(props));
+  return React.createElement(${component.componentImport}, filterUiProps(props));
 };`;
 };
 
