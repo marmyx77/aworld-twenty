@@ -6,20 +6,12 @@
   "tags": ["scope:sdk", "scope:shared"],
   "targets": {
     "build": {
-      "dependsOn": ["generateBarrels", "^build"],
-      "outputs": [
-        "{projectRoot}/dist",
-        "{projectRoot}/front-component/package.json",
-        "{projectRoot}/front-component/dist",
-        "{projectRoot}/front-component-constants/package.json",
-        "{projectRoot}/front-component-constants/dist",
-        "{projectRoot}/ui/package.json",
-        "{projectRoot}/ui/dist"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/dist"]
     },
     "dev": {
       "executor": "nx:run-commands",
-      "dependsOn": ["generateBarrels", "^build"],
+      "dependsOn": ["^build"],
       "options": {
         "cwd": "packages/twenty-sdk",
         "command": "npx rimraf dist && npx vite build --watch"
@@ -31,19 +23,6 @@
       "options": {
         "cwd": "packages/twenty-sdk",
         "command": "node dist/cli.cjs"
-      }
-    },
-    "generateBarrels": {
-      "executor": "nx:run-commands",
-      "cache": true,
-      "inputs": ["production", "{projectRoot}/scripts/generateBarrels.ts"],
-      "outputs": [
-        "{projectRoot}/src/index.ts",
-        "{projectRoot}/src/*/index.ts",
-        "{projectRoot}/package.json"
-      ],
-      "options": {
-        "command": "tsx {projectRoot}/scripts/generateBarrels.ts"
       }
     },
     "typecheck": {},
@@ -84,16 +63,14 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/twenty-sdk",
-        "command": "npx wait-on http://localhost:3000/healthz --timeout 600000 --interval 1000 --log && npx vitest run --config vitest.integration.config.ts"
+        "command": "npx vitest run --config vitest.integration.config.ts"
       }
     },
     "test:e2e": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/twenty-sdk",
-        "commands": [
-          "npx wait-on http://localhost:3000/healthz --timeout 600000 --interval 1000 --log && NODE_ENV=test npx vitest run --config ./vitest.e2e.config.ts"
-        ]
+        "command": "npx wait-on http://localhost:3000/healthz --timeout 600000 --interval 1000 --log && NODE_ENV=test npx vitest run --config ./vitest.e2e.config.ts"
       },
       "parallel": false,
       "dependsOn": [

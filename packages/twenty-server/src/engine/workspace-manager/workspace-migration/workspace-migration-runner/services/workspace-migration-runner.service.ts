@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 
-import { AllMetadataName } from 'twenty-shared/metadata';
+import { type AllMetadataName } from 'twenty-shared/metadata';
 import { isDefined } from 'twenty-shared/utils';
 import { DataSource } from 'typeorm';
 
@@ -10,6 +10,7 @@ import { WorkspaceManyOrAllFlatEntityMapsCacheService } from 'src/engine/metadat
 import { AllFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/all-flat-entity-maps.type';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
 import { getMetadataRelatedMetadataNames } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-related-metadata-names.util';
+import { getMetadataSerializedRelationNames } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-serialized-relation-names.util';
 import { FIND_ALL_CORE_VIEWS_GRAPHQL_OPERATION } from 'src/engine/metadata-modules/view/constants/find-all-core-views-graphql-operation.constant';
 import { WorkspaceMetadataVersionService } from 'src/engine/metadata-modules/workspace-metadata-version/services/workspace-metadata-version.service';
 import { WorkspaceCacheStorageService } from 'src/engine/workspace-cache-storage/workspace-cache-storage.service';
@@ -155,6 +156,31 @@ export class WorkspaceMigrationRunnerService {
     this.logger.time('Runner', 'Total execution');
     this.logger.time('Runner', 'Initial cache retrieval');
 
+    const queryRunner = this.coreDataSource.createQueryRunner();
+    const actionMetadataNames = [
+      ...new Set(actions.flatMap((action) => action.metadataName)),
+    ];
+    const actionsMetadataAndRelatedMetadataNames: AllMetadataName[] = [
+      ...new Set([
+        ...actionMetadataNames,
+        ...actionMetadataNames.flatMap(getMetadataRelatedMetadataNames),
+        ...actionMetadataNames.flatMap(getMetadataSerializedRelationNames),
+      ]),
+    ];
+    const allFlatEntityMapsKeys = actionsMetadataAndRelatedMetadataNames.map(
+      getMetadataFlatEntityMapsKey,
+    );
+
+    let allFlatEntityMaps =
+      await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps<
+        typeof allFlatEntityMapsKeys
+      >({
+        workspaceId,
+        flatMapsKeys: allFlatEntityMapsKeys,
+      });
+
+    this.logger.timeEnd('Runner', 'Initial cache retrieval');
+
     const { flatApplicationMaps } =
       await this.workspaceCacheService.getOrRecompute(workspaceId, [
         'flatApplicationMaps',
@@ -175,35 +201,12 @@ export class WorkspaceMigrationRunnerService {
       });
     }
 
-    const queryRunner = this.coreDataSource.createQueryRunner();
-    const actionMetadataNames = [
-      ...new Set(actions.flatMap((action) => action.metadataName)),
-    ];
-    const actionsMetadataAndRelatedMetadataNames: AllMetadataName[] = [
-      ...new Set([
-        ...actionMetadataNames,
-        ...actionMetadataNames.flatMap(getMetadataRelatedMetadataNames),
-      ]),
-    ];
-    const allFlatEntityMapsKeys = actionsMetadataAndRelatedMetadataNames.map(
-      getMetadataFlatEntityMapsKey,
-    );
-
-    let allFlatEntityMaps =
-      await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps<
-        typeof allFlatEntityMapsKeys,
-        false
-      >({
-        workspaceId,
-        flatMapsKeys: allFlatEntityMapsKeys,
-      });
-
-    this.logger.timeEnd('Runner', 'Initial cache retrieval');
     this.logger.time('Runner', 'Transaction execution');
 
     try {
       await queryRunner.connect();
       await queryRunner.startTransaction();
+
       for (const action of actions) {
         const result =
           await this.workspaceMigrationRunnerActionHandlerRegistry.executeActionHandler(
@@ -222,7 +225,7 @@ export class WorkspaceMigrationRunnerService {
         allFlatEntityMaps = {
           ...allFlatEntityMaps,
           ...result,
-        };
+        } as typeof allFlatEntityMaps;
       }
 
       await queryRunner.commitTransaction();

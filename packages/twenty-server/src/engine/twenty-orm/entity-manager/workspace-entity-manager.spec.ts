@@ -226,7 +226,6 @@ describe('WorkspaceEntityManager', () => {
         IS_AI_ENABLED: false,
         IS_APPLICATION_ENABLED: false,
         IS_IMAP_SMTP_CALDAV_ENABLED: false,
-        IS_RECORD_PAGE_LAYOUT_ENABLED: false,
         IS_PUBLIC_DOMAIN_ENABLED: false,
         IS_EMAILING_DOMAIN_ENABLED: false,
         IS_DASHBOARD_V2_ENABLED: false,
@@ -243,6 +242,7 @@ describe('WorkspaceEntityManager', () => {
         IS_APPLICATION_INSTALLATION_FROM_TARBALL_ENABLED: false,
         IS_RECORD_PAGE_LAYOUT_EDITING_ENABLED: false,
         IS_MARKETPLACE_ENABLED: false,
+        IS_FILES_FIELD_MIGRATED: false,
       },
       userWorkspaceRoleMap: {},
       eventEmitterService: {
@@ -264,7 +264,6 @@ describe('WorkspaceEntityManager', () => {
         IS_JSON_FILTER_ENABLED: false,
         IS_AI_ENABLED: false,
         IS_APPLICATION_ENABLED: false,
-        IS_RECORD_PAGE_LAYOUT_ENABLED: false,
         IS_PUBLIC_DOMAIN_ENABLED: false,
         IS_EMAILING_DOMAIN_ENABLED: false,
         IS_DASHBOARD_V2_ENABLED: false,
