@@ -15,7 +15,7 @@ export { invalidAvatarUrlsState } from './avatar/components/states/isInvalidAvat
 export { AVATAR_PROPERTIES_BY_SIZE } from './avatar/constants/AvatarPropertiesBySize';
 export type { AvatarSize } from './avatar/types/AvatarSize';
 export type { AvatarType } from './avatar/types/AvatarType';
-export type { BannerVariant } from './banner/components/Banner';
+export type { BannerVariant, BannerProps } from './banner/components/Banner';
 export { Banner } from './banner/components/Banner';
 export type { SidePanelInformationBannerProps } from './banner/components/SidePanelInformationBanner';
 export { SidePanelInformationBanner } from './banner/components/SidePanelInformationBanner';
@@ -28,6 +28,7 @@ export type {
   ColorSampleProps,
 } from './color/components/ColorSample';
 export { ColorSample } from './color/components/ColorSample';
+export type { CommandBlockProps } from './command-block/components/CommandBlock';
 export { CommandBlock } from './command-block/components/CommandBlock';
 export type { IconProps } from './icon/components/Icon';
 export { Icon } from './icon/components/Icon';
@@ -473,7 +474,9 @@ export type {
 } from './icon/types/IconComponent';
 export type { InfoAccent, InfoProps } from './info/components/Info';
 export { Info } from './info/components/Info';
+export type { StatusProps } from './status/components/Status';
 export { Status } from './status/components/Status';
+export type { HorizontalSeparatorProps } from './text/components/HorizontalSeparator';
 export { HorizontalSeparator } from './text/components/HorizontalSeparator';
 export { SeparatorLineText } from './text/components/SeparatorLineText';
 export type { AppTooltipProps } from './tooltip/AppTooltip';
@@ -482,12 +485,17 @@ export {
   TooltipDelay,
   AppTooltip,
 } from './tooltip/AppTooltip';
+export type { OverflowingTextWithTooltipProps } from './tooltip/OverflowingTextWithTooltip';
 export { OverflowingTextWithTooltip } from './tooltip/OverflowingTextWithTooltip';
+export type { H1TitleProps } from './typography/components/H1Title';
 export { H1TitleFontColor, H1Title } from './typography/components/H1Title';
+export type { H2TitleProps } from './typography/components/H2Title';
 export { H2Title } from './typography/components/H2Title';
+export type { H3TitleProps } from './typography/components/H3Title';
 export { H3Title } from './typography/components/H3Title';
 export type { LabelVariant } from './typography/components/Label';
 export { Label } from './typography/components/Label';
+export type { StyledTextProps } from './typography/components/StyledText';
 export {
   StyledTextContent,
   StyledTextWrapper,

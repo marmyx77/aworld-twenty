@@ -58,47 +58,120 @@ import {
   MultipleAvatarChip,
   Chip,
   LinkChip,
+  Pill,
+  Tag,
   type AvatarChipProps,
   type MultipleAvatarChipProps,
   type ChipProps,
   type LinkChipProps,
+  type PillProps,
+  type TagProps,
 } from 'twenty-ui/components';
 import {
   Avatar,
   AvatarGroup,
+  Banner,
   SidePanelInformationBanner,
   AnimatedCheckmark,
   Checkmark,
   ColorSample,
+  CommandBlock,
   Info,
+  Status,
+  HorizontalSeparator,
   AppTooltip,
+  OverflowingTextWithTooltip,
+  H1Title,
+  H2Title,
+  H3Title,
   type AvatarProps,
   type AvatarGroupProps,
+  type BannerProps,
   type SidePanelInformationBannerProps,
   type AnimatedCheckmarkProps,
   type CheckmarkProps,
   type ColorSampleProps,
+  type CommandBlockProps,
   type InfoProps,
+  type StatusProps,
+  type HorizontalSeparatorProps,
   type AppTooltipProps,
+  type OverflowingTextWithTooltipProps,
+  type H1TitleProps,
+  type H2TitleProps,
+  type H3TitleProps,
 } from 'twenty-ui/display';
-import { ProgressBar, type ProgressBarProps } from 'twenty-ui/feedback';
 import {
+  Loader,
+  CircularProgressBar,
+  ProgressBar,
+  type LoaderProps,
+  type CircularProgressBarProps,
+  type ProgressBarProps,
+} from 'twenty-ui/feedback';
+import {
+  AnimatedExpandableContainer,
+  AnimatedPlaceholder,
+  Section,
+  type AnimatedExpandableContainerProps,
+  type AnimatedPlaceholderProps,
+  type SectionProps,
+} from 'twenty-ui/layout';
+import {
+  AdvancedSettingsToggle,
+  ClickToActionLink,
+  ContactLink,
+  GithubVersionLink,
+  RawLink,
+  RoundedLink,
+  SocialLink,
+  UndecoratedLink,
   MenuPicker,
   MenuItem,
   MenuItemAvatar,
   MenuItemDraggable,
   MenuItemHotKeys,
+  MenuItemMultiSelect,
+  MenuItemMultiSelectAvatar,
+  MenuItemMultiSelectTag,
   MenuItemNavigate,
+  MenuItemSelect,
+  MenuItemSelectAvatar,
+  MenuItemSelectColor,
+  MenuItemSelectTag,
   MenuItemSuggestion,
   MenuItemToggle,
+  MenuItemLeftContent,
+  NavigationBar,
+  NavigationBarItem,
+  NotificationCounter,
+  type AdvancedSettingsToggleProps,
+  type ClickToActionLinkProps,
+  type ContactLinkProps,
+  type GithubVersionLinkProps,
+  type RawLinkProps,
+  type RoundedLinkProps,
+  type SocialLinkProps,
+  type UndecoratedLinkProps,
   type MenuPickerProps,
   type MenuItemProps,
   type MenuItemAvatarProps,
   type MenuItemDraggableProps,
   type MenuItemHotKeysProps,
+  type MenuItemMultiSelectProps,
+  type MenuItemMultiSelectAvatarProps,
+  type MenuItemMultiSelectTagProps,
   type MenuItemNavigateProps,
+  type MenuItemSelectProps,
+  type MenuItemSelectAvatarProps,
+  type MenuItemSelectColorProps,
+  type MenuItemSelectTagProps,
   type MenuItemSuggestionProps,
   type MenuItemToggleProps,
+  type MenuItemLeftContentProps,
+  type NavigationBarProps,
+  type NavigationBarItemProps,
+  type NotificationCounterProps,
 } from 'twenty-ui/navigation';
 const INTERNAL_PROPS = new Set(['element', 'receiver', 'components']);
 
@@ -604,6 +677,16 @@ const TwentyUiLinkChipWrapper = (
 ) => {
   return React.createElement(LinkChip, filterProps(props));
 };
+const TwentyUiPillWrapper = (
+  props: PillProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Pill, filterProps(props));
+};
+const TwentyUiTagWrapper = (
+  props: TagProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Tag, filterProps(props));
+};
 const TwentyUiAvatarWrapper = (
   props: AvatarProps & { children?: React.ReactNode },
 ) => {
@@ -613,6 +696,11 @@ const TwentyUiAvatarGroupWrapper = (
   props: AvatarGroupProps & { children?: React.ReactNode },
 ) => {
   return React.createElement(AvatarGroup, filterProps(props));
+};
+const TwentyUiBannerWrapper = (
+  props: BannerProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Banner, filterProps(props));
 };
 const TwentyUiSidePanelInformationBannerWrapper = (
   props: SidePanelInformationBannerProps & { children?: React.ReactNode },
@@ -634,20 +722,120 @@ const TwentyUiColorSampleWrapper = (
 ) => {
   return React.createElement(ColorSample, filterProps(props));
 };
+const TwentyUiCommandBlockWrapper = (
+  props: CommandBlockProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(CommandBlock, filterProps(props));
+};
 const TwentyUiInfoWrapper = (
   props: InfoProps & { children?: React.ReactNode },
 ) => {
   return React.createElement(Info, filterProps(props));
+};
+const TwentyUiStatusWrapper = (
+  props: StatusProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Status, filterProps(props));
+};
+const TwentyUiHorizontalSeparatorWrapper = (
+  props: HorizontalSeparatorProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(HorizontalSeparator, filterProps(props));
 };
 const TwentyUiAppTooltipWrapper = (
   props: AppTooltipProps & { children?: React.ReactNode },
 ) => {
   return React.createElement(AppTooltip, filterProps(props));
 };
+const TwentyUiOverflowingTextWithTooltipWrapper = (
+  props: OverflowingTextWithTooltipProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(OverflowingTextWithTooltip, filterProps(props));
+};
+const TwentyUiH1TitleWrapper = (
+  props: H1TitleProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(H1Title, filterProps(props));
+};
+const TwentyUiH2TitleWrapper = (
+  props: H2TitleProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(H2Title, filterProps(props));
+};
+const TwentyUiH3TitleWrapper = (
+  props: H3TitleProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(H3Title, filterProps(props));
+};
+const TwentyUiLoaderWrapper = (
+  props: LoaderProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Loader, filterProps(props));
+};
+const TwentyUiCircularProgressBarWrapper = (
+  props: CircularProgressBarProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(CircularProgressBar, filterProps(props));
+};
 const TwentyUiProgressBarWrapper = (
   props: ProgressBarProps & { children?: React.ReactNode },
 ) => {
   return React.createElement(ProgressBar, filterProps(props));
+};
+const TwentyUiAnimatedExpandableContainerWrapper = (
+  props: AnimatedExpandableContainerProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(AnimatedExpandableContainer, filterProps(props));
+};
+const TwentyUiAnimatedPlaceholderWrapper = (
+  props: AnimatedPlaceholderProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(AnimatedPlaceholder, filterProps(props));
+};
+const TwentyUiSectionWrapper = (
+  props: SectionProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Section, filterProps(props));
+};
+const TwentyUiAdvancedSettingsToggleWrapper = (
+  props: AdvancedSettingsToggleProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(AdvancedSettingsToggle, filterProps(props));
+};
+const TwentyUiClickToActionLinkWrapper = (
+  props: ClickToActionLinkProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(ClickToActionLink, filterProps(props));
+};
+const TwentyUiContactLinkWrapper = (
+  props: ContactLinkProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(ContactLink, filterProps(props));
+};
+const TwentyUiGithubVersionLinkWrapper = (
+  props: GithubVersionLinkProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(GithubVersionLink, filterProps(props));
+};
+const TwentyUiRawLinkWrapper = (
+  props: RawLinkProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(RawLink, filterProps(props));
+};
+const TwentyUiRoundedLinkWrapper = (
+  props: RoundedLinkProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(RoundedLink, filterProps(props));
+};
+const TwentyUiSocialLinkWrapper = (
+  props: SocialLinkProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(SocialLink, filterProps(props));
+};
+const TwentyUiUndecoratedLinkWrapper = (
+  props: UndecoratedLinkProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(UndecoratedLink, filterProps(props));
 };
 const TwentyUiMenuPickerWrapper = (
   props: MenuPickerProps & { children?: React.ReactNode },
@@ -674,10 +862,45 @@ const TwentyUiMenuItemHotKeysWrapper = (
 ) => {
   return React.createElement(MenuItemHotKeys, filterProps(props));
 };
+const TwentyUiMenuItemMultiSelectWrapper = (
+  props: MenuItemMultiSelectProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemMultiSelect, filterProps(props));
+};
+const TwentyUiMenuItemMultiSelectAvatarWrapper = (
+  props: MenuItemMultiSelectAvatarProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemMultiSelectAvatar, filterProps(props));
+};
+const TwentyUiMenuItemMultiSelectTagWrapper = (
+  props: MenuItemMultiSelectTagProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemMultiSelectTag, filterProps(props));
+};
 const TwentyUiMenuItemNavigateWrapper = (
   props: MenuItemNavigateProps & { children?: React.ReactNode },
 ) => {
   return React.createElement(MenuItemNavigate, filterProps(props));
+};
+const TwentyUiMenuItemSelectWrapper = (
+  props: MenuItemSelectProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemSelect, filterProps(props));
+};
+const TwentyUiMenuItemSelectAvatarWrapper = (
+  props: MenuItemSelectAvatarProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemSelectAvatar, filterProps(props));
+};
+const TwentyUiMenuItemSelectColorWrapper = (
+  props: MenuItemSelectColorProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemSelectColor, filterProps(props));
+};
+const TwentyUiMenuItemSelectTagWrapper = (
+  props: MenuItemSelectTagProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemSelectTag, filterProps(props));
 };
 const TwentyUiMenuItemSuggestionWrapper = (
   props: MenuItemSuggestionProps & { children?: React.ReactNode },
@@ -688,6 +911,26 @@ const TwentyUiMenuItemToggleWrapper = (
   props: MenuItemToggleProps & { children?: React.ReactNode },
 ) => {
   return React.createElement(MenuItemToggle, filterProps(props));
+};
+const TwentyUiMenuItemLeftContentWrapper = (
+  props: MenuItemLeftContentProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MenuItemLeftContent, filterProps(props));
+};
+const TwentyUiNavigationBarWrapper = (
+  props: NavigationBarProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(NavigationBar, filterProps(props));
+};
+const TwentyUiNavigationBarItemWrapper = (
+  props: NavigationBarItemProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(NavigationBarItem, filterProps(props));
+};
+const TwentyUiNotificationCounterWrapper = (
+  props: NotificationCounterProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(NotificationCounter, filterProps(props));
 };
 type ComponentRegistryValue =
   | ReturnType<typeof createRemoteComponentRenderer>
@@ -817,11 +1060,14 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
     'twenty-ui-link-chip',
     createRemoteComponentRenderer(TwentyUiLinkChipWrapper),
   ],
+  ['twenty-ui-pill', createRemoteComponentRenderer(TwentyUiPillWrapper)],
+  ['twenty-ui-tag', createRemoteComponentRenderer(TwentyUiTagWrapper)],
   ['twenty-ui-avatar', createRemoteComponentRenderer(TwentyUiAvatarWrapper)],
   [
     'twenty-ui-avatar-group',
     createRemoteComponentRenderer(TwentyUiAvatarGroupWrapper),
   ],
+  ['twenty-ui-banner', createRemoteComponentRenderer(TwentyUiBannerWrapper)],
   [
     'twenty-ui-side-panel-information-banner',
     createRemoteComponentRenderer(TwentyUiSidePanelInformationBannerWrapper),
@@ -838,14 +1084,73 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
     'twenty-ui-color-sample',
     createRemoteComponentRenderer(TwentyUiColorSampleWrapper),
   ],
+  [
+    'twenty-ui-command-block',
+    createRemoteComponentRenderer(TwentyUiCommandBlockWrapper),
+  ],
   ['twenty-ui-info', createRemoteComponentRenderer(TwentyUiInfoWrapper)],
+  ['twenty-ui-status', createRemoteComponentRenderer(TwentyUiStatusWrapper)],
+  [
+    'twenty-ui-horizontal-separator',
+    createRemoteComponentRenderer(TwentyUiHorizontalSeparatorWrapper),
+  ],
   [
     'twenty-ui-app-tooltip',
     createRemoteComponentRenderer(TwentyUiAppTooltipWrapper),
   ],
   [
+    'twenty-ui-overflowing-text-with-tooltip',
+    createRemoteComponentRenderer(TwentyUiOverflowingTextWithTooltipWrapper),
+  ],
+  ['twenty-ui-h1-title', createRemoteComponentRenderer(TwentyUiH1TitleWrapper)],
+  ['twenty-ui-h2-title', createRemoteComponentRenderer(TwentyUiH2TitleWrapper)],
+  ['twenty-ui-h3-title', createRemoteComponentRenderer(TwentyUiH3TitleWrapper)],
+  ['twenty-ui-loader', createRemoteComponentRenderer(TwentyUiLoaderWrapper)],
+  [
+    'twenty-ui-circular-progress-bar',
+    createRemoteComponentRenderer(TwentyUiCircularProgressBarWrapper),
+  ],
+  [
     'twenty-ui-progress-bar',
     createRemoteComponentRenderer(TwentyUiProgressBarWrapper),
+  ],
+  [
+    'twenty-ui-animated-expandable-container',
+    createRemoteComponentRenderer(TwentyUiAnimatedExpandableContainerWrapper),
+  ],
+  [
+    'twenty-ui-animated-placeholder',
+    createRemoteComponentRenderer(TwentyUiAnimatedPlaceholderWrapper),
+  ],
+  ['twenty-ui-section', createRemoteComponentRenderer(TwentyUiSectionWrapper)],
+  [
+    'twenty-ui-advanced-settings-toggle',
+    createRemoteComponentRenderer(TwentyUiAdvancedSettingsToggleWrapper),
+  ],
+  [
+    'twenty-ui-click-to-action-link',
+    createRemoteComponentRenderer(TwentyUiClickToActionLinkWrapper),
+  ],
+  [
+    'twenty-ui-contact-link',
+    createRemoteComponentRenderer(TwentyUiContactLinkWrapper),
+  ],
+  [
+    'twenty-ui-github-version-link',
+    createRemoteComponentRenderer(TwentyUiGithubVersionLinkWrapper),
+  ],
+  ['twenty-ui-raw-link', createRemoteComponentRenderer(TwentyUiRawLinkWrapper)],
+  [
+    'twenty-ui-rounded-link',
+    createRemoteComponentRenderer(TwentyUiRoundedLinkWrapper),
+  ],
+  [
+    'twenty-ui-social-link',
+    createRemoteComponentRenderer(TwentyUiSocialLinkWrapper),
+  ],
+  [
+    'twenty-ui-undecorated-link',
+    createRemoteComponentRenderer(TwentyUiUndecoratedLinkWrapper),
   ],
   [
     'twenty-ui-menu-picker',
@@ -868,8 +1173,36 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
     createRemoteComponentRenderer(TwentyUiMenuItemHotKeysWrapper),
   ],
   [
+    'twenty-ui-menu-item-multi-select',
+    createRemoteComponentRenderer(TwentyUiMenuItemMultiSelectWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-multi-select-avatar',
+    createRemoteComponentRenderer(TwentyUiMenuItemMultiSelectAvatarWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-multi-select-tag',
+    createRemoteComponentRenderer(TwentyUiMenuItemMultiSelectTagWrapper),
+  ],
+  [
     'twenty-ui-menu-item-navigate',
     createRemoteComponentRenderer(TwentyUiMenuItemNavigateWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-select',
+    createRemoteComponentRenderer(TwentyUiMenuItemSelectWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-select-avatar',
+    createRemoteComponentRenderer(TwentyUiMenuItemSelectAvatarWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-select-color',
+    createRemoteComponentRenderer(TwentyUiMenuItemSelectColorWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-select-tag',
+    createRemoteComponentRenderer(TwentyUiMenuItemSelectTagWrapper),
   ],
   [
     'twenty-ui-menu-item-suggestion',
@@ -878,6 +1211,22 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
   [
     'twenty-ui-menu-item-toggle',
     createRemoteComponentRenderer(TwentyUiMenuItemToggleWrapper),
+  ],
+  [
+    'twenty-ui-menu-item-left-content',
+    createRemoteComponentRenderer(TwentyUiMenuItemLeftContentWrapper),
+  ],
+  [
+    'twenty-ui-navigation-bar',
+    createRemoteComponentRenderer(TwentyUiNavigationBarWrapper),
+  ],
+  [
+    'twenty-ui-navigation-bar-item',
+    createRemoteComponentRenderer(TwentyUiNavigationBarItemWrapper),
+  ],
+  [
+    'twenty-ui-notification-counter',
+    createRemoteComponentRenderer(TwentyUiNotificationCounterWrapper),
   ],
   ['remote-fragment', RemoteFragmentRenderer],
 ]);

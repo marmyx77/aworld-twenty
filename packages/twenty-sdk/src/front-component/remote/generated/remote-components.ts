@@ -75,72 +75,58 @@ import {
   TwentyUiMultipleAvatarChipElement,
   TwentyUiChipElement,
   TwentyUiLinkChipElement,
+  TwentyUiPillElement,
+  TwentyUiTagElement,
   TwentyUiAvatarElement,
   TwentyUiAvatarGroupElement,
+  TwentyUiBannerElement,
   TwentyUiSidePanelInformationBannerElement,
   TwentyUiAnimatedCheckmarkElement,
   TwentyUiCheckmarkElement,
   TwentyUiColorSampleElement,
+  TwentyUiCommandBlockElement,
   TwentyUiInfoElement,
+  TwentyUiStatusElement,
+  TwentyUiHorizontalSeparatorElement,
   TwentyUiAppTooltipElement,
+  TwentyUiOverflowingTextWithTooltipElement,
+  TwentyUiH1TitleElement,
+  TwentyUiH2TitleElement,
+  TwentyUiH3TitleElement,
+  TwentyUiLoaderElement,
+  TwentyUiCircularProgressBarElement,
   TwentyUiProgressBarElement,
+  TwentyUiAnimatedExpandableContainerElement,
+  TwentyUiAnimatedPlaceholderElement,
+  TwentyUiSectionElement,
+  TwentyUiAdvancedSettingsToggleElement,
+  TwentyUiClickToActionLinkElement,
+  TwentyUiContactLinkElement,
+  TwentyUiGithubVersionLinkElement,
+  TwentyUiRawLinkElement,
+  TwentyUiRoundedLinkElement,
+  TwentyUiSocialLinkElement,
+  TwentyUiUndecoratedLinkElement,
   TwentyUiMenuPickerElement,
   TwentyUiMenuItemElement,
   TwentyUiMenuItemAvatarElement,
   TwentyUiMenuItemDraggableElement,
   TwentyUiMenuItemHotKeysElement,
+  TwentyUiMenuItemMultiSelectElement,
+  TwentyUiMenuItemMultiSelectAvatarElement,
+  TwentyUiMenuItemMultiSelectTagElement,
   TwentyUiMenuItemNavigateElement,
+  TwentyUiMenuItemSelectElement,
+  TwentyUiMenuItemSelectAvatarElement,
+  TwentyUiMenuItemSelectColorElement,
+  TwentyUiMenuItemSelectTagElement,
   TwentyUiMenuItemSuggestionElement,
   TwentyUiMenuItemToggleElement,
+  TwentyUiMenuItemLeftContentElement,
+  TwentyUiNavigationBarElement,
+  TwentyUiNavigationBarItemElement,
+  TwentyUiNotificationCounterElement,
 } from './remote-elements';
-import {
-  type AnimatedButtonProps,
-  type AnimatedLightIconButtonProps,
-  type ButtonProps,
-  type ButtonGroupProps,
-  type FloatingButtonProps,
-  type FloatingButtonGroupProps,
-  type FloatingIconButtonProps,
-  type FloatingIconButtonGroupProps,
-  type InsideButtonProps,
-  type LightButtonProps,
-  type LightIconButtonProps,
-  type LightIconButtonGroupProps,
-  type TabContentProps,
-  type CoreEditorHeaderProps,
-  type ColorSchemeCardProps,
-  type ColorSchemePickerProps,
-  type RadioProps,
-  type SearchInputProps,
-  type ToggleProps,
-} from 'twenty-ui/input';
-import {
-  type AvatarChipProps,
-  type MultipleAvatarChipProps,
-  type ChipProps,
-  type LinkChipProps,
-} from 'twenty-ui/components';
-import {
-  type AvatarProps,
-  type AvatarGroupProps,
-  type SidePanelInformationBannerProps,
-  type AnimatedCheckmarkProps,
-  type CheckmarkProps,
-  type ColorSampleProps,
-  type InfoProps,
-  type AppTooltipProps,
-} from 'twenty-ui/display';
-import { type ProgressBarProps } from 'twenty-ui/feedback';
-import {
-  type MenuPickerProps,
-  type MenuItemProps,
-  type MenuItemAvatarProps,
-  type MenuItemDraggableProps,
-  type MenuItemHotKeysProps,
-  type MenuItemNavigateProps,
-  type MenuItemSuggestionProps,
-  type MenuItemToggleProps,
-} from 'twenty-ui/navigation';
 
 export const HtmlDiv = createRemoteComponent('html-div', HtmlDivElement, {
   eventProps: {
@@ -1401,6 +1387,19 @@ export const TwentyUiLinkChip = createRemoteComponent(
     },
   },
 );
+export const TwentyUiPill = createRemoteComponent(
+  'twenty-ui-pill',
+  TwentyUiPillElement,
+);
+export const TwentyUiTag = createRemoteComponent(
+  'twenty-ui-tag',
+  TwentyUiTagElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
 export const TwentyUiAvatar = createRemoteComponent(
   'twenty-ui-avatar',
   TwentyUiAvatarElement,
@@ -1413,6 +1412,34 @@ export const TwentyUiAvatar = createRemoteComponent(
 export const TwentyUiAvatarGroup = createRemoteComponent(
   'twenty-ui-avatar-group',
   TwentyUiAvatarGroupElement,
+);
+export const TwentyUiBanner = createRemoteComponent(
+  'twenty-ui-banner',
+  TwentyUiBannerElement,
+  {
+    eventProps: {
+      onFocus: { event: 'focus' },
+      onBlur: { event: 'blur' },
+      onChange: { event: 'change' },
+      onInput: { event: 'input' },
+      onSubmit: { event: 'submit' },
+      onKeydown: { event: 'keydown' },
+      onKeypress: { event: 'keypress' },
+      onKeyup: { event: 'keyup' },
+      onClick: { event: 'click' },
+      onContextmenu: { event: 'contextmenu' },
+      onDblclick: { event: 'dblclick' },
+      onDrag: { event: 'drag' },
+      onMousedown: { event: 'mousedown' },
+      onMouseenter: { event: 'mouseenter' },
+      onMouseleave: { event: 'mouseleave' },
+      onMouseout: { event: 'mouseout' },
+      onMouseover: { event: 'mouseover' },
+      onMouseup: { event: 'mouseup' },
+      onScroll: { event: 'scroll' },
+      onWheel: { event: 'wheel' },
+    },
+  },
 );
 export const TwentyUiSidePanelInformationBanner = createRemoteComponent(
   'twenty-ui-side-panel-information-banner',
@@ -1478,6 +1505,10 @@ export const TwentyUiColorSample = createRemoteComponent(
   'twenty-ui-color-sample',
   TwentyUiColorSampleElement,
 );
+export const TwentyUiCommandBlock = createRemoteComponent(
+  'twenty-ui-command-block',
+  TwentyUiCommandBlockElement,
+);
 export const TwentyUiInfo = createRemoteComponent(
   'twenty-ui-info',
   TwentyUiInfoElement,
@@ -1487,13 +1518,143 @@ export const TwentyUiInfo = createRemoteComponent(
     },
   },
 );
+export const TwentyUiStatus = createRemoteComponent(
+  'twenty-ui-status',
+  TwentyUiStatusElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiHorizontalSeparator = createRemoteComponent(
+  'twenty-ui-horizontal-separator',
+  TwentyUiHorizontalSeparatorElement,
+);
 export const TwentyUiAppTooltip = createRemoteComponent(
   'twenty-ui-app-tooltip',
   TwentyUiAppTooltipElement,
 );
+export const TwentyUiOverflowingTextWithTooltip = createRemoteComponent(
+  'twenty-ui-overflowing-text-with-tooltip',
+  TwentyUiOverflowingTextWithTooltipElement,
+);
+export const TwentyUiH1Title = createRemoteComponent(
+  'twenty-ui-h1-title',
+  TwentyUiH1TitleElement,
+);
+export const TwentyUiH2Title = createRemoteComponent(
+  'twenty-ui-h2-title',
+  TwentyUiH2TitleElement,
+);
+export const TwentyUiH3Title = createRemoteComponent(
+  'twenty-ui-h3-title',
+  TwentyUiH3TitleElement,
+);
+export const TwentyUiLoader = createRemoteComponent(
+  'twenty-ui-loader',
+  TwentyUiLoaderElement,
+);
+export const TwentyUiCircularProgressBar = createRemoteComponent(
+  'twenty-ui-circular-progress-bar',
+  TwentyUiCircularProgressBarElement,
+);
 export const TwentyUiProgressBar = createRemoteComponent(
   'twenty-ui-progress-bar',
   TwentyUiProgressBarElement,
+);
+export const TwentyUiAnimatedExpandableContainer = createRemoteComponent(
+  'twenty-ui-animated-expandable-container',
+  TwentyUiAnimatedExpandableContainerElement,
+);
+export const TwentyUiAnimatedPlaceholder = createRemoteComponent(
+  'twenty-ui-animated-placeholder',
+  TwentyUiAnimatedPlaceholderElement,
+);
+export const TwentyUiSection = createRemoteComponent(
+  'twenty-ui-section',
+  TwentyUiSectionElement,
+);
+export const TwentyUiAdvancedSettingsToggle = createRemoteComponent(
+  'twenty-ui-advanced-settings-toggle',
+  TwentyUiAdvancedSettingsToggleElement,
+);
+export const TwentyUiClickToActionLink = createRemoteComponent(
+  'twenty-ui-click-to-action-link',
+  TwentyUiClickToActionLinkElement,
+  {
+    eventProps: {
+      onFocus: { event: 'focus' },
+      onBlur: { event: 'blur' },
+      onChange: { event: 'change' },
+      onInput: { event: 'input' },
+      onSubmit: { event: 'submit' },
+      onKeydown: { event: 'keydown' },
+      onKeypress: { event: 'keypress' },
+      onKeyup: { event: 'keyup' },
+      onClick: { event: 'click' },
+      onContextmenu: { event: 'contextmenu' },
+      onDblclick: { event: 'dblclick' },
+      onDrag: { event: 'drag' },
+      onMousedown: { event: 'mousedown' },
+      onMouseenter: { event: 'mouseenter' },
+      onMouseleave: { event: 'mouseleave' },
+      onMouseout: { event: 'mouseout' },
+      onMouseover: { event: 'mouseover' },
+      onMouseup: { event: 'mouseup' },
+      onScroll: { event: 'scroll' },
+      onWheel: { event: 'wheel' },
+    },
+  },
+);
+export const TwentyUiContactLink = createRemoteComponent(
+  'twenty-ui-contact-link',
+  TwentyUiContactLinkElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiGithubVersionLink = createRemoteComponent(
+  'twenty-ui-github-version-link',
+  TwentyUiGithubVersionLinkElement,
+);
+export const TwentyUiRawLink = createRemoteComponent(
+  'twenty-ui-raw-link',
+  TwentyUiRawLinkElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiRoundedLink = createRemoteComponent(
+  'twenty-ui-rounded-link',
+  TwentyUiRoundedLinkElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiSocialLink = createRemoteComponent(
+  'twenty-ui-social-link',
+  TwentyUiSocialLinkElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiUndecoratedLink = createRemoteComponent(
+  'twenty-ui-undecorated-link',
+  TwentyUiUndecoratedLinkElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiMenuPicker = createRemoteComponent(
   'twenty-ui-menu-picker',
@@ -1539,9 +1700,62 @@ export const TwentyUiMenuItemHotKeys = createRemoteComponent(
   'twenty-ui-menu-item-hot-keys',
   TwentyUiMenuItemHotKeysElement,
 );
+export const TwentyUiMenuItemMultiSelect = createRemoteComponent(
+  'twenty-ui-menu-item-multi-select',
+  TwentyUiMenuItemMultiSelectElement,
+);
+export const TwentyUiMenuItemMultiSelectAvatar = createRemoteComponent(
+  'twenty-ui-menu-item-multi-select-avatar',
+  TwentyUiMenuItemMultiSelectAvatarElement,
+);
+export const TwentyUiMenuItemMultiSelectTag = createRemoteComponent(
+  'twenty-ui-menu-item-multi-select-tag',
+  TwentyUiMenuItemMultiSelectTagElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
 export const TwentyUiMenuItemNavigate = createRemoteComponent(
   'twenty-ui-menu-item-navigate',
   TwentyUiMenuItemNavigateElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiMenuItemSelect = createRemoteComponent(
+  'twenty-ui-menu-item-select',
+  TwentyUiMenuItemSelectElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiMenuItemSelectAvatar = createRemoteComponent(
+  'twenty-ui-menu-item-select-avatar',
+  TwentyUiMenuItemSelectAvatarElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiMenuItemSelectColor = createRemoteComponent(
+  'twenty-ui-menu-item-select-color',
+  TwentyUiMenuItemSelectColorElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiMenuItemSelectTag = createRemoteComponent(
+  'twenty-ui-menu-item-select-tag',
+  TwentyUiMenuItemSelectTagElement,
   {
     eventProps: {
       onClick: { event: 'click' },
@@ -1560,4 +1774,25 @@ export const TwentyUiMenuItemSuggestion = createRemoteComponent(
 export const TwentyUiMenuItemToggle = createRemoteComponent(
   'twenty-ui-menu-item-toggle',
   TwentyUiMenuItemToggleElement,
+);
+export const TwentyUiMenuItemLeftContent = createRemoteComponent(
+  'twenty-ui-menu-item-left-content',
+  TwentyUiMenuItemLeftContentElement,
+);
+export const TwentyUiNavigationBar = createRemoteComponent(
+  'twenty-ui-navigation-bar',
+  TwentyUiNavigationBarElement,
+);
+export const TwentyUiNavigationBarItem = createRemoteComponent(
+  'twenty-ui-navigation-bar-item',
+  TwentyUiNavigationBarItemElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
+);
+export const TwentyUiNotificationCounter = createRemoteComponent(
+  'twenty-ui-notification-counter',
+  TwentyUiNotificationCounterElement,
 );
