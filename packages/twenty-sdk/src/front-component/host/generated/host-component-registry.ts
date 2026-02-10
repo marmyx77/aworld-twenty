@@ -7,10 +7,12 @@
  *                              |___/
  */
 
+import React from 'react';
 import {
   RemoteFragmentRenderer,
   createRemoteComponentRenderer,
 } from '@remote-dom/react/host';
+import { type SerializedEventData } from '../../../sdk/front-component-common/SerializedEventData';
 import {
   AnimatedButton,
   AnimatedLightIconButton,
@@ -149,9 +151,6 @@ const parseStyle = (
   return style;
 };
 
-// Extracts only serializable properties from DOM/React events.
-// Native events contain circular references and DOM nodes that cannot
-// cross the worker boundary via postMessage.
 const serializeEvent = (event: unknown): SerializedEventData => {
   if (!event || typeof event !== 'object') {
     return { type: 'unknown' };
@@ -162,14 +161,12 @@ const serializeEvent = (event: unknown): SerializedEventData => {
     type: typeof domEvent.type === 'string' ? domEvent.type : 'unknown',
   };
 
-  // Modifier keys (shared by mouse and keyboard events)
   if ('altKey' in domEvent) serialized.altKey = domEvent.altKey as boolean;
   if ('ctrlKey' in domEvent) serialized.ctrlKey = domEvent.ctrlKey as boolean;
   if ('metaKey' in domEvent) serialized.metaKey = domEvent.metaKey as boolean;
   if ('shiftKey' in domEvent)
     serialized.shiftKey = domEvent.shiftKey as boolean;
 
-  // Mouse event properties
   if ('clientX' in domEvent) serialized.clientX = domEvent.clientX as number;
   if ('clientY' in domEvent) serialized.clientY = domEvent.clientY as number;
   if ('pageX' in domEvent) serialized.pageX = domEvent.pageX as number;
@@ -179,19 +176,16 @@ const serializeEvent = (event: unknown): SerializedEventData => {
   if ('button' in domEvent) serialized.button = domEvent.button as number;
   if ('buttons' in domEvent) serialized.buttons = domEvent.buttons as number;
 
-  // Keyboard event properties
   if ('key' in domEvent) serialized.key = domEvent.key as string;
   if ('code' in domEvent) serialized.code = domEvent.code as string;
   if ('repeat' in domEvent) serialized.repeat = domEvent.repeat as boolean;
 
-  // Wheel event properties
   if ('deltaX' in domEvent) serialized.deltaX = domEvent.deltaX as number;
   if ('deltaY' in domEvent) serialized.deltaY = domEvent.deltaY as number;
   if ('deltaZ' in domEvent) serialized.deltaZ = domEvent.deltaZ as number;
   if ('deltaMode' in domEvent)
     serialized.deltaMode = domEvent.deltaMode as number;
 
-  // Extract value/checked from target (for input/change/select events)
   const target = domEvent.target as Record<string, unknown> | undefined;
   if (target && typeof target === 'object') {
     if ('value' in target && typeof target.value === 'string') {

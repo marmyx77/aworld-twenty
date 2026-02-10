@@ -639,7 +639,7 @@ export const TwentyUiAnimatedButtonElement = createRemoteElement<
   TwentyUiAnimatedButtonProperties,
   Record<string, never>,
   { Icon: true; animatedSvg: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon', 'animatedSvg'],
   properties: {
@@ -685,7 +685,7 @@ export const TwentyUiAnimatedLightIconButtonElement = createRemoteElement<
   TwentyUiAnimatedLightIconButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -730,7 +730,7 @@ export const TwentyUiButtonElement = createRemoteElement<
   TwentyUiButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -846,7 +846,7 @@ export const TwentyUiFloatingIconButtonElement = createRemoteElement<
   TwentyUiFloatingIconButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -889,7 +889,7 @@ export const TwentyUiInsideButtonElement = createRemoteElement<
   TwentyUiInsideButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -913,7 +913,7 @@ export const TwentyUiLightButtonElement = createRemoteElement<
   TwentyUiLightButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -944,7 +944,7 @@ export const TwentyUiLightIconButtonElement = createRemoteElement<
   TwentyUiLightIconButtonProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -1265,26 +1265,26 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
   Record<string, never>,
   { children: true; 'data-tooltip-wrapper': true },
   {
-    focus(event: RemoteEvent): void;
-    blur(event: RemoteEvent): void;
-    change(event: RemoteEvent): void;
-    input(event: RemoteEvent): void;
-    submit(event: RemoteEvent): void;
-    keydown(event: RemoteEvent): void;
-    keypress(event: RemoteEvent): void;
-    keyup(event: RemoteEvent): void;
-    click(event: RemoteEvent): void;
-    contextmenu(event: RemoteEvent): void;
-    dblclick(event: RemoteEvent): void;
-    drag(event: RemoteEvent): void;
-    mousedown(event: RemoteEvent): void;
-    mouseenter(event: RemoteEvent): void;
-    mouseleave(event: RemoteEvent): void;
-    mouseout(event: RemoteEvent): void;
-    mouseover(event: RemoteEvent): void;
-    mouseup(event: RemoteEvent): void;
-    scroll(event: RemoteEvent): void;
-    wheel(event: RemoteEvent): void;
+    focus(event: RemoteEvent<SerializedEventData>): void;
+    blur(event: RemoteEvent<SerializedEventData>): void;
+    change(event: RemoteEvent<SerializedEventData>): void;
+    input(event: RemoteEvent<SerializedEventData>): void;
+    submit(event: RemoteEvent<SerializedEventData>): void;
+    keydown(event: RemoteEvent<SerializedEventData>): void;
+    keypress(event: RemoteEvent<SerializedEventData>): void;
+    keyup(event: RemoteEvent<SerializedEventData>): void;
+    click(event: RemoteEvent<SerializedEventData>): void;
+    contextmenu(event: RemoteEvent<SerializedEventData>): void;
+    dblclick(event: RemoteEvent<SerializedEventData>): void;
+    drag(event: RemoteEvent<SerializedEventData>): void;
+    mousedown(event: RemoteEvent<SerializedEventData>): void;
+    mouseenter(event: RemoteEvent<SerializedEventData>): void;
+    mouseleave(event: RemoteEvent<SerializedEventData>): void;
+    mouseout(event: RemoteEvent<SerializedEventData>): void;
+    mouseover(event: RemoteEvent<SerializedEventData>): void;
+    mouseup(event: RemoteEvent<SerializedEventData>): void;
+    scroll(event: RemoteEvent<SerializedEventData>): void;
+    wheel(event: RemoteEvent<SerializedEventData>): void;
   }
 >({
   slots: ['children', 'data-tooltip-wrapper'],
@@ -1560,7 +1560,7 @@ export const TwentyUiColorSchemePickerElement = createRemoteElement<
   TwentyUiColorSchemePickerProperties,
   Record<string, never>,
   Record<string, never>,
-  { change(event: RemoteEvent): void }
+  { change(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     value: { type: String },
@@ -1589,7 +1589,7 @@ export const TwentyUiRadioElement = createRemoteElement<
   TwentyUiRadioProperties,
   Record<string, never>,
   Record<string, never>,
-  { change(event: RemoteEvent): void }
+  { change(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     checked: { type: Boolean },
@@ -1618,7 +1618,7 @@ export const TwentyUiSearchInputElement = createRemoteElement<
   TwentyUiSearchInputProperties,
   Record<string, never>,
   { filterDropdown: true },
-  { change(event: RemoteEvent): void }
+  { change(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['filterDropdown'],
   properties: {
@@ -1644,7 +1644,7 @@ export const TwentyUiToggleElement = createRemoteElement<
   TwentyUiToggleProperties,
   Record<string, never>,
   Record<string, never>,
-  { change(event: RemoteEvent): void }
+  { change(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     id: { type: String },
@@ -1672,7 +1672,7 @@ export const TwentyUiAvatarChipElement = createRemoteElement<
   TwentyUiAvatarChipProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -1701,7 +1701,7 @@ export const TwentyUiMultipleAvatarChipElement = createRemoteElement<
   TwentyUiMultipleAvatarChipProperties,
   Record<string, never>,
   { Icons: true; rightComponent: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icons', 'rightComponent'],
   properties: {
@@ -1770,7 +1770,10 @@ export const TwentyUiLinkChipElement = createRemoteElement<
   TwentyUiLinkChipProperties,
   Record<string, never>,
   { leftComponent: true; rightComponent: true },
-  { click(event: RemoteEvent): void; mousedown(event: RemoteEvent): void }
+  {
+    click(event: RemoteEvent<SerializedEventData>): void;
+    mousedown(event: RemoteEvent<SerializedEventData>): void;
+  }
 >({
   slots: ['leftComponent', 'rightComponent'],
   properties: {
@@ -1806,7 +1809,7 @@ export const TwentyUiAvatarElement = createRemoteElement<
   TwentyUiAvatarProperties,
   Record<string, never>,
   { Icon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -2145,26 +2148,26 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
   Record<string, never>,
   { children: true },
   {
-    focus(event: RemoteEvent): void;
-    blur(event: RemoteEvent): void;
-    change(event: RemoteEvent): void;
-    input(event: RemoteEvent): void;
-    submit(event: RemoteEvent): void;
-    keydown(event: RemoteEvent): void;
-    keypress(event: RemoteEvent): void;
-    keyup(event: RemoteEvent): void;
-    click(event: RemoteEvent): void;
-    contextmenu(event: RemoteEvent): void;
-    dblclick(event: RemoteEvent): void;
-    mousedown(event: RemoteEvent): void;
-    mouseenter(event: RemoteEvent): void;
-    mouseleave(event: RemoteEvent): void;
-    mouseout(event: RemoteEvent): void;
-    mouseover(event: RemoteEvent): void;
-    mouseup(event: RemoteEvent): void;
-    scroll(event: RemoteEvent): void;
-    wheel(event: RemoteEvent): void;
-    drag(event: RemoteEvent): void;
+    focus(event: RemoteEvent<SerializedEventData>): void;
+    blur(event: RemoteEvent<SerializedEventData>): void;
+    change(event: RemoteEvent<SerializedEventData>): void;
+    input(event: RemoteEvent<SerializedEventData>): void;
+    submit(event: RemoteEvent<SerializedEventData>): void;
+    keydown(event: RemoteEvent<SerializedEventData>): void;
+    keypress(event: RemoteEvent<SerializedEventData>): void;
+    keyup(event: RemoteEvent<SerializedEventData>): void;
+    click(event: RemoteEvent<SerializedEventData>): void;
+    contextmenu(event: RemoteEvent<SerializedEventData>): void;
+    dblclick(event: RemoteEvent<SerializedEventData>): void;
+    mousedown(event: RemoteEvent<SerializedEventData>): void;
+    mouseenter(event: RemoteEvent<SerializedEventData>): void;
+    mouseleave(event: RemoteEvent<SerializedEventData>): void;
+    mouseout(event: RemoteEvent<SerializedEventData>): void;
+    mouseover(event: RemoteEvent<SerializedEventData>): void;
+    mouseup(event: RemoteEvent<SerializedEventData>): void;
+    scroll(event: RemoteEvent<SerializedEventData>): void;
+    wheel(event: RemoteEvent<SerializedEventData>): void;
+    drag(event: RemoteEvent<SerializedEventData>): void;
   }
 >({
   slots: ['children'],
@@ -2719,26 +2722,26 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
   Record<string, never>,
   { children: true; 'data-tooltip-wrapper': true },
   {
-    focus(event: RemoteEvent): void;
-    blur(event: RemoteEvent): void;
-    change(event: RemoteEvent): void;
-    input(event: RemoteEvent): void;
-    submit(event: RemoteEvent): void;
-    keydown(event: RemoteEvent): void;
-    keypress(event: RemoteEvent): void;
-    keyup(event: RemoteEvent): void;
-    click(event: RemoteEvent): void;
-    contextmenu(event: RemoteEvent): void;
-    dblclick(event: RemoteEvent): void;
-    drag(event: RemoteEvent): void;
-    mousedown(event: RemoteEvent): void;
-    mouseenter(event: RemoteEvent): void;
-    mouseleave(event: RemoteEvent): void;
-    mouseout(event: RemoteEvent): void;
-    mouseover(event: RemoteEvent): void;
-    mouseup(event: RemoteEvent): void;
-    scroll(event: RemoteEvent): void;
-    wheel(event: RemoteEvent): void;
+    focus(event: RemoteEvent<SerializedEventData>): void;
+    blur(event: RemoteEvent<SerializedEventData>): void;
+    change(event: RemoteEvent<SerializedEventData>): void;
+    input(event: RemoteEvent<SerializedEventData>): void;
+    submit(event: RemoteEvent<SerializedEventData>): void;
+    keydown(event: RemoteEvent<SerializedEventData>): void;
+    keypress(event: RemoteEvent<SerializedEventData>): void;
+    keyup(event: RemoteEvent<SerializedEventData>): void;
+    click(event: RemoteEvent<SerializedEventData>): void;
+    contextmenu(event: RemoteEvent<SerializedEventData>): void;
+    dblclick(event: RemoteEvent<SerializedEventData>): void;
+    drag(event: RemoteEvent<SerializedEventData>): void;
+    mousedown(event: RemoteEvent<SerializedEventData>): void;
+    mouseenter(event: RemoteEvent<SerializedEventData>): void;
+    mouseleave(event: RemoteEvent<SerializedEventData>): void;
+    mouseout(event: RemoteEvent<SerializedEventData>): void;
+    mouseover(event: RemoteEvent<SerializedEventData>): void;
+    mouseup(event: RemoteEvent<SerializedEventData>): void;
+    scroll(event: RemoteEvent<SerializedEventData>): void;
+    wheel(event: RemoteEvent<SerializedEventData>): void;
   }
 >({
   slots: ['children', 'data-tooltip-wrapper'],
@@ -3030,7 +3033,7 @@ export const TwentyUiInfoElement = createRemoteElement<
   TwentyUiInfoProperties,
   Record<string, never>,
   Record<string, never>,
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     accent: { type: String },
@@ -3119,7 +3122,7 @@ export const TwentyUiMenuPickerElement = createRemoteElement<
   TwentyUiMenuPickerProperties,
   Record<string, never>,
   { icon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['icon'],
   properties: {
@@ -3165,9 +3168,9 @@ export const TwentyUiMenuItemElement = createRemoteElement<
     contextualText: true;
   },
   {
-    click(event: RemoteEvent): void;
-    mouseenter(event: RemoteEvent): void;
-    mouseleave(event: RemoteEvent): void;
+    click(event: RemoteEvent<SerializedEventData>): void;
+    mouseenter(event: RemoteEvent<SerializedEventData>): void;
+    mouseleave(event: RemoteEvent<SerializedEventData>): void;
   }
 >({
   slots: [
@@ -3213,9 +3216,9 @@ export const TwentyUiMenuItemAvatarElement = createRemoteElement<
   Record<string, never>,
   { contextualText: true },
   {
-    click(event: RemoteEvent): void;
-    mouseenter(event: RemoteEvent): void;
-    mouseleave(event: RemoteEvent): void;
+    click(event: RemoteEvent<SerializedEventData>): void;
+    mouseenter(event: RemoteEvent<SerializedEventData>): void;
+    mouseleave(event: RemoteEvent<SerializedEventData>): void;
   }
 >({
   slots: ['contextualText'],
@@ -3249,7 +3252,7 @@ export const TwentyUiMenuItemDraggableElement = createRemoteElement<
   TwentyUiMenuItemDraggableProperties,
   Record<string, never>,
   { LeftIcon: true; text: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['LeftIcon', 'text'],
   properties: {
@@ -3293,7 +3296,7 @@ export const TwentyUiMenuItemNavigateElement = createRemoteElement<
   TwentyUiMenuItemNavigateProperties,
   Record<string, never>,
   { LeftIcon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['LeftIcon'],
   properties: {
@@ -3315,7 +3318,7 @@ export const TwentyUiMenuItemSuggestionElement = createRemoteElement<
   TwentyUiMenuItemSuggestionProperties,
   Record<string, never>,
   { LeftIcon: true },
-  { click(event: RemoteEvent): void }
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['LeftIcon'],
   properties: {

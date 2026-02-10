@@ -97,7 +97,7 @@
         }
       ]
     },
-    "generateRemoteDomElements": {
+    "generate-remote-dom-elements": {
       "executor": "nx:run-commands",
       "cache": true,
       "inputs": [
@@ -111,7 +111,8 @@
         "{projectRoot}/src/front-component/remote/generated/*"
       ],
       "options": {
-        "command": "tsx {projectRoot}/scripts/remote-dom/generate-remote-dom-elements.ts"
+        "cwd": "packages/twenty-sdk",
+        "command": "tsx -r tsconfig-paths/register scripts/remote-dom/generate-remote-dom-elements.ts"
       }
     },
     "storybook:prebuild": {
