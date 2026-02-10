@@ -33,11 +33,29 @@ export const ESLintUtils = {
       },
       defaultOptions,
       create(context: any) {
-        // In Oxlint's createOnce API, context.options throws.
-        // Always use defaultOptions for compatibility.
-        return create(context, defaultOptions);
+        // Try context.options first (available in `create`-based rules),
+        // fall back to defaultOptions (safe for `createOnce` where options may be null).
+        let options: TOptions;
+        try {
+          const ctxOpts = context.options;
+          if (ctxOpts && ctxOpts.length > 0) {
+            options = ctxOpts.map((opt: any, i: number) => ({
+              ...(defaultOptions[i] || {}),
+              ...opt,
+            })) as unknown as TOptions;
+          } else {
+            options = defaultOptions;
+          }
+        } catch {
+          options = defaultOptions;
+        }
+        return create(context, options);
       },
     }),
+
+  // Used by eslint-plugin-lingui when useTsTypes is enabled.
+  // Returns null since Oxlint's runtime has no TypeScript parser services.
+  getParserServices: (_context: any, _allowWithoutFullTypeInfo?: boolean) => null,
 };
 
 // TSESLint — only used in test files (*.spec.ts), not bundled into the plugin.

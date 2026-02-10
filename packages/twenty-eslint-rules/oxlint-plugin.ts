@@ -12,6 +12,12 @@ import { eslintCompatPlugin } from '@oxlint/plugins';
 import type { TSESTree } from '@typescript-eslint/utils';
 import { isIdentifier } from '@typescript-eslint/utils/ast-utils';
 
+// eslint-plugin-lingui: bundled via esbuild with typescript aliased to a
+// lightweight shim (TypeFlags constants only). The rule's TypeScript type
+// checker path (useTsTypes) gracefully degrades via try-catch.
+// @ts-expect-error — importing compiled CJS from node_modules
+import { rule as linguiNoUnlocalizedStrings } from 'eslint-plugin-lingui/lib/rules/no-unlocalized-strings';
+
 import {
   rule as componentPropsNaming,
   RULE_NAME as componentPropsNamingName,
@@ -197,5 +203,10 @@ export default eslintCompatPlugin({
     // Stateful rules — manually adapted with before() hooks
     [maxConstsPerFileName]: maxConstsPerFileOxlint,
     [noNavigatePreferLinkName]: noNavigatePreferLinkOxlint,
+
+    // Third-party rules — bundled from eslint-plugin-lingui.
+    // Uses `create` (not createOnce) since it maintains per-file state
+    // (visited WeakSet) and reads context.options for configuration.
+    'no-unlocalized-strings': linguiNoUnlocalizedStrings,
   },
 });
