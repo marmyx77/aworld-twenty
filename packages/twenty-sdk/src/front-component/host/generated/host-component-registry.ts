@@ -18,6 +18,7 @@ import {
   AnimatedLightIconButton,
   Button,
   ButtonGroup,
+  ColorPickerButton,
   FloatingButton,
   FloatingButtonGroup,
   FloatingIconButton,
@@ -26,17 +27,25 @@ import {
   LightButton,
   LightIconButton,
   LightIconButtonGroup,
+  MainButton,
+  RoundedIconButton,
   TabContent,
+  TabButton,
+  CodeEditor,
   CoreEditorHeader,
   ColorSchemeCard,
   ColorSchemePicker,
+  CardPicker,
+  Checkbox,
   Radio,
+  RadioGroup,
   SearchInput,
   Toggle,
   type AnimatedButtonProps,
   type AnimatedLightIconButtonProps,
   type ButtonProps,
   type ButtonGroupProps,
+  type ColorPickerButtonProps,
   type FloatingButtonProps,
   type FloatingButtonGroupProps,
   type FloatingIconButtonProps,
@@ -45,11 +54,18 @@ import {
   type LightButtonProps,
   type LightIconButtonProps,
   type LightIconButtonGroupProps,
+  type MainButtonProps,
+  type RoundedIconButtonProps,
   type TabContentProps,
+  type TabButtonProps,
+  type CodeEditorProps,
   type CoreEditorHeaderProps,
   type ColorSchemeCardProps,
   type ColorSchemePickerProps,
+  type CardPickerProps,
+  type CheckboxProps,
   type RadioProps,
+  type RadioGroupProps,
   type SearchInputProps,
   type ToggleProps,
 } from 'twenty-ui/input';
@@ -582,6 +598,11 @@ const TwentyUiButtonGroupWrapper = (
 ) => {
   return React.createElement(ButtonGroup, filterProps(props));
 };
+const TwentyUiColorPickerButtonWrapper = (
+  props: ColorPickerButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(ColorPickerButton, filterProps(props));
+};
 const TwentyUiFloatingButtonWrapper = (
   props: FloatingButtonProps & { children?: React.ReactNode },
 ) => {
@@ -622,10 +643,30 @@ const TwentyUiLightIconButtonGroupWrapper = (
 ) => {
   return React.createElement(LightIconButtonGroup, filterProps(props));
 };
+const TwentyUiMainButtonWrapper = (
+  props: MainButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(MainButton, filterProps(props));
+};
+const TwentyUiRoundedIconButtonWrapper = (
+  props: RoundedIconButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(RoundedIconButton, filterProps(props));
+};
 const TwentyUiTabContentWrapper = (
   props: TabContentProps & { children?: React.ReactNode },
 ) => {
   return React.createElement(TabContent, filterProps(props));
+};
+const TwentyUiTabButtonWrapper = (
+  props: TabButtonProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(TabButton, filterProps(props));
+};
+const TwentyUiCodeEditorWrapper = (
+  props: CodeEditorProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(CodeEditor, filterProps(props));
 };
 const TwentyUiCoreEditorHeaderWrapper = (
   props: CoreEditorHeaderProps & { children?: React.ReactNode },
@@ -642,10 +683,25 @@ const TwentyUiColorSchemePickerWrapper = (
 ) => {
   return React.createElement(ColorSchemePicker, filterProps(props));
 };
+const TwentyUiCardPickerWrapper = (
+  props: CardPickerProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(CardPicker, filterProps(props));
+};
+const TwentyUiCheckboxWrapper = (
+  props: CheckboxProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Checkbox, filterProps(props));
+};
 const TwentyUiRadioWrapper = (
   props: RadioProps & { children?: React.ReactNode },
 ) => {
   return React.createElement(Radio, filterProps(props));
+};
+const TwentyUiRadioGroupWrapper = (
+  props: RadioGroupProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(RadioGroup, filterProps(props));
 };
 const TwentyUiSearchInputWrapper = (
   props: SearchInputProps & { children?: React.ReactNode },
@@ -994,6 +1050,10 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
     createRemoteComponentRenderer(TwentyUiButtonGroupWrapper),
   ],
   [
+    'twenty-ui-color-picker-button',
+    createRemoteComponentRenderer(TwentyUiColorPickerButtonWrapper),
+  ],
+  [
     'twenty-ui-floating-button',
     createRemoteComponentRenderer(TwentyUiFloatingButtonWrapper),
   ],
@@ -1026,8 +1086,24 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
     createRemoteComponentRenderer(TwentyUiLightIconButtonGroupWrapper),
   ],
   [
+    'twenty-ui-main-button',
+    createRemoteComponentRenderer(TwentyUiMainButtonWrapper),
+  ],
+  [
+    'twenty-ui-rounded-icon-button',
+    createRemoteComponentRenderer(TwentyUiRoundedIconButtonWrapper),
+  ],
+  [
     'twenty-ui-tab-content',
     createRemoteComponentRenderer(TwentyUiTabContentWrapper),
+  ],
+  [
+    'twenty-ui-tab-button',
+    createRemoteComponentRenderer(TwentyUiTabButtonWrapper),
+  ],
+  [
+    'twenty-ui-code-editor',
+    createRemoteComponentRenderer(TwentyUiCodeEditorWrapper),
   ],
   [
     'twenty-ui-core-editor-header',
@@ -1041,7 +1117,19 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
     'twenty-ui-color-scheme-picker',
     createRemoteComponentRenderer(TwentyUiColorSchemePickerWrapper),
   ],
+  [
+    'twenty-ui-card-picker',
+    createRemoteComponentRenderer(TwentyUiCardPickerWrapper),
+  ],
+  [
+    'twenty-ui-checkbox',
+    createRemoteComponentRenderer(TwentyUiCheckboxWrapper),
+  ],
   ['twenty-ui-radio', createRemoteComponentRenderer(TwentyUiRadioWrapper)],
+  [
+    'twenty-ui-radio-group',
+    createRemoteComponentRenderer(TwentyUiRadioGroupWrapper),
+  ],
   [
     'twenty-ui-search-input',
     createRemoteComponentRenderer(TwentyUiSearchInputWrapper),

@@ -781,6 +781,24 @@ export const TwentyUiButtonGroupElement = createRemoteElement<
   },
 });
 
+export type TwentyUiColorPickerButtonProperties = {
+  colorName: string;
+  isSelected?: boolean;
+};
+
+export const TwentyUiColorPickerButtonElement = createRemoteElement<
+  TwentyUiColorPickerButtonProperties,
+  Record<string, never>,
+  Record<string, never>,
+  { click(event: RemoteEvent<SerializedEventData>): void }
+>({
+  properties: {
+    colorName: { type: String },
+    isSelected: { type: Boolean },
+  },
+  events: ['click'],
+});
+
 export type TwentyUiFloatingButtonProperties = {
   className?: string;
   title?: string;
@@ -979,6 +997,1094 @@ export const TwentyUiLightIconButtonGroupElement = createRemoteElement<
   },
 });
 
+export type TwentyUiMainButtonProperties = {
+  title: string;
+  fullWidth?: boolean;
+  width?: number;
+  variant?: string;
+  soon?: boolean;
+  disabled?: boolean;
+  form?: string;
+  formAction?: string;
+  formEncType?: string;
+  formMethod?: string;
+  formNoValidate?: boolean;
+  formTarget?: string;
+  name?: string;
+  type?: string;
+  defaultChecked?: boolean;
+  suppressContentEditableWarning?: boolean;
+  suppressHydrationWarning?: boolean;
+  accessKey?: string;
+  autoFocus?: boolean;
+  className?: string;
+  contextMenu?: string;
+  dir?: string;
+  hidden?: boolean;
+  id?: string;
+  lang?: string;
+  nonce?: string;
+  slot?: string;
+  style?: Record<string, unknown>;
+  tabIndex?: number;
+  translate?: string;
+  radioGroup?: string;
+  about?: string;
+  content?: string;
+  datatype?: string;
+  prefix?: string;
+  property?: string;
+  rel?: string;
+  resource?: string;
+  rev?: string;
+  typeof?: string;
+  vocab?: string;
+  autoCapitalize?: string;
+  autoCorrect?: string;
+  autoSave?: string;
+  color?: string;
+  itemProp?: string;
+  itemScope?: boolean;
+  itemType?: string;
+  itemID?: string;
+  itemRef?: string;
+  results?: number;
+  security?: string;
+  unselectable?: string;
+  inputMode?: string;
+  is?: string;
+  'data-tooltip-id'?: string;
+  'data-tooltip-place'?: string;
+  'data-tooltip-content'?: string;
+  'data-tooltip-html'?: string;
+  'data-tooltip-variant'?: string;
+  'data-tooltip-offset'?: number;
+  'data-tooltip-events'?: unknown[];
+  'data-tooltip-position-strategy'?: string;
+  'data-tooltip-delay-show'?: number;
+  'data-tooltip-delay-hide'?: number;
+  'data-tooltip-float'?: boolean;
+  'data-tooltip-hidden'?: boolean;
+  'data-tooltip-class-name'?: string;
+  'aria-activedescendant'?: string;
+  'aria-autocomplete'?: string;
+  'aria-braillelabel'?: string;
+  'aria-brailleroledescription'?: string;
+  'aria-colcount'?: number;
+  'aria-colindex'?: number;
+  'aria-colindextext'?: string;
+  'aria-colspan'?: number;
+  'aria-controls'?: string;
+  'aria-describedby'?: string;
+  'aria-description'?: string;
+  'aria-details'?: string;
+  'aria-dropeffect'?: string;
+  'aria-errormessage'?: string;
+  'aria-flowto'?: string;
+  'aria-keyshortcuts'?: string;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-level'?: number;
+  'aria-live'?: string;
+  'aria-orientation'?: string;
+  'aria-owns'?: string;
+  'aria-placeholder'?: string;
+  'aria-posinset'?: number;
+  'aria-relevant'?: string;
+  'aria-roledescription'?: string;
+  'aria-rowcount'?: number;
+  'aria-rowindex'?: number;
+  'aria-rowindextext'?: string;
+  'aria-rowspan'?: number;
+  'aria-setsize'?: number;
+  'aria-sort'?: string;
+  'aria-valuemax'?: number;
+  'aria-valuemin'?: number;
+  'aria-valuenow'?: number;
+  'aria-valuetext'?: string;
+  dangerouslySetInnerHTML?: Record<string, unknown>;
+  onCopy?: (...args: unknown[]) => unknown;
+  onCopyCapture?: (...args: unknown[]) => unknown;
+  onCut?: (...args: unknown[]) => unknown;
+  onCutCapture?: (...args: unknown[]) => unknown;
+  onPaste?: (...args: unknown[]) => unknown;
+  onPasteCapture?: (...args: unknown[]) => unknown;
+  onCompositionEnd?: (...args: unknown[]) => unknown;
+  onCompositionEndCapture?: (...args: unknown[]) => unknown;
+  onCompositionStart?: (...args: unknown[]) => unknown;
+  onCompositionStartCapture?: (...args: unknown[]) => unknown;
+  onCompositionUpdate?: (...args: unknown[]) => unknown;
+  onCompositionUpdateCapture?: (...args: unknown[]) => unknown;
+  onFocusCapture?: (...args: unknown[]) => unknown;
+  onBlurCapture?: (...args: unknown[]) => unknown;
+  onChangeCapture?: (...args: unknown[]) => unknown;
+  onBeforeInput?: (...args: unknown[]) => unknown;
+  onBeforeInputCapture?: (...args: unknown[]) => unknown;
+  onInputCapture?: (...args: unknown[]) => unknown;
+  onReset?: (...args: unknown[]) => unknown;
+  onResetCapture?: (...args: unknown[]) => unknown;
+  onSubmitCapture?: (...args: unknown[]) => unknown;
+  onInvalid?: (...args: unknown[]) => unknown;
+  onInvalidCapture?: (...args: unknown[]) => unknown;
+  onLoad?: (...args: unknown[]) => unknown;
+  onLoadCapture?: (...args: unknown[]) => unknown;
+  onError?: (...args: unknown[]) => unknown;
+  onErrorCapture?: (...args: unknown[]) => unknown;
+  onKeyDownCapture?: (...args: unknown[]) => unknown;
+  onKeyPressCapture?: (...args: unknown[]) => unknown;
+  onKeyUpCapture?: (...args: unknown[]) => unknown;
+  onAbort?: (...args: unknown[]) => unknown;
+  onAbortCapture?: (...args: unknown[]) => unknown;
+  onCanPlay?: (...args: unknown[]) => unknown;
+  onCanPlayCapture?: (...args: unknown[]) => unknown;
+  onCanPlayThrough?: (...args: unknown[]) => unknown;
+  onCanPlayThroughCapture?: (...args: unknown[]) => unknown;
+  onDurationChange?: (...args: unknown[]) => unknown;
+  onDurationChangeCapture?: (...args: unknown[]) => unknown;
+  onEmptied?: (...args: unknown[]) => unknown;
+  onEmptiedCapture?: (...args: unknown[]) => unknown;
+  onEncrypted?: (...args: unknown[]) => unknown;
+  onEncryptedCapture?: (...args: unknown[]) => unknown;
+  onEnded?: (...args: unknown[]) => unknown;
+  onEndedCapture?: (...args: unknown[]) => unknown;
+  onLoadedData?: (...args: unknown[]) => unknown;
+  onLoadedDataCapture?: (...args: unknown[]) => unknown;
+  onLoadedMetadata?: (...args: unknown[]) => unknown;
+  onLoadedMetadataCapture?: (...args: unknown[]) => unknown;
+  onLoadStart?: (...args: unknown[]) => unknown;
+  onLoadStartCapture?: (...args: unknown[]) => unknown;
+  onPause?: (...args: unknown[]) => unknown;
+  onPauseCapture?: (...args: unknown[]) => unknown;
+  onPlay?: (...args: unknown[]) => unknown;
+  onPlayCapture?: (...args: unknown[]) => unknown;
+  onPlaying?: (...args: unknown[]) => unknown;
+  onPlayingCapture?: (...args: unknown[]) => unknown;
+  onProgress?: (...args: unknown[]) => unknown;
+  onProgressCapture?: (...args: unknown[]) => unknown;
+  onRateChange?: (...args: unknown[]) => unknown;
+  onRateChangeCapture?: (...args: unknown[]) => unknown;
+  onResize?: (...args: unknown[]) => unknown;
+  onResizeCapture?: (...args: unknown[]) => unknown;
+  onSeeked?: (...args: unknown[]) => unknown;
+  onSeekedCapture?: (...args: unknown[]) => unknown;
+  onSeeking?: (...args: unknown[]) => unknown;
+  onSeekingCapture?: (...args: unknown[]) => unknown;
+  onStalled?: (...args: unknown[]) => unknown;
+  onStalledCapture?: (...args: unknown[]) => unknown;
+  onSuspend?: (...args: unknown[]) => unknown;
+  onSuspendCapture?: (...args: unknown[]) => unknown;
+  onTimeUpdate?: (...args: unknown[]) => unknown;
+  onTimeUpdateCapture?: (...args: unknown[]) => unknown;
+  onVolumeChange?: (...args: unknown[]) => unknown;
+  onVolumeChangeCapture?: (...args: unknown[]) => unknown;
+  onWaiting?: (...args: unknown[]) => unknown;
+  onWaitingCapture?: (...args: unknown[]) => unknown;
+  onAuxClick?: (...args: unknown[]) => unknown;
+  onAuxClickCapture?: (...args: unknown[]) => unknown;
+  onClickCapture?: (...args: unknown[]) => unknown;
+  onContextMenuCapture?: (...args: unknown[]) => unknown;
+  onDoubleClickCapture?: (...args: unknown[]) => unknown;
+  onDragCapture?: (...args: unknown[]) => unknown;
+  onDragEnd?: (...args: unknown[]) => unknown;
+  onDragEndCapture?: (...args: unknown[]) => unknown;
+  onDragEnter?: (...args: unknown[]) => unknown;
+  onDragEnterCapture?: (...args: unknown[]) => unknown;
+  onDragExit?: (...args: unknown[]) => unknown;
+  onDragExitCapture?: (...args: unknown[]) => unknown;
+  onDragLeave?: (...args: unknown[]) => unknown;
+  onDragLeaveCapture?: (...args: unknown[]) => unknown;
+  onDragOver?: (...args: unknown[]) => unknown;
+  onDragOverCapture?: (...args: unknown[]) => unknown;
+  onDragStart?: (...args: unknown[]) => unknown;
+  onDragStartCapture?: (...args: unknown[]) => unknown;
+  onDrop?: (...args: unknown[]) => unknown;
+  onDropCapture?: (...args: unknown[]) => unknown;
+  onMouseDownCapture?: (...args: unknown[]) => unknown;
+  onMouseMove?: (...args: unknown[]) => unknown;
+  onMouseMoveCapture?: (...args: unknown[]) => unknown;
+  onMouseOutCapture?: (...args: unknown[]) => unknown;
+  onMouseOverCapture?: (...args: unknown[]) => unknown;
+  onMouseUpCapture?: (...args: unknown[]) => unknown;
+  onSelect?: (...args: unknown[]) => unknown;
+  onSelectCapture?: (...args: unknown[]) => unknown;
+  onTouchCancel?: (...args: unknown[]) => unknown;
+  onTouchCancelCapture?: (...args: unknown[]) => unknown;
+  onTouchEnd?: (...args: unknown[]) => unknown;
+  onTouchEndCapture?: (...args: unknown[]) => unknown;
+  onTouchMove?: (...args: unknown[]) => unknown;
+  onTouchMoveCapture?: (...args: unknown[]) => unknown;
+  onTouchStart?: (...args: unknown[]) => unknown;
+  onTouchStartCapture?: (...args: unknown[]) => unknown;
+  onPointerDown?: (...args: unknown[]) => unknown;
+  onPointerDownCapture?: (...args: unknown[]) => unknown;
+  onPointerMove?: (...args: unknown[]) => unknown;
+  onPointerMoveCapture?: (...args: unknown[]) => unknown;
+  onPointerUp?: (...args: unknown[]) => unknown;
+  onPointerUpCapture?: (...args: unknown[]) => unknown;
+  onPointerCancel?: (...args: unknown[]) => unknown;
+  onPointerCancelCapture?: (...args: unknown[]) => unknown;
+  onPointerEnter?: (...args: unknown[]) => unknown;
+  onPointerLeave?: (...args: unknown[]) => unknown;
+  onPointerOver?: (...args: unknown[]) => unknown;
+  onPointerOverCapture?: (...args: unknown[]) => unknown;
+  onPointerOut?: (...args: unknown[]) => unknown;
+  onPointerOutCapture?: (...args: unknown[]) => unknown;
+  onGotPointerCapture?: (...args: unknown[]) => unknown;
+  onGotPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onLostPointerCapture?: (...args: unknown[]) => unknown;
+  onLostPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onScrollCapture?: (...args: unknown[]) => unknown;
+  onWheelCapture?: (...args: unknown[]) => unknown;
+  onAnimationStart?: (...args: unknown[]) => unknown;
+  onAnimationStartCapture?: (...args: unknown[]) => unknown;
+  onAnimationEnd?: (...args: unknown[]) => unknown;
+  onAnimationEndCapture?: (...args: unknown[]) => unknown;
+  onAnimationIteration?: (...args: unknown[]) => unknown;
+  onAnimationIterationCapture?: (...args: unknown[]) => unknown;
+  onTransitionEnd?: (...args: unknown[]) => unknown;
+  onTransitionEndCapture?: (...args: unknown[]) => unknown;
+};
+
+export const TwentyUiMainButtonElement = createRemoteElement<
+  TwentyUiMainButtonProperties,
+  Record<string, never>,
+  { 'data-tooltip-wrapper': true; children: true; Icon: true },
+  {
+    focus(event: RemoteEvent<SerializedEventData>): void;
+    blur(event: RemoteEvent<SerializedEventData>): void;
+    change(event: RemoteEvent<SerializedEventData>): void;
+    input(event: RemoteEvent<SerializedEventData>): void;
+    submit(event: RemoteEvent<SerializedEventData>): void;
+    keydown(event: RemoteEvent<SerializedEventData>): void;
+    keypress(event: RemoteEvent<SerializedEventData>): void;
+    keyup(event: RemoteEvent<SerializedEventData>): void;
+    click(event: RemoteEvent<SerializedEventData>): void;
+    contextmenu(event: RemoteEvent<SerializedEventData>): void;
+    dblclick(event: RemoteEvent<SerializedEventData>): void;
+    drag(event: RemoteEvent<SerializedEventData>): void;
+    mousedown(event: RemoteEvent<SerializedEventData>): void;
+    mouseenter(event: RemoteEvent<SerializedEventData>): void;
+    mouseleave(event: RemoteEvent<SerializedEventData>): void;
+    mouseout(event: RemoteEvent<SerializedEventData>): void;
+    mouseover(event: RemoteEvent<SerializedEventData>): void;
+    mouseup(event: RemoteEvent<SerializedEventData>): void;
+    scroll(event: RemoteEvent<SerializedEventData>): void;
+    wheel(event: RemoteEvent<SerializedEventData>): void;
+  }
+>({
+  slots: ['data-tooltip-wrapper', 'children', 'Icon'],
+  properties: {
+    title: { type: String },
+    fullWidth: { type: Boolean },
+    width: { type: Number },
+    variant: { type: String },
+    soon: { type: Boolean },
+    disabled: { type: Boolean },
+    form: { type: String },
+    formAction: { type: String },
+    formEncType: { type: String },
+    formMethod: { type: String },
+    formNoValidate: { type: Boolean },
+    formTarget: { type: String },
+    name: { type: String },
+    type: { type: String },
+    defaultChecked: { type: Boolean },
+    suppressContentEditableWarning: { type: Boolean },
+    suppressHydrationWarning: { type: Boolean },
+    accessKey: { type: String },
+    autoFocus: { type: Boolean },
+    className: { type: String },
+    contextMenu: { type: String },
+    dir: { type: String },
+    hidden: { type: Boolean },
+    id: { type: String },
+    lang: { type: String },
+    nonce: { type: String },
+    slot: { type: String },
+    style: { type: Object },
+    tabIndex: { type: Number },
+    translate: { type: String },
+    radioGroup: { type: String },
+    about: { type: String },
+    content: { type: String },
+    datatype: { type: String },
+    prefix: { type: String },
+    property: { type: String },
+    rel: { type: String },
+    resource: { type: String },
+    rev: { type: String },
+    typeof: { type: String },
+    vocab: { type: String },
+    autoCapitalize: { type: String },
+    autoCorrect: { type: String },
+    autoSave: { type: String },
+    color: { type: String },
+    itemProp: { type: String },
+    itemScope: { type: Boolean },
+    itemType: { type: String },
+    itemID: { type: String },
+    itemRef: { type: String },
+    results: { type: Number },
+    security: { type: String },
+    unselectable: { type: String },
+    inputMode: { type: String },
+    is: { type: String },
+    'data-tooltip-id': { type: String },
+    'data-tooltip-place': { type: String },
+    'data-tooltip-content': { type: String },
+    'data-tooltip-html': { type: String },
+    'data-tooltip-variant': { type: String },
+    'data-tooltip-offset': { type: Number },
+    'data-tooltip-events': { type: Array },
+    'data-tooltip-position-strategy': { type: String },
+    'data-tooltip-delay-show': { type: Number },
+    'data-tooltip-delay-hide': { type: Number },
+    'data-tooltip-float': { type: Boolean },
+    'data-tooltip-hidden': { type: Boolean },
+    'data-tooltip-class-name': { type: String },
+    'aria-activedescendant': { type: String },
+    'aria-autocomplete': { type: String },
+    'aria-braillelabel': { type: String },
+    'aria-brailleroledescription': { type: String },
+    'aria-colcount': { type: Number },
+    'aria-colindex': { type: Number },
+    'aria-colindextext': { type: String },
+    'aria-colspan': { type: Number },
+    'aria-controls': { type: String },
+    'aria-describedby': { type: String },
+    'aria-description': { type: String },
+    'aria-details': { type: String },
+    'aria-dropeffect': { type: String },
+    'aria-errormessage': { type: String },
+    'aria-flowto': { type: String },
+    'aria-keyshortcuts': { type: String },
+    'aria-label': { type: String },
+    'aria-labelledby': { type: String },
+    'aria-level': { type: Number },
+    'aria-live': { type: String },
+    'aria-orientation': { type: String },
+    'aria-owns': { type: String },
+    'aria-placeholder': { type: String },
+    'aria-posinset': { type: Number },
+    'aria-relevant': { type: String },
+    'aria-roledescription': { type: String },
+    'aria-rowcount': { type: Number },
+    'aria-rowindex': { type: Number },
+    'aria-rowindextext': { type: String },
+    'aria-rowspan': { type: Number },
+    'aria-setsize': { type: Number },
+    'aria-sort': { type: String },
+    'aria-valuemax': { type: Number },
+    'aria-valuemin': { type: Number },
+    'aria-valuenow': { type: Number },
+    'aria-valuetext': { type: String },
+    dangerouslySetInnerHTML: { type: Object },
+    onCopy: { type: Function },
+    onCopyCapture: { type: Function },
+    onCut: { type: Function },
+    onCutCapture: { type: Function },
+    onPaste: { type: Function },
+    onPasteCapture: { type: Function },
+    onCompositionEnd: { type: Function },
+    onCompositionEndCapture: { type: Function },
+    onCompositionStart: { type: Function },
+    onCompositionStartCapture: { type: Function },
+    onCompositionUpdate: { type: Function },
+    onCompositionUpdateCapture: { type: Function },
+    onFocusCapture: { type: Function },
+    onBlurCapture: { type: Function },
+    onChangeCapture: { type: Function },
+    onBeforeInput: { type: Function },
+    onBeforeInputCapture: { type: Function },
+    onInputCapture: { type: Function },
+    onReset: { type: Function },
+    onResetCapture: { type: Function },
+    onSubmitCapture: { type: Function },
+    onInvalid: { type: Function },
+    onInvalidCapture: { type: Function },
+    onLoad: { type: Function },
+    onLoadCapture: { type: Function },
+    onError: { type: Function },
+    onErrorCapture: { type: Function },
+    onKeyDownCapture: { type: Function },
+    onKeyPressCapture: { type: Function },
+    onKeyUpCapture: { type: Function },
+    onAbort: { type: Function },
+    onAbortCapture: { type: Function },
+    onCanPlay: { type: Function },
+    onCanPlayCapture: { type: Function },
+    onCanPlayThrough: { type: Function },
+    onCanPlayThroughCapture: { type: Function },
+    onDurationChange: { type: Function },
+    onDurationChangeCapture: { type: Function },
+    onEmptied: { type: Function },
+    onEmptiedCapture: { type: Function },
+    onEncrypted: { type: Function },
+    onEncryptedCapture: { type: Function },
+    onEnded: { type: Function },
+    onEndedCapture: { type: Function },
+    onLoadedData: { type: Function },
+    onLoadedDataCapture: { type: Function },
+    onLoadedMetadata: { type: Function },
+    onLoadedMetadataCapture: { type: Function },
+    onLoadStart: { type: Function },
+    onLoadStartCapture: { type: Function },
+    onPause: { type: Function },
+    onPauseCapture: { type: Function },
+    onPlay: { type: Function },
+    onPlayCapture: { type: Function },
+    onPlaying: { type: Function },
+    onPlayingCapture: { type: Function },
+    onProgress: { type: Function },
+    onProgressCapture: { type: Function },
+    onRateChange: { type: Function },
+    onRateChangeCapture: { type: Function },
+    onResize: { type: Function },
+    onResizeCapture: { type: Function },
+    onSeeked: { type: Function },
+    onSeekedCapture: { type: Function },
+    onSeeking: { type: Function },
+    onSeekingCapture: { type: Function },
+    onStalled: { type: Function },
+    onStalledCapture: { type: Function },
+    onSuspend: { type: Function },
+    onSuspendCapture: { type: Function },
+    onTimeUpdate: { type: Function },
+    onTimeUpdateCapture: { type: Function },
+    onVolumeChange: { type: Function },
+    onVolumeChangeCapture: { type: Function },
+    onWaiting: { type: Function },
+    onWaitingCapture: { type: Function },
+    onAuxClick: { type: Function },
+    onAuxClickCapture: { type: Function },
+    onClickCapture: { type: Function },
+    onContextMenuCapture: { type: Function },
+    onDoubleClickCapture: { type: Function },
+    onDragCapture: { type: Function },
+    onDragEnd: { type: Function },
+    onDragEndCapture: { type: Function },
+    onDragEnter: { type: Function },
+    onDragEnterCapture: { type: Function },
+    onDragExit: { type: Function },
+    onDragExitCapture: { type: Function },
+    onDragLeave: { type: Function },
+    onDragLeaveCapture: { type: Function },
+    onDragOver: { type: Function },
+    onDragOverCapture: { type: Function },
+    onDragStart: { type: Function },
+    onDragStartCapture: { type: Function },
+    onDrop: { type: Function },
+    onDropCapture: { type: Function },
+    onMouseDownCapture: { type: Function },
+    onMouseMove: { type: Function },
+    onMouseMoveCapture: { type: Function },
+    onMouseOutCapture: { type: Function },
+    onMouseOverCapture: { type: Function },
+    onMouseUpCapture: { type: Function },
+    onSelect: { type: Function },
+    onSelectCapture: { type: Function },
+    onTouchCancel: { type: Function },
+    onTouchCancelCapture: { type: Function },
+    onTouchEnd: { type: Function },
+    onTouchEndCapture: { type: Function },
+    onTouchMove: { type: Function },
+    onTouchMoveCapture: { type: Function },
+    onTouchStart: { type: Function },
+    onTouchStartCapture: { type: Function },
+    onPointerDown: { type: Function },
+    onPointerDownCapture: { type: Function },
+    onPointerMove: { type: Function },
+    onPointerMoveCapture: { type: Function },
+    onPointerUp: { type: Function },
+    onPointerUpCapture: { type: Function },
+    onPointerCancel: { type: Function },
+    onPointerCancelCapture: { type: Function },
+    onPointerEnter: { type: Function },
+    onPointerLeave: { type: Function },
+    onPointerOver: { type: Function },
+    onPointerOverCapture: { type: Function },
+    onPointerOut: { type: Function },
+    onPointerOutCapture: { type: Function },
+    onGotPointerCapture: { type: Function },
+    onGotPointerCaptureCapture: { type: Function },
+    onLostPointerCapture: { type: Function },
+    onLostPointerCaptureCapture: { type: Function },
+    onScrollCapture: { type: Function },
+    onWheelCapture: { type: Function },
+    onAnimationStart: { type: Function },
+    onAnimationStartCapture: { type: Function },
+    onAnimationEnd: { type: Function },
+    onAnimationEndCapture: { type: Function },
+    onAnimationIteration: { type: Function },
+    onAnimationIterationCapture: { type: Function },
+    onTransitionEnd: { type: Function },
+    onTransitionEndCapture: { type: Function },
+  },
+  events: [
+    'focus',
+    'blur',
+    'change',
+    'input',
+    'submit',
+    'keydown',
+    'keypress',
+    'keyup',
+    'click',
+    'contextmenu',
+    'dblclick',
+    'drag',
+    'mousedown',
+    'mouseenter',
+    'mouseleave',
+    'mouseout',
+    'mouseover',
+    'mouseup',
+    'scroll',
+    'wheel',
+  ],
+});
+
+export type TwentyUiRoundedIconButtonProperties = {
+  size?: string;
+  disabled?: boolean;
+  form?: string;
+  formAction?: string;
+  formEncType?: string;
+  formMethod?: string;
+  formNoValidate?: boolean;
+  formTarget?: string;
+  name?: string;
+  type?: string;
+  defaultChecked?: boolean;
+  suppressContentEditableWarning?: boolean;
+  suppressHydrationWarning?: boolean;
+  accessKey?: string;
+  autoFocus?: boolean;
+  className?: string;
+  contextMenu?: string;
+  dir?: string;
+  hidden?: boolean;
+  id?: string;
+  lang?: string;
+  nonce?: string;
+  slot?: string;
+  style?: Record<string, unknown>;
+  tabIndex?: number;
+  title?: string;
+  translate?: string;
+  radioGroup?: string;
+  about?: string;
+  content?: string;
+  datatype?: string;
+  prefix?: string;
+  property?: string;
+  rel?: string;
+  resource?: string;
+  rev?: string;
+  typeof?: string;
+  vocab?: string;
+  autoCapitalize?: string;
+  autoCorrect?: string;
+  autoSave?: string;
+  color?: string;
+  itemProp?: string;
+  itemScope?: boolean;
+  itemType?: string;
+  itemID?: string;
+  itemRef?: string;
+  results?: number;
+  security?: string;
+  unselectable?: string;
+  inputMode?: string;
+  is?: string;
+  'data-tooltip-id'?: string;
+  'data-tooltip-place'?: string;
+  'data-tooltip-content'?: string;
+  'data-tooltip-html'?: string;
+  'data-tooltip-variant'?: string;
+  'data-tooltip-offset'?: number;
+  'data-tooltip-events'?: unknown[];
+  'data-tooltip-position-strategy'?: string;
+  'data-tooltip-delay-show'?: number;
+  'data-tooltip-delay-hide'?: number;
+  'data-tooltip-float'?: boolean;
+  'data-tooltip-hidden'?: boolean;
+  'data-tooltip-class-name'?: string;
+  'aria-activedescendant'?: string;
+  'aria-autocomplete'?: string;
+  'aria-braillelabel'?: string;
+  'aria-brailleroledescription'?: string;
+  'aria-colcount'?: number;
+  'aria-colindex'?: number;
+  'aria-colindextext'?: string;
+  'aria-colspan'?: number;
+  'aria-controls'?: string;
+  'aria-describedby'?: string;
+  'aria-description'?: string;
+  'aria-details'?: string;
+  'aria-dropeffect'?: string;
+  'aria-errormessage'?: string;
+  'aria-flowto'?: string;
+  'aria-keyshortcuts'?: string;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-level'?: number;
+  'aria-live'?: string;
+  'aria-orientation'?: string;
+  'aria-owns'?: string;
+  'aria-placeholder'?: string;
+  'aria-posinset'?: number;
+  'aria-relevant'?: string;
+  'aria-roledescription'?: string;
+  'aria-rowcount'?: number;
+  'aria-rowindex'?: number;
+  'aria-rowindextext'?: string;
+  'aria-rowspan'?: number;
+  'aria-setsize'?: number;
+  'aria-sort'?: string;
+  'aria-valuemax'?: number;
+  'aria-valuemin'?: number;
+  'aria-valuenow'?: number;
+  'aria-valuetext'?: string;
+  dangerouslySetInnerHTML?: Record<string, unknown>;
+  onCopy?: (...args: unknown[]) => unknown;
+  onCopyCapture?: (...args: unknown[]) => unknown;
+  onCut?: (...args: unknown[]) => unknown;
+  onCutCapture?: (...args: unknown[]) => unknown;
+  onPaste?: (...args: unknown[]) => unknown;
+  onPasteCapture?: (...args: unknown[]) => unknown;
+  onCompositionEnd?: (...args: unknown[]) => unknown;
+  onCompositionEndCapture?: (...args: unknown[]) => unknown;
+  onCompositionStart?: (...args: unknown[]) => unknown;
+  onCompositionStartCapture?: (...args: unknown[]) => unknown;
+  onCompositionUpdate?: (...args: unknown[]) => unknown;
+  onCompositionUpdateCapture?: (...args: unknown[]) => unknown;
+  onFocusCapture?: (...args: unknown[]) => unknown;
+  onBlurCapture?: (...args: unknown[]) => unknown;
+  onChangeCapture?: (...args: unknown[]) => unknown;
+  onBeforeInput?: (...args: unknown[]) => unknown;
+  onBeforeInputCapture?: (...args: unknown[]) => unknown;
+  onInputCapture?: (...args: unknown[]) => unknown;
+  onReset?: (...args: unknown[]) => unknown;
+  onResetCapture?: (...args: unknown[]) => unknown;
+  onSubmitCapture?: (...args: unknown[]) => unknown;
+  onInvalid?: (...args: unknown[]) => unknown;
+  onInvalidCapture?: (...args: unknown[]) => unknown;
+  onLoad?: (...args: unknown[]) => unknown;
+  onLoadCapture?: (...args: unknown[]) => unknown;
+  onError?: (...args: unknown[]) => unknown;
+  onErrorCapture?: (...args: unknown[]) => unknown;
+  onKeyDownCapture?: (...args: unknown[]) => unknown;
+  onKeyPressCapture?: (...args: unknown[]) => unknown;
+  onKeyUpCapture?: (...args: unknown[]) => unknown;
+  onAbort?: (...args: unknown[]) => unknown;
+  onAbortCapture?: (...args: unknown[]) => unknown;
+  onCanPlay?: (...args: unknown[]) => unknown;
+  onCanPlayCapture?: (...args: unknown[]) => unknown;
+  onCanPlayThrough?: (...args: unknown[]) => unknown;
+  onCanPlayThroughCapture?: (...args: unknown[]) => unknown;
+  onDurationChange?: (...args: unknown[]) => unknown;
+  onDurationChangeCapture?: (...args: unknown[]) => unknown;
+  onEmptied?: (...args: unknown[]) => unknown;
+  onEmptiedCapture?: (...args: unknown[]) => unknown;
+  onEncrypted?: (...args: unknown[]) => unknown;
+  onEncryptedCapture?: (...args: unknown[]) => unknown;
+  onEnded?: (...args: unknown[]) => unknown;
+  onEndedCapture?: (...args: unknown[]) => unknown;
+  onLoadedData?: (...args: unknown[]) => unknown;
+  onLoadedDataCapture?: (...args: unknown[]) => unknown;
+  onLoadedMetadata?: (...args: unknown[]) => unknown;
+  onLoadedMetadataCapture?: (...args: unknown[]) => unknown;
+  onLoadStart?: (...args: unknown[]) => unknown;
+  onLoadStartCapture?: (...args: unknown[]) => unknown;
+  onPause?: (...args: unknown[]) => unknown;
+  onPauseCapture?: (...args: unknown[]) => unknown;
+  onPlay?: (...args: unknown[]) => unknown;
+  onPlayCapture?: (...args: unknown[]) => unknown;
+  onPlaying?: (...args: unknown[]) => unknown;
+  onPlayingCapture?: (...args: unknown[]) => unknown;
+  onProgress?: (...args: unknown[]) => unknown;
+  onProgressCapture?: (...args: unknown[]) => unknown;
+  onRateChange?: (...args: unknown[]) => unknown;
+  onRateChangeCapture?: (...args: unknown[]) => unknown;
+  onResize?: (...args: unknown[]) => unknown;
+  onResizeCapture?: (...args: unknown[]) => unknown;
+  onSeeked?: (...args: unknown[]) => unknown;
+  onSeekedCapture?: (...args: unknown[]) => unknown;
+  onSeeking?: (...args: unknown[]) => unknown;
+  onSeekingCapture?: (...args: unknown[]) => unknown;
+  onStalled?: (...args: unknown[]) => unknown;
+  onStalledCapture?: (...args: unknown[]) => unknown;
+  onSuspend?: (...args: unknown[]) => unknown;
+  onSuspendCapture?: (...args: unknown[]) => unknown;
+  onTimeUpdate?: (...args: unknown[]) => unknown;
+  onTimeUpdateCapture?: (...args: unknown[]) => unknown;
+  onVolumeChange?: (...args: unknown[]) => unknown;
+  onVolumeChangeCapture?: (...args: unknown[]) => unknown;
+  onWaiting?: (...args: unknown[]) => unknown;
+  onWaitingCapture?: (...args: unknown[]) => unknown;
+  onAuxClick?: (...args: unknown[]) => unknown;
+  onAuxClickCapture?: (...args: unknown[]) => unknown;
+  onClickCapture?: (...args: unknown[]) => unknown;
+  onContextMenuCapture?: (...args: unknown[]) => unknown;
+  onDoubleClickCapture?: (...args: unknown[]) => unknown;
+  onDragCapture?: (...args: unknown[]) => unknown;
+  onDragEnd?: (...args: unknown[]) => unknown;
+  onDragEndCapture?: (...args: unknown[]) => unknown;
+  onDragEnter?: (...args: unknown[]) => unknown;
+  onDragEnterCapture?: (...args: unknown[]) => unknown;
+  onDragExit?: (...args: unknown[]) => unknown;
+  onDragExitCapture?: (...args: unknown[]) => unknown;
+  onDragLeave?: (...args: unknown[]) => unknown;
+  onDragLeaveCapture?: (...args: unknown[]) => unknown;
+  onDragOver?: (...args: unknown[]) => unknown;
+  onDragOverCapture?: (...args: unknown[]) => unknown;
+  onDragStart?: (...args: unknown[]) => unknown;
+  onDragStartCapture?: (...args: unknown[]) => unknown;
+  onDrop?: (...args: unknown[]) => unknown;
+  onDropCapture?: (...args: unknown[]) => unknown;
+  onMouseDownCapture?: (...args: unknown[]) => unknown;
+  onMouseMove?: (...args: unknown[]) => unknown;
+  onMouseMoveCapture?: (...args: unknown[]) => unknown;
+  onMouseOutCapture?: (...args: unknown[]) => unknown;
+  onMouseOverCapture?: (...args: unknown[]) => unknown;
+  onMouseUpCapture?: (...args: unknown[]) => unknown;
+  onSelect?: (...args: unknown[]) => unknown;
+  onSelectCapture?: (...args: unknown[]) => unknown;
+  onTouchCancel?: (...args: unknown[]) => unknown;
+  onTouchCancelCapture?: (...args: unknown[]) => unknown;
+  onTouchEnd?: (...args: unknown[]) => unknown;
+  onTouchEndCapture?: (...args: unknown[]) => unknown;
+  onTouchMove?: (...args: unknown[]) => unknown;
+  onTouchMoveCapture?: (...args: unknown[]) => unknown;
+  onTouchStart?: (...args: unknown[]) => unknown;
+  onTouchStartCapture?: (...args: unknown[]) => unknown;
+  onPointerDown?: (...args: unknown[]) => unknown;
+  onPointerDownCapture?: (...args: unknown[]) => unknown;
+  onPointerMove?: (...args: unknown[]) => unknown;
+  onPointerMoveCapture?: (...args: unknown[]) => unknown;
+  onPointerUp?: (...args: unknown[]) => unknown;
+  onPointerUpCapture?: (...args: unknown[]) => unknown;
+  onPointerCancel?: (...args: unknown[]) => unknown;
+  onPointerCancelCapture?: (...args: unknown[]) => unknown;
+  onPointerEnter?: (...args: unknown[]) => unknown;
+  onPointerLeave?: (...args: unknown[]) => unknown;
+  onPointerOver?: (...args: unknown[]) => unknown;
+  onPointerOverCapture?: (...args: unknown[]) => unknown;
+  onPointerOut?: (...args: unknown[]) => unknown;
+  onPointerOutCapture?: (...args: unknown[]) => unknown;
+  onGotPointerCapture?: (...args: unknown[]) => unknown;
+  onGotPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onLostPointerCapture?: (...args: unknown[]) => unknown;
+  onLostPointerCaptureCapture?: (...args: unknown[]) => unknown;
+  onScrollCapture?: (...args: unknown[]) => unknown;
+  onWheelCapture?: (...args: unknown[]) => unknown;
+  onAnimationStart?: (...args: unknown[]) => unknown;
+  onAnimationStartCapture?: (...args: unknown[]) => unknown;
+  onAnimationEnd?: (...args: unknown[]) => unknown;
+  onAnimationEndCapture?: (...args: unknown[]) => unknown;
+  onAnimationIteration?: (...args: unknown[]) => unknown;
+  onAnimationIterationCapture?: (...args: unknown[]) => unknown;
+  onTransitionEnd?: (...args: unknown[]) => unknown;
+  onTransitionEndCapture?: (...args: unknown[]) => unknown;
+};
+
+export const TwentyUiRoundedIconButtonElement = createRemoteElement<
+  TwentyUiRoundedIconButtonProperties,
+  Record<string, never>,
+  { Icon: true; 'data-tooltip-wrapper': true; children: true },
+  {
+    focus(event: RemoteEvent<SerializedEventData>): void;
+    blur(event: RemoteEvent<SerializedEventData>): void;
+    change(event: RemoteEvent<SerializedEventData>): void;
+    input(event: RemoteEvent<SerializedEventData>): void;
+    submit(event: RemoteEvent<SerializedEventData>): void;
+    keydown(event: RemoteEvent<SerializedEventData>): void;
+    keypress(event: RemoteEvent<SerializedEventData>): void;
+    keyup(event: RemoteEvent<SerializedEventData>): void;
+    click(event: RemoteEvent<SerializedEventData>): void;
+    contextmenu(event: RemoteEvent<SerializedEventData>): void;
+    dblclick(event: RemoteEvent<SerializedEventData>): void;
+    drag(event: RemoteEvent<SerializedEventData>): void;
+    mousedown(event: RemoteEvent<SerializedEventData>): void;
+    mouseenter(event: RemoteEvent<SerializedEventData>): void;
+    mouseleave(event: RemoteEvent<SerializedEventData>): void;
+    mouseout(event: RemoteEvent<SerializedEventData>): void;
+    mouseover(event: RemoteEvent<SerializedEventData>): void;
+    mouseup(event: RemoteEvent<SerializedEventData>): void;
+    scroll(event: RemoteEvent<SerializedEventData>): void;
+    wheel(event: RemoteEvent<SerializedEventData>): void;
+  }
+>({
+  slots: ['Icon', 'data-tooltip-wrapper', 'children'],
+  properties: {
+    size: { type: String },
+    disabled: { type: Boolean },
+    form: { type: String },
+    formAction: { type: String },
+    formEncType: { type: String },
+    formMethod: { type: String },
+    formNoValidate: { type: Boolean },
+    formTarget: { type: String },
+    name: { type: String },
+    type: { type: String },
+    defaultChecked: { type: Boolean },
+    suppressContentEditableWarning: { type: Boolean },
+    suppressHydrationWarning: { type: Boolean },
+    accessKey: { type: String },
+    autoFocus: { type: Boolean },
+    className: { type: String },
+    contextMenu: { type: String },
+    dir: { type: String },
+    hidden: { type: Boolean },
+    id: { type: String },
+    lang: { type: String },
+    nonce: { type: String },
+    slot: { type: String },
+    style: { type: Object },
+    tabIndex: { type: Number },
+    title: { type: String },
+    translate: { type: String },
+    radioGroup: { type: String },
+    about: { type: String },
+    content: { type: String },
+    datatype: { type: String },
+    prefix: { type: String },
+    property: { type: String },
+    rel: { type: String },
+    resource: { type: String },
+    rev: { type: String },
+    typeof: { type: String },
+    vocab: { type: String },
+    autoCapitalize: { type: String },
+    autoCorrect: { type: String },
+    autoSave: { type: String },
+    color: { type: String },
+    itemProp: { type: String },
+    itemScope: { type: Boolean },
+    itemType: { type: String },
+    itemID: { type: String },
+    itemRef: { type: String },
+    results: { type: Number },
+    security: { type: String },
+    unselectable: { type: String },
+    inputMode: { type: String },
+    is: { type: String },
+    'data-tooltip-id': { type: String },
+    'data-tooltip-place': { type: String },
+    'data-tooltip-content': { type: String },
+    'data-tooltip-html': { type: String },
+    'data-tooltip-variant': { type: String },
+    'data-tooltip-offset': { type: Number },
+    'data-tooltip-events': { type: Array },
+    'data-tooltip-position-strategy': { type: String },
+    'data-tooltip-delay-show': { type: Number },
+    'data-tooltip-delay-hide': { type: Number },
+    'data-tooltip-float': { type: Boolean },
+    'data-tooltip-hidden': { type: Boolean },
+    'data-tooltip-class-name': { type: String },
+    'aria-activedescendant': { type: String },
+    'aria-autocomplete': { type: String },
+    'aria-braillelabel': { type: String },
+    'aria-brailleroledescription': { type: String },
+    'aria-colcount': { type: Number },
+    'aria-colindex': { type: Number },
+    'aria-colindextext': { type: String },
+    'aria-colspan': { type: Number },
+    'aria-controls': { type: String },
+    'aria-describedby': { type: String },
+    'aria-description': { type: String },
+    'aria-details': { type: String },
+    'aria-dropeffect': { type: String },
+    'aria-errormessage': { type: String },
+    'aria-flowto': { type: String },
+    'aria-keyshortcuts': { type: String },
+    'aria-label': { type: String },
+    'aria-labelledby': { type: String },
+    'aria-level': { type: Number },
+    'aria-live': { type: String },
+    'aria-orientation': { type: String },
+    'aria-owns': { type: String },
+    'aria-placeholder': { type: String },
+    'aria-posinset': { type: Number },
+    'aria-relevant': { type: String },
+    'aria-roledescription': { type: String },
+    'aria-rowcount': { type: Number },
+    'aria-rowindex': { type: Number },
+    'aria-rowindextext': { type: String },
+    'aria-rowspan': { type: Number },
+    'aria-setsize': { type: Number },
+    'aria-sort': { type: String },
+    'aria-valuemax': { type: Number },
+    'aria-valuemin': { type: Number },
+    'aria-valuenow': { type: Number },
+    'aria-valuetext': { type: String },
+    dangerouslySetInnerHTML: { type: Object },
+    onCopy: { type: Function },
+    onCopyCapture: { type: Function },
+    onCut: { type: Function },
+    onCutCapture: { type: Function },
+    onPaste: { type: Function },
+    onPasteCapture: { type: Function },
+    onCompositionEnd: { type: Function },
+    onCompositionEndCapture: { type: Function },
+    onCompositionStart: { type: Function },
+    onCompositionStartCapture: { type: Function },
+    onCompositionUpdate: { type: Function },
+    onCompositionUpdateCapture: { type: Function },
+    onFocusCapture: { type: Function },
+    onBlurCapture: { type: Function },
+    onChangeCapture: { type: Function },
+    onBeforeInput: { type: Function },
+    onBeforeInputCapture: { type: Function },
+    onInputCapture: { type: Function },
+    onReset: { type: Function },
+    onResetCapture: { type: Function },
+    onSubmitCapture: { type: Function },
+    onInvalid: { type: Function },
+    onInvalidCapture: { type: Function },
+    onLoad: { type: Function },
+    onLoadCapture: { type: Function },
+    onError: { type: Function },
+    onErrorCapture: { type: Function },
+    onKeyDownCapture: { type: Function },
+    onKeyPressCapture: { type: Function },
+    onKeyUpCapture: { type: Function },
+    onAbort: { type: Function },
+    onAbortCapture: { type: Function },
+    onCanPlay: { type: Function },
+    onCanPlayCapture: { type: Function },
+    onCanPlayThrough: { type: Function },
+    onCanPlayThroughCapture: { type: Function },
+    onDurationChange: { type: Function },
+    onDurationChangeCapture: { type: Function },
+    onEmptied: { type: Function },
+    onEmptiedCapture: { type: Function },
+    onEncrypted: { type: Function },
+    onEncryptedCapture: { type: Function },
+    onEnded: { type: Function },
+    onEndedCapture: { type: Function },
+    onLoadedData: { type: Function },
+    onLoadedDataCapture: { type: Function },
+    onLoadedMetadata: { type: Function },
+    onLoadedMetadataCapture: { type: Function },
+    onLoadStart: { type: Function },
+    onLoadStartCapture: { type: Function },
+    onPause: { type: Function },
+    onPauseCapture: { type: Function },
+    onPlay: { type: Function },
+    onPlayCapture: { type: Function },
+    onPlaying: { type: Function },
+    onPlayingCapture: { type: Function },
+    onProgress: { type: Function },
+    onProgressCapture: { type: Function },
+    onRateChange: { type: Function },
+    onRateChangeCapture: { type: Function },
+    onResize: { type: Function },
+    onResizeCapture: { type: Function },
+    onSeeked: { type: Function },
+    onSeekedCapture: { type: Function },
+    onSeeking: { type: Function },
+    onSeekingCapture: { type: Function },
+    onStalled: { type: Function },
+    onStalledCapture: { type: Function },
+    onSuspend: { type: Function },
+    onSuspendCapture: { type: Function },
+    onTimeUpdate: { type: Function },
+    onTimeUpdateCapture: { type: Function },
+    onVolumeChange: { type: Function },
+    onVolumeChangeCapture: { type: Function },
+    onWaiting: { type: Function },
+    onWaitingCapture: { type: Function },
+    onAuxClick: { type: Function },
+    onAuxClickCapture: { type: Function },
+    onClickCapture: { type: Function },
+    onContextMenuCapture: { type: Function },
+    onDoubleClickCapture: { type: Function },
+    onDragCapture: { type: Function },
+    onDragEnd: { type: Function },
+    onDragEndCapture: { type: Function },
+    onDragEnter: { type: Function },
+    onDragEnterCapture: { type: Function },
+    onDragExit: { type: Function },
+    onDragExitCapture: { type: Function },
+    onDragLeave: { type: Function },
+    onDragLeaveCapture: { type: Function },
+    onDragOver: { type: Function },
+    onDragOverCapture: { type: Function },
+    onDragStart: { type: Function },
+    onDragStartCapture: { type: Function },
+    onDrop: { type: Function },
+    onDropCapture: { type: Function },
+    onMouseDownCapture: { type: Function },
+    onMouseMove: { type: Function },
+    onMouseMoveCapture: { type: Function },
+    onMouseOutCapture: { type: Function },
+    onMouseOverCapture: { type: Function },
+    onMouseUpCapture: { type: Function },
+    onSelect: { type: Function },
+    onSelectCapture: { type: Function },
+    onTouchCancel: { type: Function },
+    onTouchCancelCapture: { type: Function },
+    onTouchEnd: { type: Function },
+    onTouchEndCapture: { type: Function },
+    onTouchMove: { type: Function },
+    onTouchMoveCapture: { type: Function },
+    onTouchStart: { type: Function },
+    onTouchStartCapture: { type: Function },
+    onPointerDown: { type: Function },
+    onPointerDownCapture: { type: Function },
+    onPointerMove: { type: Function },
+    onPointerMoveCapture: { type: Function },
+    onPointerUp: { type: Function },
+    onPointerUpCapture: { type: Function },
+    onPointerCancel: { type: Function },
+    onPointerCancelCapture: { type: Function },
+    onPointerEnter: { type: Function },
+    onPointerLeave: { type: Function },
+    onPointerOver: { type: Function },
+    onPointerOverCapture: { type: Function },
+    onPointerOut: { type: Function },
+    onPointerOutCapture: { type: Function },
+    onGotPointerCapture: { type: Function },
+    onGotPointerCaptureCapture: { type: Function },
+    onLostPointerCapture: { type: Function },
+    onLostPointerCaptureCapture: { type: Function },
+    onScrollCapture: { type: Function },
+    onWheelCapture: { type: Function },
+    onAnimationStart: { type: Function },
+    onAnimationStartCapture: { type: Function },
+    onAnimationEnd: { type: Function },
+    onAnimationEndCapture: { type: Function },
+    onAnimationIteration: { type: Function },
+    onAnimationIterationCapture: { type: Function },
+    onTransitionEnd: { type: Function },
+    onTransitionEndCapture: { type: Function },
+  },
+  events: [
+    'focus',
+    'blur',
+    'change',
+    'input',
+    'submit',
+    'keydown',
+    'keypress',
+    'keyup',
+    'click',
+    'contextmenu',
+    'dblclick',
+    'drag',
+    'mousedown',
+    'mouseenter',
+    'mouseleave',
+    'mouseout',
+    'mouseover',
+    'mouseup',
+    'scroll',
+    'wheel',
+  ],
+});
+
 export type TwentyUiTabContentProperties = {
   id: string;
   active?: boolean;
@@ -1005,6 +2111,71 @@ export const TwentyUiTabContentElement = createRemoteElement<
     contentSize: { type: String },
     className: { type: String },
   },
+});
+
+export type TwentyUiTabButtonProperties = {
+  id: string;
+  active?: boolean;
+  disabled?: boolean;
+  to?: string;
+  className?: string;
+  title?: string;
+  logo?: string;
+  contentSize?: string;
+  disableTestId?: boolean;
+};
+
+export const TwentyUiTabButtonElement = createRemoteElement<
+  TwentyUiTabButtonProperties,
+  Record<string, never>,
+  { LeftIcon: true; RightIcon: true; pill: true },
+  { click(event: RemoteEvent<SerializedEventData>): void }
+>({
+  slots: ['LeftIcon', 'RightIcon', 'pill'],
+  properties: {
+    id: { type: String },
+    active: { type: Boolean },
+    disabled: { type: Boolean },
+    to: { type: String },
+    className: { type: String },
+    title: { type: String },
+    logo: { type: String },
+    contentSize: { type: String },
+    disableTestId: { type: Boolean },
+  },
+  events: ['click'],
+});
+
+export type TwentyUiCodeEditorProperties = {
+  value?: string;
+  language?: string;
+  onMount?: (...args: unknown[]) => unknown;
+  onValidate?: (...args: unknown[]) => unknown;
+  options?: Record<string, unknown>;
+  setMarkers?: (...args: unknown[]) => unknown;
+  variant?: string;
+  isLoading?: boolean;
+  transparentBackground?: boolean;
+};
+
+export const TwentyUiCodeEditorElement = createRemoteElement<
+  TwentyUiCodeEditorProperties,
+  Record<string, never>,
+  Record<string, never>,
+  { change(event: RemoteEvent<SerializedEventData>): void }
+>({
+  properties: {
+    value: { type: String },
+    language: { type: String },
+    onMount: { type: Function },
+    onValidate: { type: Function },
+    options: { type: Object },
+    setMarkers: { type: Function },
+    variant: { type: String },
+    isLoading: { type: Boolean },
+    transparentBackground: { type: Boolean },
+  },
+  events: ['change'],
 });
 
 export type TwentyUiCoreEditorHeaderProperties = {
@@ -1572,6 +2743,58 @@ export const TwentyUiColorSchemePickerElement = createRemoteElement<
   events: ['change'],
 });
 
+export type TwentyUiCardPickerProperties = {
+  handleChange?: (...args: unknown[]) => unknown;
+  checked?: boolean;
+};
+
+export const TwentyUiCardPickerElement = createRemoteElement<
+  TwentyUiCardPickerProperties,
+  Record<string, never>,
+  { children: true },
+  Record<string, never>
+>({
+  slots: ['children'],
+  properties: {
+    handleChange: { type: Function },
+    checked: { type: Boolean },
+  },
+});
+
+export type TwentyUiCheckboxProperties = {
+  checked: boolean;
+  indeterminate?: boolean;
+  hoverable?: boolean;
+  onCheckedChange?: (...args: unknown[]) => unknown;
+  variant?: string;
+  size?: string;
+  shape?: string;
+  className?: string;
+  disabled?: boolean;
+  accent?: string;
+};
+
+export const TwentyUiCheckboxElement = createRemoteElement<
+  TwentyUiCheckboxProperties,
+  Record<string, never>,
+  Record<string, never>,
+  { change(event: RemoteEvent<SerializedEventData>): void }
+>({
+  properties: {
+    checked: { type: Boolean },
+    indeterminate: { type: Boolean },
+    hoverable: { type: Boolean },
+    onCheckedChange: { type: Function },
+    variant: { type: String },
+    size: { type: String },
+    shape: { type: String },
+    className: { type: String },
+    disabled: { type: Boolean },
+    accent: { type: String },
+  },
+  events: ['change'],
+});
+
 export type TwentyUiRadioProperties = {
   checked?: boolean;
   className?: string;
@@ -1602,6 +2825,25 @@ export const TwentyUiRadioElement = createRemoteElement<
     size: { type: String },
     style: { type: Object },
     value: { type: String },
+  },
+  events: ['change'],
+});
+
+export type TwentyUiRadioGroupProperties = {
+  value?: string;
+  onValueChange?: (...args: unknown[]) => unknown;
+};
+
+export const TwentyUiRadioGroupElement = createRemoteElement<
+  TwentyUiRadioGroupProperties,
+  Record<string, never>,
+  { children: true },
+  { change(event: RemoteEvent<SerializedEventData>): void }
+>({
+  slots: ['children'],
+  properties: {
+    value: { type: String },
+    onValueChange: { type: Function },
   },
   events: ['change'],
 });
@@ -5154,6 +6396,10 @@ customElements.define(
 customElements.define('twenty-ui-button', TwentyUiButtonElement);
 customElements.define('twenty-ui-button-group', TwentyUiButtonGroupElement);
 customElements.define(
+  'twenty-ui-color-picker-button',
+  TwentyUiColorPickerButtonElement,
+);
+customElements.define(
   'twenty-ui-floating-button',
   TwentyUiFloatingButtonElement,
 );
@@ -5179,7 +6425,14 @@ customElements.define(
   'twenty-ui-light-icon-button-group',
   TwentyUiLightIconButtonGroupElement,
 );
+customElements.define('twenty-ui-main-button', TwentyUiMainButtonElement);
+customElements.define(
+  'twenty-ui-rounded-icon-button',
+  TwentyUiRoundedIconButtonElement,
+);
 customElements.define('twenty-ui-tab-content', TwentyUiTabContentElement);
+customElements.define('twenty-ui-tab-button', TwentyUiTabButtonElement);
+customElements.define('twenty-ui-code-editor', TwentyUiCodeEditorElement);
 customElements.define(
   'twenty-ui-core-editor-header',
   TwentyUiCoreEditorHeaderElement,
@@ -5192,7 +6445,10 @@ customElements.define(
   'twenty-ui-color-scheme-picker',
   TwentyUiColorSchemePickerElement,
 );
+customElements.define('twenty-ui-card-picker', TwentyUiCardPickerElement);
+customElements.define('twenty-ui-checkbox', TwentyUiCheckboxElement);
 customElements.define('twenty-ui-radio', TwentyUiRadioElement);
+customElements.define('twenty-ui-radio-group', TwentyUiRadioGroupElement);
 customElements.define('twenty-ui-search-input', TwentyUiSearchInputElement);
 customElements.define('twenty-ui-toggle', TwentyUiToggleElement);
 customElements.define('twenty-ui-avatar-chip', TwentyUiAvatarChipElement);
@@ -5390,6 +6646,9 @@ declare global {
     >;
     'twenty-ui-button': InstanceType<typeof TwentyUiButtonElement>;
     'twenty-ui-button-group': InstanceType<typeof TwentyUiButtonGroupElement>;
+    'twenty-ui-color-picker-button': InstanceType<
+      typeof TwentyUiColorPickerButtonElement
+    >;
     'twenty-ui-floating-button': InstanceType<
       typeof TwentyUiFloatingButtonElement
     >;
@@ -5410,7 +6669,13 @@ declare global {
     'twenty-ui-light-icon-button-group': InstanceType<
       typeof TwentyUiLightIconButtonGroupElement
     >;
+    'twenty-ui-main-button': InstanceType<typeof TwentyUiMainButtonElement>;
+    'twenty-ui-rounded-icon-button': InstanceType<
+      typeof TwentyUiRoundedIconButtonElement
+    >;
     'twenty-ui-tab-content': InstanceType<typeof TwentyUiTabContentElement>;
+    'twenty-ui-tab-button': InstanceType<typeof TwentyUiTabButtonElement>;
+    'twenty-ui-code-editor': InstanceType<typeof TwentyUiCodeEditorElement>;
     'twenty-ui-core-editor-header': InstanceType<
       typeof TwentyUiCoreEditorHeaderElement
     >;
@@ -5420,7 +6685,10 @@ declare global {
     'twenty-ui-color-scheme-picker': InstanceType<
       typeof TwentyUiColorSchemePickerElement
     >;
+    'twenty-ui-card-picker': InstanceType<typeof TwentyUiCardPickerElement>;
+    'twenty-ui-checkbox': InstanceType<typeof TwentyUiCheckboxElement>;
     'twenty-ui-radio': InstanceType<typeof TwentyUiRadioElement>;
+    'twenty-ui-radio-group': InstanceType<typeof TwentyUiRadioGroupElement>;
     'twenty-ui-search-input': InstanceType<typeof TwentyUiSearchInputElement>;
     'twenty-ui-toggle': InstanceType<typeof TwentyUiToggleElement>;
     'twenty-ui-avatar-chip': InstanceType<typeof TwentyUiAvatarChipElement>;

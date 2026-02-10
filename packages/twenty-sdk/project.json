@@ -6,7 +6,7 @@
   "tags": ["scope:sdk", "scope:shared"],
   "targets": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "generate-remote-dom-elements"],
       "outputs": ["{projectRoot}/dist"]
     },
     "dev": {
