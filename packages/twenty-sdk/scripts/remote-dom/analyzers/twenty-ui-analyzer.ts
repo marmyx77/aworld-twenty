@@ -97,30 +97,26 @@ const analyzeCategory = (
   return discoveredComponents;
 };
 
-export const analyzeAllCategories = (
-  options: { verbose?: boolean } = {},
-): DiscoveredComponent[] => {
-  const verboseLog = options.verbose
-    ? (...args: Parameters<typeof console.log>) => console.log(...args)
-    : () => {};
-
-  verboseLog('Loading twenty-ui TypeScript project...');
+export const analyzeAllCategories = (): DiscoveredComponent[] => {
+  console.log('Loading twenty-ui TypeScript project...');
 
   const project = new Project({
     tsConfigFilePath: path.join(TWENTY_UI_ROOT_PATH, 'tsconfig.json'),
     skipAddingFilesFromTsConfig: false,
   });
 
-  verboseLog(
+  console.log(
     `Loaded ${project.getSourceFiles().length} source files from twenty-ui\n`,
   );
 
   const allDiscoveredComponents: DiscoveredComponent[] = [];
 
   for (const categoryConfig of COMPONENT_CATEGORIES) {
-    verboseLog(`Analyzing category: ${categoryConfig.category}`);
+    console.log(`Analyzing category: ${categoryConfig.category}`);
+
     const discoveredComponents = analyzeCategory(project, categoryConfig);
-    verboseLog(`  Found ${discoveredComponents.length} components`);
+
+    console.log(`  Found ${discoveredComponents.length} components to analyze`);
 
     for (const discoveredComponent of discoveredComponents) {
       const propertyCount = Object.keys(discoveredComponent.properties).length;
@@ -134,7 +130,7 @@ export const analyzeAllCategories = (
         slotCount > 0
           ? `, ${slotCount} slots: [${discoveredComponent.slots.join(', ')}]`
           : '';
-      verboseLog(
+      console.log(
         `    ${discoveredComponent.componentImport} -> ${discoveredComponent.tag} (${propertyCount} props${eventSummary}${slotSummary})`,
       );
     }

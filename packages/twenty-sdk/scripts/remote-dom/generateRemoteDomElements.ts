@@ -60,7 +60,7 @@ const getHtmlElementSchemas = (): ComponentSchema[] => {
 };
 
 const getUiComponentSchemas = (): ComponentSchema[] => {
-  const discoveredComponents = analyzeAllCategories({ verbose: true });
+  const discoveredComponents = analyzeAllCategories();
 
   return discoveredComponents.map((component) => ({
     name: component.name,
