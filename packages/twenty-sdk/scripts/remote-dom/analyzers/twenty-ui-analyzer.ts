@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { Project, type Type } from 'ts-morph';
-import { pascalToKebab } from 'twenty-shared/utils';
+import { isDefined, pascalToKebab } from 'twenty-shared/utils';
 
 import { type PropertySchema } from '@/front-component/types/PropertySchema';
 import {
@@ -9,6 +9,7 @@ import {
   type CategoryConfig,
 } from './constants';
 import { extractPropsAndSlots } from './utils/extractPropsAndSlots';
+import { logDiscoveredComponents } from './utils/logDiscoveredComponents';
 import { shouldSkipExport } from './utils/shouldSkipExport';
 
 export type DiscoveredComponent = {
@@ -29,19 +30,22 @@ const analyzeCategory = (
   const { category, indexPath } = categoryConfig;
   const sourceFile = project.getSourceFile(indexPath);
 
-  if (!sourceFile) {
+  if (!isDefined(sourceFile)) {
     console.warn(`  Warning: Could not find barrel file at ${indexPath}`);
+
     return [];
   }
 
   const discoveredComponents: DiscoveredComponent[] = [];
 
   const propsTypeNames = new Set<string>();
+
   const exportDeclarations = sourceFile.getExportDeclarations();
 
   for (const exportDeclaration of exportDeclarations) {
     for (const namedExport of exportDeclaration.getNamedExports()) {
       const exportName = namedExport.getName();
+
       if (exportName.endsWith('Props')) {
         propsTypeNames.add(exportName);
       }
@@ -52,10 +56,15 @@ const analyzeCategory = (
     for (const namedExport of exportDeclaration.getNamedExports()) {
       const exportName = namedExport.getName();
 
-      if (shouldSkipExport(exportName)) continue;
+      if (shouldSkipExport(exportName)) {
+        continue;
+      }
 
       const expectedPropsTypeName = `${exportName}Props`;
-      if (!propsTypeNames.has(expectedPropsTypeName)) continue;
+
+      if (!propsTypeNames.has(expectedPropsTypeName)) {
+        continue;
+      }
 
       const propsTypeSymbol =
         sourceFile.getLocal(expectedPropsTypeName) ??
@@ -64,7 +73,9 @@ const analyzeCategory = (
           .get(expectedPropsTypeName)?.[0]
           ?.getSymbol?.();
 
-      if (!propsTypeSymbol) continue;
+      if (!isDefined(propsTypeSymbol)) {
+        continue;
+      }
 
       let propsType: Type | undefined;
 
@@ -76,9 +87,12 @@ const analyzeCategory = (
         propsType = propsTypeDeclarations[0].getType();
       }
 
-      if (!propsType) continue;
+      if (!isDefined(propsType)) {
+        continue;
+      }
 
       const { properties, events, slots } = extractPropsAndSlots(propsType);
+
       const kebabName = pascalToKebab(exportName);
 
       discoveredComponents.push({
@@ -116,24 +130,7 @@ export const analyzeAllCategories = (): DiscoveredComponent[] => {
 
     const discoveredComponents = analyzeCategory(project, categoryConfig);
 
-    console.log(`  Found ${discoveredComponents.length} components to analyze`);
-
-    for (const discoveredComponent of discoveredComponents) {
-      const propertyCount = Object.keys(discoveredComponent.properties).length;
-      const eventCount = discoveredComponent.events.length;
-      const slotCount = discoveredComponent.slots.length;
-      const eventSummary =
-        eventCount > 0
-          ? `, ${eventCount} events: [${discoveredComponent.events.join(', ')}]`
-          : '';
-      const slotSummary =
-        slotCount > 0
-          ? `, ${slotCount} slots: [${discoveredComponent.slots.join(', ')}]`
-          : '';
-      console.log(
-        `    ${discoveredComponent.componentImport} -> ${discoveredComponent.tag} (${propertyCount} props${eventSummary}${slotSummary})`,
-      );
-    }
+    logDiscoveredComponents(discoveredComponents);
 
     allDiscoveredComponents.push(...discoveredComponents);
   }
