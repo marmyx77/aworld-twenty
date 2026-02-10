@@ -12,7 +12,7 @@
     "no-debugger": "error",
     "no-duplicate-imports": "error",
     "no-undef": "off",
-    "no-unused-vars": "off",
+    "no-unused-vars": ["warn", { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }],
     "no-redeclare": "off",
     "no-restricted-imports": ["error", {
       "patterns": [
@@ -63,7 +63,7 @@
     }],
     "typescript/no-empty-function": "off",
     "typescript/no-explicit-any": "off",
-    "typescript/no-unused-vars": "off",
+    "typescript/no-unused-vars": ["warn", { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }],
 
     "twenty/effect-components": "error",
     "twenty/no-hardcoded-colors": "error",
@@ -74,6 +74,7 @@
     "twenty/use-getLoadable-and-getValue-to-get-atoms": "error",
     "twenty/useRecoilCallback-has-dependency-array": "error",
     "twenty/no-navigate-prefer-link": "error",
+    "twenty/prefer-arrow-functions": "error",
 
     "twenty/t-call-in-function": "error",
     "twenty/no-single-tag-to-translate": "warn",
@@ -400,6 +401,7 @@
       "rules": {
         "unicorn/filename-case": ["warn", { "cases": { "pascalCase": true } }],
         "twenty/max-consts-per-file": ["error", { "max": 1 }],
+        "twenty/constants-upper-case": "error",
         "twenty/no-unlocalized-strings": "off"
       }
     },
@@ -442,6 +444,8 @@
     "node_modules/**",
     "mockServiceWorker.js",
     "generated*/**",
+    "**/generated/**",
+    "**/generated-metadata/**",
     "build/**",
     "coverage/**",
     "storybook-static/**",

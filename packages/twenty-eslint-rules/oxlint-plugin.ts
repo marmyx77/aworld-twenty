@@ -66,6 +66,14 @@ import {
   rule as useRecoilCallbackHasDependencyArray,
   RULE_NAME as useRecoilCallbackHasDependencyArrayName,
 } from './rules/useRecoilCallback-has-dependency-array';
+import {
+  rule as constantsUpperCase,
+  RULE_NAME as constantsUpperCaseName,
+} from './rules/constants-upper-case';
+import {
+  rule as preferArrowFunctions,
+  RULE_NAME as preferArrowFunctionsName,
+} from './rules/prefer-arrow-functions';
 
 // Adapt a stateless ESLint rule to the createOnce API.
 // For rules that don't capture per-file mutable state in create(),
@@ -92,6 +100,8 @@ export default eslintCompatPlugin({
     [styledComponentsPrefixedWithStyledName]: toCreateOnce(styledComponentsPrefixedWithStyled),
     [useGetLoadableAndGetValueToGetAtomsName]: toCreateOnce(useGetLoadableAndGetValueToGetAtoms),
     [useRecoilCallbackHasDependencyArrayName]: toCreateOnce(useRecoilCallbackHasDependencyArray),
+    [constantsUpperCaseName]: toCreateOnce(constantsUpperCase),
+    [preferArrowFunctionsName]: toCreateOnce(preferArrowFunctions),
 
     // Stateful rules — keep `create` (called per file, state resets naturally).
     // eslintCompatPlugin leaves rules with `create` as-is.
