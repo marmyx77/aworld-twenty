@@ -93,6 +93,7 @@ import {
   TwentyUiCheckmarkElement,
   TwentyUiColorSampleElement,
   TwentyUiCommandBlockElement,
+  TwentyUiIconElement,
   TwentyUiInfoElement,
   TwentyUiStatusElement,
   TwentyUiHorizontalSeparatorElement,
@@ -1621,6 +1622,10 @@ export const TwentyUiColorSample = createRemoteComponent(
 export const TwentyUiCommandBlock = createRemoteComponent(
   'twenty-ui-command-block',
   TwentyUiCommandBlockElement,
+);
+export const TwentyUiIcon = createRemoteComponent(
+  'twenty-ui-icon',
+  TwentyUiIconElement,
 );
 export const TwentyUiInfo = createRemoteComponent(
   'twenty-ui-info',

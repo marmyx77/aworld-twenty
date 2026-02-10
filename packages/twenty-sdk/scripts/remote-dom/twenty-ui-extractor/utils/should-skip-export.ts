@@ -12,7 +12,13 @@ const SKIP_PREFIXES = [
 
 const SKIP_SUFFIXES = ['Provider', 'State', 'state'] as const;
 
+const NEVER_SKIP = new Set(['Icon']);
+
 export const shouldSkipExport = (exportName: string): boolean => {
+  if (NEVER_SKIP.has(exportName)) {
+    return false;
+  }
+
   const hasSkipPrefix = SKIP_PREFIXES.some((prefix) =>
     exportName.startsWith(prefix),
   );

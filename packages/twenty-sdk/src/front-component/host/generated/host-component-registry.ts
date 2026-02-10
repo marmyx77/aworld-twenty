@@ -92,6 +92,7 @@ import {
   Checkmark,
   ColorSample,
   CommandBlock,
+  Icon,
   Info,
   Status,
   HorizontalSeparator,
@@ -108,6 +109,7 @@ import {
   type CheckmarkProps,
   type ColorSampleProps,
   type CommandBlockProps,
+  type IconProps,
   type InfoProps,
   type StatusProps,
   type HorizontalSeparatorProps,
@@ -783,6 +785,11 @@ const TwentyUiCommandBlockWrapper = (
 ) => {
   return React.createElement(CommandBlock, filterProps(props));
 };
+const TwentyUiIconWrapper = (
+  props: IconProps & { children?: React.ReactNode },
+) => {
+  return React.createElement(Icon, filterProps(props));
+};
 const TwentyUiInfoWrapper = (
   props: InfoProps & { children?: React.ReactNode },
 ) => {
@@ -1176,6 +1183,7 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
     'twenty-ui-command-block',
     createRemoteComponentRenderer(TwentyUiCommandBlockWrapper),
   ],
+  ['twenty-ui-icon', createRemoteComponentRenderer(TwentyUiIconWrapper)],
   ['twenty-ui-info', createRemoteComponentRenderer(TwentyUiInfoWrapper)],
   ['twenty-ui-status', createRemoteComponentRenderer(TwentyUiStatusWrapper)],
   [

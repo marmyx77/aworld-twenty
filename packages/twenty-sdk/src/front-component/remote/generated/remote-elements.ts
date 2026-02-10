@@ -4850,6 +4850,27 @@ export const TwentyUiCommandBlockElement = createRemoteElement<
   },
 });
 
+export type TwentyUiIconProperties = {
+  className?: string;
+  style?: Record<string, unknown>;
+  color?: string;
+  name: string;
+};
+
+export const TwentyUiIconElement = createRemoteElement<
+  TwentyUiIconProperties,
+  Record<string, never>,
+  Record<string, never>,
+  Record<string, never>
+>({
+  properties: {
+    className: { type: String },
+    style: { type: Object },
+    color: { type: String },
+    name: { type: String },
+  },
+});
+
 export type TwentyUiInfoProperties = {
   accent?: string;
   text: string;
@@ -6474,6 +6495,7 @@ customElements.define(
 customElements.define('twenty-ui-checkmark', TwentyUiCheckmarkElement);
 customElements.define('twenty-ui-color-sample', TwentyUiColorSampleElement);
 customElements.define('twenty-ui-command-block', TwentyUiCommandBlockElement);
+customElements.define('twenty-ui-icon', TwentyUiIconElement);
 customElements.define('twenty-ui-info', TwentyUiInfoElement);
 customElements.define('twenty-ui-status', TwentyUiStatusElement);
 customElements.define(
@@ -6711,6 +6733,7 @@ declare global {
     'twenty-ui-checkmark': InstanceType<typeof TwentyUiCheckmarkElement>;
     'twenty-ui-color-sample': InstanceType<typeof TwentyUiColorSampleElement>;
     'twenty-ui-command-block': InstanceType<typeof TwentyUiCommandBlockElement>;
+    'twenty-ui-icon': InstanceType<typeof TwentyUiIconElement>;
     'twenty-ui-info': InstanceType<typeof TwentyUiInfoElement>;
     'twenty-ui-status': InstanceType<typeof TwentyUiStatusElement>;
     'twenty-ui-horizontal-separator': InstanceType<
