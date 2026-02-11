@@ -65,6 +65,19 @@ export class AgentChatStreamingService {
       );
     }
 
+    // Save user message eagerly so it persists even if the stream is aborted
+    const lastUserText =
+      messages[messages.length - 1]?.parts.find((part) => part.type === 'text')
+        ?.text ?? '';
+
+    const userMessage = await this.agentChatService.addMessage({
+      threadId: thread.id,
+      uiMessage: {
+        role: AgentMessageRole.USER,
+        parts: [{ type: 'text', text: lastUserText }],
+      },
+    });
+
     try {
       const uiStream = createUIMessageStream<ExtendedUIMessage>({
         execute: async ({ writer }) => {
@@ -174,54 +187,39 @@ export class AgentChatStreamingService {
 
                 return undefined;
               },
-              onFinish: async ({ responseMessage }) => {
+              onFinish: async ({ responseMessage, isAborted }) => {
                 if (responseMessage.parts.length === 0) {
                   return;
                 }
 
-                const validThreadId = thread.id;
-
-                if (!validThreadId) {
-                  this.logger.error('Thread ID is unexpectedly null/undefined');
-
-                  return;
+                if (isAborted) {
+                  this.logger.debug(
+                    `Saving partial assistant response for aborted stream on thread ${thread.id}`,
+                  );
                 }
 
                 try {
-                  const userMessage = await this.agentChatService.addMessage({
-                    threadId: validThreadId,
-                    uiMessage: {
-                      role: AgentMessageRole.USER,
-                      parts: [
-                        {
-                          type: 'text',
-                          text:
-                            messages[messages.length - 1].parts.find(
-                              (part) => part.type === 'text',
-                            )?.text ?? '',
-                        },
-                      ],
-                    },
-                  });
-
                   await this.agentChatService.addMessage({
-                    threadId: validThreadId,
+                    threadId: thread.id,
                     uiMessage: responseMessage,
                     turnId: userMessage.turnId,
                   });
 
-                  await this.threadRepository.update(validThreadId, {
-                    totalInputTokens: () =>
-                      `"totalInputTokens" + ${streamUsage.inputTokens}`,
-                    totalOutputTokens: () =>
-                      `"totalOutputTokens" + ${streamUsage.outputTokens}`,
-                    totalInputCredits: () =>
-                      `"totalInputCredits" + ${streamUsage.inputCredits}`,
-                    totalOutputCredits: () =>
-                      `"totalOutputCredits" + ${streamUsage.outputCredits}`,
-                    contextWindowTokens: modelConfig.contextWindowTokens,
-                    conversationSize: lastStepConversationSize,
-                  });
+                  // Skip usage update on abort since streamUsage may be incomplete
+                  if (!isAborted) {
+                    await this.threadRepository.update(thread.id, {
+                      totalInputTokens: () =>
+                        `"totalInputTokens" + ${streamUsage.inputTokens}`,
+                      totalOutputTokens: () =>
+                        `"totalOutputTokens" + ${streamUsage.outputTokens}`,
+                      totalInputCredits: () =>
+                        `"totalInputCredits" + ${streamUsage.inputCredits}`,
+                      totalOutputCredits: () =>
+                        `"totalOutputCredits" + ${streamUsage.outputCredits}`,
+                      contextWindowTokens: modelConfig.contextWindowTokens,
+                      conversationSize: lastStepConversationSize,
+                    });
+                  }
                 } catch (saveError) {
                   this.logger.error(
                     'Failed to save messages:',
@@ -237,7 +235,15 @@ export class AgentChatStreamingService {
         },
       });
 
-      pipeUIMessageStreamToResponse({ stream: uiStream, response });
+      pipeUIMessageStreamToResponse({
+        stream: uiStream,
+        response,
+        // Consume the stream independently so onFinish fires even if
+        // the client disconnects (e.g., page refresh mid-stream)
+        consumeSseStream: ({ stream }) => {
+          stream.pipeTo(new WritableStream()).catch(() => {});
+        },
+      });
     } catch (error) {
       this.logger.error(
         'Failed to stream chat:',

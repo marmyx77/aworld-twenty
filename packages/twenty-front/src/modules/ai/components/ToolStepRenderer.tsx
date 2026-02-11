@@ -25,12 +25,6 @@ const StyledContainer = styled.div`
   gap: ${({ theme }) => theme.spacing(2)};
 `;
 
-const StyledLoadingContainer = styled.div`
-  align-items: center;
-  display: flex;
-  gap: ${({ theme }) => theme.spacing(2)};
-`;
-
 const StyledContentContainer = styled.div`
   background: ${({ theme }) => theme.background.transparent.lighter};
   border: 1px solid ${({ theme }) => theme.border.color.light};
@@ -142,6 +136,7 @@ export const ToolStepRenderer = ({ toolPart }: { toolPart: ToolUIPart }) => {
 
   const hasError = isDefined(errorText);
   const isExpandable = isDefined(output) || hasError;
+  const ToolIcon = getToolIcon(toolName);
 
   if (toolName === 'code_interpreter') {
     const codeInput = toolInput as { code?: string } | undefined;
@@ -173,13 +168,14 @@ export const ToolStepRenderer = ({ toolPart }: { toolPart: ToolUIPart }) => {
       <StyledContainer>
         <StyledToggleButton isExpandable={false}>
           <StyledLeftContent>
-            <StyledLoadingContainer>
+            <StyledIconTextContainer>
+              <ToolIcon size={theme.icon.size.sm} />
               <ShimmeringText>
                 <StyledDisplayMessage>
                   {getToolDisplayMessage(input, rawToolName, false)}
                 </StyledDisplayMessage>
               </ShimmeringText>
-            </StyledLoadingContainer>
+            </StyledIconTextContainer>
           </StyledLeftContent>
           <StyledRightContent>
             <StyledToolName>{toolName}</StyledToolName>
@@ -200,7 +196,9 @@ export const ToolStepRenderer = ({ toolPart }: { toolPart: ToolUIPart }) => {
 
   const displayMessage = hasError
     ? t`Tool execution failed`
-    : rawToolName === 'learn_tools' || rawToolName === 'execute_tool'
+    : rawToolName === 'learn_tools' ||
+        rawToolName === 'execute_tool' ||
+        rawToolName === 'load_skills'
       ? getToolDisplayMessage(input, rawToolName, true)
       : unwrappedOutput &&
           typeof unwrappedOutput === 'object' &&
@@ -215,8 +213,6 @@ export const ToolStepRenderer = ({ toolPart }: { toolPart: ToolUIPart }) => {
     'result' in unwrappedOutput
       ? (unwrappedOutput as { result: string }).result
       : unwrappedOutput;
-
-  const ToolIcon = getToolIcon(toolName);
 
   return (
     <StyledContainer>

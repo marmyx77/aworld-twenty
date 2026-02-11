@@ -28,7 +28,7 @@ const extractSearchQuery = (input: ToolInput): string => {
   return '';
 };
 
-const extractLoadingMessage = (input: ToolInput): string => {
+const extractCustomLoadingMessage = (input: ToolInput): string | null => {
   if (
     isDefined(input) &&
     typeof input === 'object' &&
@@ -38,7 +38,7 @@ const extractLoadingMessage = (input: ToolInput): string => {
     return input.loadingMessage;
   }
 
-  return 'Processing...';
+  return null;
 };
 
 export const resolveToolInput = (
@@ -74,6 +74,23 @@ const extractLearnToolNames = (input: ToolInput): string => {
   return '';
 };
 
+const extractSkillNames = (input: ToolInput): string => {
+  if (
+    isDefined(input) &&
+    typeof input === 'object' &&
+    'skillNames' in input &&
+    Array.isArray(input.skillNames)
+  ) {
+    return input.skillNames.join(', ');
+  }
+
+  return '';
+};
+
+const formatToolName = (toolName: string): string => {
+  return toolName.replace(/_/g, ' ');
+};
+
 export const getToolDisplayMessage = (
   input: ToolInput,
   toolName: string,
@@ -95,5 +112,21 @@ export const getToolDisplayMessage = (
     return names ? `${action} ${names}` : `${action} tools...`;
   }
 
-  return extractLoadingMessage(resolvedInput);
+  if (resolvedToolName === 'load_skills') {
+    const names = extractSkillNames(resolvedInput);
+    const action = isFinished ? 'Loaded' : 'Loading';
+
+    return names ? `${action} ${names}` : `${action} skills...`;
+  }
+
+  const customMessage = extractCustomLoadingMessage(resolvedInput);
+
+  if (isDefined(customMessage)) {
+    return customMessage;
+  }
+
+  const formattedName = formatToolName(resolvedToolName);
+  const action = isFinished ? 'Ran' : 'Running';
+
+  return `${action} ${formattedName}`;
 };
