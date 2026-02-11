@@ -3,9 +3,7 @@ import { Inject, SetMetadata } from '@nestjs/common';
 import { AllMetadataName } from 'twenty-shared/metadata';
 
 import { LoggerService } from 'src/engine/core-modules/logger/logger.service';
-import { type RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
 import { type AllFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/all-flat-entity-maps.type';
-import { AllFlatEntityTypesByMetadataName } from 'src/engine/metadata-modules/flat-entity/types/all-flat-entity-types-by-metadata-name';
 import { FlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/flat-entity-maps.type';
 import { MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity.type';
 import { MetadataRelatedFlatEntityMapsKeys } from 'src/engine/metadata-modules/flat-entity/types/metadata-related-flat-entity-maps-keys.type';
@@ -26,6 +24,7 @@ import {
   WorkspaceMigrationRunnerException,
   WorkspaceMigrationRunnerExceptionCode,
 } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/exceptions/workspace-migration-runner.exception';
+import { type MetadataEvent } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 import {
   WorkspaceMigrationActionRunnerContext,
   type WorkspaceMigrationActionRunnerArgs,
@@ -51,16 +50,22 @@ export type ActionHandlerExecuteResult<TMetadataName extends AllMetadataName> =
       | MetadataRelatedFlatEntityMapsKeys<TMetadataName>
       | MetadataToFlatEntityMapsKey<TMetadataName>
     >;
-    metadataEvents: RunnerMetadataEventEnvelope[];
+    metadataEvents: MetadataEvent[];
   };
 
 export abstract class BaseWorkspaceMigrationRunnerActionHandlerService<
   TActionType extends WorkspaceMigrationActionType,
   TMetadataName extends AllMetadataName,
   TUniversalAction extends // TODO create abstracted type utils
-    AllUniversalWorkspaceMigrationAction = AllFlatEntityTypesByMetadataName[TMetadataName]['universalActions'][TActionType],
+    AllUniversalWorkspaceMigrationAction = AllUniversalWorkspaceMigrationAction<
+    TActionType,
+    TMetadataName
+  >,
   TFlatAction extends
-    AllFlatWorkspaceMigrationAction = AllFlatEntityTypesByMetadataName[TMetadataName]['flatActions'][TActionType],
+    AllFlatWorkspaceMigrationAction = AllFlatWorkspaceMigrationAction<
+    TActionType,
+    TMetadataName
+  >,
 > {
   public actionType: TActionType;
   public metadataName: TMetadataName;
@@ -142,7 +147,7 @@ export abstract class BaseWorkspaceMigrationRunnerActionHandlerService<
   private deriveMetadataEventsFromFlatAction({
     flatAction,
     allFlatEntityMaps,
-  }: FlatActionWithAllFlatEntityMapsArgs<TFlatAction>): RunnerMetadataEventEnvelope[] {
+  }: FlatActionWithAllFlatEntityMapsArgs<TFlatAction>): MetadataEvent[] {
     switch (flatAction.type) {
       case 'create': {
         return deriveMetadataEventsFromCreateAction(flatAction);

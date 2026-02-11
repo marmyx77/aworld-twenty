@@ -1,55 +1,52 @@
-import type { AllMetadataName } from 'twenty-shared/metadata';
-import type {
-  MetadataEventAction,
-  MetadataRecordCreateEvent,
-  MetadataRecordDeleteEvent,
-} from 'twenty-shared/metadata-events';
+import { type AllMetadataName } from 'twenty-shared/metadata';
 
-import type { RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
-import type { FlatEntityUpdate } from 'src/engine/metadata-modules/flat-entity/types/flat-entity-update.type';
-import type { MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity.type';
+import { type MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity.type';
+import { type MetadataUniversalFlatEntityPropertiesToCompare } from 'src/engine/workspace-manager/workspace-migration/universal-flat-entity/types/metadata-universal-flat-entity-properties-to-compare.type';
 
-export type CreateMetadataEvent<T extends AllMetadataName> =
-  MetadataRecordCreateEvent<MetadataFlatEntity<T>>;
-
-export type DeleteMetadataEvent<T extends AllMetadataName> =
-  MetadataRecordDeleteEvent<MetadataFlatEntity<T>>;
-
-export type FlatEntityUpdateKey<T extends AllMetadataName> = Extract<
-  keyof FlatEntityUpdate<T>,
-  string
->;
-
-export type UpdateMetadataEvent<T extends AllMetadataName> = {
-  type: 'updated';
-  recordId: string;
-  updatedFields: FlatEntityUpdateKey<T>[];
-  diff: {
-    [P in FlatEntityUpdateKey<T>]?: {
-      before: MetadataFlatEntity<T>[P];
-      after: MetadataFlatEntity<T>[P];
-    };
-  };
-  before: MetadataFlatEntity<T>;
-  after: MetadataFlatEntity<T>;
+type BaseMetadataEvent<T extends AllMetadataName, TPayload extends object> = {
+  metadataName: T;
+  properties: TPayload;
 };
 
-type RunnerEventByAction<T extends AllMetadataName> = {
-  created: CreateMetadataEvent<T>;
-  updated: UpdateMetadataEvent<T>;
-  deleted: DeleteMetadataEvent<T>;
+export type DeleteMetadataEvent<T extends AllMetadataName> = BaseMetadataEvent<
+  T,
+  { before: MetadataFlatEntity<T> }
+> & {
+  type: 'delete';
 };
 
-// Bridges the TypeScript "correlated union" gap: callers provide
-// T-correlated arguments (metadataName, action, and event must all
-// agree on T and A), and the single assertion maps to the distributive
-// RunnerMetadataEventEnvelope union that TS can't prove generically.
-export const toRunnerEnvelope = <
+export type UpdateMetadataEventDiff<
   T extends AllMetadataName,
-  A extends MetadataEventAction,
->(
-  metadataName: T,
-  action: A,
-  event: RunnerEventByAction<T>[A],
-): RunnerMetadataEventEnvelope =>
-  ({ metadataName, action, event }) as RunnerMetadataEventEnvelope;
+  TProperties extends MetadataUniversalFlatEntityPropertiesToCompare<T>,
+> = {
+  [P in TProperties]: {
+    before: MetadataFlatEntity<T>[P];
+    after: MetadataFlatEntity<T>[P];
+  };
+};
+
+export type UpdateMetadataEvent<
+  T extends AllMetadataName,
+  TProperties extends
+    MetadataUniversalFlatEntityPropertiesToCompare<T> = MetadataUniversalFlatEntityPropertiesToCompare<T>,
+> = BaseMetadataEvent<
+  T,
+  {
+    updatedFields: TProperties[];
+    diff: UpdateMetadataEventDiff<T, TProperties>;
+    before: MetadataFlatEntity<T>;
+    after: MetadataFlatEntity<T>;
+  }
+> & { type: 'update' };
+
+export type CreateMetadataEvent<T extends AllMetadataName> = BaseMetadataEvent<
+  T,
+  {
+    after: MetadataFlatEntity<T>;
+  }
+> & { type: 'create' };
+
+export type MetadataEvent<T extends AllMetadataName = AllMetadataName> =
+  | DeleteMetadataEvent<T>
+  | UpdateMetadataEvent<T>
+  | CreateMetadataEvent<T>;

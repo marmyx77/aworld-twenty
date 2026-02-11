@@ -4,9 +4,8 @@ import { type AllFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/
 import { type MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity.type';
 import { findFlatEntityByIdInFlatEntityMapsOrThrow } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-id-in-flat-entity-maps-or-throw.util';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
-import { type RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
 import { type AllFlatWorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
-import { toRunnerEnvelope } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
+import { type MetadataEvent } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 
 export type DeriveMetadataEventsFromDeleteActionArgs = {
   flatAction: AllFlatWorkspaceMigrationAction<'delete'>;
@@ -16,7 +15,7 @@ export type DeriveMetadataEventsFromDeleteActionArgs = {
 export const deriveMetadataEventsFromDeleteAction = ({
   flatAction,
   allFlatEntityMaps,
-}: DeriveMetadataEventsFromDeleteActionArgs): RunnerMetadataEventEnvelope[] => {
+}: DeriveMetadataEventsFromDeleteActionArgs): MetadataEvent[] => {
   switch (flatAction.metadataName) {
     case 'fieldMetadata':
     case 'objectMetadata':
@@ -51,11 +50,13 @@ export const deriveMetadataEventsFromDeleteAction = ({
       });
 
       return [
-        toRunnerEnvelope(flatAction.metadataName, 'deleted', {
-          type: 'deleted',
-          recordId: flatEntityToDelete.id,
-          before: flatEntityToDelete,
-        }),
+        {
+          type: 'delete',
+          metadataName: flatAction.metadataName,
+          properties: {
+            before: flatEntityToDelete,
+          },
+        },
       ];
     }
     default: {

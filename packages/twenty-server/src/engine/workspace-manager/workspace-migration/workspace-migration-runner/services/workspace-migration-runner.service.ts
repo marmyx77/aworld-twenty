@@ -6,7 +6,6 @@ import { isDefined } from 'twenty-shared/utils';
 import { DataSource } from 'typeorm';
 
 import { LoggerService } from 'src/engine/core-modules/logger/logger.service';
-import { type RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
 import { WorkspaceManyOrAllFlatEntityMapsCacheService } from 'src/engine/metadata-modules/flat-entity/services/workspace-many-or-all-flat-entity-maps-cache.service';
 import { AllFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/all-flat-entity-maps.type';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
@@ -22,6 +21,7 @@ import {
   WorkspaceMigrationRunnerExceptionCode,
 } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/exceptions/workspace-migration-runner.exception';
 import { WorkspaceMigrationRunnerActionHandlerRegistryService } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/registry/workspace-migration-runner-action-handler-registry.service';
+import { type MetadataEvent } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 
 @Injectable()
 export class WorkspaceMigrationRunnerService {
@@ -155,7 +155,7 @@ export class WorkspaceMigrationRunnerService {
     workspaceId,
   }: WorkspaceMigration): Promise<{
     allFlatEntityMaps: AllFlatEntityMaps;
-    metadataEvents: RunnerMetadataEventEnvelope[];
+    metadataEvents: MetadataEvent[];
   }> => {
     this.logger.time('Runner', 'Total execution');
     this.logger.time('Runner', 'Initial cache retrieval');
@@ -211,7 +211,7 @@ export class WorkspaceMigrationRunnerService {
       await queryRunner.connect();
       await queryRunner.startTransaction();
 
-      const allMetadataEvents: RunnerMetadataEventEnvelope[] = [];
+      const allMetadataEvents: MetadataEvent[] = [];
 
       for (const action of actions) {
         const { partialOptimisticCache, metadataEvents } =
