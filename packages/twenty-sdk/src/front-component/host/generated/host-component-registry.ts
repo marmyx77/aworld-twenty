@@ -88,6 +88,7 @@ import {
   AvatarGroup,
   Banner,
   SidePanelInformationBanner,
+  Callout,
   AnimatedCheckmark,
   Checkmark,
   ColorSample,
@@ -105,6 +106,7 @@ import {
   type AvatarGroupProps,
   type BannerProps,
   type SidePanelInformationBannerProps,
+  type CalloutProps,
   type AnimatedCheckmarkProps,
   type CheckmarkProps,
   type ColorSampleProps,
@@ -1007,6 +1009,12 @@ const TwentyUiSidePanelInformationBannerWrapper = React.forwardRef<
 >((props, _ref) => {
   return React.createElement(SidePanelInformationBanner, filterUiProps(props));
 });
+const TwentyUiCalloutWrapper = React.forwardRef<
+  unknown,
+  CalloutProps & { children?: React.ReactNode }
+>((props, _ref) => {
+  return React.createElement(Callout, filterUiProps(props));
+});
 const TwentyUiAnimatedCheckmarkWrapper = React.forwardRef<
   unknown,
   AnimatedCheckmarkProps & { children?: React.ReactNode }
@@ -1476,6 +1484,7 @@ export const componentRegistry: Map<string, ComponentRegistryValue> = new Map([
     'twenty-ui-side-panel-information-banner',
     createRemoteComponentRenderer(TwentyUiSidePanelInformationBannerWrapper),
   ],
+  ['twenty-ui-callout', createRemoteComponentRenderer(TwentyUiCalloutWrapper)],
   [
     'twenty-ui-animated-checkmark',
     createRemoteComponentRenderer(TwentyUiAnimatedCheckmarkWrapper),

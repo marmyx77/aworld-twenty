@@ -3843,6 +3843,31 @@ export const TwentyUiSidePanelInformationBannerElement = createRemoteElement<
   },
 });
 
+export type TwentyUiCalloutProperties = {
+  variant: string;
+  title: string;
+  description: string;
+  learnMoreText: string;
+  learnMoreUrl: string;
+  onClose: (...args: unknown[]) => unknown;
+};
+
+export const TwentyUiCalloutElement = createRemoteElement<
+  TwentyUiCalloutProperties,
+  Record<string, never>,
+  Record<string, never>,
+  Record<string, never>
+>({
+  properties: {
+    variant: { type: String },
+    title: { type: String },
+    description: { type: String },
+    learnMoreText: { type: String },
+    learnMoreUrl: { type: String },
+    onClose: { type: Function },
+  },
+});
+
 export type TwentyUiAnimatedCheckmarkProperties = {
   string?: string;
   clipPath?: string;
@@ -7177,6 +7202,7 @@ customElements.define(
   'twenty-ui-side-panel-information-banner',
   TwentyUiSidePanelInformationBannerElement,
 );
+customElements.define('twenty-ui-callout', TwentyUiCalloutElement);
 customElements.define(
   'twenty-ui-animated-checkmark',
   TwentyUiAnimatedCheckmarkElement,
@@ -7416,6 +7442,7 @@ declare global {
     'twenty-ui-side-panel-information-banner': InstanceType<
       typeof TwentyUiSidePanelInformationBannerElement
     >;
+    'twenty-ui-callout': InstanceType<typeof TwentyUiCalloutElement>;
     'twenty-ui-animated-checkmark': InstanceType<
       typeof TwentyUiAnimatedCheckmarkElement
     >;

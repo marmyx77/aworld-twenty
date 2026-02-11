@@ -89,6 +89,7 @@ import {
   TwentyUiAvatarGroupElement,
   TwentyUiBannerElement,
   TwentyUiSidePanelInformationBannerElement,
+  TwentyUiCalloutElement,
   TwentyUiAnimatedCheckmarkElement,
   TwentyUiCheckmarkElement,
   TwentyUiColorSampleElement,
@@ -1417,6 +1418,10 @@ export const TwentyUiBanner = createRemoteComponent(
 export const TwentyUiSidePanelInformationBanner = createRemoteComponent(
   'twenty-ui-side-panel-information-banner',
   TwentyUiSidePanelInformationBannerElement,
+);
+export const TwentyUiCallout = createRemoteComponent(
+  'twenty-ui-callout',
+  TwentyUiCalloutElement,
 );
 export const TwentyUiAnimatedCheckmark = createRemoteComponent(
   'twenty-ui-animated-checkmark',
