@@ -12,7 +12,7 @@ export type DeleteMetadataEvent<T extends AllMetadataName> = BaseMetadataEvent<
   T,
   { before: MetadataFlatEntity<T> }
 > & {
-  type: 'delete';
+  type: 'deleted';
 };
 
 export type UpdateMetadataEventDiff<
@@ -37,16 +37,21 @@ export type UpdateMetadataEvent<
     before: MetadataFlatEntity<T>;
     after: MetadataFlatEntity<T>;
   }
-> & { type: 'update' };
+> & { type: 'updated' };
 
 export type CreateMetadataEvent<T extends AllMetadataName> = BaseMetadataEvent<
   T,
   {
     after: MetadataFlatEntity<T>;
   }
-> & { type: 'create' };
+> & { type: 'created' };
 
 export type MetadataEvent<T extends AllMetadataName = AllMetadataName> =
   | DeleteMetadataEvent<T>
   | UpdateMetadataEvent<T>
   | CreateMetadataEvent<T>;
+
+export type AllMetadataEventType = MetadataEvent['type'];
+
+export type AllMetadataEventName =
+  `metadata.${AllMetadataName}.${MetadataEvent['type']}`;

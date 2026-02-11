@@ -1,16 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-import { computeMetadataEventName } from 'twenty-shared/metadata-events';
 import { isDefined } from 'twenty-shared/utils';
+import { AllMetadataName } from 'twenty-shared/metadata';
 
 import { getWorkspaceAuthContext } from 'src/engine/core-modules/auth/storage/workspace-auth-context.storage';
 import { type WorkspaceAuthContext } from 'src/engine/core-modules/auth/types/workspace-auth-context.type';
-import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
-import { type RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
+import { MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
+import { computeMetadataEventName } from 'src/engine/metadata-event-emitter/utils/compute-metadata-event-name.util';
+import {
+  AllMetadataEventName,
+  AllMetadataEventType,
+  MetadataEvent,
+} from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 
 type EmitMetadataEventsArgs = {
-  metadataEvents: RunnerMetadataEventEnvelope[];
+  metadataEvents: MetadataEvent[];
   workspaceId: string;
   initiatorContext?: WorkspaceAuthContext;
 };
@@ -43,22 +48,17 @@ export class MetadataEventEmitter {
 
     const grouped = this.groupByMetadataNameAndAction(metadataEvents);
 
-    for (const envelopes of grouped.values()) {
-      const firstEnvelope = envelopes[0];
-
-      if (!isDefined(firstEnvelope)) {
+    for (const { eventName, events, metadataName, type } of grouped.values()) {
+      if (metadataEvents.length === 0) {
         continue;
       }
-
-      const { metadataName, action } = firstEnvelope;
-      const eventName = computeMetadataEventName(metadataName, action);
 
       const metadataEventBatch: MetadataEventBatch = {
         name: eventName,
         workspaceId,
         metadataName,
-        action,
-        events: envelopes.map((envelope) => envelope.event),
+        action: type,
+        events,
         userId,
         apiKeyId,
       };
@@ -81,20 +81,39 @@ export class MetadataEventEmitter {
     }
   }
 
-  private groupByMetadataNameAndAction(
-    metadataEvents: RunnerMetadataEventEnvelope[],
-  ): Map<string, RunnerMetadataEventEnvelope[]> {
-    const grouped = new Map<string, RunnerMetadataEventEnvelope[]>();
+  private groupByMetadataNameAndAction(metadataEvents: MetadataEvent[]) {
+    const grouped = new Map<
+      AllMetadataEventName,
+      {
+        metadataName: AllMetadataName;
+        type: AllMetadataEventType;
+        eventName: AllMetadataEventName;
+        events: MetadataEvent[];
+      }
+    >();
 
     for (const metadataEvent of metadataEvents) {
-      const key = `${metadataEvent.metadataName}.${metadataEvent.action}`;
-      const group = grouped.get(key);
+      const { metadataName, type } = metadataEvent;
+      const eventName = computeMetadataEventName({
+        metadataName,
+        type,
+      });
+      const occurence = grouped.get(eventName);
 
-      if (isDefined(group)) {
-        group.push(metadataEvent);
-      } else {
-        grouped.set(key, [metadataEvent]);
+      if (!isDefined(occurence)) {
+        grouped.set(eventName, {
+          eventName,
+          metadataName,
+          type,
+          events: [metadataEvent],
+        });
+        continue;
       }
+
+      grouped.set(eventName, {
+        ...occurence,
+        events: [...occurence.events, metadataEvent],
+      });
     }
 
     return grouped;

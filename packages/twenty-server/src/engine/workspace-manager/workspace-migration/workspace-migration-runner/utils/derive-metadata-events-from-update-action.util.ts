@@ -42,7 +42,7 @@ const buildUpdateMetadataEvent = <TMetadataName extends AllMetadataName>({
   ) as UpdateMetadataEventDiff<TMetadataName, (typeof updatedFields)[number]>;
 
   return {
-    type: 'update',
+    type: 'updated',
     metadataName,
     properties: {
       updatedFields,
@@ -71,7 +71,7 @@ export const deriveMetadataEventsFromUpdateAction = ({
         properties: {
           before: fromFlatEntity,
         },
-        type: 'delete',
+        type: 'deleted',
       };
 
       const createIndexMetadataEvent: CreateMetadataEvent<'index'> = {
@@ -79,7 +79,7 @@ export const deriveMetadataEventsFromUpdateAction = ({
         properties: {
           after: toFlatEntity,
         },
-        type: 'create',
+        type: 'created',
       };
 
       return [deleteIndexMetadataEvent, createIndexMetadataEvent];
