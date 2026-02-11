@@ -17,7 +17,7 @@ import {
   HtmlElementConfigArrayZ,
   OUTPUT_FILES,
 } from './generators';
-import { extractAllComponents } from './twenty-ui-extractor';
+import { extractAllComponentsFromTwentyUi } from './twenty-ui-extractor';
 import {
   logCount,
   logDetail,
@@ -77,7 +77,7 @@ const getHtmlElementSchemas = (): ComponentSchema[] => {
 };
 
 const getUiComponentSchemas = (): ComponentSchema[] => {
-  const discoveredComponents = extractAllComponents();
+  const discoveredComponents = extractAllComponentsFromTwentyUi();
 
   return discoveredComponents.map((component) => ({
     name: component.name,

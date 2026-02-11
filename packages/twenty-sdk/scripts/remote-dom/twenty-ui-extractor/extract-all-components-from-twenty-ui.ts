@@ -101,7 +101,7 @@ const extractComponentsFromCategory = (
   return discoveredComponents;
 };
 
-export const extractAllComponents = (): DiscoveredComponent[] => {
+export const extractAllComponentsFromTwentyUi = (): DiscoveredComponent[] => {
   logDimText('  Loading twenty-ui TypeScript project...');
 
   const project = new Project({

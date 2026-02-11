@@ -1,4 +1,4 @@
 export {
-  extractAllComponents,
+  extractAllComponentsFromTwentyUi,
   type DiscoveredComponent,
-} from './extract-all-components';
+} from './extract-all-components-from-twenty-ui';
