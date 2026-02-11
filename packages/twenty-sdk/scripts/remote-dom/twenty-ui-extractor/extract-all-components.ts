@@ -13,11 +13,11 @@ import {
   logWarning,
 } from '../utils/logger';
 import {
-  COMPONENT_CATEGORIES,
+  TWENTY_UI_COMPONENT_CATEGORIES_TO_SCAN,
   TWENTY_UI_ROOT_PATH,
-  type CategoryConfig,
 } from './constants';
 import { extractPropsAndSlots } from './utils/extract-props-and-slots';
+import { getTwentyUiComponentCategoryIndexPath } from './utils/get-twenty-ui-component-category-index-path';
 import { logDiscoveredComponents } from './utils/log-discovered-components';
 import { shouldSkipExport } from './utils/should-skip-export';
 
@@ -34,9 +34,9 @@ export type DiscoveredComponent = {
 
 const extractComponentsFromCategory = (
   project: Project,
-  categoryConfig: CategoryConfig,
+  category: string,
 ): DiscoveredComponent[] => {
-  const { category, indexPath } = categoryConfig;
+  const indexPath = getTwentyUiComponentCategoryIndexPath(category);
   const sourceFile = project.getSourceFile(indexPath);
 
   if (!isDefined(sourceFile)) {
@@ -140,16 +140,19 @@ export const extractAllComponents = (): DiscoveredComponent[] => {
 
   const allDiscoveredComponents: DiscoveredComponent[] = [];
 
-  for (const [index, categoryConfig] of COMPONENT_CATEGORIES.entries()) {
+  for (const [
+    index,
+    category,
+  ] of TWENTY_UI_COMPONENT_CATEGORIES_TO_SCAN.entries()) {
     if (index > 0) {
       logEmpty();
     }
 
-    logCategory(categoryConfig.category);
+    logCategory(category);
 
     const discoveredComponents = extractComponentsFromCategory(
       project,
-      categoryConfig,
+      category,
     );
 
     logDiscoveredComponents(discoveredComponents);
