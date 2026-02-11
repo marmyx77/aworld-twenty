@@ -1,6 +1,6 @@
 import * as path from 'path';
-import { Project } from 'ts-morph';
-import { isDefined, isNonEmptyArray, pascalToKebab } from 'twenty-shared/utils';
+import { type ExportSpecifier, Project } from 'ts-morph';
+import { isDefined, pascalToKebab } from 'twenty-shared/utils';
 
 import { type PropertySchema } from '@/front-component/types/PropertySchema';
 
@@ -18,6 +18,7 @@ import {
 } from './constants';
 import { classifyComponentPropsForRemoteDomGeneration } from './utils/classify-component-props-for-remote-dom-generation';
 import { getTwentyUiComponentCategoryIndexPath } from './utils/get-twenty-ui-component-category-index-path';
+import { isReactComponentExport } from './utils/is-react-component-export';
 import { logDiscoveredComponents } from './utils/log-discovered-components';
 import { shouldSkipExport } from './utils/should-skip-export';
 
@@ -45,57 +46,59 @@ const extractComponentsFromCategory = (
     return [];
   }
 
+  const allNamedExports = sourceFile
+    .getExportDeclarations()
+    .flatMap((declaration) => declaration.getNamedExports());
+
+  const propsTypeExportsByName = new Map<string, ExportSpecifier>();
+  const componentExports: ExportSpecifier[] = [];
+
+  for (const namedExport of allNamedExports) {
+    if (namedExport.getName().endsWith('Props')) {
+      propsTypeExportsByName.set(namedExport.getName(), namedExport);
+      continue;
+    }
+
+    if (!isReactComponentExport(namedExport)) {
+      continue;
+    }
+
+    componentExports.push(namedExport);
+  }
+
   const discoveredComponents: DiscoveredComponent[] = [];
 
-  const exportDeclarations = sourceFile.getExportDeclarations();
+  for (const namedExport of componentExports) {
+    const exportName = namedExport.getName();
 
-  const propsTypeNames = new Set(
-    exportDeclarations
-      .flatMap((declaration) => declaration.getNamedExports())
-      .map((namedExport) => namedExport.getName())
-      .filter((name) => name.endsWith('Props')),
-  );
-
-  for (const exportDeclaration of exportDeclarations) {
-    for (const namedExport of exportDeclaration.getNamedExports()) {
-      const exportName = namedExport.getName();
-
-      if (shouldSkipExport(exportName)) {
-        continue;
-      }
-
-      const expectedPropsTypeName = `${exportName}Props`;
-
-      if (!propsTypeNames.has(expectedPropsTypeName)) {
-        continue;
-      }
-
-      const propsTypeDeclarations = sourceFile
-        .getExportedDeclarations()
-        .get(expectedPropsTypeName);
-
-      if (!isNonEmptyArray(propsTypeDeclarations)) {
-        continue;
-      }
-
-      const propsType = propsTypeDeclarations[0].getType();
-
-      const { properties, events, slots } =
-        classifyComponentPropsForRemoteDomGeneration(propsType);
-
-      const kebabName = pascalToKebab(exportName);
-
-      discoveredComponents.push({
-        tag: `twenty-ui-${kebabName}`,
-        name: `TwentyUi${exportName}`,
-        properties,
-        events,
-        slots,
-        componentImport: exportName,
-        componentPath: `twenty-ui/${category}`,
-        propsTypeName: expectedPropsTypeName,
-      });
+    if (shouldSkipExport(exportName)) {
+      continue;
     }
+
+    const expectedPropsTypeName = `${exportName}Props`;
+    const propsTypeExport = propsTypeExportsByName.get(expectedPropsTypeName);
+
+    if (!isDefined(propsTypeExport)) {
+      continue;
+    }
+
+    const propsType = propsTypeExport.getNameNode().getType();
+
+    const { properties, events, slots } =
+      classifyComponentPropsForRemoteDomGeneration(propsType);
+
+    const kebabName = pascalToKebab(exportName);
+
+    discoveredComponents.push({
+      tag: `twenty-ui-${kebabName}`,
+      name: `TwentyUi${exportName}`,
+      properties,
+      events,
+      slots,
+      componentImport: exportName,
+      componentPath: `twenty-ui/${category}`,
+      propsTypeName: expectedPropsTypeName,
+    });
   }
 
   return discoveredComponents;

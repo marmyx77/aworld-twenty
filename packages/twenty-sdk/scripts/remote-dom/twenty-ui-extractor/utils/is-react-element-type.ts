@@ -1,5 +1,7 @@
 import { type Type } from 'ts-morph';
 
+import { typeSymbolMatchesAnyName } from './type-symbol-matches-any-name';
+
 const REACT_ELEMENT_TYPE_NAMES = new Set([
   'ReactNode',
   'ReactElement',
@@ -12,31 +14,11 @@ const REACT_COMPONENT_TYPE_NAMES = new Set([
   'IconComponent',
 ]);
 
-const getTypeSymbolName = (type: Type): string | undefined => {
-  return (type.getSymbol() ?? type.getAliasSymbol())?.getName();
-};
+const ALL_REACT_TYPE_NAMES = new Set([
+  ...REACT_ELEMENT_TYPE_NAMES,
+  ...REACT_COMPONENT_TYPE_NAMES,
+]);
 
 export const isReactElementType = (propertyType: Type): boolean => {
-  const symbolName = getTypeSymbolName(propertyType);
-
-  if (
-    symbolName !== undefined &&
-    (REACT_ELEMENT_TYPE_NAMES.has(symbolName) ||
-      REACT_COMPONENT_TYPE_NAMES.has(symbolName))
-  ) {
-    return true;
-  }
-
-  if (propertyType.isUnion()) {
-    const unionMemberTypes = propertyType.getUnionTypes();
-    const nonNullableTypes = unionMemberTypes.filter(
-      (memberType) => !memberType.isUndefined() && !memberType.isNull(),
-    );
-
-    return nonNullableTypes.some((memberType) =>
-      isReactElementType(memberType),
-    );
-  }
-
-  return false;
+  return typeSymbolMatchesAnyName(propertyType, ALL_REACT_TYPE_NAMES);
 };
