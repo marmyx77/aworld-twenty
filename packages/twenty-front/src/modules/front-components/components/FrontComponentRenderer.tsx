@@ -45,16 +45,8 @@ export const FrontComponentRenderer = ({
     setHasError(true);
   };
 
-  const handleTokenGenerated = useCallback((data: FrontComponentTokenData) => {
-    setTokenData(data);
-  }, []);
-
   const handleTokenError = useCallback(() => {
     setHasTokenError(true);
-  }, []);
-
-  const handleTokenLoadingChange = useCallback((isLoading: boolean) => {
-    setIsTokenLoading(isLoading);
   }, []);
 
   if (!isDefined(authToken)) {
@@ -67,9 +59,9 @@ export const FrontComponentRenderer = ({
     <>
       <FrontComponentTokenEffect
         frontComponentId={frontComponentId}
-        onTokenGenerated={handleTokenGenerated}
+        onTokenGenerated={setTokenData}
         onError={handleTokenError}
-        onLoadingChange={handleTokenLoadingChange}
+        onLoadingChange={setIsTokenLoading}
       />
       {isReady && (
         <SharedFrontComponentRenderer
