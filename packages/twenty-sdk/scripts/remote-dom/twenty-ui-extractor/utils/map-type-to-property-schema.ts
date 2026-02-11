@@ -1,25 +1,38 @@
 import { type Type } from 'ts-morph';
 
 import { type PropertySchema } from '@/front-component/types/PropertySchema';
+import { isNonEmptyArray } from 'twenty-shared/utils';
 
 type PropertyType = PropertySchema['type'];
 
-export const classifyPropertyType = (
+export const mapTypeToPropertySchema = (
   propertyType: Type,
 ): PropertyType | null => {
-  if (propertyType.isString() || propertyType.isStringLiteral())
+  if (propertyType.isString() || propertyType.isStringLiteral()) {
     return 'string';
-  if (propertyType.isNumber() || propertyType.isNumberLiteral())
+  }
+
+  if (propertyType.isNumber() || propertyType.isNumberLiteral()) {
     return 'number';
-  if (propertyType.isBoolean() || propertyType.isBooleanLiteral())
+  }
+
+  if (propertyType.isBoolean() || propertyType.isBooleanLiteral()) {
     return 'boolean';
+  }
 
-  if (propertyType.isArray()) return 'array';
+  if (propertyType.isArray()) {
+    return 'array';
+  }
 
-  if (propertyType.isTuple()) return 'array';
+  if (propertyType.isTuple()) {
+    return 'array';
+  }
 
   const callSignatures = propertyType.getCallSignatures();
-  if (callSignatures.length > 0) return 'function';
+
+  if (isNonEmptyArray(callSignatures)) {
+    return 'function';
+  }
 
   if (propertyType.isUnion()) {
     const unionMemberTypes = propertyType.getUnionTypes();
@@ -28,10 +41,12 @@ export const classifyPropertyType = (
       (memberType) => !memberType.isUndefined() && !memberType.isNull(),
     );
 
-    if (nonNullableTypes.length === 0) return null;
+    if (!isNonEmptyArray(nonNullableTypes)) {
+      return null;
+    }
 
     const classifiedTypeSet = new Set(
-      nonNullableTypes.map((memberType) => classifyPropertyType(memberType)),
+      nonNullableTypes.map((memberType) => mapTypeToPropertySchema(memberType)),
     );
 
     if (classifiedTypeSet.size === 1) {

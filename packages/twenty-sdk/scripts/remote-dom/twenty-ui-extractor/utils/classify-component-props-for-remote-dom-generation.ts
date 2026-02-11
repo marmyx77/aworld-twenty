@@ -3,17 +3,19 @@ import { type Type } from 'ts-morph';
 import { type PropertySchema } from '@/front-component/types/PropertySchema';
 import { isDefined, isNonEmptyArray } from 'twenty-shared/utils';
 import { REACT_PROP_TO_DOM_EVENT } from '../constants/ReactPropToDomEvent';
-import { classifyPropertyType } from './classify-property-type';
+import { mapTypeToPropertySchema } from './map-type-to-property-schema';
 import { isDomEventHandler } from './is-dom-event-handler';
 import { isReactElementType } from './is-react-element-type';
 
-export type ExtractedProps = {
+export type ClassifiedComponentProps = {
   properties: Record<string, PropertySchema>;
   events: string[];
   slots: string[];
 };
 
-export const extractPropsAndSlots = (propsType: Type): ExtractedProps => {
+export const classifyComponentPropsForRemoteDomGeneration = (
+  propsType: Type,
+): ClassifiedComponentProps => {
   const properties: Record<string, PropertySchema> = {};
   const events: string[] = [];
   const slots: string[] = [];
@@ -49,7 +51,7 @@ export const extractPropsAndSlots = (propsType: Type): ExtractedProps => {
       continue;
     }
 
-    const classifiedType = classifyPropertyType(propertyType);
+    const classifiedType = mapTypeToPropertySchema(propertyType);
 
     if (isDefined(classifiedType)) {
       properties[propertyName] = {

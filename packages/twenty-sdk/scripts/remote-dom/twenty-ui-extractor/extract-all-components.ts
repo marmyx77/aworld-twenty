@@ -16,7 +16,7 @@ import {
   TWENTY_UI_COMPONENT_CATEGORIES_TO_SCAN,
   TWENTY_UI_ROOT_PATH,
 } from './constants';
-import { extractPropsAndSlots } from './utils/extract-props-and-slots';
+import { classifyComponentPropsForRemoteDomGeneration } from './utils/classify-component-props-for-remote-dom-generation';
 import { getTwentyUiComponentCategoryIndexPath } from './utils/get-twenty-ui-component-category-index-path';
 import { logDiscoveredComponents } from './utils/log-discovered-components';
 import { shouldSkipExport } from './utils/should-skip-export';
@@ -80,7 +80,8 @@ const extractComponentsFromCategory = (
 
       const propsType = propsTypeDeclarations[0].getType();
 
-      const { properties, events, slots } = extractPropsAndSlots(propsType);
+      const { properties, events, slots } =
+        classifyComponentPropsForRemoteDomGeneration(propsType);
 
       const kebabName = pascalToKebab(exportName);
 
