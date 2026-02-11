@@ -123,7 +123,7 @@
     "storybook:prebuild": {
       "executor": "nx:run-commands",
       "cache": true,
-      "dependsOn": ["generateRemoteDomElements"],
+      "dependsOn": ["generate-remote-dom-elements"],
       "inputs": [
         "{projectRoot}/src/front-component/__stories__/mocks/**/*",
         "{projectRoot}/src/front-component/__stories__/utils/**/*",
