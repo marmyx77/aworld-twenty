@@ -156,14 +156,14 @@ const generateHtmlWrapperComponent = (component: ComponentSchema): string => {
   const isVoidElement = VOID_ELEMENTS.has(component.htmlTag ?? '');
 
   if (isVoidElement) {
-    return `const ${component.name}Wrapper = ({ children: _children, ...props }: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('${component.htmlTag}', filterHtmlProps(props));
-};`;
+    return `const ${component.name}Wrapper = React.forwardRef<HTMLElement, { children?: React.ReactNode } & Record<string, unknown>>(({ children: _children, ...props }, ref) => {
+  return React.createElement('${component.htmlTag}', { ...filterHtmlProps(props), ref });
+});`;
   }
 
-  return `const ${component.name}Wrapper = ({ children, ...props }: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('${component.htmlTag}', filterHtmlProps(props), children);
-};`;
+  return `const ${component.name}Wrapper = React.forwardRef<HTMLElement, { children?: React.ReactNode } & Record<string, unknown>>(({ children, ...props }, ref) => {
+  return React.createElement('${component.htmlTag}', { ...filterHtmlProps(props), ref }, children);
+});`;
 };
 
 const generateUiWrapperComponent = (component: ComponentSchema): string => {
@@ -178,14 +178,14 @@ const generateUiWrapperComponent = (component: ComponentSchema): string => {
       .map((event) => `'${eventToReactProp(event)}'`)
       .join(', ');
 
-    return `const ${component.name}Wrapper = (props: ${propsType}) => {
+    return `const ${component.name}Wrapper = React.forwardRef<unknown, ${propsType}>((props, _ref) => {
   return React.createElement(${component.componentImport}, filterUiProps(props, new Set([${eventPropEntries}])));
-};`;
+});`;
   }
 
-  return `const ${component.name}Wrapper = (props: ${propsType}) => {
+  return `const ${component.name}Wrapper = React.forwardRef<unknown, ${propsType}>((props, _ref) => {
   return React.createElement(${component.componentImport}, filterUiProps(props));
-};`;
+});`;
 };
 
 const generateWrapperComponent = (component: ComponentSchema): string => {

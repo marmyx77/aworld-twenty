@@ -343,736 +343,967 @@ const filterUiProps = <T extends object>(
   }
   return filtered as T;
 };
-const HtmlDivWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('div', filterHtmlProps(props), children);
-};
-const HtmlSpanWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('span', filterHtmlProps(props), children);
-};
-const HtmlSectionWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('section', filterHtmlProps(props), children);
-};
-const HtmlArticleWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('article', filterHtmlProps(props), children);
-};
-const HtmlHeaderWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('header', filterHtmlProps(props), children);
-};
-const HtmlFooterWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('footer', filterHtmlProps(props), children);
-};
-const HtmlMainWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('main', filterHtmlProps(props), children);
-};
-const HtmlNavWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('nav', filterHtmlProps(props), children);
-};
-const HtmlAsideWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('aside', filterHtmlProps(props), children);
-};
-const HtmlPWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('p', filterHtmlProps(props), children);
-};
-const HtmlH1Wrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('h1', filterHtmlProps(props), children);
-};
-const HtmlH2Wrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('h2', filterHtmlProps(props), children);
-};
-const HtmlH3Wrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('h3', filterHtmlProps(props), children);
-};
-const HtmlH4Wrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('h4', filterHtmlProps(props), children);
-};
-const HtmlH5Wrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('h5', filterHtmlProps(props), children);
-};
-const HtmlH6Wrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('h6', filterHtmlProps(props), children);
-};
-const HtmlStrongWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('strong', filterHtmlProps(props), children);
-};
-const HtmlEmWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('em', filterHtmlProps(props), children);
-};
-const HtmlSmallWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('small', filterHtmlProps(props), children);
-};
-const HtmlCodeWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('code', filterHtmlProps(props), children);
-};
-const HtmlPreWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('pre', filterHtmlProps(props), children);
-};
-const HtmlBlockquoteWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('blockquote', filterHtmlProps(props), children);
-};
-const HtmlAWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('a', filterHtmlProps(props), children);
-};
-const HtmlImgWrapper = ({
-  children: _children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('img', filterHtmlProps(props));
-};
-const HtmlUlWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('ul', filterHtmlProps(props), children);
-};
-const HtmlOlWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('ol', filterHtmlProps(props), children);
-};
-const HtmlLiWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('li', filterHtmlProps(props), children);
-};
-const HtmlFormWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('form', filterHtmlProps(props), children);
-};
-const HtmlLabelWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('label', filterHtmlProps(props), children);
-};
-const HtmlInputWrapper = ({
-  children: _children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('input', filterHtmlProps(props));
-};
-const HtmlTextareaWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('textarea', filterHtmlProps(props), children);
-};
-const HtmlSelectWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('select', filterHtmlProps(props), children);
-};
-const HtmlOptionWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('option', filterHtmlProps(props), children);
-};
-const HtmlButtonWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('button', filterHtmlProps(props), children);
-};
-const HtmlTableWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('table', filterHtmlProps(props), children);
-};
-const HtmlTheadWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('thead', filterHtmlProps(props), children);
-};
-const HtmlTbodyWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('tbody', filterHtmlProps(props), children);
-};
-const HtmlTfootWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('tfoot', filterHtmlProps(props), children);
-};
-const HtmlTrWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('tr', filterHtmlProps(props), children);
-};
-const HtmlThWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('th', filterHtmlProps(props), children);
-};
-const HtmlTdWrapper = ({
-  children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('td', filterHtmlProps(props), children);
-};
-const HtmlBrWrapper = ({
-  children: _children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('br', filterHtmlProps(props));
-};
-const HtmlHrWrapper = ({
-  children: _children,
-  ...props
-}: { children?: React.ReactNode } & Record<string, unknown>) => {
-  return React.createElement('hr', filterHtmlProps(props));
-};
-const TwentyUiAnimatedButtonWrapper = (
-  props: AnimatedButtonProps & { children?: React.ReactNode },
-) => {
+const HtmlDivWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'div',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlSpanWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'span',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlSectionWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'section',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlArticleWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'article',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlHeaderWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'header',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlFooterWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'footer',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlMainWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'main',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlNavWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'nav',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlAsideWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'aside',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlPWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement('p', { ...filterHtmlProps(props), ref }, children);
+});
+const HtmlH1Wrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'h1',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlH2Wrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'h2',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlH3Wrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'h3',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlH4Wrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'h4',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlH5Wrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'h5',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlH6Wrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'h6',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlStrongWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'strong',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlEmWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'em',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlSmallWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'small',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlCodeWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'code',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlPreWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'pre',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlBlockquoteWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'blockquote',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlAWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement('a', { ...filterHtmlProps(props), ref }, children);
+});
+const HtmlImgWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children: _children, ...props }, ref) => {
+  return React.createElement('img', { ...filterHtmlProps(props), ref });
+});
+const HtmlUlWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'ul',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlOlWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'ol',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlLiWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'li',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlFormWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'form',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlLabelWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'label',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlInputWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children: _children, ...props }, ref) => {
+  return React.createElement('input', { ...filterHtmlProps(props), ref });
+});
+const HtmlTextareaWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'textarea',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlSelectWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'select',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlOptionWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'option',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlButtonWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'button',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlTableWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'table',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlTheadWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'thead',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlTbodyWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'tbody',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlTfootWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'tfoot',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlTrWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'tr',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlThWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'th',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlTdWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children, ...props }, ref) => {
+  return React.createElement(
+    'td',
+    { ...filterHtmlProps(props), ref },
+    children,
+  );
+});
+const HtmlBrWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children: _children, ...props }, ref) => {
+  return React.createElement('br', { ...filterHtmlProps(props), ref });
+});
+const HtmlHrWrapper = React.forwardRef<
+  HTMLElement,
+  { children?: React.ReactNode } & Record<string, unknown>
+>(({ children: _children, ...props }, ref) => {
+  return React.createElement('hr', { ...filterHtmlProps(props), ref });
+});
+const TwentyUiAnimatedButtonWrapper = React.forwardRef<
+  unknown,
+  AnimatedButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     AnimatedButton,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiAnimatedLightIconButtonWrapper = (
-  props: AnimatedLightIconButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiAnimatedLightIconButtonWrapper = React.forwardRef<
+  unknown,
+  AnimatedLightIconButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     AnimatedLightIconButton,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiButtonWrapper = (
-  props: ButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiButtonWrapper = React.forwardRef<
+  unknown,
+  ButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     Button,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiButtonGroupWrapper = (
-  props: ButtonGroupProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiButtonGroupWrapper = React.forwardRef<
+  unknown,
+  ButtonGroupProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(ButtonGroup, filterUiProps(props));
-};
-const TwentyUiColorPickerButtonWrapper = (
-  props: ColorPickerButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiColorPickerButtonWrapper = React.forwardRef<
+  unknown,
+  ColorPickerButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     ColorPickerButton,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiFloatingButtonWrapper = (
-  props: FloatingButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiFloatingButtonWrapper = React.forwardRef<
+  unknown,
+  FloatingButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(FloatingButton, filterUiProps(props));
-};
-const TwentyUiFloatingButtonGroupWrapper = (
-  props: FloatingButtonGroupProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiFloatingButtonGroupWrapper = React.forwardRef<
+  unknown,
+  FloatingButtonGroupProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(FloatingButtonGroup, filterUiProps(props));
-};
-const TwentyUiFloatingIconButtonWrapper = (
-  props: FloatingIconButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiFloatingIconButtonWrapper = React.forwardRef<
+  unknown,
+  FloatingIconButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     FloatingIconButton,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiFloatingIconButtonGroupWrapper = (
-  props: FloatingIconButtonGroupProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiFloatingIconButtonGroupWrapper = React.forwardRef<
+  unknown,
+  FloatingIconButtonGroupProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(FloatingIconButtonGroup, filterUiProps(props));
-};
-const TwentyUiInsideButtonWrapper = (
-  props: InsideButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiInsideButtonWrapper = React.forwardRef<
+  unknown,
+  InsideButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     InsideButton,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiLightButtonWrapper = (
-  props: LightButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiLightButtonWrapper = React.forwardRef<
+  unknown,
+  LightButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     LightButton,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiLightIconButtonWrapper = (
-  props: LightIconButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiLightIconButtonWrapper = React.forwardRef<
+  unknown,
+  LightIconButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     LightIconButton,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiLightIconButtonGroupWrapper = (
-  props: LightIconButtonGroupProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiLightIconButtonGroupWrapper = React.forwardRef<
+  unknown,
+  LightIconButtonGroupProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(LightIconButtonGroup, filterUiProps(props));
-};
-const TwentyUiMainButtonWrapper = (
-  props: MainButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMainButtonWrapper = React.forwardRef<
+  unknown,
+  MainButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MainButton, filterUiProps(props));
-};
-const TwentyUiRoundedIconButtonWrapper = (
-  props: RoundedIconButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiRoundedIconButtonWrapper = React.forwardRef<
+  unknown,
+  RoundedIconButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(RoundedIconButton, filterUiProps(props));
-};
-const TwentyUiTabContentWrapper = (
-  props: TabContentProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiTabContentWrapper = React.forwardRef<
+  unknown,
+  TabContentProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(TabContent, filterUiProps(props));
-};
-const TwentyUiTabButtonWrapper = (
-  props: TabButtonProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiTabButtonWrapper = React.forwardRef<
+  unknown,
+  TabButtonProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(TabButton, filterUiProps(props));
-};
-const TwentyUiCodeEditorWrapper = (
-  props: CodeEditorProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiCodeEditorWrapper = React.forwardRef<
+  unknown,
+  CodeEditorProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(CodeEditor, filterUiProps(props));
-};
-const TwentyUiCoreEditorHeaderWrapper = (
-  props: CoreEditorHeaderProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiCoreEditorHeaderWrapper = React.forwardRef<
+  unknown,
+  CoreEditorHeaderProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(CoreEditorHeader, filterUiProps(props));
-};
-const TwentyUiColorSchemeCardWrapper = (
-  props: ColorSchemeCardProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiColorSchemeCardWrapper = React.forwardRef<
+  unknown,
+  ColorSchemeCardProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(ColorSchemeCard, filterUiProps(props));
-};
-const TwentyUiColorSchemePickerWrapper = (
-  props: ColorSchemePickerProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiColorSchemePickerWrapper = React.forwardRef<
+  unknown,
+  ColorSchemePickerProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(ColorSchemePicker, filterUiProps(props));
-};
-const TwentyUiCardPickerWrapper = (
-  props: CardPickerProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiCardPickerWrapper = React.forwardRef<
+  unknown,
+  CardPickerProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(CardPicker, filterUiProps(props));
-};
-const TwentyUiCheckboxWrapper = (
-  props: CheckboxProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiCheckboxWrapper = React.forwardRef<
+  unknown,
+  CheckboxProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     Checkbox,
     filterUiProps(props, new Set(['onChange'])),
   );
-};
-const TwentyUiRadioWrapper = (
-  props: RadioProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiRadioWrapper = React.forwardRef<
+  unknown,
+  RadioProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     Radio,
     filterUiProps(props, new Set(['onChange'])),
   );
-};
-const TwentyUiRadioGroupWrapper = (
-  props: RadioGroupProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiRadioGroupWrapper = React.forwardRef<
+  unknown,
+  RadioGroupProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     RadioGroup,
     filterUiProps(props, new Set(['onChange'])),
   );
-};
-const TwentyUiSearchInputWrapper = (
-  props: SearchInputProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiSearchInputWrapper = React.forwardRef<
+  unknown,
+  SearchInputProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(SearchInput, filterUiProps(props));
-};
-const TwentyUiToggleWrapper = (
-  props: ToggleProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiToggleWrapper = React.forwardRef<
+  unknown,
+  ToggleProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Toggle, filterUiProps(props));
-};
-const TwentyUiAvatarChipWrapper = (
-  props: AvatarChipProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiAvatarChipWrapper = React.forwardRef<
+  unknown,
+  AvatarChipProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(AvatarChip, filterUiProps(props));
-};
-const TwentyUiMultipleAvatarChipWrapper = (
-  props: MultipleAvatarChipProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMultipleAvatarChipWrapper = React.forwardRef<
+  unknown,
+  MultipleAvatarChipProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MultipleAvatarChip, filterUiProps(props));
-};
-const TwentyUiChipWrapper = (
-  props: ChipProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiChipWrapper = React.forwardRef<
+  unknown,
+  ChipProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Chip, filterUiProps(props));
-};
-const TwentyUiLinkChipWrapper = (
-  props: LinkChipProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiLinkChipWrapper = React.forwardRef<
+  unknown,
+  LinkChipProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     LinkChip,
     filterUiProps(props, new Set(['onClick', 'onMousedown'])),
   );
-};
-const TwentyUiPillWrapper = (
-  props: PillProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiPillWrapper = React.forwardRef<
+  unknown,
+  PillProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Pill, filterUiProps(props));
-};
-const TwentyUiTagWrapper = (
-  props: TagProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiTagWrapper = React.forwardRef<
+  unknown,
+  TagProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Tag, filterUiProps(props));
-};
-const TwentyUiAvatarWrapper = (
-  props: AvatarProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiAvatarWrapper = React.forwardRef<
+  unknown,
+  AvatarProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Avatar, filterUiProps(props));
-};
-const TwentyUiAvatarGroupWrapper = (
-  props: AvatarGroupProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiAvatarGroupWrapper = React.forwardRef<
+  unknown,
+  AvatarGroupProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(AvatarGroup, filterUiProps(props));
-};
-const TwentyUiBannerWrapper = (
-  props: BannerProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiBannerWrapper = React.forwardRef<
+  unknown,
+  BannerProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Banner, filterUiProps(props));
-};
-const TwentyUiSidePanelInformationBannerWrapper = (
-  props: SidePanelInformationBannerProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiSidePanelInformationBannerWrapper = React.forwardRef<
+  unknown,
+  SidePanelInformationBannerProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(SidePanelInformationBanner, filterUiProps(props));
-};
-const TwentyUiAnimatedCheckmarkWrapper = (
-  props: AnimatedCheckmarkProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiAnimatedCheckmarkWrapper = React.forwardRef<
+  unknown,
+  AnimatedCheckmarkProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(AnimatedCheckmark, filterUiProps(props));
-};
-const TwentyUiCheckmarkWrapper = (
-  props: CheckmarkProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiCheckmarkWrapper = React.forwardRef<
+  unknown,
+  CheckmarkProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Checkmark, filterUiProps(props));
-};
-const TwentyUiColorSampleWrapper = (
-  props: ColorSampleProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiColorSampleWrapper = React.forwardRef<
+  unknown,
+  ColorSampleProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(ColorSample, filterUiProps(props));
-};
-const TwentyUiCommandBlockWrapper = (
-  props: CommandBlockProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiCommandBlockWrapper = React.forwardRef<
+  unknown,
+  CommandBlockProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(CommandBlock, filterUiProps(props));
-};
-const TwentyUiIconWrapper = (
-  props: IconProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiIconWrapper = React.forwardRef<
+  unknown,
+  IconProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Icon, filterUiProps(props));
-};
-const TwentyUiInfoWrapper = (
-  props: InfoProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiInfoWrapper = React.forwardRef<
+  unknown,
+  InfoProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Info, filterUiProps(props, new Set(['onClick'])));
-};
-const TwentyUiStatusWrapper = (
-  props: StatusProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiStatusWrapper = React.forwardRef<
+  unknown,
+  StatusProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Status, filterUiProps(props));
-};
-const TwentyUiHorizontalSeparatorWrapper = (
-  props: HorizontalSeparatorProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiHorizontalSeparatorWrapper = React.forwardRef<
+  unknown,
+  HorizontalSeparatorProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(HorizontalSeparator, filterUiProps(props));
-};
-const TwentyUiAppTooltipWrapper = (
-  props: AppTooltipProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiAppTooltipWrapper = React.forwardRef<
+  unknown,
+  AppTooltipProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(AppTooltip, filterUiProps(props));
-};
-const TwentyUiOverflowingTextWithTooltipWrapper = (
-  props: OverflowingTextWithTooltipProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiOverflowingTextWithTooltipWrapper = React.forwardRef<
+  unknown,
+  OverflowingTextWithTooltipProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(OverflowingTextWithTooltip, filterUiProps(props));
-};
-const TwentyUiH1TitleWrapper = (
-  props: H1TitleProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiH1TitleWrapper = React.forwardRef<
+  unknown,
+  H1TitleProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(H1Title, filterUiProps(props));
-};
-const TwentyUiH2TitleWrapper = (
-  props: H2TitleProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiH2TitleWrapper = React.forwardRef<
+  unknown,
+  H2TitleProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(H2Title, filterUiProps(props));
-};
-const TwentyUiH3TitleWrapper = (
-  props: H3TitleProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiH3TitleWrapper = React.forwardRef<
+  unknown,
+  H3TitleProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(H3Title, filterUiProps(props));
-};
-const TwentyUiLoaderWrapper = (
-  props: LoaderProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiLoaderWrapper = React.forwardRef<
+  unknown,
+  LoaderProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Loader, filterUiProps(props));
-};
-const TwentyUiCircularProgressBarWrapper = (
-  props: CircularProgressBarProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiCircularProgressBarWrapper = React.forwardRef<
+  unknown,
+  CircularProgressBarProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(CircularProgressBar, filterUiProps(props));
-};
-const TwentyUiProgressBarWrapper = (
-  props: ProgressBarProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiProgressBarWrapper = React.forwardRef<
+  unknown,
+  ProgressBarProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(ProgressBar, filterUiProps(props));
-};
-const TwentyUiAnimatedExpandableContainerWrapper = (
-  props: AnimatedExpandableContainerProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiAnimatedExpandableContainerWrapper = React.forwardRef<
+  unknown,
+  AnimatedExpandableContainerProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(AnimatedExpandableContainer, filterUiProps(props));
-};
-const TwentyUiAnimatedPlaceholderWrapper = (
-  props: AnimatedPlaceholderProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiAnimatedPlaceholderWrapper = React.forwardRef<
+  unknown,
+  AnimatedPlaceholderProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(AnimatedPlaceholder, filterUiProps(props));
-};
-const TwentyUiSectionWrapper = (
-  props: SectionProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiSectionWrapper = React.forwardRef<
+  unknown,
+  SectionProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(Section, filterUiProps(props));
-};
-const TwentyUiAdvancedSettingsToggleWrapper = (
-  props: AdvancedSettingsToggleProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiAdvancedSettingsToggleWrapper = React.forwardRef<
+  unknown,
+  AdvancedSettingsToggleProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(AdvancedSettingsToggle, filterUiProps(props));
-};
-const TwentyUiClickToActionLinkWrapper = (
-  props: ClickToActionLinkProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiClickToActionLinkWrapper = React.forwardRef<
+  unknown,
+  ClickToActionLinkProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(ClickToActionLink, filterUiProps(props));
-};
-const TwentyUiContactLinkWrapper = (
-  props: ContactLinkProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiContactLinkWrapper = React.forwardRef<
+  unknown,
+  ContactLinkProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     ContactLink,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiGithubVersionLinkWrapper = (
-  props: GithubVersionLinkProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiGithubVersionLinkWrapper = React.forwardRef<
+  unknown,
+  GithubVersionLinkProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(GithubVersionLink, filterUiProps(props));
-};
-const TwentyUiRawLinkWrapper = (
-  props: RawLinkProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiRawLinkWrapper = React.forwardRef<
+  unknown,
+  RawLinkProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     RawLink,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiRoundedLinkWrapper = (
-  props: RoundedLinkProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiRoundedLinkWrapper = React.forwardRef<
+  unknown,
+  RoundedLinkProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     RoundedLink,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiSocialLinkWrapper = (
-  props: SocialLinkProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiSocialLinkWrapper = React.forwardRef<
+  unknown,
+  SocialLinkProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     SocialLink,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiUndecoratedLinkWrapper = (
-  props: UndecoratedLinkProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiUndecoratedLinkWrapper = React.forwardRef<
+  unknown,
+  UndecoratedLinkProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(UndecoratedLink, filterUiProps(props));
-};
-const TwentyUiMenuPickerWrapper = (
-  props: MenuPickerProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuPickerWrapper = React.forwardRef<
+  unknown,
+  MenuPickerProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuPicker, filterUiProps(props));
-};
-const TwentyUiMenuItemWrapper = (
-  props: MenuItemProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemWrapper = React.forwardRef<
+  unknown,
+  MenuItemProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     MenuItem,
     filterUiProps(props, new Set(['onClick', 'onMouseenter', 'onMouseleave'])),
   );
-};
-const TwentyUiMenuItemAvatarWrapper = (
-  props: MenuItemAvatarProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemAvatarWrapper = React.forwardRef<
+  unknown,
+  MenuItemAvatarProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     MenuItemAvatar,
     filterUiProps(props, new Set(['onClick', 'onMouseenter', 'onMouseleave'])),
   );
-};
-const TwentyUiMenuItemDraggableWrapper = (
-  props: MenuItemDraggableProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemDraggableWrapper = React.forwardRef<
+  unknown,
+  MenuItemDraggableProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemDraggable, filterUiProps(props));
-};
-const TwentyUiMenuItemHotKeysWrapper = (
-  props: MenuItemHotKeysProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemHotKeysWrapper = React.forwardRef<
+  unknown,
+  MenuItemHotKeysProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemHotKeys, filterUiProps(props));
-};
-const TwentyUiMenuItemMultiSelectWrapper = (
-  props: MenuItemMultiSelectProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemMultiSelectWrapper = React.forwardRef<
+  unknown,
+  MenuItemMultiSelectProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemMultiSelect, filterUiProps(props));
-};
-const TwentyUiMenuItemMultiSelectAvatarWrapper = (
-  props: MenuItemMultiSelectAvatarProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemMultiSelectAvatarWrapper = React.forwardRef<
+  unknown,
+  MenuItemMultiSelectAvatarProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemMultiSelectAvatar, filterUiProps(props));
-};
-const TwentyUiMenuItemMultiSelectTagWrapper = (
-  props: MenuItemMultiSelectTagProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemMultiSelectTagWrapper = React.forwardRef<
+  unknown,
+  MenuItemMultiSelectTagProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemMultiSelectTag, filterUiProps(props));
-};
-const TwentyUiMenuItemNavigateWrapper = (
-  props: MenuItemNavigateProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemNavigateWrapper = React.forwardRef<
+  unknown,
+  MenuItemNavigateProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemNavigate, filterUiProps(props));
-};
-const TwentyUiMenuItemSelectWrapper = (
-  props: MenuItemSelectProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemSelectWrapper = React.forwardRef<
+  unknown,
+  MenuItemSelectProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemSelect, filterUiProps(props));
-};
-const TwentyUiMenuItemSelectAvatarWrapper = (
-  props: MenuItemSelectAvatarProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemSelectAvatarWrapper = React.forwardRef<
+  unknown,
+  MenuItemSelectAvatarProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemSelectAvatar, filterUiProps(props));
-};
-const TwentyUiMenuItemSelectColorWrapper = (
-  props: MenuItemSelectColorProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemSelectColorWrapper = React.forwardRef<
+  unknown,
+  MenuItemSelectColorProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemSelectColor, filterUiProps(props));
-};
-const TwentyUiMenuItemSelectTagWrapper = (
-  props: MenuItemSelectTagProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemSelectTagWrapper = React.forwardRef<
+  unknown,
+  MenuItemSelectTagProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemSelectTag, filterUiProps(props));
-};
-const TwentyUiMenuItemSuggestionWrapper = (
-  props: MenuItemSuggestionProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemSuggestionWrapper = React.forwardRef<
+  unknown,
+  MenuItemSuggestionProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(
     MenuItemSuggestion,
     filterUiProps(props, new Set(['onClick'])),
   );
-};
-const TwentyUiMenuItemToggleWrapper = (
-  props: MenuItemToggleProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemToggleWrapper = React.forwardRef<
+  unknown,
+  MenuItemToggleProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemToggle, filterUiProps(props));
-};
-const TwentyUiMenuItemLeftContentWrapper = (
-  props: MenuItemLeftContentProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiMenuItemLeftContentWrapper = React.forwardRef<
+  unknown,
+  MenuItemLeftContentProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(MenuItemLeftContent, filterUiProps(props));
-};
-const TwentyUiNavigationBarWrapper = (
-  props: NavigationBarProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiNavigationBarWrapper = React.forwardRef<
+  unknown,
+  NavigationBarProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(NavigationBar, filterUiProps(props));
-};
-const TwentyUiNavigationBarItemWrapper = (
-  props: NavigationBarItemProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiNavigationBarItemWrapper = React.forwardRef<
+  unknown,
+  NavigationBarItemProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(NavigationBarItem, filterUiProps(props));
-};
-const TwentyUiNotificationCounterWrapper = (
-  props: NotificationCounterProps & { children?: React.ReactNode },
-) => {
+});
+const TwentyUiNotificationCounterWrapper = React.forwardRef<
+  unknown,
+  NotificationCounterProps & { children?: React.ReactNode }
+>((props, _ref) => {
   return React.createElement(NotificationCounter, filterUiProps(props));
-};
+});
 type ComponentRegistryValue =
   | ReturnType<typeof createRemoteComponentRenderer>
   | typeof RemoteFragmentRenderer;
