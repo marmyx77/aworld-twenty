@@ -42,9 +42,11 @@ export const FrontComponentTokenEffect = ({
 
         const data = result.data?.generateFrontComponentToken;
 
-        if (isDefined(data)) {
-          onTokenGenerated(data);
+        if (!isDefined(data)) {
+          throw new Error('Front component token was not returned');
         }
+
+        onTokenGenerated(data);
       } catch {
         enqueueErrorSnackBar({
           message: t`Failed to generate front component token`,
