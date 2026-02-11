@@ -16,16 +16,22 @@ type FrontComponentRendererProps = {
   frontComponentId: string;
 };
 
+type FrontComponentTokenState = {
+  frontComponentId: string;
+  tokenData: FrontComponentTokenData;
+};
+
 export const FrontComponentRenderer = ({
   frontComponentId,
 }: FrontComponentRendererProps) => {
   const theme = useTheme();
   const [hasError, setHasError] = useState(false);
-  const [tokenData, setTokenData] = useState<FrontComponentTokenData | null>(
-    null,
-  );
+  const [frontComponentTokenState, setFrontComponentTokenState] =
+    useState<FrontComponentTokenState | null>(null);
   const [isTokenLoading, setIsTokenLoading] = useState(true);
-  const [hasTokenError, setHasTokenError] = useState(false);
+  const [tokenErrorFrontComponentId, setTokenErrorFrontComponentId] = useState<
+    string | null
+  >(null);
 
   const { enqueueErrorSnackBar } = useSnackBar();
   const { executionContext, frontComponentHostCommunicationApi } =
@@ -46,8 +52,28 @@ export const FrontComponentRenderer = ({
   };
 
   const handleTokenError = useCallback(() => {
-    setHasTokenError(true);
-  }, []);
+    setTokenErrorFrontComponentId(frontComponentId);
+  }, [frontComponentId]);
+
+  const handleTokenGenerated = useCallback(
+    (newTokenData: FrontComponentTokenData) => {
+      setFrontComponentTokenState({
+        frontComponentId,
+        tokenData: newTokenData,
+      });
+    },
+    [frontComponentId],
+  );
+
+  const currentFrontComponentTokenData =
+    frontComponentTokenState?.frontComponentId === frontComponentId
+      ? frontComponentTokenState.tokenData
+      : null;
+
+  const isCurrentFrontComponentTokenReady =
+    !isTokenLoading && isDefined(currentFrontComponentTokenData);
+
+  const hasTokenError = tokenErrorFrontComponentId === frontComponentId;
 
   if (hasError || hasTokenError || !isDefined(authToken)) {
     // TODO: Add an error display component here
@@ -58,17 +84,19 @@ export const FrontComponentRenderer = ({
     <>
       <FrontComponentTokenEffect
         frontComponentId={frontComponentId}
-        onTokenGenerated={setTokenData}
+        onTokenGenerated={handleTokenGenerated}
         onError={handleTokenError}
         onLoadingChange={setIsTokenLoading}
       />
-      {!isTokenLoading && (
+      {isCurrentFrontComponentTokenReady && (
         <SharedFrontComponentRenderer
           theme={theme}
           componentUrl={componentUrl}
           authToken={authToken}
-          applicationAccessToken={tokenData?.applicationAccessToken}
-          apiUrl={tokenData?.apiUrl}
+          applicationAccessToken={
+            currentFrontComponentTokenData.applicationAccessToken
+          }
+          apiUrl={currentFrontComponentTokenData.apiUrl}
           executionContext={executionContext}
           frontComponentHostCommunicationApi={
             frontComponentHostCommunicationApi
