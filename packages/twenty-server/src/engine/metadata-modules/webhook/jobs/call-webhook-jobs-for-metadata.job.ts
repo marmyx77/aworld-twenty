@@ -1,5 +1,4 @@
 import chunk from 'lodash.chunk';
-import { type MetadataRecordEvent } from 'twenty-shared/metadata-events';
 import { isDefined } from 'twenty-shared/utils';
 
 import { InjectMessageQueue } from 'src/engine/core-modules/message-queue/decorators/message-queue.decorator';
@@ -14,6 +13,7 @@ import {
   type CallWebhookJobData,
 } from 'src/engine/metadata-modules/webhook/jobs/call-webhook.job';
 import { WorkspaceCacheService } from 'src/engine/workspace-cache/services/workspace-cache.service';
+import { MetadataEvent } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 
 const WEBHOOK_JOBS_CHUNK_SIZE = 20;
 
@@ -115,8 +115,8 @@ export class CallWebhookJobsForMetadataJob {
   }
 
   private getRecordFromEvent(
-    event: MetadataRecordEvent,
-  ): Record<string, unknown> {
+    event: MetadataEvent,
+  ){
     switch (event.type) {
       case 'created':
         return event.after;
