@@ -1,10 +1,8 @@
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 
-import kebabCase from 'lodash.kebabcase';
 import { Command } from 'nest-commander';
 import { FileFolder } from 'twenty-shared/types';
-import { isDefined } from 'twenty-shared/utils';
-import { DataSource, Equal, Repository } from 'typeorm';
+import { DataSource, Equal, LessThan, Repository } from 'typeorm';
 
 import { ActiveOrSuspendedWorkspacesMigrationCommandRunner } from 'src/database/commands/command-runners/active-or-suspended-workspaces-migration.command-runner';
 import { RunOnWorkspaceArgs } from 'src/database/commands/command-runners/workspaces-migration.command-runner';
@@ -58,7 +56,7 @@ export class BackfillFileSizeAndMimeTypeCommand extends ActiveOrSuspendedWorkspa
       where: [
         {
           workspaceId,
-          size: Equal(-1),
+          size: LessThan(0),
         },
         {
           workspaceId,
@@ -101,13 +99,26 @@ export class BackfillFileSizeAndMimeTypeCommand extends ActiveOrSuspendedWorkspa
           continue;
         }
 
-        const fileFolder = Object.values(FileFolder).find((value) =>
-          fileEntity.path.includes(kebabCase(value)),
-        ) as FileFolder | undefined;
+        const [fileFolder] = fileEntity.path.split('/') as [FileFolder];
 
-        if (!isDefined(fileFolder)) {
+        if (!Object.values(FileFolder).includes(fileFolder)) {
           this.logger.error(
-            `File folder not found for file ${fileEntity.id} (path: ${fileEntity.path})`,
+            `Invalid file folder '${fileFolder}' for file ${fileEntity.id} (path: ${fileEntity.path})`,
+          );
+
+          continue;
+        }
+
+        const fileExists = await this.fileStorageService.checkFileExists({
+          fileFolder,
+          applicationUniversalIdentifier: application.universalIdentifier,
+          workspaceId,
+          resourcePath: removeFileFolderFromFileEntityPath(fileEntity.path),
+        });
+
+        if (!fileExists) {
+          this.logger.error(
+            `File ${fileEntity.id} (path: ${fileEntity.path}) not found in storage`,
           );
 
           continue;
@@ -127,7 +138,7 @@ export class BackfillFileSizeAndMimeTypeCommand extends ActiveOrSuspendedWorkspa
           mimeType?: string;
         } = {};
 
-        if (fileEntity.size === -1) {
+        if (fileEntity.size < 0) {
           updateData.size = fileBuffer.length;
         }
 
