@@ -1,5 +1,5 @@
 import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query } from '@nestjs/graphql';
 
 import { PermissionFlagType } from 'twenty-shared/constants';
 
@@ -8,6 +8,7 @@ import { ApplicationTokenService } from 'src/engine/core-modules/auth/token/serv
 import { TwentyConfigService } from 'src/engine/core-modules/twenty-config/twenty-config.service';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
+import { MetadataResolver } from 'src/engine/api/graphql/graphql-config/decorators/metadata-resolver.decorator';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
 import { SettingsPermissionGuard } from 'src/engine/guards/settings-permission.guard';
 import { UserAuthGuard } from 'src/engine/guards/user-auth.guard';
@@ -30,7 +31,7 @@ const FRONT_COMPONENT_TOKEN_EXPIRATION_IN_SECONDS = 900;
   WorkspaceMigrationGraphqlApiExceptionInterceptor,
   FrontComponentGraphqlApiExceptionInterceptor,
 )
-@Resolver(() => FrontComponentDTO)
+@MetadataResolver(() => FrontComponentDTO)
 export class FrontComponentResolver {
   constructor(
     private readonly frontComponentService: FrontComponentService,
