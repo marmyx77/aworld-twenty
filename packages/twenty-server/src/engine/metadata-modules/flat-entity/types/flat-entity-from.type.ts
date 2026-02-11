@@ -14,7 +14,7 @@ export type SyncableFlatEntity = Omit<
   id: string;
 };
 
-type AtomicFlatEntity<TEntity> = Omit<
+export type AtomicFlatEntity<TEntity> = Omit<
   TEntity,
   | ExtractEntityRelatedEntityProperties<TEntity>
   | keyof CastRecordTypeOrmDatePropertiesToString<TEntity>
