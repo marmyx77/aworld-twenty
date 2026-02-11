@@ -6,9 +6,9 @@ import { isDefined } from 'twenty-shared/utils';
 import { DataSource } from 'typeorm';
 
 import { LoggerService } from 'src/engine/core-modules/logger/logger.service';
+import { type RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
 import { WorkspaceManyOrAllFlatEntityMapsCacheService } from 'src/engine/metadata-modules/flat-entity/services/workspace-many-or-all-flat-entity-maps-cache.service';
 import { AllFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/all-flat-entity-maps.type';
-import { type MetadataEvent } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
 import { getMetadataRelatedMetadataNames } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-related-metadata-names.util';
 import { getMetadataSerializedRelationNames } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-serialized-relation-names.util';
@@ -155,7 +155,7 @@ export class WorkspaceMigrationRunnerService {
     workspaceId,
   }: WorkspaceMigration): Promise<{
     allFlatEntityMaps: AllFlatEntityMaps;
-    metadataEvents: MetadataEvent[];
+    metadataEvents: RunnerMetadataEventEnvelope[];
   }> => {
     this.logger.time('Runner', 'Total execution');
     this.logger.time('Runner', 'Initial cache retrieval');
@@ -211,7 +211,7 @@ export class WorkspaceMigrationRunnerService {
       await queryRunner.connect();
       await queryRunner.startTransaction();
 
-      const allMetadataEvents: MetadataEvent[] = [];
+      const allMetadataEvents: RunnerMetadataEventEnvelope[] = [];
 
       for (const action of actions) {
         const { partialOptimisticCache, metadataEvents } =

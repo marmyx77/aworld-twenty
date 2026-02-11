@@ -7,9 +7,11 @@
  *                              |___/
  */
 
+export { computeMetadataEventName } from './compute-metadata-event-name.util';
+export type { MetadataEventAction } from './metadata-event-action';
+export type { MetadataEventEnvelope } from './metadata-event-envelope';
 export type { MetadataRecordCreateEvent } from './metadata-record-create.event';
 export type { MetadataRecordDeleteEvent } from './metadata-record-delete.event';
-export type { MetadataRecordDiff } from './metadata-record-diff';
+export type { MetadataRecordEventByAction } from './metadata-record-event-by-action';
 export type { MetadataRecordEvent } from './metadata-record-event.event';
 export type { MetadataRecordUpdateEvent } from './metadata-record-update.event';
-export type { MetadataRecordBaseEvent } from './metadata-record.base.event';

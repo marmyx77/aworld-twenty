@@ -250,11 +250,11 @@ export class WorkspaceMigrationValidateBuildAndRunService {
         })
       : validateAndBuildResult.workspaceMigration;
 
-    await this.workspaceMigrationRunnerService.run(workspaceMigration);
+    const { metadataEvents } =
+      await this.workspaceMigrationRunnerService.run(workspaceMigration);
 
-    this.metadataEventEmitter.emitMetadataEventsFromMigration({
-      workspaceMigration: validateAndBuildResult.workspaceMigration,
-      fromToAllFlatEntityMaps: args.fromToAllFlatEntityMaps,
+    this.metadataEventEmitter.emitMetadataEvents({
+      metadataEvents,
       workspaceId: args.workspaceId,
     });
   }

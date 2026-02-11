@@ -1,8 +1,6 @@
-import { InjectRepository } from '@nestjs/typeorm';
-
 import chunk from 'lodash.chunk';
 import { type MetadataRecordEvent } from 'twenty-shared/metadata-events';
-import { ArrayContains, IsNull, Repository } from 'typeorm';
+import { isDefined } from 'twenty-shared/utils';
 
 import { InjectMessageQueue } from 'src/engine/core-modules/message-queue/decorators/message-queue.decorator';
 import { Process } from 'src/engine/core-modules/message-queue/decorators/process.decorator';
@@ -10,11 +8,12 @@ import { Processor } from 'src/engine/core-modules/message-queue/decorators/proc
 import { MessageQueue } from 'src/engine/core-modules/message-queue/message-queue.constants';
 import { MessageQueueService } from 'src/engine/core-modules/message-queue/services/message-queue.service';
 import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
-import { WebhookEntity } from 'src/engine/metadata-modules/webhook/entities/webhook.entity';
+import { type FlatWebhook } from 'src/engine/metadata-modules/flat-webhook/types/flat-webhook.type';
 import {
   CallWebhookJob,
   type CallWebhookJobData,
 } from 'src/engine/metadata-modules/webhook/jobs/call-webhook.job';
+import { WorkspaceCacheService } from 'src/engine/workspace-cache/services/workspace-cache.service';
 
 const WEBHOOK_JOBS_CHUNK_SIZE = 20;
 
@@ -23,8 +22,7 @@ export class CallWebhookJobsForMetadataJob {
   constructor(
     @InjectMessageQueue(MessageQueue.webhookQueue)
     private readonly messageQueueService: MessageQueueService,
-    @InjectRepository(WebhookEntity)
-    private readonly webhookRepository: Repository<WebhookEntity>,
+    private readonly workspaceCacheService: WorkspaceCacheService,
   ) {}
 
   @Process(CallWebhookJobsForMetadataJob.name)
@@ -33,7 +31,7 @@ export class CallWebhookJobsForMetadataJob {
     const metadataName = metadataEventBatch.metadataName;
     const operation = metadataEventBatch.action;
 
-    const operations = [
+    const operationsToMatch = [
       eventName,
       `metadata.${metadataName}.*`,
       `metadata.*.${operation}`,
@@ -41,13 +39,18 @@ export class CallWebhookJobsForMetadataJob {
       '*.*',
     ];
 
-    const webhooks = await this.webhookRepository.find({
-      where: operations.map((op) => ({
-        workspaceId: metadataEventBatch.workspaceId,
-        operations: ArrayContains([op]),
-        deletedAt: IsNull(),
-      })),
-    });
+    const { flatWebhookMaps } = await this.workspaceCacheService.getOrRecompute(
+      metadataEventBatch.workspaceId,
+      ['flatWebhookMaps'],
+    );
+
+    const webhooks = Object.values(flatWebhookMaps.byUniversalIdentifier)
+      .filter(isDefined)
+      .filter((webhook) =>
+        operationsToMatch.some((operationToMatch) =>
+          webhook.operations.includes(operationToMatch),
+        ),
+      );
 
     if (webhooks.length === 0) {
       return;
@@ -74,7 +77,7 @@ export class CallWebhookJobsForMetadataJob {
     webhooks,
   }: {
     metadataEventBatch: MetadataEventBatch;
-    webhooks: WebhookEntity[];
+    webhooks: FlatWebhook[];
   }): CallWebhookJobData[] {
     const result: CallWebhookJobData[] = [];
 
@@ -87,8 +90,6 @@ export class CallWebhookJobsForMetadataJob {
       const secret = webhook.secret;
 
       for (const eventData of metadataEventBatch.events) {
-        const record = this.getRecordFromEvent(eventData);
-
         result.push({
           targetUrl,
           eventName,
@@ -99,9 +100,9 @@ export class CallWebhookJobsForMetadataJob {
           workspaceId,
           webhookId,
           eventDate,
-          record,
-          ...(this.getUpdatedFieldsFromEvent(eventData) && {
-            updatedFields: this.getUpdatedFieldsFromEvent(eventData),
+          record: this.getRecordFromEvent(eventData),
+          ...(eventData.type === 'updated' && {
+            updatedFields: eventData.updatedFields,
           }),
           secret,
           userId: metadataEventBatch.userId,
@@ -116,23 +117,13 @@ export class CallWebhookJobsForMetadataJob {
   private getRecordFromEvent(
     event: MetadataRecordEvent,
   ): Record<string, unknown> {
-    if ('after' in event.properties && event.properties.after) {
-      return event.properties.after as Record<string, unknown>;
+    switch (event.type) {
+      case 'created':
+        return event.after;
+      case 'updated':
+        return event.after;
+      case 'deleted':
+        return event.before;
     }
-    if ('before' in event.properties && event.properties.before) {
-      return event.properties.before as Record<string, unknown>;
-    }
-
-    return {};
-  }
-
-  private getUpdatedFieldsFromEvent(
-    event: MetadataRecordEvent,
-  ): string[] | undefined {
-    if ('updatedFields' in event.properties) {
-      return event.properties.updatedFields;
-    }
-
-    return undefined;
   }
 }

@@ -1,44 +1,44 @@
 import { assertUnreachable } from 'twenty-shared/utils';
 
+import { type RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
 import { type AllFlatWorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
-import {
-  type CreateMetadataEvent,
-  type MetadataEvent,
-} from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 
 export const deriveMetadataEventsFromCreateAction = (
   flatAction: AllFlatWorkspaceMigrationAction<'create'>,
-): MetadataEvent[] => {
+): RunnerMetadataEventEnvelope[] => {
   switch (flatAction.metadataName) {
     case 'fieldMetadata': {
-      return flatAction.flatFieldMetadatas.map(
-        (flatFieldMetadata): CreateMetadataEvent<'fieldMetadata'> => ({
-          type: 'create',
-          metadataName: 'fieldMetadata',
-          properties: {
-            after: flatFieldMetadata,
-          },
-        }),
-      );
+      return flatAction.flatFieldMetadatas.map((flatFieldMetadata) => ({
+        metadataName: 'fieldMetadata',
+        action: 'created',
+        event: {
+          type: 'created',
+          recordId: flatFieldMetadata.id,
+          after: flatFieldMetadata,
+        },
+      }));
     }
     case 'objectMetadata': {
-      const objectEvent: CreateMetadataEvent<'objectMetadata'> = {
-        type: 'create',
+      const objectEvent: RunnerMetadataEventEnvelope = {
         metadataName: 'objectMetadata',
-        properties: {
+        action: 'created',
+        event: {
+          type: 'created',
+          recordId: flatAction.flatEntity.id,
           after: flatAction.flatEntity,
         },
       };
 
-      const fieldEvents: MetadataEvent[] = flatAction.flatFieldMetadatas.map(
-        (flatFieldMetadata): CreateMetadataEvent<'fieldMetadata'> => ({
-          type: 'create',
+      const fieldEvents: RunnerMetadataEventEnvelope[] =
+        flatAction.flatFieldMetadatas.map((flatFieldMetadata) => ({
           metadataName: 'fieldMetadata',
-          properties: {
+          action: 'created',
+          event: {
+            type: 'created',
+            recordId: flatFieldMetadata.id,
             after: flatFieldMetadata,
           },
-        }),
-      );
+        }));
 
       return [objectEvent, ...fieldEvents];
     }
@@ -64,9 +64,11 @@ export const deriveMetadataEventsFromCreateAction = (
     case 'webhook': {
       return [
         {
-          type: 'create',
           metadataName: flatAction.metadataName,
-          properties: {
+          action: 'created',
+          event: {
+            type: 'created',
+            recordId: flatAction.flatEntity.id,
             after: flatAction.flatEntity,
           },
         },

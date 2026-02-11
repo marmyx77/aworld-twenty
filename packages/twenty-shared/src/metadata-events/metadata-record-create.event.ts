@@ -1,5 +1,5 @@
-import { type MetadataRecordBaseEvent } from '@/metadata-events/metadata-record.base.event';
-
-export type MetadataRecordCreateEvent<T = object> = MetadataRecordBaseEvent<{
-  after: T;
-}> & { type: 'create' };
+export type MetadataRecordCreateEvent<TRecord = Record<string, unknown>> = {
+  type: 'created';
+  recordId: string;
+  after: TRecord;
+};

@@ -1,6 +1,5 @@
-import { type AllMetadataName } from 'twenty-shared/metadata';
-
-import { type MetadataEventAction } from 'src/engine/metadata-event-emitter/enums/metadata-event-action.enum';
+import type { AllMetadataName } from '@/metadata';
+import type { MetadataEventAction } from '@/metadata-events/metadata-event-action';
 
 export const computeMetadataEventName = <
   TMetadataName extends AllMetadataName,

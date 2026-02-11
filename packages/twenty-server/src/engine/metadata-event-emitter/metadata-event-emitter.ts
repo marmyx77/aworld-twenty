@@ -1,575 +1,102 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-import {
-  ALL_METADATA_NAME,
-  type AllMetadataName,
-} from 'twenty-shared/metadata';
-import {
-  MetadataRecordCreateEvent,
-  MetadataRecordDeleteEvent,
-  MetadataRecordDiff,
-  MetadataRecordUpdateEvent,
-} from 'twenty-shared/metadata-events';
-import { FromTo } from 'twenty-shared/types';
-import { assertUnreachable, isDefined } from 'twenty-shared/utils';
+import { computeMetadataEventName } from 'twenty-shared/metadata-events';
+import { isDefined } from 'twenty-shared/utils';
 
 import { getWorkspaceAuthContext } from 'src/engine/core-modules/auth/storage/workspace-auth-context.storage';
 import { type WorkspaceAuthContext } from 'src/engine/core-modules/auth/types/workspace-auth-context.type';
-import { type MetadataEventAction } from 'src/engine/metadata-event-emitter/enums/metadata-event-action.enum';
-import {
-  type MetadataEventBatch,
-  type MetadataRecordEventByAction,
-} from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
-import { computeMetadataEventName } from 'src/engine/metadata-event-emitter/utils/compute-metadata-event-name.util';
-import { FlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/flat-entity-maps.type';
-import { MetadataFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity-maps.type';
-import { MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity.type';
-import { MetadataUniversalFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-universal-flat-entity.type';
-import { findFlatEntityByUniversalIdentifier } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-universal-identifier.util';
-import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
-import type { FromToAllFlatEntityMaps } from 'src/engine/workspace-manager/workspace-migration/types/workspace-migration-orchestrator.type';
-import { UniversalFlatFieldMetadata } from 'src/engine/workspace-manager/workspace-migration/universal-flat-entity/types/universal-flat-field-metadata.type';
-import { WorkspaceMigration } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration';
-import type { AllUniversalWorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
+import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
+import { type RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
 
-type MetadataEventInitiatorContext = WorkspaceAuthContext;
-
-type EmitMetadataEventsFromMigrationArgs = {
-  workspaceMigration: WorkspaceMigration;
-  fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
+type EmitMetadataEventsArgs = {
+  metadataEvents: RunnerMetadataEventEnvelope[];
   workspaceId: string;
-  initiatorContext?: MetadataEventInitiatorContext;
-};
-
-export type MetadataBatchEventInput<
-  TMetadataName extends AllMetadataName,
-  A extends keyof MetadataRecordEventByAction<TMetadataName>,
-> = {
-  metadataName: TMetadataName;
-  action: A;
-  events: MetadataRecordEventByAction<TMetadataName>[A][];
-  workspaceId: string;
-  userId?: string;
-  apiKeyId?: string;
-};
-
-type GroupedMetadataEvents = Record<
-  AllMetadataName,
-  {
-    create: MetadataRecordCreateEvent<MetadataFlatEntity<AllMetadataName>>[];
-    update: MetadataRecordUpdateEvent<MetadataFlatEntity<AllMetadataName>>[];
-    delete: MetadataRecordDeleteEvent<MetadataFlatEntity<AllMetadataName>>[];
-  }
->;
-
-// Quite redundant
-type MetadataCreateEventWithMetadataName<
-  T extends AllMetadataName = AllMetadataName,
-> = {
-  metadataName: T;
-  event: MetadataRecordCreateEvent<MetadataFlatEntity<T>>;
-};
-
-type MetadataUpdateEventWithMetadataName = {
-  metadataName: AllMetadataName;
-  event: MetadataRecordUpdateEvent<MetadataFlatEntity<AllMetadataName>>;
-};
-
-type MetadataDeleteEventWithMetadataName = {
-  metadataName: AllMetadataName;
-  event: MetadataRecordDeleteEvent<MetadataFlatEntity<AllMetadataName>>;
-};
-///
-
-const getEmptyGroupedEvents = (): GroupedMetadataEvents => {
-  return Object.values(ALL_METADATA_NAME).reduce(
-    (acc, metadataName) => ({
-      ...acc,
-      [metadataName]: {
-        created: [],
-        updated: [],
-        deleted: [],
-      },
-    }),
-    {} as GroupedMetadataEvents,
-  );
+  initiatorContext?: WorkspaceAuthContext;
 };
 
 @Injectable()
 export class MetadataEventEmitter {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
-  private emitMetadataBatchEvent<
-    TMetadataName extends AllMetadataName,
-    A extends keyof MetadataRecordEventByAction<TMetadataName>,
-  >(
-    metadataBatchEventInput:
-      | MetadataBatchEventInput<TMetadataName, A>
-      | undefined,
-  ): void {
-    if (!isDefined(metadataBatchEventInput)) {
-      return;
-    }
-
-    const { metadataName, action, events, workspaceId, userId, apiKeyId } =
-      metadataBatchEventInput;
-
-    if (events.length === 0) {
-      return;
-    }
-
-    const eventName = computeMetadataEventName(metadataName, action);
-
-    const metadataEventBatch: MetadataEventBatch<TMetadataName, A> = {
-      name: eventName,
-      workspaceId,
-      metadataName,
-      action,
-      events,
-      userId,
-      apiKeyId,
-    };
-
-    this.eventEmitter.emit(eventName, metadataEventBatch);
-  }
-
-  public emitMetadataEventsFromMigration({
-    workspaceMigration: { actions, workspaceId },
-    fromToAllFlatEntityMaps,
+  public emitMetadataEvents({
+    metadataEvents,
+    workspaceId,
     initiatorContext,
-  }: EmitMetadataEventsFromMigrationArgs): void {
-    if (actions.length === 0) {
+  }: EmitMetadataEventsArgs): void {
+    if (metadataEvents.length === 0) {
       return;
     }
 
-    const groupedEvents = this.groupActionsByMetadataNameAndAction({
-      actions,
-      fromToAllFlatEntityMaps,
-    });
+    const resolvedInitiatorContext =
+      this.resolveInitiatorContext(initiatorContext);
 
-    let resolvedInitiatorContext = initiatorContext;
-
-    if (!resolvedInitiatorContext) {
-      try {
-        resolvedInitiatorContext = getWorkspaceAuthContext();
-      } catch {
-        resolvedInitiatorContext = undefined;
-      }
-    }
-
-    this.emitGroupedEvents(
-      groupedEvents,
-      workspaceId,
-      resolvedInitiatorContext,
-    );
-  }
-
-  private emitGroupedEvents(
-    groupedEvents: GroupedMetadataEvents,
-    workspaceId: string,
-    initiatorContext?: MetadataEventInitiatorContext,
-  ): void {
     const userId =
-      initiatorContext?.type === 'user' ||
-      initiatorContext?.type === 'pendingActivationUser'
-        ? initiatorContext.user.id
+      resolvedInitiatorContext?.type === 'user' ||
+      resolvedInitiatorContext?.type === 'pendingActivationUser'
+        ? resolvedInitiatorContext.user.id
         : undefined;
     const apiKeyId =
-      initiatorContext?.type === 'apiKey'
-        ? initiatorContext.apiKey.id
+      resolvedInitiatorContext?.type === 'apiKey'
+        ? resolvedInitiatorContext.apiKey.id
         : undefined;
 
-    for (const [metadataName, actionEvents] of Object.entries(groupedEvents)) {
-      for (const [action, events] of Object.entries(actionEvents)) {
-        if (events.length === 0) {
-          continue;
-        }
+    const grouped = this.groupByMetadataNameAndAction(metadataEvents);
 
-        const typedMetadataName = metadataName as AllMetadataName;
-        const typedAction = action as MetadataEventAction;
+    for (const envelopes of grouped.values()) {
+      const firstEnvelope = envelopes[0];
 
-        this.emitMetadataBatchEvent({
-          metadataName: typedMetadataName,
-          action: typedAction,
-          events: events as MetadataRecordEventByAction<
-            typeof typedMetadataName
-          >[typeof typedAction][],
-          workspaceId,
-          userId,
-          apiKeyId,
-        });
+      if (!isDefined(firstEnvelope)) {
+        continue;
       }
+
+      const { metadataName, action } = firstEnvelope;
+      const eventName = computeMetadataEventName(metadataName, action);
+
+      const metadataEventBatch: MetadataEventBatch = {
+        name: eventName,
+        workspaceId,
+        metadataName,
+        action,
+        events: envelopes.map((envelope) => envelope.event),
+        userId,
+        apiKeyId,
+      };
+
+      this.eventEmitter.emit(eventName, metadataEventBatch);
     }
   }
 
-  private groupActionsByMetadataNameAndAction({
-    actions,
-    fromToAllFlatEntityMaps,
-  }: {
-    actions: AllUniversalWorkspaceMigrationAction[];
-    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
-  }): GroupedMetadataEvents {
-    const result = getEmptyGroupedEvents();
-
-    for (const action of actions) {
-      switch (action.type) {
-        case 'create': {
-          const metadataCreateEvents =
-            this.fromWorkspaceMigrationCreateActionToMetadataEvent({
-              action,
-              fromToAllFlatEntityMaps,
-            });
-
-          for (const { metadataName, event } of metadataCreateEvents) {
-            result[metadataName].create.push(event);
-          }
-          continue;
-        }
-        case 'update': {
-          const updateEvent =
-            this.fromWorkspaceMigrationUpdateActionToMetadataEvent({
-              action,
-              fromToAllFlatEntityMaps,
-            });
-
-          if (isDefined(updateEvent)) {
-            result[updateEvent.metadataName].update.push(updateEvent.event);
-          }
-          continue;
-        }
-        case 'delete': {
-          const deleteEvent =
-            this.fromWorkspaceMigrationDeleteActionToMetadataEvent({
-              action,
-              fromToAllFlatEntityMaps,
-            });
-
-          if (isDefined(deleteEvent)) {
-            result[deleteEvent.metadataName].delete.push(deleteEvent.event);
-          }
-          continue;
-        }
-        default: {
-          assertUnreachable(action);
-        }
-      }
+  private resolveInitiatorContext(
+    initiatorContext?: WorkspaceAuthContext,
+  ): WorkspaceAuthContext | undefined {
+    if (isDefined(initiatorContext)) {
+      return initiatorContext;
     }
 
-    return result;
-  }
-
-  private fromWorkspaceMigrationCreateActionToMetadataEvent({
-    action,
-    fromToAllFlatEntityMaps,
-  }: {
-    action: AllUniversalWorkspaceMigrationAction<'create'>;
-    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
-  }): MetadataCreateEventWithMetadataName[] {
-    switch (action.metadataName) {
-      case 'objectMetadata': {
-        const { universalFlatFieldMetadatas, flatEntity } = action;
-
-        const fieldCreateMetadataEvents = this.buildFieldMetadataCreateEvents({
-          universalFlatFieldMetadatas,
-          fromToAllFlatEntityMaps,
-        });
-
-        const objectCreateMetadataEvent =
-          this.buildFlatEntityMetadataCreateEvent({
-            metadataName: 'objectMetadata',
-            flatEntity,
-            fromToAllFlatEntityMaps,
-          });
-
-        return isDefined(objectCreateMetadataEvent)
-          ? [...fieldCreateMetadataEvents, objectCreateMetadataEvent]
-          : fieldCreateMetadataEvents;
-      }
-      case 'fieldMetadata': {
-        const { universalFlatFieldMetadatas } = action;
-        const fieldCreateMetadataEvents = this.buildFieldMetadataCreateEvents({
-          fromToAllFlatEntityMaps,
-          universalFlatFieldMetadatas,
-        });
-
-        return fieldCreateMetadataEvents;
-      }
-      case 'view':
-      case 'viewField':
-      case 'viewGroup':
-      case 'rowLevelPermissionPredicate':
-      case 'rowLevelPermissionPredicateGroup':
-      case 'viewFilterGroup':
-      case 'index':
-      case 'logicFunction':
-      case 'viewFilter':
-      case 'role':
-      case 'roleTarget':
-      case 'agent':
-      case 'skill':
-      case 'pageLayout':
-      case 'pageLayoutWidget':
-      case 'pageLayoutTab':
-      case 'commandMenuItem':
-      case 'navigationMenuItem':
-      case 'frontComponent':
-      case 'webhook': {
-        const { flatEntity } = action;
-
-        const createMetadataEvent = this.buildFlatEntityMetadataCreateEvent({
-          metadataName: action.metadataName,
-          // NOTE will be fixed when https://github.com/twentyhq/twenty/pull/17687 has been merged
-          flatEntity,
-          fromToAllFlatEntityMaps,
-        });
-
-        return isDefined(createMetadataEvent) ? [createMetadataEvent] : [];
-      }
-      default:
-        assertUnreachable(action);
+    try {
+      return getWorkspaceAuthContext();
+    } catch {
+      return undefined;
     }
   }
 
-  private buildFieldMetadataCreateEvents({
-    universalFlatFieldMetadatas,
-    fromToAllFlatEntityMaps,
-  }: {
-    universalFlatFieldMetadatas: UniversalFlatFieldMetadata[];
-    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
-  }): MetadataCreateEventWithMetadataName[] {
-    return universalFlatFieldMetadatas
-      .map((flatFieldMetadata) =>
-        this.buildFlatEntityMetadataCreateEvent({
-          metadataName: 'fieldMetadata',
-          flatEntity: flatFieldMetadata,
-          fromToAllFlatEntityMaps,
-        }),
-      )
-      .filter(isDefined);
-  }
+  private groupByMetadataNameAndAction(
+    metadataEvents: RunnerMetadataEventEnvelope[],
+  ): Map<string, RunnerMetadataEventEnvelope[]> {
+    const grouped = new Map<string, RunnerMetadataEventEnvelope[]>();
 
-  private buildFlatEntityMetadataCreateEvent<T extends AllMetadataName>({
-    metadataName,
-    flatEntity,
-    fromToAllFlatEntityMaps,
-  }: {
-    metadataName: T;
-    flatEntity: MetadataUniversalFlatEntity<T>;
-    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
-  }): MetadataCreateEventWithMetadataName | undefined {
-    const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
-    const fromToFlatEntityMaps = fromToAllFlatEntityMaps[flatMapsKey] as
-      | FromTo<MetadataFlatEntityMaps<typeof metadataName>>
-      | undefined;
+    for (const metadataEvent of metadataEvents) {
+      const key = `${metadataEvent.metadataName}.${metadataEvent.action}`;
+      const group = grouped.get(key);
 
-    if (!isDefined(fromToFlatEntityMaps)) {
-      return undefined;
-    }
-    const { to: toFlatEntityMaps } = fromToFlatEntityMaps;
-
-    const { universalIdentifier } = flatEntity;
-
-    const createdFlatEntity = findFlatEntityByUniversalIdentifier({
-      flatEntityMaps: toFlatEntityMaps,
-      universalIdentifier,
-    });
-
-    if (!isDefined(createdFlatEntity)) {
-      return undefined;
-    }
-
-    return {
-      metadataName,
-      event: {
-        type: 'create',
-        recordId: createdFlatEntity.id,
-        properties: { after: createdFlatEntity },
-      },
-    };
-  }
-
-  private fromWorkspaceMigrationUpdateActionToMetadataEvent({
-    action,
-    fromToAllFlatEntityMaps,
-  }: {
-    action: AllUniversalWorkspaceMigrationAction<'update'>;
-    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
-  }): MetadataUpdateEventWithMetadataName | undefined {
-    switch (action.metadataName) {
-      case 'index': {
-        // TODO implement custom index update action transpiler as it's not like the others
-        return undefined;
+      if (isDefined(group)) {
+        group.push(metadataEvent);
+      } else {
+        grouped.set(key, [metadataEvent]);
       }
-      // Universal workspace migration migrated
-      case 'objectMetadata':
-      case 'fieldMetadata': {
-        return this.buildEntityUpdateEvent({
-          action,
-          universalIdentifier: action.universalIdentifier,
-          fromToAllFlatEntityMaps,
-        });
-      }
-      case 'view':
-      case 'viewField':
-      case 'viewGroup':
-      case 'rowLevelPermissionPredicate':
-      case 'rowLevelPermissionPredicateGroup':
-      case 'viewFilterGroup':
-      case 'logicFunction':
-      case 'viewFilter':
-      case 'role':
-      case 'roleTarget':
-      case 'agent':
-      case 'skill':
-      case 'pageLayout':
-      case 'pageLayoutWidget':
-      case 'pageLayoutTab':
-      case 'commandMenuItem':
-      case 'navigationMenuItem':
-      case 'frontComponent':
-      case 'webhook': {
-        const { universalIdentifier } = action;
-        const flatMapsKey = getMetadataFlatEntityMapsKey(action.metadataName);
-        const fromTo = fromToAllFlatEntityMaps[flatMapsKey];
-
-        if (!isDefined(fromTo)) {
-          return undefined;
-        }
-
-        const existingEntity = findFlatEntityByUniversalIdentifier<
-          MetadataUniversalFlatEntity<typeof action.metadataName>
-        >({
-          flatEntityMaps: fromTo.from,
-          universalIdentifier,
-        });
-
-        if (!isDefined(existingEntity)) {
-          return undefined;
-        }
-
-        return this.buildEntityUpdateEvent({
-          action,
-          universalIdentifier: existingEntity.universalIdentifier,
-          fromToAllFlatEntityMaps,
-        });
-      }
-      default:
-        assertUnreachable(action);
-    }
-  }
-
-  private buildEntityUpdateEvent({
-    universalIdentifier,
-    action,
-    fromToAllFlatEntityMaps,
-  }: {
-    action: AllUniversalWorkspaceMigrationAction<'update'>;
-    universalIdentifier: string;
-    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
-  }): MetadataUpdateEventWithMetadataName | undefined {
-    const flatMapsKey = getMetadataFlatEntityMapsKey(action.metadataName);
-    const fromToFlatEntityMaps = fromToAllFlatEntityMaps[flatMapsKey] as
-      | FromTo<MetadataFlatEntityMaps<typeof action.metadataName>>
-      | undefined;
-
-    if (!isDefined(fromToFlatEntityMaps)) {
-      return undefined;
     }
 
-    const { from: fromFlatEntityMaps, to: toFlatEntityMaps } =
-      fromToFlatEntityMaps;
-
-    const beforeFlatEntity = findFlatEntityByUniversalIdentifier({
-      flatEntityMaps: fromFlatEntityMaps,
-      universalIdentifier,
-    });
-
-    if (!isDefined(beforeFlatEntity)) {
-      return undefined;
-    }
-
-    const afterFlatEntity = findFlatEntityByUniversalIdentifier({
-      flatEntityMaps: toFlatEntityMaps,
-      universalIdentifier: universalIdentifier,
-    });
-
-    if (!isDefined(beforeFlatEntity) || !isDefined(afterFlatEntity)) {
-      return undefined;
-    }
-
-    const updatedFields = Object.keys(
-      action.update,
-    ) as (keyof MetadataFlatEntity<typeof action.metadataName>)[];
-    const diff = updatedFields.reduce(
-      (acc, field) => {
-        const before = beforeFlatEntity[field];
-        const after = afterFlatEntity[field];
-
-        return {
-          ...acc,
-          [field]: {
-            before,
-            after,
-          },
-        };
-      },
-      {} as Partial<
-        MetadataRecordDiff<MetadataFlatEntity<typeof action.metadataName>>
-      >,
-    );
-
-    return {
-      metadataName: action.metadataName,
-      event: {
-        type: 'update',
-        recordId: beforeFlatEntity.id,
-        properties: {
-          before: beforeFlatEntity,
-          after: afterFlatEntity,
-          updatedFields: Object.keys(action.update),
-          diff,
-        },
-      },
-    };
-  }
-
-  private fromWorkspaceMigrationDeleteActionToMetadataEvent({
-    action,
-    fromToAllFlatEntityMaps,
-  }: {
-    action: AllUniversalWorkspaceMigrationAction<'delete'>;
-    fromToAllFlatEntityMaps: FromToAllFlatEntityMaps;
-  }): MetadataDeleteEventWithMetadataName | undefined {
-    const metadataName = action.metadataName;
-    const universalIdentifier = action.universalIdentifier;
-    const flatMapsKey = getMetadataFlatEntityMapsKey(metadataName);
-    const fromTo = fromToAllFlatEntityMaps[flatMapsKey] as FromTo<
-      FlatEntityMaps<MetadataFlatEntity<typeof action.metadataName>>
-    >;
-
-    if (!isDefined(fromTo)) {
-      return undefined;
-    }
-
-    const deleted = findFlatEntityByUniversalIdentifier({
-      flatEntityMaps: fromTo.to,
-      universalIdentifier,
-    });
-
-    if (!isDefined(deleted)) {
-      return undefined;
-    }
-
-    return {
-      metadataName,
-      event: {
-        properties: {
-          before: deleted,
-        },
-        type: 'delete',
-        recordId: deleted.id,
-      },
-    };
+    return grouped;
   }
 }
