@@ -100,7 +100,7 @@ const extractComponentsFromCategory = (
         continue;
       }
 
-      const { properties, slots } = extractPropsAndSlots(propsType);
+      const { properties, events, slots } = extractPropsAndSlots(propsType);
 
       const kebabName = pascalToKebab(exportName);
 
@@ -108,7 +108,7 @@ const extractComponentsFromCategory = (
         tag: `twenty-ui-${kebabName}`,
         name: `TwentyUi${exportName}`,
         properties,
-        events: [],
+        events,
         slots,
         componentImport: exportName,
         componentPath: `twenty-ui/${category}`,

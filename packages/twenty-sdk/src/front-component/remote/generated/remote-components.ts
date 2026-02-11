@@ -1212,14 +1212,29 @@ export const HtmlHr = createRemoteComponent('html-hr', HtmlHrElement, {
 export const TwentyUiAnimatedButton = createRemoteComponent(
   'twenty-ui-animated-button',
   TwentyUiAnimatedButtonElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiAnimatedLightIconButton = createRemoteComponent(
   'twenty-ui-animated-light-icon-button',
   TwentyUiAnimatedLightIconButtonElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiButton = createRemoteComponent(
   'twenty-ui-button',
   TwentyUiButtonElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiButtonGroup = createRemoteComponent(
   'twenty-ui-button-group',
@@ -1228,6 +1243,11 @@ export const TwentyUiButtonGroup = createRemoteComponent(
 export const TwentyUiColorPickerButton = createRemoteComponent(
   'twenty-ui-color-picker-button',
   TwentyUiColorPickerButtonElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiFloatingButton = createRemoteComponent(
   'twenty-ui-floating-button',
@@ -1240,6 +1260,11 @@ export const TwentyUiFloatingButtonGroup = createRemoteComponent(
 export const TwentyUiFloatingIconButton = createRemoteComponent(
   'twenty-ui-floating-icon-button',
   TwentyUiFloatingIconButtonElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiFloatingIconButtonGroup = createRemoteComponent(
   'twenty-ui-floating-icon-button-group',
@@ -1248,14 +1273,29 @@ export const TwentyUiFloatingIconButtonGroup = createRemoteComponent(
 export const TwentyUiInsideButton = createRemoteComponent(
   'twenty-ui-inside-button',
   TwentyUiInsideButtonElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiLightButton = createRemoteComponent(
   'twenty-ui-light-button',
   TwentyUiLightButtonElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiLightIconButton = createRemoteComponent(
   'twenty-ui-light-icon-button',
   TwentyUiLightIconButtonElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiLightIconButtonGroup = createRemoteComponent(
   'twenty-ui-light-icon-button-group',
@@ -1300,14 +1340,29 @@ export const TwentyUiCardPicker = createRemoteComponent(
 export const TwentyUiCheckbox = createRemoteComponent(
   'twenty-ui-checkbox',
   TwentyUiCheckboxElement,
+  {
+    eventProps: {
+      onChange: { event: 'change' },
+    },
+  },
 );
 export const TwentyUiRadio = createRemoteComponent(
   'twenty-ui-radio',
   TwentyUiRadioElement,
+  {
+    eventProps: {
+      onChange: { event: 'change' },
+    },
+  },
 );
 export const TwentyUiRadioGroup = createRemoteComponent(
   'twenty-ui-radio-group',
   TwentyUiRadioGroupElement,
+  {
+    eventProps: {
+      onChange: { event: 'change' },
+    },
+  },
 );
 export const TwentyUiSearchInput = createRemoteComponent(
   'twenty-ui-search-input',
@@ -1332,6 +1387,12 @@ export const TwentyUiChip = createRemoteComponent(
 export const TwentyUiLinkChip = createRemoteComponent(
   'twenty-ui-link-chip',
   TwentyUiLinkChipElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+      onMousedown: { event: 'mousedown' },
+    },
+  },
 );
 export const TwentyUiPill = createRemoteComponent(
   'twenty-ui-pill',
@@ -1380,6 +1441,11 @@ export const TwentyUiIcon = createRemoteComponent(
 export const TwentyUiInfo = createRemoteComponent(
   'twenty-ui-info',
   TwentyUiInfoElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiStatus = createRemoteComponent(
   'twenty-ui-status',
@@ -1444,6 +1510,11 @@ export const TwentyUiClickToActionLink = createRemoteComponent(
 export const TwentyUiContactLink = createRemoteComponent(
   'twenty-ui-contact-link',
   TwentyUiContactLinkElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiGithubVersionLink = createRemoteComponent(
   'twenty-ui-github-version-link',
@@ -1452,14 +1523,29 @@ export const TwentyUiGithubVersionLink = createRemoteComponent(
 export const TwentyUiRawLink = createRemoteComponent(
   'twenty-ui-raw-link',
   TwentyUiRawLinkElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiRoundedLink = createRemoteComponent(
   'twenty-ui-rounded-link',
   TwentyUiRoundedLinkElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiSocialLink = createRemoteComponent(
   'twenty-ui-social-link',
   TwentyUiSocialLinkElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiUndecoratedLink = createRemoteComponent(
   'twenty-ui-undecorated-link',
@@ -1472,10 +1558,24 @@ export const TwentyUiMenuPicker = createRemoteComponent(
 export const TwentyUiMenuItem = createRemoteComponent(
   'twenty-ui-menu-item',
   TwentyUiMenuItemElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+      onMouseenter: { event: 'mouseenter' },
+      onMouseleave: { event: 'mouseleave' },
+    },
+  },
 );
 export const TwentyUiMenuItemAvatar = createRemoteComponent(
   'twenty-ui-menu-item-avatar',
   TwentyUiMenuItemAvatarElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+      onMouseenter: { event: 'mouseenter' },
+      onMouseleave: { event: 'mouseleave' },
+    },
+  },
 );
 export const TwentyUiMenuItemDraggable = createRemoteComponent(
   'twenty-ui-menu-item-draggable',
@@ -1520,6 +1620,11 @@ export const TwentyUiMenuItemSelectTag = createRemoteComponent(
 export const TwentyUiMenuItemSuggestion = createRemoteComponent(
   'twenty-ui-menu-item-suggestion',
   TwentyUiMenuItemSuggestionElement,
+  {
+    eventProps: {
+      onClick: { event: 'click' },
+    },
+  },
 );
 export const TwentyUiMenuItemToggle = createRemoteComponent(
   'twenty-ui-menu-item-toggle',

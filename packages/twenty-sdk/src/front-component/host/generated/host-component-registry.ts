@@ -323,13 +323,20 @@ const filterHtmlProps = <T extends object>(props: T): T => {
   return filtered as T;
 };
 
-const filterUiProps = <T extends object>(props: T): T => {
+const filterUiProps = <T extends object>(
+  props: T,
+  eventPropNames?: Set<string>,
+): T => {
   const filtered: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(props)) {
     if (INTERNAL_PROPS.has(key) || value === undefined) continue;
 
     if (key === 'style') {
       filtered.style = parseStyle(value as string | undefined);
+    } else if (eventPropNames?.has(key) && typeof value === 'function') {
+      filtered[key] = wrapEventHandler(
+        value as (detail: SerializedEventData) => void,
+      );
     } else {
       filtered[key] = value;
     }
@@ -597,17 +604,26 @@ const HtmlHrWrapper = ({
 const TwentyUiAnimatedButtonWrapper = (
   props: AnimatedButtonProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(AnimatedButton, filterUiProps(props));
+  return React.createElement(
+    AnimatedButton,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiAnimatedLightIconButtonWrapper = (
   props: AnimatedLightIconButtonProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(AnimatedLightIconButton, filterUiProps(props));
+  return React.createElement(
+    AnimatedLightIconButton,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiButtonWrapper = (
   props: ButtonProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(Button, filterUiProps(props));
+  return React.createElement(
+    Button,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiButtonGroupWrapper = (
   props: ButtonGroupProps & { children?: React.ReactNode },
@@ -617,7 +633,10 @@ const TwentyUiButtonGroupWrapper = (
 const TwentyUiColorPickerButtonWrapper = (
   props: ColorPickerButtonProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(ColorPickerButton, filterUiProps(props));
+  return React.createElement(
+    ColorPickerButton,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiFloatingButtonWrapper = (
   props: FloatingButtonProps & { children?: React.ReactNode },
@@ -632,7 +651,10 @@ const TwentyUiFloatingButtonGroupWrapper = (
 const TwentyUiFloatingIconButtonWrapper = (
   props: FloatingIconButtonProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(FloatingIconButton, filterUiProps(props));
+  return React.createElement(
+    FloatingIconButton,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiFloatingIconButtonGroupWrapper = (
   props: FloatingIconButtonGroupProps & { children?: React.ReactNode },
@@ -642,17 +664,26 @@ const TwentyUiFloatingIconButtonGroupWrapper = (
 const TwentyUiInsideButtonWrapper = (
   props: InsideButtonProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(InsideButton, filterUiProps(props));
+  return React.createElement(
+    InsideButton,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiLightButtonWrapper = (
   props: LightButtonProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(LightButton, filterUiProps(props));
+  return React.createElement(
+    LightButton,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiLightIconButtonWrapper = (
   props: LightIconButtonProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(LightIconButton, filterUiProps(props));
+  return React.createElement(
+    LightIconButton,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiLightIconButtonGroupWrapper = (
   props: LightIconButtonGroupProps & { children?: React.ReactNode },
@@ -707,17 +738,26 @@ const TwentyUiCardPickerWrapper = (
 const TwentyUiCheckboxWrapper = (
   props: CheckboxProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(Checkbox, filterUiProps(props));
+  return React.createElement(
+    Checkbox,
+    filterUiProps(props, new Set(['onChange'])),
+  );
 };
 const TwentyUiRadioWrapper = (
   props: RadioProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(Radio, filterUiProps(props));
+  return React.createElement(
+    Radio,
+    filterUiProps(props, new Set(['onChange'])),
+  );
 };
 const TwentyUiRadioGroupWrapper = (
   props: RadioGroupProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(RadioGroup, filterUiProps(props));
+  return React.createElement(
+    RadioGroup,
+    filterUiProps(props, new Set(['onChange'])),
+  );
 };
 const TwentyUiSearchInputWrapper = (
   props: SearchInputProps & { children?: React.ReactNode },
@@ -747,7 +787,10 @@ const TwentyUiChipWrapper = (
 const TwentyUiLinkChipWrapper = (
   props: LinkChipProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(LinkChip, filterUiProps(props));
+  return React.createElement(
+    LinkChip,
+    filterUiProps(props, new Set(['onClick', 'onMousedown'])),
+  );
 };
 const TwentyUiPillWrapper = (
   props: PillProps & { children?: React.ReactNode },
@@ -807,7 +850,7 @@ const TwentyUiIconWrapper = (
 const TwentyUiInfoWrapper = (
   props: InfoProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(Info, filterUiProps(props));
+  return React.createElement(Info, filterUiProps(props, new Set(['onClick'])));
 };
 const TwentyUiStatusWrapper = (
   props: StatusProps & { children?: React.ReactNode },
@@ -887,7 +930,10 @@ const TwentyUiClickToActionLinkWrapper = (
 const TwentyUiContactLinkWrapper = (
   props: ContactLinkProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(ContactLink, filterUiProps(props));
+  return React.createElement(
+    ContactLink,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiGithubVersionLinkWrapper = (
   props: GithubVersionLinkProps & { children?: React.ReactNode },
@@ -897,17 +943,26 @@ const TwentyUiGithubVersionLinkWrapper = (
 const TwentyUiRawLinkWrapper = (
   props: RawLinkProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(RawLink, filterUiProps(props));
+  return React.createElement(
+    RawLink,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiRoundedLinkWrapper = (
   props: RoundedLinkProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(RoundedLink, filterUiProps(props));
+  return React.createElement(
+    RoundedLink,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiSocialLinkWrapper = (
   props: SocialLinkProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(SocialLink, filterUiProps(props));
+  return React.createElement(
+    SocialLink,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiUndecoratedLinkWrapper = (
   props: UndecoratedLinkProps & { children?: React.ReactNode },
@@ -922,12 +977,18 @@ const TwentyUiMenuPickerWrapper = (
 const TwentyUiMenuItemWrapper = (
   props: MenuItemProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(MenuItem, filterUiProps(props));
+  return React.createElement(
+    MenuItem,
+    filterUiProps(props, new Set(['onClick', 'onMouseenter', 'onMouseleave'])),
+  );
 };
 const TwentyUiMenuItemAvatarWrapper = (
   props: MenuItemAvatarProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(MenuItemAvatar, filterUiProps(props));
+  return React.createElement(
+    MenuItemAvatar,
+    filterUiProps(props, new Set(['onClick', 'onMouseenter', 'onMouseleave'])),
+  );
 };
 const TwentyUiMenuItemDraggableWrapper = (
   props: MenuItemDraggableProps & { children?: React.ReactNode },
@@ -982,7 +1043,10 @@ const TwentyUiMenuItemSelectTagWrapper = (
 const TwentyUiMenuItemSuggestionWrapper = (
   props: MenuItemSuggestionProps & { children?: React.ReactNode },
 ) => {
-  return React.createElement(MenuItemSuggestion, filterUiProps(props));
+  return React.createElement(
+    MenuItemSuggestion,
+    filterUiProps(props, new Set(['onClick'])),
+  );
 };
 const TwentyUiMenuItemToggleWrapper = (
   props: MenuItemToggleProps & { children?: React.ReactNode },

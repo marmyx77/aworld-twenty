@@ -623,7 +623,6 @@ export type TwentyUiAnimatedButtonProperties = {
   justify?: string;
   disabled?: boolean;
   focus?: boolean;
-  onClick?: (...args: unknown[]) => unknown;
   to?: string;
   target?: string;
   dataTestId?: string;
@@ -640,7 +639,7 @@ export const TwentyUiAnimatedButtonElement = createRemoteElement<
   TwentyUiAnimatedButtonProperties,
   Record<string, never>,
   { Icon: true; animatedSvg: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon', 'animatedSvg'],
   properties: {
@@ -656,7 +655,6 @@ export const TwentyUiAnimatedButtonElement = createRemoteElement<
     justify: { type: String },
     disabled: { type: Boolean },
     focus: { type: Boolean },
-    onClick: { type: Function },
     to: { type: String },
     target: { type: String },
     dataTestId: { type: String },
@@ -668,6 +666,7 @@ export const TwentyUiAnimatedButtonElement = createRemoteElement<
     dataGloballyPreventClickOutside: { type: Boolean },
     soonLabel: { type: String },
   },
+  events: ['click'],
 });
 
 export type TwentyUiAnimatedLightIconButtonProperties = {
@@ -679,7 +678,6 @@ export type TwentyUiAnimatedLightIconButtonProperties = {
   active?: boolean;
   disabled?: boolean;
   focus?: boolean;
-  onClick?: (...args: unknown[]) => unknown;
   'aria-label'?: string;
 };
 
@@ -687,7 +685,7 @@ export const TwentyUiAnimatedLightIconButtonElement = createRemoteElement<
   TwentyUiAnimatedLightIconButtonProperties,
   Record<string, never>,
   { Icon: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -699,9 +697,9 @@ export const TwentyUiAnimatedLightIconButtonElement = createRemoteElement<
     active: { type: Boolean },
     disabled: { type: Boolean },
     focus: { type: Boolean },
-    onClick: { type: Function },
     'aria-label': { type: String },
   },
+  events: ['click'],
 });
 
 export type TwentyUiButtonProperties = {
@@ -717,7 +715,6 @@ export type TwentyUiButtonProperties = {
   justify?: string;
   disabled?: boolean;
   focus?: boolean;
-  onClick?: (...args: unknown[]) => unknown;
   to?: string;
   target?: string;
   dataTestId?: string;
@@ -733,7 +730,7 @@ export const TwentyUiButtonElement = createRemoteElement<
   TwentyUiButtonProperties,
   Record<string, never>,
   { Icon: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -749,7 +746,6 @@ export const TwentyUiButtonElement = createRemoteElement<
     justify: { type: String },
     disabled: { type: Boolean },
     focus: { type: Boolean },
-    onClick: { type: Function },
     to: { type: String },
     target: { type: String },
     dataTestId: { type: String },
@@ -760,6 +756,7 @@ export const TwentyUiButtonElement = createRemoteElement<
     dataClickOutsideId: { type: String },
     dataGloballyPreventClickOutside: { type: Boolean },
   },
+  events: ['click'],
 });
 
 export type TwentyUiButtonGroupProperties = {
@@ -786,7 +783,6 @@ export const TwentyUiButtonGroupElement = createRemoteElement<
 
 export type TwentyUiColorPickerButtonProperties = {
   colorName: string;
-  onClick?: (...args: unknown[]) => unknown;
   isSelected?: boolean;
 };
 
@@ -794,13 +790,13 @@ export const TwentyUiColorPickerButtonElement = createRemoteElement<
   TwentyUiColorPickerButtonProperties,
   Record<string, never>,
   Record<string, never>,
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     colorName: { type: String },
-    onClick: { type: Function },
     isSelected: { type: Boolean },
   },
+  events: ['click'],
 });
 
 export type TwentyUiFloatingButtonProperties = {
@@ -861,7 +857,6 @@ export type TwentyUiFloatingIconButtonProperties = {
   applyBlur?: boolean;
   disabled?: boolean;
   focus?: boolean;
-  onClick?: (...args: unknown[]) => unknown;
   isActive?: boolean;
 };
 
@@ -869,7 +864,7 @@ export const TwentyUiFloatingIconButtonElement = createRemoteElement<
   TwentyUiFloatingIconButtonProperties,
   Record<string, never>,
   { Icon: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -880,9 +875,9 @@ export const TwentyUiFloatingIconButtonElement = createRemoteElement<
     applyBlur: { type: Boolean },
     disabled: { type: Boolean },
     focus: { type: Boolean },
-    onClick: { type: Function },
     isActive: { type: Boolean },
   },
+  events: ['click'],
 });
 
 export type TwentyUiFloatingIconButtonGroupProperties = {
@@ -905,7 +900,6 @@ export const TwentyUiFloatingIconButtonGroupElement = createRemoteElement<
 
 export type TwentyUiInsideButtonProperties = {
   className?: string;
-  onClick?: (...args: unknown[]) => unknown;
   disabled?: boolean;
 };
 
@@ -913,14 +907,14 @@ export const TwentyUiInsideButtonElement = createRemoteElement<
   TwentyUiInsideButtonProperties,
   Record<string, never>,
   { Icon: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
     className: { type: String },
-    onClick: { type: Function },
     disabled: { type: Boolean },
   },
+  events: ['click'],
 });
 
 export type TwentyUiLightButtonProperties = {
@@ -930,7 +924,6 @@ export type TwentyUiLightButtonProperties = {
   active?: boolean;
   disabled?: boolean;
   focus?: boolean;
-  onClick?: (...args: unknown[]) => unknown;
   type?: string;
 };
 
@@ -938,7 +931,7 @@ export const TwentyUiLightButtonElement = createRemoteElement<
   TwentyUiLightButtonProperties,
   Record<string, never>,
   { Icon: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -948,9 +941,9 @@ export const TwentyUiLightButtonElement = createRemoteElement<
     active: { type: Boolean },
     disabled: { type: Boolean },
     focus: { type: Boolean },
-    onClick: { type: Function },
     type: { type: String },
   },
+  events: ['click'],
 });
 
 export type TwentyUiLightIconButtonProperties = {
@@ -962,7 +955,6 @@ export type TwentyUiLightIconButtonProperties = {
   active?: boolean;
   disabled?: boolean;
   focus?: boolean;
-  onClick?: (...args: unknown[]) => unknown;
   'aria-label'?: string;
 };
 
@@ -970,7 +962,7 @@ export const TwentyUiLightIconButtonElement = createRemoteElement<
   TwentyUiLightIconButtonProperties,
   Record<string, never>,
   { Icon: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['Icon'],
   properties: {
@@ -982,9 +974,9 @@ export const TwentyUiLightIconButtonElement = createRemoteElement<
     active: { type: Boolean },
     disabled: { type: Boolean },
     focus: { type: Boolean },
-    onClick: { type: Function },
     'aria-label': { type: String },
   },
+  events: ['click'],
 });
 
 export type TwentyUiLightIconButtonGroupProperties = {
@@ -2767,7 +2759,6 @@ export type TwentyUiCheckboxProperties = {
   checked: boolean;
   indeterminate?: boolean;
   hoverable?: boolean;
-  onChange?: (...args: unknown[]) => unknown;
   onCheckedChange?: (...args: unknown[]) => unknown;
   variant?: string;
   size?: string;
@@ -2781,13 +2772,12 @@ export const TwentyUiCheckboxElement = createRemoteElement<
   TwentyUiCheckboxProperties,
   Record<string, never>,
   Record<string, never>,
-  Record<string, never>
+  { change(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     checked: { type: Boolean },
     indeterminate: { type: Boolean },
     hoverable: { type: Boolean },
-    onChange: { type: Function },
     onCheckedChange: { type: Function },
     variant: { type: String },
     size: { type: String },
@@ -2796,6 +2786,7 @@ export const TwentyUiCheckboxElement = createRemoteElement<
     disabled: { type: Boolean },
     accent: { type: String },
   },
+  events: ['change'],
 });
 
 export type TwentyUiRadioProperties = {
@@ -2805,7 +2796,6 @@ export type TwentyUiRadioProperties = {
   disabled?: boolean;
   label?: string;
   labelPosition?: string;
-  onChange?: (...args: unknown[]) => unknown;
   onCheckedChange?: (...args: unknown[]) => unknown;
   size?: string;
   style?: Record<string, unknown>;
@@ -2816,7 +2806,7 @@ export const TwentyUiRadioElement = createRemoteElement<
   TwentyUiRadioProperties,
   Record<string, never>,
   Record<string, never>,
-  Record<string, never>
+  { change(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     checked: { type: Boolean },
@@ -2825,17 +2815,16 @@ export const TwentyUiRadioElement = createRemoteElement<
     disabled: { type: Boolean },
     label: { type: String },
     labelPosition: { type: String },
-    onChange: { type: Function },
     onCheckedChange: { type: Function },
     size: { type: String },
     style: { type: Object },
     value: { type: String },
   },
+  events: ['change'],
 });
 
 export type TwentyUiRadioGroupProperties = {
   value?: string;
-  onChange?: (...args: unknown[]) => unknown;
   onValueChange?: (...args: unknown[]) => unknown;
 };
 
@@ -2843,14 +2832,14 @@ export const TwentyUiRadioGroupElement = createRemoteElement<
   TwentyUiRadioGroupProperties,
   Record<string, never>,
   { children: true },
-  Record<string, never>
+  { change(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['children'],
   properties: {
     value: { type: String },
-    onChange: { type: Function },
     onValueChange: { type: Function },
   },
+  events: ['change'],
 });
 
 export type TwentyUiSearchInputProperties = {
@@ -3013,8 +3002,6 @@ export type TwentyUiLinkChipProperties = {
   forceEmptyText?: boolean;
   emptyLabel?: string;
   to: string;
-  onClick?: (...args: unknown[]) => unknown;
-  onMouseDown?: (...args: unknown[]) => unknown;
   triggerEvent?: string;
   target?: string;
 };
@@ -3023,7 +3010,10 @@ export const TwentyUiLinkChipElement = createRemoteElement<
   TwentyUiLinkChipProperties,
   Record<string, never>,
   { leftComponent: true; rightComponent: true },
-  Record<string, never>
+  {
+    click(event: RemoteEvent<SerializedEventData>): void;
+    mousedown(event: RemoteEvent<SerializedEventData>): void;
+  }
 >({
   slots: ['leftComponent', 'rightComponent'],
   properties: {
@@ -3037,11 +3027,10 @@ export const TwentyUiLinkChipElement = createRemoteElement<
     forceEmptyText: { type: Boolean },
     emptyLabel: { type: String },
     to: { type: String },
-    onClick: { type: Function },
-    onMouseDown: { type: Function },
     triggerEvent: { type: String },
     target: { type: String },
   },
+  events: ['click', 'mousedown'],
 });
 
 export type TwentyUiPillProperties = {
@@ -4877,7 +4866,6 @@ export type TwentyUiInfoProperties = {
   accent?: string;
   text: string;
   buttonTitle?: string;
-  onClick?: (...args: unknown[]) => unknown;
   to?: string;
 };
 
@@ -4885,15 +4873,15 @@ export const TwentyUiInfoElement = createRemoteElement<
   TwentyUiInfoProperties,
   Record<string, never>,
   Record<string, never>,
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     accent: { type: String },
     text: { type: String },
     buttonTitle: { type: String },
-    onClick: { type: Function },
     to: { type: String },
   },
+  events: ['click'],
 });
 
 export type TwentyUiStatusProperties = {
@@ -5726,7 +5714,6 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
 
 export type TwentyUiContactLinkProperties = {
   href: string;
-  onClick?: (...args: unknown[]) => unknown;
   maxWidth?: number;
 };
 
@@ -5734,14 +5721,14 @@ export const TwentyUiContactLinkElement = createRemoteElement<
   TwentyUiContactLinkProperties,
   Record<string, never>,
   { children: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['children'],
   properties: {
     href: { type: String },
-    onClick: { type: Function },
     maxWidth: { type: Number },
   },
+  events: ['click'],
 });
 
 export type TwentyUiGithubVersionLinkProperties = {
@@ -5762,27 +5749,25 @@ export const TwentyUiGithubVersionLinkElement = createRemoteElement<
 export type TwentyUiRawLinkProperties = {
   className?: string;
   href: string;
-  onClick?: (...args: unknown[]) => unknown;
 };
 
 export const TwentyUiRawLinkElement = createRemoteElement<
   TwentyUiRawLinkProperties,
   Record<string, never>,
   { children: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['children'],
   properties: {
     className: { type: String },
     href: { type: String },
-    onClick: { type: Function },
   },
+  events: ['click'],
 });
 
 export type TwentyUiRoundedLinkProperties = {
   href: string;
   label?: string;
-  onClick?: (...args: unknown[]) => unknown;
   className?: string;
 };
 
@@ -5790,35 +5775,34 @@ export const TwentyUiRoundedLinkElement = createRemoteElement<
   TwentyUiRoundedLinkProperties,
   Record<string, never>,
   Record<string, never>,
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     href: { type: String },
     label: { type: String },
-    onClick: { type: Function },
     className: { type: String },
   },
+  events: ['click'],
 });
 
 export type TwentyUiSocialLinkProperties = {
   label: string;
   href: string;
   type: string;
-  onClick?: (...args: unknown[]) => unknown;
 };
 
 export const TwentyUiSocialLinkElement = createRemoteElement<
   TwentyUiSocialLinkProperties,
   Record<string, never>,
   Record<string, never>,
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   properties: {
     label: { type: String },
     href: { type: String },
     type: { type: String },
-    onClick: { type: Function },
   },
+  events: ['click'],
 });
 
 export type TwentyUiUndecoratedLinkProperties = {
@@ -5884,9 +5868,6 @@ export type TwentyUiMenuItemProperties = {
   iconButtons?: unknown[];
   isIconDisplayedOnHoverOnly?: boolean;
   isTooltipOpen?: boolean;
-  onClick?: (...args: unknown[]) => unknown;
-  onMouseEnter?: (...args: unknown[]) => unknown;
-  onMouseLeave?: (...args: unknown[]) => unknown;
   testId?: string;
   disabled?: boolean;
   contextualTextPosition?: string;
@@ -5907,7 +5888,11 @@ export const TwentyUiMenuItemElement = createRemoteElement<
     text: true;
     contextualText: true;
   },
-  Record<string, never>
+  {
+    click(event: RemoteEvent<SerializedEventData>): void;
+    mouseenter(event: RemoteEvent<SerializedEventData>): void;
+    mouseleave(event: RemoteEvent<SerializedEventData>): void;
+  }
 >({
   slots: [
     'LeftIcon',
@@ -5924,9 +5909,6 @@ export const TwentyUiMenuItemElement = createRemoteElement<
     iconButtons: { type: Array },
     isIconDisplayedOnHoverOnly: { type: Boolean },
     isTooltipOpen: { type: Boolean },
-    onClick: { type: Function },
-    onMouseEnter: { type: Function },
-    onMouseLeave: { type: Function },
     testId: { type: String },
     disabled: { type: Boolean },
     contextualTextPosition: { type: String },
@@ -5935,6 +5917,7 @@ export const TwentyUiMenuItemElement = createRemoteElement<
     hotKeys: { type: Array },
     isSubMenuOpened: { type: Boolean },
   },
+  events: ['click', 'mouseenter', 'mouseleave'],
 });
 
 export type TwentyUiMenuItemAvatarProperties = {
@@ -5944,9 +5927,6 @@ export type TwentyUiMenuItemAvatarProperties = {
   isIconDisplayedOnHoverOnly?: boolean;
   isTooltipOpen?: boolean;
   avatar?: Record<string, unknown>;
-  onClick?: (...args: unknown[]) => unknown;
-  onMouseEnter?: (...args: unknown[]) => unknown;
-  onMouseLeave?: (...args: unknown[]) => unknown;
   testId?: string;
   text: string;
   hasSubMenu?: boolean;
@@ -5956,7 +5936,11 @@ export const TwentyUiMenuItemAvatarElement = createRemoteElement<
   TwentyUiMenuItemAvatarProperties,
   Record<string, never>,
   { contextualText: true },
-  Record<string, never>
+  {
+    click(event: RemoteEvent<SerializedEventData>): void;
+    mouseenter(event: RemoteEvent<SerializedEventData>): void;
+    mouseleave(event: RemoteEvent<SerializedEventData>): void;
+  }
 >({
   slots: ['contextualText'],
   properties: {
@@ -5966,13 +5950,11 @@ export const TwentyUiMenuItemAvatarElement = createRemoteElement<
     isIconDisplayedOnHoverOnly: { type: Boolean },
     isTooltipOpen: { type: Boolean },
     avatar: { type: Object },
-    onClick: { type: Function },
-    onMouseEnter: { type: Function },
-    onMouseLeave: { type: Function },
     testId: { type: String },
     text: { type: String },
     hasSubMenu: { type: Boolean },
   },
+  events: ['click', 'mouseenter', 'mouseleave'],
 });
 
 export type TwentyUiMenuItemDraggableProperties = {
@@ -6256,14 +6238,13 @@ export type TwentyUiMenuItemSuggestionProperties = {
   text: string;
   selected?: boolean;
   className?: string;
-  onClick?: (...args: unknown[]) => unknown;
 };
 
 export const TwentyUiMenuItemSuggestionElement = createRemoteElement<
   TwentyUiMenuItemSuggestionProperties,
   Record<string, never>,
   { LeftIcon: true },
-  Record<string, never>
+  { click(event: RemoteEvent<SerializedEventData>): void }
 >({
   slots: ['LeftIcon'],
   properties: {
@@ -6271,8 +6252,8 @@ export const TwentyUiMenuItemSuggestionElement = createRemoteElement<
     text: { type: String },
     selected: { type: Boolean },
     className: { type: String },
-    onClick: { type: Function },
   },
+  events: ['click'],
 });
 
 export type TwentyUiMenuItemToggleProperties = {

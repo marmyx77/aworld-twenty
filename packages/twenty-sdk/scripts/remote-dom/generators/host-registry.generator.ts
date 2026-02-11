@@ -1,9 +1,9 @@
 import type { Project, SourceFile } from 'ts-morph';
 
-import { isDefined } from 'twenty-shared/utils';
+import { isDefined, isNonEmptyArray } from 'twenty-shared/utils';
 import { CUSTOM_ELEMENT_NAMES } from './constants';
 import { type ComponentSchema } from './schemas';
-import { addFileHeader, addStatement } from './utils';
+import { addFileHeader, addStatement, eventToReactProp } from './utils';
 
 const generateRuntimeUtilities = (
   eventToReactMapping: Record<string, string>,
@@ -117,13 +117,15 @@ const filterHtmlProps = <T extends object>(props: T): T => {
   return filtered as T;
 };
 
-const filterUiProps = <T extends object>(props: T): T => {
+const filterUiProps = <T extends object>(props: T, eventPropNames?: Set<string>): T => {
   const filtered: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(props)) {
     if (INTERNAL_PROPS.has(key) || value === undefined) continue;
 
     if (key === 'style') {
       filtered.style = parseStyle(value as string | undefined);
+    } else if (eventPropNames?.has(key) && typeof value === 'function') {
+      filtered[key] = wrapEventHandler(value as (detail: SerializedEventData) => void);
     } else {
       filtered[key] = value;
     }
@@ -168,6 +170,18 @@ const generateUiWrapperComponent = (component: ComponentSchema): string => {
   const propsType = isDefined(component.propsTypeName)
     ? `${component.propsTypeName} & { children?: React.ReactNode }`
     : '{ children?: React.ReactNode } & Record<string, unknown>';
+
+  const hasEvents = isNonEmptyArray(component.events);
+
+  if (hasEvents) {
+    const eventPropEntries = component.events
+      .map((event) => `'${eventToReactProp(event)}'`)
+      .join(', ');
+
+    return `const ${component.name}Wrapper = (props: ${propsType}) => {
+  return React.createElement(${component.componentImport}, filterUiProps(props, new Set([${eventPropEntries}])));
+};`;
+  }
 
   return `const ${component.name}Wrapper = (props: ${propsType}) => {
   return React.createElement(${component.componentImport}, filterUiProps(props));
