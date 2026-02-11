@@ -19,6 +19,8 @@ export type { BannerVariant, BannerProps } from './banner/components/Banner';
 export { Banner } from './banner/components/Banner';
 export type { SidePanelInformationBannerProps } from './banner/components/SidePanelInformationBanner';
 export { SidePanelInformationBanner } from './banner/components/SidePanelInformationBanner';
+export type { CalloutVariant, CalloutProps } from './callout/Callout';
+export { Callout } from './callout/Callout';
 export type { AnimatedCheckmarkProps } from './checkmark/components/AnimatedCheckmark';
 export { AnimatedCheckmark } from './checkmark/components/AnimatedCheckmark';
 export type { CheckmarkProps } from './checkmark/components/Checkmark';
@@ -291,6 +293,7 @@ export {
   IconFolderOpen,
   IconFolderPlus,
   IconFolderRoot,
+  IconFolderSymlink,
   IconForbid,
   IconFrame,
   IconFunction,
@@ -308,6 +311,7 @@ export {
   IconHeart,
   IconHeartOff,
   IconHeartRateMonitor,
+  IconHelp,
   IconHelpCircle,
   IconHierarchy,
   IconHierarchy2,
@@ -412,6 +416,8 @@ export {
   IconReload,
   IconReorder,
   IconRepeat,
+  IconRowInsertBottom,
+  IconRowInsertTop,
   IconRestore,
   IconRobot,
   IconRocket,
