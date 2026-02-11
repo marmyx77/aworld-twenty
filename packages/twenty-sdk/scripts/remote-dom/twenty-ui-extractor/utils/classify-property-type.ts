@@ -35,7 +35,7 @@ export const classifyPropertyType = (
     );
 
     if (classifiedTypeSet.size === 1) {
-      return [...classifiedTypeSet][0];
+      return classifiedTypeSet.values().next().value ?? null;
     }
 
     const primitiveTypes = new Set(['string', 'number', 'boolean']);

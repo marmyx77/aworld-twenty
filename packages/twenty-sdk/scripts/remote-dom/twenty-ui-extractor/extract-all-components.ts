@@ -1,6 +1,6 @@
 import * as path from 'path';
-import { Project, type Type } from 'ts-morph';
-import { isDefined, pascalToKebab } from 'twenty-shared/utils';
+import { Project } from 'ts-morph';
+import { isDefined, isNonEmptyArray, pascalToKebab } from 'twenty-shared/utils';
 
 import { type PropertySchema } from '@/front-component/types/PropertySchema';
 
@@ -47,19 +47,14 @@ const extractComponentsFromCategory = (
 
   const discoveredComponents: DiscoveredComponent[] = [];
 
-  const propsTypeNames = new Set<string>();
-
   const exportDeclarations = sourceFile.getExportDeclarations();
 
-  for (const exportDeclaration of exportDeclarations) {
-    for (const namedExport of exportDeclaration.getNamedExports()) {
-      const exportName = namedExport.getName();
-
-      if (exportName.endsWith('Props')) {
-        propsTypeNames.add(exportName);
-      }
-    }
-  }
+  const propsTypeNames = new Set(
+    exportDeclarations
+      .flatMap((declaration) => declaration.getNamedExports())
+      .map((namedExport) => namedExport.getName())
+      .filter((name) => name.endsWith('Props')),
+  );
 
   for (const exportDeclaration of exportDeclarations) {
     for (const namedExport of exportDeclaration.getNamedExports()) {
@@ -75,30 +70,15 @@ const extractComponentsFromCategory = (
         continue;
       }
 
-      const propsTypeSymbol =
-        sourceFile.getLocal(expectedPropsTypeName) ??
-        sourceFile
-          .getExportedDeclarations()
-          .get(expectedPropsTypeName)?.[0]
-          ?.getSymbol?.();
-
-      if (!isDefined(propsTypeSymbol)) {
-        continue;
-      }
-
-      let propsType: Type | undefined;
-
       const propsTypeDeclarations = sourceFile
         .getExportedDeclarations()
         .get(expectedPropsTypeName);
 
-      if (propsTypeDeclarations && propsTypeDeclarations.length > 0) {
-        propsType = propsTypeDeclarations[0].getType();
-      }
-
-      if (!isDefined(propsType)) {
+      if (!isNonEmptyArray(propsTypeDeclarations)) {
         continue;
       }
+
+      const propsType = propsTypeDeclarations[0].getType();
 
       const { properties, events, slots } = extractPropsAndSlots(propsType);
 

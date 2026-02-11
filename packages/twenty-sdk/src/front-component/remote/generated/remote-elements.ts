@@ -764,20 +764,21 @@ export type TwentyUiButtonGroupProperties = {
   variant?: string;
   accent?: string;
   className?: string;
+  children: unknown[];
 };
 
 export const TwentyUiButtonGroupElement = createRemoteElement<
   TwentyUiButtonGroupProperties,
   Record<string, never>,
-  { children: true },
+  Record<string, never>,
   Record<string, never>
 >({
-  slots: ['children'],
   properties: {
     size: { type: String },
     variant: { type: String },
     accent: { type: String },
     className: { type: String },
+    children: { type: Array },
   },
 });
 
@@ -833,18 +834,19 @@ export const TwentyUiFloatingButtonElement = createRemoteElement<
 
 export type TwentyUiFloatingButtonGroupProperties = {
   size?: string;
+  children: unknown[];
   className?: string;
 };
 
 export const TwentyUiFloatingButtonGroupElement = createRemoteElement<
   TwentyUiFloatingButtonGroupProperties,
   Record<string, never>,
-  { children: true },
+  Record<string, never>,
   Record<string, never>
 >({
-  slots: ['children'],
   properties: {
     size: { type: String },
+    children: { type: Array },
     className: { type: String },
   },
 });
@@ -883,18 +885,19 @@ export const TwentyUiFloatingIconButtonElement = createRemoteElement<
 export type TwentyUiFloatingIconButtonGroupProperties = {
   className?: string;
   size?: string;
+  iconButtons: unknown[];
 };
 
 export const TwentyUiFloatingIconButtonGroupElement = createRemoteElement<
   TwentyUiFloatingIconButtonGroupProperties,
   Record<string, never>,
-  { iconButtons: true },
+  Record<string, never>,
   Record<string, never>
 >({
-  slots: ['iconButtons'],
   properties: {
     className: { type: String },
     size: { type: String },
+    iconButtons: { type: Array },
   },
 });
 
@@ -982,18 +985,19 @@ export const TwentyUiLightIconButtonElement = createRemoteElement<
 export type TwentyUiLightIconButtonGroupProperties = {
   className?: string;
   size?: string;
+  iconButtons: unknown[];
 };
 
 export const TwentyUiLightIconButtonGroupElement = createRemoteElement<
   TwentyUiLightIconButtonGroupProperties,
   Record<string, never>,
-  { iconButtons: true },
+  Record<string, never>,
   Record<string, never>
 >({
-  slots: ['iconButtons'],
   properties: {
     className: { type: String },
     size: { type: String },
+    iconButtons: { type: Array },
   },
 });
 
@@ -2258,17 +2262,20 @@ export const TwentyUiCodeEditorElement = createRemoteElement<
 
 export type TwentyUiCoreEditorHeaderProperties = {
   title?: string;
+  leftNodes?: unknown[];
+  rightNodes?: unknown[];
 };
 
 export const TwentyUiCoreEditorHeaderElement = createRemoteElement<
   TwentyUiCoreEditorHeaderProperties,
   Record<string, never>,
-  { leftNodes: true; rightNodes: true },
+  Record<string, never>,
   Record<string, never>
 >({
-  slots: ['leftNodes', 'rightNodes'],
   properties: {
     title: { type: String },
+    leftNodes: { type: Array },
+    rightNodes: { type: Array },
   },
 });
 
@@ -2968,6 +2975,7 @@ export type TwentyUiSearchInputProperties = {
   value: string;
   onChange: (...args: unknown[]) => unknown;
   placeholder?: string;
+  filterDropdown?: (...args: unknown[]) => unknown;
   autoFocus?: boolean;
   disabled?: boolean;
   className?: string;
@@ -2976,14 +2984,14 @@ export type TwentyUiSearchInputProperties = {
 export const TwentyUiSearchInputElement = createRemoteElement<
   TwentyUiSearchInputProperties,
   Record<string, never>,
-  { filterDropdown: true },
+  Record<string, never>,
   Record<string, never>
 >({
-  slots: ['filterDropdown'],
   properties: {
     value: { type: String },
     onChange: { type: Function },
     placeholder: { type: String },
+    filterDropdown: { type: Function },
     autoFocus: { type: Boolean },
     disabled: { type: Boolean },
     className: { type: String },
@@ -3050,6 +3058,7 @@ export const TwentyUiAvatarChipElement = createRemoteElement<
 });
 
 export type TwentyUiMultipleAvatarChipProperties = {
+  Icons: unknown[];
   text?: string;
   onClick?: (...args: unknown[]) => unknown;
   testId?: string;
@@ -3062,11 +3071,12 @@ export type TwentyUiMultipleAvatarChipProperties = {
 export const TwentyUiMultipleAvatarChipElement = createRemoteElement<
   TwentyUiMultipleAvatarChipProperties,
   Record<string, never>,
-  { Icons: true; rightComponent: true },
+  { rightComponent: true },
   Record<string, never>
 >({
-  slots: ['Icons', 'rightComponent'],
+  slots: ['rightComponent'],
   properties: {
+    Icons: { type: Array },
     text: { type: String },
     onClick: { type: Function },
     testId: { type: String },
@@ -3236,13 +3246,20 @@ export const TwentyUiAvatarElement = createRemoteElement<
     onClick: { type: Function },
   },
 });
+
+export type TwentyUiAvatarGroupProperties = {
+  avatars: unknown[];
+};
+
 export const TwentyUiAvatarGroupElement = createRemoteElement<
+  TwentyUiAvatarGroupProperties,
   Record<string, never>,
   Record<string, never>,
-  { avatars: true },
   Record<string, never>
 >({
-  slots: ['avatars'],
+  properties: {
+    avatars: { type: Array },
+  },
 });
 
 export type TwentyUiBannerProperties = {
@@ -6984,17 +7001,18 @@ export const TwentyUiMenuItemLeftContentElement = createRemoteElement<
 
 export type TwentyUiNavigationBarProperties = {
   activeItemName: string;
+  items: unknown[];
 };
 
 export const TwentyUiNavigationBarElement = createRemoteElement<
   TwentyUiNavigationBarProperties,
   Record<string, never>,
-  { items: true },
+  Record<string, never>,
   Record<string, never>
 >({
-  slots: ['items'],
   properties: {
     activeItemName: { type: String },
+    items: { type: Array },
   },
 });
 

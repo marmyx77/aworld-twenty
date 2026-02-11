@@ -1,29 +1,29 @@
 import { type Type } from 'ts-morph';
 
-const REACT_ELEMENT_TYPE_NAMES = ['ReactNode', 'ReactElement', 'JSX.Element'];
+const REACT_ELEMENT_TYPE_NAMES = new Set([
+  'ReactNode',
+  'ReactElement',
+  'Element',
+]);
 
-const REACT_COMPONENT_TYPE_NAMES = [
+const REACT_COMPONENT_TYPE_NAMES = new Set([
   'FunctionComponent',
   'ComponentType',
   'IconComponent',
-];
+]);
+
+const getTypeSymbolName = (type: Type): string | undefined => {
+  return (type.getSymbol() ?? type.getAliasSymbol())?.getName();
+};
 
 export const isReactElementType = (propertyType: Type): boolean => {
-  const typeTextRepresentation = propertyType.getText();
+  const symbolName = getTypeSymbolName(propertyType);
 
-  const isReactElement = REACT_ELEMENT_TYPE_NAMES.some((typeName) =>
-    typeTextRepresentation.includes(typeName),
-  );
-
-  if (isReactElement) {
-    return true;
-  }
-
-  const isReactComponent = REACT_COMPONENT_TYPE_NAMES.some((typeName) =>
-    typeTextRepresentation.includes(typeName),
-  );
-
-  if (isReactComponent) {
+  if (
+    symbolName !== undefined &&
+    (REACT_ELEMENT_TYPE_NAMES.has(symbolName) ||
+      REACT_COMPONENT_TYPE_NAMES.has(symbolName))
+  ) {
     return true;
   }
 
