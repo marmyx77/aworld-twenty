@@ -11,14 +11,36 @@ describe('setWorkerEnv', () => {
       TWENTY_API_URL: 'https://api.example.com',
     });
 
-    const proc = (globalThis as Record<string, unknown>)['process'] as Record<
-      string,
-      unknown
-    >;
+    const processObject = (globalThis as Record<string, unknown>)[
+      'process'
+    ] as Record<string, unknown>;
+    const processEnvironment = processObject['env'] as Record<string, string>;
 
-    const env = proc['env'] as Record<string, string>;
+    expect(processEnvironment['TWENTY_API_KEY']).toBe('test-key');
+    expect(processEnvironment['TWENTY_API_URL']).toBe(
+      'https://api.example.com',
+    );
+  });
 
-    expect(env['TWENTY_API_KEY']).toBe('test-key');
-    expect(env['TWENTY_API_URL']).toBe('https://api.example.com');
+  it('should preserve existing process properties and environment values', () => {
+    (globalThis as Record<string, unknown>)['process'] = {
+      env: {
+        EXISTING_VALUE: 'existing',
+      },
+      version: 'test-version',
+    };
+
+    setWorkerEnv({
+      TWENTY_API_KEY: 'test-key',
+    });
+
+    const processObject = (globalThis as Record<string, unknown>)[
+      'process'
+    ] as Record<string, unknown>;
+    const processEnvironment = processObject['env'] as Record<string, string>;
+
+    expect(processObject['version']).toBe('test-version');
+    expect(processEnvironment['EXISTING_VALUE']).toBe('existing');
+    expect(processEnvironment['TWENTY_API_KEY']).toBe('test-key');
   });
 });
