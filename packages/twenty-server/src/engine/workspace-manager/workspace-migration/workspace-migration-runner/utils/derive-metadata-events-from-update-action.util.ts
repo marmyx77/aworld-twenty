@@ -9,6 +9,7 @@ import { type AllFlatWorkspaceMigrationAction } from 'src/engine/workspace-manag
 import {
   type CreateMetadataEvent,
   type DeleteMetadataEvent,
+  type FlatEntityUpdateKey,
   type UpdateMetadataEvent,
   toRunnerEnvelope,
 } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
@@ -16,23 +17,6 @@ import {
 export type DeriveMetadataEventsFromUpdateActionArgs = {
   flatAction: AllFlatWorkspaceMigrationAction<'update'>;
   allFlatEntityMaps: AllFlatEntityMaps;
-};
-
-const buildDiff = (
-  before: Record<string, unknown>,
-  after: Record<string, unknown>,
-  updatedFields: string[],
-): Record<string, { before: unknown; after: unknown }> => {
-  const diff: Record<string, { before: unknown; after: unknown }> = {};
-
-  for (const field of updatedFields) {
-    diff[field] = {
-      before: before[field],
-      after: after[field],
-    };
-  }
-
-  return diff;
 };
 
 const buildUpdateMetadataRecordEvent = <
@@ -45,13 +29,22 @@ const buildUpdateMetadataRecordEvent = <
 }: {
   before: MetadataFlatEntity<TMetadataName>;
   after: MetadataFlatEntity<TMetadataName>;
-  updatedFields: string[];
+  updatedFields: FlatEntityUpdateKey<TMetadataName>[];
 }): UpdateMetadataEvent<TMetadataName> => {
+  const diff: Record<string, { before: unknown; after: unknown }> = {};
+
+  for (const field of updatedFields) {
+    diff[field] = {
+      before: before[field],
+      after: after[field],
+    };
+  }
+
   return {
     type: 'updated',
     recordId: before.id,
     updatedFields,
-    diff: buildDiff(before, after, updatedFields),
+    diff: diff as UpdateMetadataEvent<TMetadataName>['diff'],
     before,
     after,
   };
@@ -124,7 +117,9 @@ export const deriveMetadataEventsFromUpdateAction = ({
         ...flatAction.update,
       } as MetadataFlatEntity<typeof flatAction.metadataName>;
 
-      const updatedFields = Object.keys(flatAction.update);
+      const updatedFields = Object.keys(
+        flatAction.update,
+      ) as FlatEntityUpdateKey<typeof flatAction.metadataName>[];
 
       return [
         toRunnerEnvelope(
