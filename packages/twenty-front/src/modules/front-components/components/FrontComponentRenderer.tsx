@@ -54,8 +54,6 @@ export const FrontComponentRenderer = ({
     return null;
   }
 
-  const isReady = !hasError && !hasTokenError && !isTokenLoading;
-
   return (
     <>
       <FrontComponentTokenEffect
@@ -64,7 +62,7 @@ export const FrontComponentRenderer = ({
         onError={handleTokenError}
         onLoadingChange={setIsTokenLoading}
       />
-      {isReady && (
+      {!isTokenLoading && (
         <SharedFrontComponentRenderer
           theme={theme}
           componentUrl={componentUrl}
