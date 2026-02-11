@@ -110,6 +110,8 @@ export class FrontComponentResolver {
       workspace.id,
     );
 
+    // TODO: Token currently uses application permissions only.
+    // Compute the intersection of user and application permissions instead.
     const authToken =
       await this.applicationTokenService.generateApplicationToken({
         workspaceId: workspace.id,

@@ -49,7 +49,8 @@ export const FrontComponentRenderer = ({
     setHasTokenError(true);
   }, []);
 
-  if (!isDefined(authToken)) {
+  if (hasError || hasTokenError || !isDefined(authToken)) {
+    // TODO: Add an error display component here
     return null;
   }
 
