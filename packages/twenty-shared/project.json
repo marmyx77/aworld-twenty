@@ -24,8 +24,6 @@
         "{projectRoot}/database-events/dist",
         "{projectRoot}/metadata/package.json",
         "{projectRoot}/metadata/dist",
-        "{projectRoot}/metadata-events/package.json",
-        "{projectRoot}/metadata-events/dist",
         "{projectRoot}/testing/package.json",
         "{projectRoot}/testing/dist",
         "{projectRoot}/translations/package.json",

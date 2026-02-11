@@ -67,11 +67,6 @@
       "import": "./dist/metadata.mjs",
       "require": "./dist/metadata.cjs"
     },
-    "./metadata-events": {
-      "types": "./dist/metadata-events/index.d.ts",
-      "import": "./dist/metadata-events.mjs",
-      "require": "./dist/metadata-events.cjs"
-    },
     "./testing": {
       "types": "./dist/testing/index.d.ts",
       "import": "./dist/testing.mjs",
@@ -110,7 +105,6 @@
     "constants",
     "database-events",
     "metadata",
-    "metadata-events",
     "testing",
     "translations",
     "types",
@@ -134,9 +128,6 @@
       ],
       "metadata": [
         "dist/metadata/index.d.ts"
-      ],
-      "metadata-events": [
-        "dist/metadata-events/index.d.ts"
       ],
       "testing": [
         "dist/testing/index.d.ts"
