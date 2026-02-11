@@ -1607,6 +1607,13 @@ export type FrontComponentConfiguration = {
   frontComponentId: Scalars['UUID'];
 };
 
+export type FrontComponentToken = {
+  __typename?: 'FrontComponentToken';
+  apiUrl: Scalars['String'];
+  applicationAccessToken: Scalars['String'];
+  expiresAt: Scalars['DateTime'];
+};
+
 export type FullName = {
   __typename?: 'FullName';
   firstName: Scalars['String'];
@@ -1624,6 +1631,10 @@ export type GaugeChartConfiguration = {
   filter?: Maybe<Scalars['JSON']>;
   firstDayOfTheWeek?: Maybe<Scalars['Int']>;
   timezone?: Maybe<Scalars['String']>;
+};
+
+export type GenerateFrontComponentTokenInput = {
+  frontComponentId: Scalars['UUID'];
 };
 
 export type GetApiKeyInput = {
@@ -2101,6 +2112,7 @@ export type Mutation = {
   evaluateAgentTurn: AgentTurnEvaluation;
   executeOneLogicFunction: LogicFunctionExecutionResult;
   generateApiKeyToken: ApiKeyToken;
+  generateFrontComponentToken: FrontComponentToken;
   generateTransientToken: TransientTokenOutput;
   getAuthTokensFromLoginToken: AuthTokens;
   getAuthTokensFromOTP: AuthTokens;
@@ -2605,6 +2617,11 @@ export type MutationExecuteOneLogicFunctionArgs = {
 export type MutationGenerateApiKeyTokenArgs = {
   apiKeyId: Scalars['UUID'];
   expiresAt: Scalars['String'];
+};
+
+
+export type MutationGenerateFrontComponentTokenArgs = {
+  input: GenerateFrontComponentTokenInput;
 };
 
 
@@ -5589,6 +5606,18 @@ export type UploadFilesFieldFileMutationVariables = Exact<{
 
 
 export type UploadFilesFieldFileMutation = { __typename?: 'Mutation', uploadFilesFieldFile: { __typename?: 'File', id: string, path: string, size: number, createdAt: string } };
+
+export type GenerateFrontComponentTokenMutationVariables = Exact<{
+  input: GenerateFrontComponentTokenInput;
+}>;
+
+
+export type GenerateFrontComponentTokenMutation = { __typename?: 'Mutation', generateFrontComponentToken: { __typename?: 'FrontComponentToken', applicationAccessToken: string, apiUrl: string, expiresAt: string } };
+
+export type FindManyFrontComponentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindManyFrontComponentsQuery = { __typename?: 'Query', frontComponents: Array<{ __typename?: 'FrontComponent', id: string, name: string, applicationId: string }> };
 
 export type ExecuteOneLogicFunctionMutationVariables = Exact<{
   input: ExecuteOneLogicFunctionInput;
@@ -10165,6 +10194,77 @@ export function useUploadFilesFieldFileMutation(baseOptions?: Apollo.MutationHoo
 export type UploadFilesFieldFileMutationHookResult = ReturnType<typeof useUploadFilesFieldFileMutation>;
 export type UploadFilesFieldFileMutationResult = Apollo.MutationResult<UploadFilesFieldFileMutation>;
 export type UploadFilesFieldFileMutationOptions = Apollo.BaseMutationOptions<UploadFilesFieldFileMutation, UploadFilesFieldFileMutationVariables>;
+export const GenerateFrontComponentTokenDocument = gql`
+    mutation GenerateFrontComponentToken($input: GenerateFrontComponentTokenInput!) {
+  generateFrontComponentToken(input: $input) {
+    applicationAccessToken
+    apiUrl
+    expiresAt
+  }
+}
+    `;
+export type GenerateFrontComponentTokenMutationFn = Apollo.MutationFunction<GenerateFrontComponentTokenMutation, GenerateFrontComponentTokenMutationVariables>;
+
+/**
+ * __useGenerateFrontComponentTokenMutation__
+ *
+ * To run a mutation, you first call `useGenerateFrontComponentTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGenerateFrontComponentTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [generateFrontComponentTokenMutation, { data, loading, error }] = useGenerateFrontComponentTokenMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGenerateFrontComponentTokenMutation(baseOptions?: Apollo.MutationHookOptions<GenerateFrontComponentTokenMutation, GenerateFrontComponentTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GenerateFrontComponentTokenMutation, GenerateFrontComponentTokenMutationVariables>(GenerateFrontComponentTokenDocument, options);
+      }
+export type GenerateFrontComponentTokenMutationHookResult = ReturnType<typeof useGenerateFrontComponentTokenMutation>;
+export type GenerateFrontComponentTokenMutationResult = Apollo.MutationResult<GenerateFrontComponentTokenMutation>;
+export type GenerateFrontComponentTokenMutationOptions = Apollo.BaseMutationOptions<GenerateFrontComponentTokenMutation, GenerateFrontComponentTokenMutationVariables>;
+export const FindManyFrontComponentsDocument = gql`
+    query FindManyFrontComponents {
+  frontComponents {
+    id
+    name
+    applicationId
+  }
+}
+    `;
+
+/**
+ * __useFindManyFrontComponentsQuery__
+ *
+ * To run a query within a React component, call `useFindManyFrontComponentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindManyFrontComponentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindManyFrontComponentsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindManyFrontComponentsQuery(baseOptions?: Apollo.QueryHookOptions<FindManyFrontComponentsQuery, FindManyFrontComponentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindManyFrontComponentsQuery, FindManyFrontComponentsQueryVariables>(FindManyFrontComponentsDocument, options);
+      }
+export function useFindManyFrontComponentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindManyFrontComponentsQuery, FindManyFrontComponentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindManyFrontComponentsQuery, FindManyFrontComponentsQueryVariables>(FindManyFrontComponentsDocument, options);
+        }
+export type FindManyFrontComponentsQueryHookResult = ReturnType<typeof useFindManyFrontComponentsQuery>;
+export type FindManyFrontComponentsLazyQueryHookResult = ReturnType<typeof useFindManyFrontComponentsLazyQuery>;
+export type FindManyFrontComponentsQueryResult = Apollo.QueryResult<FindManyFrontComponentsQuery, FindManyFrontComponentsQueryVariables>;
 export const ExecuteOneLogicFunctionDocument = gql`
     mutation ExecuteOneLogicFunction($input: ExecuteOneLogicFunctionInput!) {
   executeOneLogicFunction(input: $input) {

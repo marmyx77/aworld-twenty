@@ -1265,6 +1265,13 @@ export type FrontComponentConfiguration = {
   frontComponentId: Scalars['UUID'];
 };
 
+export type FrontComponentToken = {
+  __typename?: 'FrontComponentToken';
+  apiUrl: Scalars['String'];
+  applicationAccessToken: Scalars['String'];
+  expiresAt: Scalars['DateTime'];
+};
+
 export type FullName = {
   __typename?: 'FullName';
   firstName: Scalars['String'];
