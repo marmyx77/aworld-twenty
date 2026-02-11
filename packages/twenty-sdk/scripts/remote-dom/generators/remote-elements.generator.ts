@@ -164,7 +164,6 @@ const generateElementDefinition = (
   specificProperties: Record<string, PropertySchema>,
   options: ElementGenerationOptions,
 ): void => {
-  // Shared events only apply to HTML elements; UI components use per-component events
   const useSharedEvents = options.useSharedEvents && component.isHtmlElement;
   const { useSharedPropertiesConfig } = options;
   const hasEvents = component.events.length > 0;
@@ -178,7 +177,6 @@ const generateElementDefinition = (
       ? TYPE_NAMES.COMMON_PROPERTIES
       : TYPE_NAMES.EMPTY_RECORD;
 
-  // Slots generic type: { slotName: true } for each slot
   const slotsType = hasSlots
     ? `{ ${(component.slots ?? []).map((slot) => `'${slot}': true`).join('; ')} }`
     : TYPE_NAMES.EMPTY_RECORD;
