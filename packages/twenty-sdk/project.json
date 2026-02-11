@@ -88,6 +88,7 @@
     "generate-remote-dom-elements": {
       "executor": "nx:run-commands",
       "cache": true,
+      "dependsOn": ["^build"],
       "inputs": [
         "{projectRoot}/scripts/remote-dom/**/*",
         "{projectRoot}/src/sdk/front-component-common/**/*",
