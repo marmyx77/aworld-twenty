@@ -104,10 +104,10 @@ export class WorkflowVersionStepOperationsWorkspaceService {
           },
         });
 
-        await this.agentService.deleteOneAgent(
-          step.settings.input.agentId,
+        await this.agentService.deleteManyAgents({
+          ids: [step.settings.input.agentId],
           workspaceId,
-        );
+        });
 
         if (isDefined(roleTarget?.roleId) && isDefined(roleTarget?.id)) {
           await this.aiAgentRoleService.deleteAgentOnlyRoleIfUnused({

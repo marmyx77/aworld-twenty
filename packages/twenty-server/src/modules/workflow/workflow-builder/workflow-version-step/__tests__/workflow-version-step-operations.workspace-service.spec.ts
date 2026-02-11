@@ -95,7 +95,7 @@ describe('WorkflowVersionStepOperationsWorkspaceService', () => {
     } as unknown as jest.Mocked<LogicFunctionMetadataService>;
 
     agentService = {
-      deleteOneAgent: jest.fn(),
+      deleteManyAgents: jest.fn().mockResolvedValue([]),
       findOneAgentById: jest.fn(),
       createOneAgent: jest.fn(),
     } as unknown as jest.Mocked<AgentService>;
@@ -234,10 +234,10 @@ describe('WorkflowVersionStepOperationsWorkspaceService', () => {
         workspaceId: mockWorkspaceId,
       });
 
-      expect(agentService.deleteOneAgent).toHaveBeenCalledWith(
-        'agent-id',
-        mockWorkspaceId,
-      );
+      expect(agentService.deleteManyAgents).toHaveBeenCalledWith({
+        ids: ['agent-id'],
+        workspaceId: mockWorkspaceId,
+      });
     });
 
     it('should delete attached role when it is agent-only and unassigned elsewhere', async () => {
@@ -270,10 +270,10 @@ describe('WorkflowVersionStepOperationsWorkspaceService', () => {
         workspaceId: mockWorkspaceId,
       });
 
-      expect(agentService.deleteOneAgent).toHaveBeenCalledWith(
-        'agent-id',
-        mockWorkspaceId,
-      );
+      expect(agentService.deleteManyAgents).toHaveBeenCalledWith({
+        ids: ['agent-id'],
+        workspaceId: mockWorkspaceId,
+      });
       expect(
         aiAgentRoleService.deleteAgentOnlyRoleIfUnused,
       ).toHaveBeenCalledWith({

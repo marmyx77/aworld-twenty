@@ -1,3 +1,7 @@
+import { t } from '@lingui/core/macro';
+
+import { isNonEmptyString } from '@sniptt/guards';
+
 import { type ToolInput } from '@/ai/types/ToolInput';
 import { isDefined } from 'twenty-shared/utils';
 
@@ -100,23 +104,34 @@ export const getToolDisplayMessage = (
 
   if (resolvedToolName === 'web_search') {
     const query = extractSearchQuery(resolvedInput);
-    const action = isFinished ? 'Searched' : 'Searching';
 
-    return query ? `${action} the web for '${query}'` : `${action} the web`;
+    if (isNonEmptyString(query)) {
+      return isFinished
+        ? t`Searched the web for '${query}'`
+        : t`Searching the web for '${query}'`;
+    }
+
+    return isFinished ? t`Searched the web` : t`Searching the web`;
   }
 
   if (resolvedToolName === 'learn_tools') {
     const names = extractLearnToolNames(resolvedInput);
-    const action = isFinished ? 'Learned' : 'Learning';
 
-    return names ? `${action} ${names}` : `${action} tools...`;
+    if (isNonEmptyString(names)) {
+      return isFinished ? t`Learned ${names}` : t`Learning ${names}`;
+    }
+
+    return isFinished ? t`Learned tools` : t`Learning tools...`;
   }
 
   if (resolvedToolName === 'load_skills') {
     const names = extractSkillNames(resolvedInput);
-    const action = isFinished ? 'Loaded' : 'Loading';
 
-    return names ? `${action} ${names}` : `${action} skills...`;
+    if (isNonEmptyString(names)) {
+      return isFinished ? t`Loaded ${names}` : t`Loading ${names}`;
+    }
+
+    return isFinished ? t`Loaded skills` : t`Loading skills...`;
   }
 
   const customMessage = extractCustomLoadingMessage(resolvedInput);
@@ -126,7 +141,6 @@ export const getToolDisplayMessage = (
   }
 
   const formattedName = formatToolName(resolvedToolName);
-  const action = isFinished ? 'Ran' : 'Running';
 
-  return `${action} ${formattedName}`;
+  return isFinished ? t`Ran ${formattedName}` : t`Running ${formattedName}`;
 };

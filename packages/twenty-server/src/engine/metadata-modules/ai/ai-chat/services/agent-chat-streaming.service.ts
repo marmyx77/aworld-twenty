@@ -65,12 +65,13 @@ export class AgentChatStreamingService {
       );
     }
 
-    // Save user message eagerly so it persists even if the stream is aborted
+    // Fire user-message save without awaiting to avoid delaying time-to-first-letter.
+    // The promise is awaited inside onFinish where we need the turnId.
     const lastUserText =
       messages[messages.length - 1]?.parts.find((part) => part.type === 'text')
         ?.text ?? '';
 
-    const userMessage = await this.agentChatService.addMessage({
+    const userMessagePromise = this.agentChatService.addMessage({
       threadId: thread.id,
       uiMessage: {
         role: AgentMessageRole.USER,
@@ -187,39 +188,32 @@ export class AgentChatStreamingService {
 
                 return undefined;
               },
-              onFinish: async ({ responseMessage, isAborted }) => {
+              onFinish: async ({ responseMessage }) => {
                 if (responseMessage.parts.length === 0) {
                   return;
                 }
 
-                if (isAborted) {
-                  this.logger.debug(
-                    `Saving partial assistant response for aborted stream on thread ${thread.id}`,
-                  );
-                }
-
                 try {
+                  const userMessage = await userMessagePromise;
+
                   await this.agentChatService.addMessage({
                     threadId: thread.id,
                     uiMessage: responseMessage,
                     turnId: userMessage.turnId,
                   });
 
-                  // Skip usage update on abort since streamUsage may be incomplete
-                  if (!isAborted) {
-                    await this.threadRepository.update(thread.id, {
-                      totalInputTokens: () =>
-                        `"totalInputTokens" + ${streamUsage.inputTokens}`,
-                      totalOutputTokens: () =>
-                        `"totalOutputTokens" + ${streamUsage.outputTokens}`,
-                      totalInputCredits: () =>
-                        `"totalInputCredits" + ${streamUsage.inputCredits}`,
-                      totalOutputCredits: () =>
-                        `"totalOutputCredits" + ${streamUsage.outputCredits}`,
-                      contextWindowTokens: modelConfig.contextWindowTokens,
-                      conversationSize: lastStepConversationSize,
-                    });
-                  }
+                  await this.threadRepository.update(thread.id, {
+                    totalInputTokens: () =>
+                      `"totalInputTokens" + ${streamUsage.inputTokens}`,
+                    totalOutputTokens: () =>
+                      `"totalOutputTokens" + ${streamUsage.outputTokens}`,
+                    totalInputCredits: () =>
+                      `"totalInputCredits" + ${streamUsage.inputCredits}`,
+                    totalOutputCredits: () =>
+                      `"totalOutputCredits" + ${streamUsage.outputCredits}`,
+                    contextWindowTokens: modelConfig.contextWindowTokens,
+                    conversationSize: lastStepConversationSize,
+                  });
                 } catch (saveError) {
                   this.logger.error(
                     'Failed to save messages:',
