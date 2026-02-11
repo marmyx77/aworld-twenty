@@ -20,6 +20,8 @@ import { componentRegistry } from '../generated/host-component-registry';
 type FrontComponentContentProps = {
   componentUrl: string;
   authToken: string;
+  applicationAccessToken?: string;
+  apiUrl?: string;
   executionContext: FrontComponentExecutionContext;
   frontComponentHostCommunicationApi: FrontComponentHostCommunicationApi;
   onError: (error?: Error) => void;
@@ -29,6 +31,8 @@ type FrontComponentContentProps = {
 export const FrontComponentRenderer = ({
   componentUrl,
   authToken,
+  applicationAccessToken,
+  apiUrl,
   executionContext,
   frontComponentHostCommunicationApi,
   onError,
@@ -46,6 +50,8 @@ export const FrontComponentRenderer = ({
       <FrontComponentWorkerEffect
         componentUrl={componentUrl}
         authToken={authToken}
+        applicationAccessToken={applicationAccessToken}
+        apiUrl={apiUrl}
         frontComponentHostCommunicationApi={frontComponentHostCommunicationApi}
         setReceiver={setReceiver}
         setThread={setThread}
@@ -59,6 +65,8 @@ export const FrontComponentRenderer = ({
     setError,
     setReceiver,
     setThread,
+    applicationAccessToken,
+    apiUrl,
   ]);
 
   return (
