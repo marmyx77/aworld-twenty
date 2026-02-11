@@ -1018,13 +1018,16 @@ export type TwentyUiMainButtonProperties = {
   accessKey?: string;
   autoFocus?: boolean;
   className?: string;
+  contentEditable?: string;
   contextMenu?: string;
   dir?: string;
+  draggable?: string;
   hidden?: boolean;
   id?: string;
   lang?: string;
   nonce?: string;
   slot?: string;
+  spellCheck?: string;
   style?: Record<string, unknown>;
   tabIndex?: number;
   translate?: string;
@@ -1067,35 +1070,52 @@ export type TwentyUiMainButtonProperties = {
   'data-tooltip-hidden'?: boolean;
   'data-tooltip-class-name'?: string;
   'aria-activedescendant'?: string;
+  'aria-atomic'?: string;
   'aria-autocomplete'?: string;
   'aria-braillelabel'?: string;
   'aria-brailleroledescription'?: string;
+  'aria-busy'?: string;
+  'aria-checked'?: string;
   'aria-colcount'?: number;
   'aria-colindex'?: number;
   'aria-colindextext'?: string;
   'aria-colspan'?: number;
   'aria-controls'?: string;
+  'aria-current'?: string;
   'aria-describedby'?: string;
   'aria-description'?: string;
   'aria-details'?: string;
+  'aria-disabled'?: string;
   'aria-dropeffect'?: string;
   'aria-errormessage'?: string;
+  'aria-expanded'?: string;
   'aria-flowto'?: string;
+  'aria-grabbed'?: string;
+  'aria-haspopup'?: string;
+  'aria-hidden'?: string;
+  'aria-invalid'?: string;
   'aria-keyshortcuts'?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-level'?: number;
   'aria-live'?: string;
+  'aria-modal'?: string;
+  'aria-multiline'?: string;
+  'aria-multiselectable'?: string;
   'aria-orientation'?: string;
   'aria-owns'?: string;
   'aria-placeholder'?: string;
   'aria-posinset'?: number;
+  'aria-pressed'?: string;
+  'aria-readonly'?: string;
   'aria-relevant'?: string;
+  'aria-required'?: string;
   'aria-roledescription'?: string;
   'aria-rowcount'?: number;
   'aria-rowindex'?: number;
   'aria-rowindextext'?: string;
   'aria-rowspan'?: number;
+  'aria-selected'?: string;
   'aria-setsize'?: number;
   'aria-sort'?: string;
   'aria-valuemax'?: number;
@@ -1293,13 +1313,16 @@ export const TwentyUiMainButtonElement = createRemoteElement<
     accessKey: { type: String },
     autoFocus: { type: Boolean },
     className: { type: String },
+    contentEditable: { type: String },
     contextMenu: { type: String },
     dir: { type: String },
+    draggable: { type: String },
     hidden: { type: Boolean },
     id: { type: String },
     lang: { type: String },
     nonce: { type: String },
     slot: { type: String },
+    spellCheck: { type: String },
     style: { type: Object },
     tabIndex: { type: Number },
     translate: { type: String },
@@ -1342,35 +1365,52 @@ export const TwentyUiMainButtonElement = createRemoteElement<
     'data-tooltip-hidden': { type: Boolean },
     'data-tooltip-class-name': { type: String },
     'aria-activedescendant': { type: String },
+    'aria-atomic': { type: String },
     'aria-autocomplete': { type: String },
     'aria-braillelabel': { type: String },
     'aria-brailleroledescription': { type: String },
+    'aria-busy': { type: String },
+    'aria-checked': { type: String },
     'aria-colcount': { type: Number },
     'aria-colindex': { type: Number },
     'aria-colindextext': { type: String },
     'aria-colspan': { type: Number },
     'aria-controls': { type: String },
+    'aria-current': { type: String },
     'aria-describedby': { type: String },
     'aria-description': { type: String },
     'aria-details': { type: String },
+    'aria-disabled': { type: String },
     'aria-dropeffect': { type: String },
     'aria-errormessage': { type: String },
+    'aria-expanded': { type: String },
     'aria-flowto': { type: String },
+    'aria-grabbed': { type: String },
+    'aria-haspopup': { type: String },
+    'aria-hidden': { type: String },
+    'aria-invalid': { type: String },
     'aria-keyshortcuts': { type: String },
     'aria-label': { type: String },
     'aria-labelledby': { type: String },
     'aria-level': { type: Number },
     'aria-live': { type: String },
+    'aria-modal': { type: String },
+    'aria-multiline': { type: String },
+    'aria-multiselectable': { type: String },
     'aria-orientation': { type: String },
     'aria-owns': { type: String },
     'aria-placeholder': { type: String },
     'aria-posinset': { type: Number },
+    'aria-pressed': { type: String },
+    'aria-readonly': { type: String },
     'aria-relevant': { type: String },
+    'aria-required': { type: String },
     'aria-roledescription': { type: String },
     'aria-rowcount': { type: Number },
     'aria-rowindex': { type: Number },
     'aria-rowindextext': { type: String },
     'aria-rowspan': { type: Number },
+    'aria-selected': { type: String },
     'aria-setsize': { type: Number },
     'aria-sort': { type: String },
     'aria-valuemax': { type: Number },
@@ -1558,13 +1598,16 @@ export type TwentyUiRoundedIconButtonProperties = {
   accessKey?: string;
   autoFocus?: boolean;
   className?: string;
+  contentEditable?: string;
   contextMenu?: string;
   dir?: string;
+  draggable?: string;
   hidden?: boolean;
   id?: string;
   lang?: string;
   nonce?: string;
   slot?: string;
+  spellCheck?: string;
   style?: Record<string, unknown>;
   tabIndex?: number;
   title?: string;
@@ -1608,35 +1651,52 @@ export type TwentyUiRoundedIconButtonProperties = {
   'data-tooltip-hidden'?: boolean;
   'data-tooltip-class-name'?: string;
   'aria-activedescendant'?: string;
+  'aria-atomic'?: string;
   'aria-autocomplete'?: string;
   'aria-braillelabel'?: string;
   'aria-brailleroledescription'?: string;
+  'aria-busy'?: string;
+  'aria-checked'?: string;
   'aria-colcount'?: number;
   'aria-colindex'?: number;
   'aria-colindextext'?: string;
   'aria-colspan'?: number;
   'aria-controls'?: string;
+  'aria-current'?: string;
   'aria-describedby'?: string;
   'aria-description'?: string;
   'aria-details'?: string;
+  'aria-disabled'?: string;
   'aria-dropeffect'?: string;
   'aria-errormessage'?: string;
+  'aria-expanded'?: string;
   'aria-flowto'?: string;
+  'aria-grabbed'?: string;
+  'aria-haspopup'?: string;
+  'aria-hidden'?: string;
+  'aria-invalid'?: string;
   'aria-keyshortcuts'?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-level'?: number;
   'aria-live'?: string;
+  'aria-modal'?: string;
+  'aria-multiline'?: string;
+  'aria-multiselectable'?: string;
   'aria-orientation'?: string;
   'aria-owns'?: string;
   'aria-placeholder'?: string;
   'aria-posinset'?: number;
+  'aria-pressed'?: string;
+  'aria-readonly'?: string;
   'aria-relevant'?: string;
+  'aria-required'?: string;
   'aria-roledescription'?: string;
   'aria-rowcount'?: number;
   'aria-rowindex'?: number;
   'aria-rowindextext'?: string;
   'aria-rowspan'?: number;
+  'aria-selected'?: string;
   'aria-setsize'?: number;
   'aria-sort'?: string;
   'aria-valuemax'?: number;
@@ -1830,13 +1890,16 @@ export const TwentyUiRoundedIconButtonElement = createRemoteElement<
     accessKey: { type: String },
     autoFocus: { type: Boolean },
     className: { type: String },
+    contentEditable: { type: String },
     contextMenu: { type: String },
     dir: { type: String },
+    draggable: { type: String },
     hidden: { type: Boolean },
     id: { type: String },
     lang: { type: String },
     nonce: { type: String },
     slot: { type: String },
+    spellCheck: { type: String },
     style: { type: Object },
     tabIndex: { type: Number },
     title: { type: String },
@@ -1880,35 +1943,52 @@ export const TwentyUiRoundedIconButtonElement = createRemoteElement<
     'data-tooltip-hidden': { type: Boolean },
     'data-tooltip-class-name': { type: String },
     'aria-activedescendant': { type: String },
+    'aria-atomic': { type: String },
     'aria-autocomplete': { type: String },
     'aria-braillelabel': { type: String },
     'aria-brailleroledescription': { type: String },
+    'aria-busy': { type: String },
+    'aria-checked': { type: String },
     'aria-colcount': { type: Number },
     'aria-colindex': { type: Number },
     'aria-colindextext': { type: String },
     'aria-colspan': { type: Number },
     'aria-controls': { type: String },
+    'aria-current': { type: String },
     'aria-describedby': { type: String },
     'aria-description': { type: String },
     'aria-details': { type: String },
+    'aria-disabled': { type: String },
     'aria-dropeffect': { type: String },
     'aria-errormessage': { type: String },
+    'aria-expanded': { type: String },
     'aria-flowto': { type: String },
+    'aria-grabbed': { type: String },
+    'aria-haspopup': { type: String },
+    'aria-hidden': { type: String },
+    'aria-invalid': { type: String },
     'aria-keyshortcuts': { type: String },
     'aria-label': { type: String },
     'aria-labelledby': { type: String },
     'aria-level': { type: Number },
     'aria-live': { type: String },
+    'aria-modal': { type: String },
+    'aria-multiline': { type: String },
+    'aria-multiselectable': { type: String },
     'aria-orientation': { type: String },
     'aria-owns': { type: String },
     'aria-placeholder': { type: String },
     'aria-posinset': { type: Number },
+    'aria-pressed': { type: String },
+    'aria-readonly': { type: String },
     'aria-relevant': { type: String },
+    'aria-required': { type: String },
     'aria-roledescription': { type: String },
     'aria-rowcount': { type: Number },
     'aria-rowindex': { type: Number },
     'aria-rowindextext': { type: String },
     'aria-rowspan': { type: Number },
+    'aria-selected': { type: String },
     'aria-setsize': { type: Number },
     'aria-sort': { type: String },
     'aria-valuemax': { type: Number },
@@ -2142,6 +2222,7 @@ export const TwentyUiTabButtonElement = createRemoteElement<
 });
 
 export type TwentyUiCodeEditorProperties = {
+  height?: string;
   value?: string;
   language?: string;
   onMount?: (...args: unknown[]) => unknown;
@@ -2161,6 +2242,7 @@ export const TwentyUiCodeEditorElement = createRemoteElement<
   Record<string, never>
 >({
   properties: {
+    height: { type: String },
     value: { type: String },
     language: { type: String },
     onMount: { type: Function },
@@ -2206,35 +2288,52 @@ export type TwentyUiColorSchemeCardProperties = {
   lang?: string;
   tabIndex?: number;
   'aria-activedescendant'?: string;
+  'aria-atomic'?: string;
   'aria-autocomplete'?: string;
   'aria-braillelabel'?: string;
   'aria-brailleroledescription'?: string;
+  'aria-busy'?: string;
+  'aria-checked'?: string;
   'aria-colcount'?: number;
   'aria-colindex'?: number;
   'aria-colindextext'?: string;
   'aria-colspan'?: number;
   'aria-controls'?: string;
+  'aria-current'?: string;
   'aria-describedby'?: string;
   'aria-description'?: string;
   'aria-details'?: string;
+  'aria-disabled'?: string;
   'aria-dropeffect'?: string;
   'aria-errormessage'?: string;
+  'aria-expanded'?: string;
   'aria-flowto'?: string;
+  'aria-grabbed'?: string;
+  'aria-haspopup'?: string;
+  'aria-hidden'?: string;
+  'aria-invalid'?: string;
   'aria-keyshortcuts'?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-level'?: number;
   'aria-live'?: string;
+  'aria-modal'?: string;
+  'aria-multiline'?: string;
+  'aria-multiselectable'?: string;
   'aria-orientation'?: string;
   'aria-owns'?: string;
   'aria-placeholder'?: string;
   'aria-posinset'?: number;
+  'aria-pressed'?: string;
+  'aria-readonly'?: string;
   'aria-relevant'?: string;
+  'aria-required'?: string;
   'aria-roledescription'?: string;
   'aria-rowcount'?: number;
   'aria-rowindex'?: number;
   'aria-rowindextext'?: string;
   'aria-rowspan'?: number;
+  'aria-selected'?: string;
   'aria-setsize'?: number;
   'aria-sort'?: string;
   'aria-valuemax'?: number;
@@ -2406,9 +2505,12 @@ export type TwentyUiColorSchemeCardProperties = {
   suppressContentEditableWarning?: boolean;
   accessKey?: string;
   autoFocus?: boolean;
+  contentEditable?: string;
   contextMenu?: string;
   dir?: string;
+  draggable?: string;
   nonce?: string;
+  spellCheck?: string;
   radioGroup?: string;
   about?: string;
   datatype?: string;
@@ -2470,35 +2572,52 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
     lang: { type: String },
     tabIndex: { type: Number },
     'aria-activedescendant': { type: String },
+    'aria-atomic': { type: String },
     'aria-autocomplete': { type: String },
     'aria-braillelabel': { type: String },
     'aria-brailleroledescription': { type: String },
+    'aria-busy': { type: String },
+    'aria-checked': { type: String },
     'aria-colcount': { type: Number },
     'aria-colindex': { type: Number },
     'aria-colindextext': { type: String },
     'aria-colspan': { type: Number },
     'aria-controls': { type: String },
+    'aria-current': { type: String },
     'aria-describedby': { type: String },
     'aria-description': { type: String },
     'aria-details': { type: String },
+    'aria-disabled': { type: String },
     'aria-dropeffect': { type: String },
     'aria-errormessage': { type: String },
+    'aria-expanded': { type: String },
     'aria-flowto': { type: String },
+    'aria-grabbed': { type: String },
+    'aria-haspopup': { type: String },
+    'aria-hidden': { type: String },
+    'aria-invalid': { type: String },
     'aria-keyshortcuts': { type: String },
     'aria-label': { type: String },
     'aria-labelledby': { type: String },
     'aria-level': { type: Number },
     'aria-live': { type: String },
+    'aria-modal': { type: String },
+    'aria-multiline': { type: String },
+    'aria-multiselectable': { type: String },
     'aria-orientation': { type: String },
     'aria-owns': { type: String },
     'aria-placeholder': { type: String },
     'aria-posinset': { type: Number },
+    'aria-pressed': { type: String },
+    'aria-readonly': { type: String },
     'aria-relevant': { type: String },
+    'aria-required': { type: String },
     'aria-roledescription': { type: String },
     'aria-rowcount': { type: Number },
     'aria-rowindex': { type: Number },
     'aria-rowindextext': { type: String },
     'aria-rowspan': { type: Number },
+    'aria-selected': { type: String },
     'aria-setsize': { type: Number },
     'aria-sort': { type: String },
     'aria-valuemax': { type: Number },
@@ -2670,9 +2789,12 @@ export const TwentyUiColorSchemeCardElement = createRemoteElement<
     suppressContentEditableWarning: { type: Boolean },
     accessKey: { type: String },
     autoFocus: { type: Boolean },
+    contentEditable: { type: String },
     contextMenu: { type: String },
     dir: { type: String },
+    draggable: { type: String },
     nonce: { type: String },
+    spellCheck: { type: String },
     radioGroup: { type: String },
     about: { type: String },
     datatype: { type: String },
@@ -3131,13 +3253,16 @@ export type TwentyUiBannerProperties = {
   suppressHydrationWarning?: boolean;
   accessKey?: string;
   autoFocus?: boolean;
+  contentEditable?: string;
   contextMenu?: string;
   dir?: string;
+  draggable?: string;
   hidden?: boolean;
   id?: string;
   lang?: string;
   nonce?: string;
   slot?: string;
+  spellCheck?: string;
   style?: Record<string, unknown>;
   tabIndex?: number;
   title?: string;
@@ -3181,35 +3306,52 @@ export type TwentyUiBannerProperties = {
   'data-tooltip-hidden'?: boolean;
   'data-tooltip-class-name'?: string;
   'aria-activedescendant'?: string;
+  'aria-atomic'?: string;
   'aria-autocomplete'?: string;
   'aria-braillelabel'?: string;
   'aria-brailleroledescription'?: string;
+  'aria-busy'?: string;
+  'aria-checked'?: string;
   'aria-colcount'?: number;
   'aria-colindex'?: number;
   'aria-colindextext'?: string;
   'aria-colspan'?: number;
   'aria-controls'?: string;
+  'aria-current'?: string;
   'aria-describedby'?: string;
   'aria-description'?: string;
   'aria-details'?: string;
+  'aria-disabled'?: string;
   'aria-dropeffect'?: string;
   'aria-errormessage'?: string;
+  'aria-expanded'?: string;
   'aria-flowto'?: string;
+  'aria-grabbed'?: string;
+  'aria-haspopup'?: string;
+  'aria-hidden'?: string;
+  'aria-invalid'?: string;
   'aria-keyshortcuts'?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-level'?: number;
   'aria-live'?: string;
+  'aria-modal'?: string;
+  'aria-multiline'?: string;
+  'aria-multiselectable'?: string;
   'aria-orientation'?: string;
   'aria-owns'?: string;
   'aria-placeholder'?: string;
   'aria-posinset'?: number;
+  'aria-pressed'?: string;
+  'aria-readonly'?: string;
   'aria-relevant'?: string;
+  'aria-required'?: string;
   'aria-roledescription'?: string;
   'aria-rowcount'?: number;
   'aria-rowindex'?: number;
   'aria-rowindextext'?: string;
   'aria-rowspan'?: number;
+  'aria-selected'?: string;
   'aria-setsize'?: number;
   'aria-sort'?: string;
   'aria-valuemax'?: number;
@@ -3394,13 +3536,16 @@ export const TwentyUiBannerElement = createRemoteElement<
     suppressHydrationWarning: { type: Boolean },
     accessKey: { type: String },
     autoFocus: { type: Boolean },
+    contentEditable: { type: String },
     contextMenu: { type: String },
     dir: { type: String },
+    draggable: { type: String },
     hidden: { type: Boolean },
     id: { type: String },
     lang: { type: String },
     nonce: { type: String },
     slot: { type: String },
+    spellCheck: { type: String },
     style: { type: Object },
     tabIndex: { type: Number },
     title: { type: String },
@@ -3444,35 +3589,52 @@ export const TwentyUiBannerElement = createRemoteElement<
     'data-tooltip-hidden': { type: Boolean },
     'data-tooltip-class-name': { type: String },
     'aria-activedescendant': { type: String },
+    'aria-atomic': { type: String },
     'aria-autocomplete': { type: String },
     'aria-braillelabel': { type: String },
     'aria-brailleroledescription': { type: String },
+    'aria-busy': { type: String },
+    'aria-checked': { type: String },
     'aria-colcount': { type: Number },
     'aria-colindex': { type: Number },
     'aria-colindextext': { type: String },
     'aria-colspan': { type: Number },
     'aria-controls': { type: String },
+    'aria-current': { type: String },
     'aria-describedby': { type: String },
     'aria-description': { type: String },
     'aria-details': { type: String },
+    'aria-disabled': { type: String },
     'aria-dropeffect': { type: String },
     'aria-errormessage': { type: String },
+    'aria-expanded': { type: String },
     'aria-flowto': { type: String },
+    'aria-grabbed': { type: String },
+    'aria-haspopup': { type: String },
+    'aria-hidden': { type: String },
+    'aria-invalid': { type: String },
     'aria-keyshortcuts': { type: String },
     'aria-label': { type: String },
     'aria-labelledby': { type: String },
     'aria-level': { type: Number },
     'aria-live': { type: String },
+    'aria-modal': { type: String },
+    'aria-multiline': { type: String },
+    'aria-multiselectable': { type: String },
     'aria-orientation': { type: String },
     'aria-owns': { type: String },
     'aria-placeholder': { type: String },
     'aria-posinset': { type: Number },
+    'aria-pressed': { type: String },
+    'aria-readonly': { type: String },
     'aria-relevant': { type: String },
+    'aria-required': { type: String },
     'aria-roledescription': { type: String },
     'aria-rowcount': { type: Number },
     'aria-rowindex': { type: Number },
     'aria-rowindextext': { type: String },
     'aria-rowspan': { type: Number },
+    'aria-selected': { type: String },
     'aria-setsize': { type: Number },
     'aria-sort': { type: String },
     'aria-valuemax': { type: Number },
@@ -3665,57 +3827,246 @@ export const TwentyUiSidePanelInformationBannerElement = createRemoteElement<
 });
 
 export type TwentyUiAnimatedCheckmarkProperties = {
+  string?: string;
   clipPath?: string;
   filter?: string;
   mask?: string;
   path?: string;
   type?: string;
+  rotate?: string;
+  scale?: string;
   color?: string;
+  cursor?: string;
+  direction?: string;
+  display?: string;
   fontFamily?: string;
+  fontSize?: string;
+  fontSizeAdjust?: string;
+  fontStretch?: string;
+  fontStyle?: string;
+  fontVariant?: string;
+  fontWeight?: string;
+  height?: string;
+  imageRendering?: string;
+  letterSpacing?: string;
+  opacity?: string;
+  order?: string;
+  paintOrder?: string;
+  pointerEvents?: string;
+  textRendering?: string;
   transform?: string;
+  unicodeBidi?: string;
+  visibility?: string;
+  width?: string;
+  wordSpacing?: string;
+  writingMode?: string;
+  offset?: string;
+  overflow?: string;
+  textDecoration?: string;
+  azimuth?: string;
+  clip?: string;
   alignmentBaseline?: string;
+  baselineShift?: string;
+  clipRule?: string;
+  colorInterpolation?: string;
+  colorRendering?: string;
+  dominantBaseline?: string;
   fill?: string;
+  fillOpacity?: string;
   fillRule?: string;
+  floodColor?: string;
+  floodOpacity?: string;
+  glyphOrientationVertical?: string;
+  lightingColor?: string;
   markerEnd?: string;
   markerMid?: string;
   markerStart?: string;
+  shapeRendering?: string;
   stopColor?: string;
+  stopOpacity?: string;
   stroke?: string;
+  strokeDasharray?: string;
+  strokeDashoffset?: string;
   strokeLinecap?: string;
   strokeLinejoin?: string;
+  strokeMiterlimit?: string;
+  strokeOpacity?: string;
+  strokeWidth?: string;
   textAnchor?: string;
+  vectorEffect?: string;
+  alphabetic?: string;
+  hanging?: string;
+  ideographic?: string;
+  mathematical?: string;
+  end?: string;
   suppressHydrationWarning?: boolean;
   className?: string;
   id?: string;
   lang?: string;
+  max?: string;
   media?: string;
   method?: string;
+  min?: string;
   name?: string;
   target?: string;
   tabIndex?: number;
   crossOrigin?: string;
+  accentHeight?: string;
   accumulate?: string;
   additive?: string;
   allowReorder?: string;
+  amplitude?: string;
   arabicForm?: string;
+  ascent?: string;
   attributeName?: string;
   attributeType?: string;
+  autoReverse?: string;
+  baseFrequency?: string;
+  baseProfile?: string;
+  bbox?: string;
+  begin?: string;
+  bias?: string;
+  by?: string;
+  calcMode?: string;
+  capHeight?: string;
+  clipPathUnits?: string;
   colorInterpolationFilters?: string;
+  colorProfile?: string;
+  contentScriptType?: string;
+  contentStyleType?: string;
+  cx?: string;
+  cy?: string;
   d?: string;
+  decelerate?: string;
+  descent?: string;
+  diffuseConstant?: string;
+  divisor?: string;
+  dur?: string;
+  dx?: string;
+  dy?: string;
+  edgeMode?: string;
+  elevation?: string;
+  enableBackground?: string;
+  exponent?: string;
+  externalResourcesRequired?: string;
+  filterRes?: string;
+  filterUnits?: string;
+  focusable?: string;
+  format?: string;
+  fr?: string;
+  from?: string;
+  fx?: string;
+  fy?: string;
+  g1?: string;
+  g2?: string;
+  glyphName?: string;
+  glyphOrientationHorizontal?: string;
+  glyphRef?: string;
   gradientTransform?: string;
   gradientUnits?: string;
+  horizAdvX?: string;
+  horizOriginX?: string;
   href?: string;
+  in2?: string;
   in?: string;
+  intercept?: string;
+  k1?: string;
+  k2?: string;
+  k3?: string;
+  k4?: string;
+  k?: string;
+  kernelMatrix?: string;
+  kernelUnitLength?: string;
+  kerning?: string;
+  keyPoints?: string;
+  keySplines?: string;
+  keyTimes?: string;
+  lengthAdjust?: string;
+  limitingConeAngle?: string;
+  local?: string;
+  markerHeight?: string;
+  markerUnits?: string;
+  markerWidth?: string;
+  maskContentUnits?: string;
+  maskUnits?: string;
+  mode?: string;
+  numOctaves?: string;
+  operator?: string;
+  orient?: string;
+  orientation?: string;
+  origin?: string;
+  overlinePosition?: string;
+  overlineThickness?: string;
+  panose1?: string;
+  pathLength?: string;
   patternContentUnits?: string;
+  patternTransform?: string;
   patternUnits?: string;
   points?: string;
+  pointsAtX?: string;
+  pointsAtY?: string;
+  pointsAtZ?: string;
+  preserveAlpha?: string;
   preserveAspectRatio?: string;
+  primitiveUnits?: string;
+  r?: string;
+  radius?: string;
+  refX?: string;
+  refY?: string;
+  renderingIntent?: string;
+  repeatCount?: string;
+  repeatDur?: string;
+  requiredExtensions?: string;
+  requiredFeatures?: string;
+  restart?: string;
   result?: string;
+  rx?: string;
+  ry?: string;
+  seed?: string;
+  slope?: string;
+  spacing?: string;
+  specularConstant?: string;
+  specularExponent?: string;
+  speed?: string;
   spreadMethod?: string;
+  startOffset?: string;
+  stdDeviation?: string;
+  stemh?: string;
+  stemv?: string;
+  stitchTiles?: string;
+  strikethroughPosition?: string;
+  strikethroughThickness?: string;
+  surfaceScale?: string;
+  systemLanguage?: string;
+  tableValues?: string;
+  targetX?: string;
+  targetY?: string;
+  textLength?: string;
+  to?: string;
+  u1?: string;
+  u2?: string;
+  underlinePosition?: string;
+  underlineThickness?: string;
+  unicode?: string;
+  unicodeRange?: string;
+  unitsPerEm?: string;
+  vAlphabetic?: string;
   values?: string;
   version?: string;
+  vertAdvY?: string;
+  vertOriginX?: string;
+  vertOriginY?: string;
+  vHanging?: string;
+  vIdeographic?: string;
   viewBox?: string;
+  viewTarget?: string;
+  vMathematical?: string;
+  widths?: string;
+  x1?: string;
+  x2?: string;
+  x?: string;
   xChannelSelector?: string;
+  xHeight?: string;
   xlinkActuate?: string;
   xlinkArcrole?: string;
   xlinkHref?: string;
@@ -3728,38 +4079,59 @@ export type TwentyUiAnimatedCheckmarkProperties = {
   xmlns?: string;
   xmlnsXlink?: string;
   xmlSpace?: string;
+  y1?: string;
+  y2?: string;
+  y?: string;
   yChannelSelector?: string;
+  z?: string;
   zoomAndPan?: string;
   'aria-activedescendant'?: string;
+  'aria-atomic'?: string;
   'aria-autocomplete'?: string;
   'aria-braillelabel'?: string;
   'aria-brailleroledescription'?: string;
+  'aria-busy'?: string;
+  'aria-checked'?: string;
   'aria-colcount'?: number;
   'aria-colindex'?: number;
   'aria-colindextext'?: string;
   'aria-colspan'?: number;
   'aria-controls'?: string;
+  'aria-current'?: string;
   'aria-describedby'?: string;
   'aria-description'?: string;
   'aria-details'?: string;
+  'aria-disabled'?: string;
   'aria-dropeffect'?: string;
   'aria-errormessage'?: string;
+  'aria-expanded'?: string;
   'aria-flowto'?: string;
+  'aria-grabbed'?: string;
+  'aria-haspopup'?: string;
+  'aria-hidden'?: string;
+  'aria-invalid'?: string;
   'aria-keyshortcuts'?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-level'?: number;
   'aria-live'?: string;
+  'aria-modal'?: string;
+  'aria-multiline'?: string;
+  'aria-multiselectable'?: string;
   'aria-orientation'?: string;
   'aria-owns'?: string;
   'aria-placeholder'?: string;
   'aria-posinset'?: number;
+  'aria-pressed'?: string;
+  'aria-readonly'?: string;
   'aria-relevant'?: string;
+  'aria-required'?: string;
   'aria-roledescription'?: string;
   'aria-rowcount'?: number;
   'aria-rowindex'?: number;
   'aria-rowindextext'?: string;
   'aria-rowspan'?: number;
+  'aria-selected'?: string;
   'aria-setsize'?: number;
   'aria-sort'?: string;
   'aria-valuemax'?: number;
@@ -3944,6 +4316,7 @@ export type TwentyUiAnimatedCheckmarkProperties = {
   onViewportEnter?: (...args: unknown[]) => unknown;
   onViewportLeave?: (...args: unknown[]) => unknown;
   viewport?: Record<string, unknown>;
+  drag?: string;
   dragDirectionLock?: boolean;
   dragPropagation?: boolean;
   dragMomentum?: boolean;
@@ -3959,6 +4332,7 @@ export type TwentyUiAnimatedCheckmarkProperties = {
   onDrag?: (...args: unknown[]) => unknown;
   onDirectionLock?: (...args: unknown[]) => unknown;
   onDragTransitionEnd?: (...args: unknown[]) => unknown;
+  layout?: string;
   layoutId?: string;
   onLayoutAnimationStart?: (...args: unknown[]) => unknown;
   onLayoutAnimationComplete?: (...args: unknown[]) => unknown;
@@ -3980,57 +4354,246 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
 >({
   slots: ['children'],
   properties: {
+    string: { type: String },
     clipPath: { type: String },
     filter: { type: String },
     mask: { type: String },
     path: { type: String },
     type: { type: String },
+    rotate: { type: String },
+    scale: { type: String },
     color: { type: String },
+    cursor: { type: String },
+    direction: { type: String },
+    display: { type: String },
     fontFamily: { type: String },
+    fontSize: { type: String },
+    fontSizeAdjust: { type: String },
+    fontStretch: { type: String },
+    fontStyle: { type: String },
+    fontVariant: { type: String },
+    fontWeight: { type: String },
+    height: { type: String },
+    imageRendering: { type: String },
+    letterSpacing: { type: String },
+    opacity: { type: String },
+    order: { type: String },
+    paintOrder: { type: String },
+    pointerEvents: { type: String },
+    textRendering: { type: String },
     transform: { type: String },
+    unicodeBidi: { type: String },
+    visibility: { type: String },
+    width: { type: String },
+    wordSpacing: { type: String },
+    writingMode: { type: String },
+    offset: { type: String },
+    overflow: { type: String },
+    textDecoration: { type: String },
+    azimuth: { type: String },
+    clip: { type: String },
     alignmentBaseline: { type: String },
+    baselineShift: { type: String },
+    clipRule: { type: String },
+    colorInterpolation: { type: String },
+    colorRendering: { type: String },
+    dominantBaseline: { type: String },
     fill: { type: String },
+    fillOpacity: { type: String },
     fillRule: { type: String },
+    floodColor: { type: String },
+    floodOpacity: { type: String },
+    glyphOrientationVertical: { type: String },
+    lightingColor: { type: String },
     markerEnd: { type: String },
     markerMid: { type: String },
     markerStart: { type: String },
+    shapeRendering: { type: String },
     stopColor: { type: String },
+    stopOpacity: { type: String },
     stroke: { type: String },
+    strokeDasharray: { type: String },
+    strokeDashoffset: { type: String },
     strokeLinecap: { type: String },
     strokeLinejoin: { type: String },
+    strokeMiterlimit: { type: String },
+    strokeOpacity: { type: String },
+    strokeWidth: { type: String },
     textAnchor: { type: String },
+    vectorEffect: { type: String },
+    alphabetic: { type: String },
+    hanging: { type: String },
+    ideographic: { type: String },
+    mathematical: { type: String },
+    end: { type: String },
     suppressHydrationWarning: { type: Boolean },
     className: { type: String },
     id: { type: String },
     lang: { type: String },
+    max: { type: String },
     media: { type: String },
     method: { type: String },
+    min: { type: String },
     name: { type: String },
     target: { type: String },
     tabIndex: { type: Number },
     crossOrigin: { type: String },
+    accentHeight: { type: String },
     accumulate: { type: String },
     additive: { type: String },
     allowReorder: { type: String },
+    amplitude: { type: String },
     arabicForm: { type: String },
+    ascent: { type: String },
     attributeName: { type: String },
     attributeType: { type: String },
+    autoReverse: { type: String },
+    baseFrequency: { type: String },
+    baseProfile: { type: String },
+    bbox: { type: String },
+    begin: { type: String },
+    bias: { type: String },
+    by: { type: String },
+    calcMode: { type: String },
+    capHeight: { type: String },
+    clipPathUnits: { type: String },
     colorInterpolationFilters: { type: String },
+    colorProfile: { type: String },
+    contentScriptType: { type: String },
+    contentStyleType: { type: String },
+    cx: { type: String },
+    cy: { type: String },
     d: { type: String },
+    decelerate: { type: String },
+    descent: { type: String },
+    diffuseConstant: { type: String },
+    divisor: { type: String },
+    dur: { type: String },
+    dx: { type: String },
+    dy: { type: String },
+    edgeMode: { type: String },
+    elevation: { type: String },
+    enableBackground: { type: String },
+    exponent: { type: String },
+    externalResourcesRequired: { type: String },
+    filterRes: { type: String },
+    filterUnits: { type: String },
+    focusable: { type: String },
+    format: { type: String },
+    fr: { type: String },
+    from: { type: String },
+    fx: { type: String },
+    fy: { type: String },
+    g1: { type: String },
+    g2: { type: String },
+    glyphName: { type: String },
+    glyphOrientationHorizontal: { type: String },
+    glyphRef: { type: String },
     gradientTransform: { type: String },
     gradientUnits: { type: String },
+    horizAdvX: { type: String },
+    horizOriginX: { type: String },
     href: { type: String },
+    in2: { type: String },
     in: { type: String },
+    intercept: { type: String },
+    k1: { type: String },
+    k2: { type: String },
+    k3: { type: String },
+    k4: { type: String },
+    k: { type: String },
+    kernelMatrix: { type: String },
+    kernelUnitLength: { type: String },
+    kerning: { type: String },
+    keyPoints: { type: String },
+    keySplines: { type: String },
+    keyTimes: { type: String },
+    lengthAdjust: { type: String },
+    limitingConeAngle: { type: String },
+    local: { type: String },
+    markerHeight: { type: String },
+    markerUnits: { type: String },
+    markerWidth: { type: String },
+    maskContentUnits: { type: String },
+    maskUnits: { type: String },
+    mode: { type: String },
+    numOctaves: { type: String },
+    operator: { type: String },
+    orient: { type: String },
+    orientation: { type: String },
+    origin: { type: String },
+    overlinePosition: { type: String },
+    overlineThickness: { type: String },
+    panose1: { type: String },
+    pathLength: { type: String },
     patternContentUnits: { type: String },
+    patternTransform: { type: String },
     patternUnits: { type: String },
     points: { type: String },
+    pointsAtX: { type: String },
+    pointsAtY: { type: String },
+    pointsAtZ: { type: String },
+    preserveAlpha: { type: String },
     preserveAspectRatio: { type: String },
+    primitiveUnits: { type: String },
+    r: { type: String },
+    radius: { type: String },
+    refX: { type: String },
+    refY: { type: String },
+    renderingIntent: { type: String },
+    repeatCount: { type: String },
+    repeatDur: { type: String },
+    requiredExtensions: { type: String },
+    requiredFeatures: { type: String },
+    restart: { type: String },
     result: { type: String },
+    rx: { type: String },
+    ry: { type: String },
+    seed: { type: String },
+    slope: { type: String },
+    spacing: { type: String },
+    specularConstant: { type: String },
+    specularExponent: { type: String },
+    speed: { type: String },
     spreadMethod: { type: String },
+    startOffset: { type: String },
+    stdDeviation: { type: String },
+    stemh: { type: String },
+    stemv: { type: String },
+    stitchTiles: { type: String },
+    strikethroughPosition: { type: String },
+    strikethroughThickness: { type: String },
+    surfaceScale: { type: String },
+    systemLanguage: { type: String },
+    tableValues: { type: String },
+    targetX: { type: String },
+    targetY: { type: String },
+    textLength: { type: String },
+    to: { type: String },
+    u1: { type: String },
+    u2: { type: String },
+    underlinePosition: { type: String },
+    underlineThickness: { type: String },
+    unicode: { type: String },
+    unicodeRange: { type: String },
+    unitsPerEm: { type: String },
+    vAlphabetic: { type: String },
     values: { type: String },
     version: { type: String },
+    vertAdvY: { type: String },
+    vertOriginX: { type: String },
+    vertOriginY: { type: String },
+    vHanging: { type: String },
+    vIdeographic: { type: String },
     viewBox: { type: String },
+    viewTarget: { type: String },
+    vMathematical: { type: String },
+    widths: { type: String },
+    x1: { type: String },
+    x2: { type: String },
+    x: { type: String },
     xChannelSelector: { type: String },
+    xHeight: { type: String },
     xlinkActuate: { type: String },
     xlinkArcrole: { type: String },
     xlinkHref: { type: String },
@@ -4043,38 +4606,59 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     xmlns: { type: String },
     xmlnsXlink: { type: String },
     xmlSpace: { type: String },
+    y1: { type: String },
+    y2: { type: String },
+    y: { type: String },
     yChannelSelector: { type: String },
+    z: { type: String },
     zoomAndPan: { type: String },
     'aria-activedescendant': { type: String },
+    'aria-atomic': { type: String },
     'aria-autocomplete': { type: String },
     'aria-braillelabel': { type: String },
     'aria-brailleroledescription': { type: String },
+    'aria-busy': { type: String },
+    'aria-checked': { type: String },
     'aria-colcount': { type: Number },
     'aria-colindex': { type: Number },
     'aria-colindextext': { type: String },
     'aria-colspan': { type: Number },
     'aria-controls': { type: String },
+    'aria-current': { type: String },
     'aria-describedby': { type: String },
     'aria-description': { type: String },
     'aria-details': { type: String },
+    'aria-disabled': { type: String },
     'aria-dropeffect': { type: String },
     'aria-errormessage': { type: String },
+    'aria-expanded': { type: String },
     'aria-flowto': { type: String },
+    'aria-grabbed': { type: String },
+    'aria-haspopup': { type: String },
+    'aria-hidden': { type: String },
+    'aria-invalid': { type: String },
     'aria-keyshortcuts': { type: String },
     'aria-label': { type: String },
     'aria-labelledby': { type: String },
     'aria-level': { type: Number },
     'aria-live': { type: String },
+    'aria-modal': { type: String },
+    'aria-multiline': { type: String },
+    'aria-multiselectable': { type: String },
     'aria-orientation': { type: String },
     'aria-owns': { type: String },
     'aria-placeholder': { type: String },
     'aria-posinset': { type: Number },
+    'aria-pressed': { type: String },
+    'aria-readonly': { type: String },
     'aria-relevant': { type: String },
+    'aria-required': { type: String },
     'aria-roledescription': { type: String },
     'aria-rowcount': { type: Number },
     'aria-rowindex': { type: Number },
     'aria-rowindextext': { type: String },
     'aria-rowspan': { type: Number },
+    'aria-selected': { type: String },
     'aria-setsize': { type: Number },
     'aria-sort': { type: String },
     'aria-valuemax': { type: Number },
@@ -4259,6 +4843,7 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     onViewportEnter: { type: Function },
     onViewportLeave: { type: Function },
     viewport: { type: Object },
+    drag: { type: String },
     dragDirectionLock: { type: Boolean },
     dragPropagation: { type: Boolean },
     dragMomentum: { type: Boolean },
@@ -4274,6 +4859,7 @@ export const TwentyUiAnimatedCheckmarkElement = createRemoteElement<
     onDrag: { type: Function },
     onDirectionLock: { type: Function },
     onDragTransitionEnd: { type: Function },
+    layout: { type: String },
     layoutId: { type: String },
     onLayoutAnimationStart: { type: Function },
     onLayoutAnimationComplete: { type: Function },
@@ -4302,35 +4888,52 @@ export type TwentyUiCheckmarkProperties = {
   lang?: string;
   tabIndex?: number;
   'aria-activedescendant'?: string;
+  'aria-atomic'?: string;
   'aria-autocomplete'?: string;
   'aria-braillelabel'?: string;
   'aria-brailleroledescription'?: string;
+  'aria-busy'?: string;
+  'aria-checked'?: string;
   'aria-colcount'?: number;
   'aria-colindex'?: number;
   'aria-colindextext'?: string;
   'aria-colspan'?: number;
   'aria-controls'?: string;
+  'aria-current'?: string;
   'aria-describedby'?: string;
   'aria-description'?: string;
   'aria-details'?: string;
+  'aria-disabled'?: string;
   'aria-dropeffect'?: string;
   'aria-errormessage'?: string;
+  'aria-expanded'?: string;
   'aria-flowto'?: string;
+  'aria-grabbed'?: string;
+  'aria-haspopup'?: string;
+  'aria-hidden'?: string;
+  'aria-invalid'?: string;
   'aria-keyshortcuts'?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-level'?: number;
   'aria-live'?: string;
+  'aria-modal'?: string;
+  'aria-multiline'?: string;
+  'aria-multiselectable'?: string;
   'aria-orientation'?: string;
   'aria-owns'?: string;
   'aria-placeholder'?: string;
   'aria-posinset'?: number;
+  'aria-pressed'?: string;
+  'aria-readonly'?: string;
   'aria-relevant'?: string;
+  'aria-required'?: string;
   'aria-roledescription'?: string;
   'aria-rowcount'?: number;
   'aria-rowindex'?: number;
   'aria-rowindextext'?: string;
   'aria-rowspan'?: number;
+  'aria-selected'?: string;
   'aria-setsize'?: number;
   'aria-sort'?: string;
   'aria-valuemax'?: number;
@@ -4502,9 +5105,12 @@ export type TwentyUiCheckmarkProperties = {
   suppressContentEditableWarning?: boolean;
   accessKey?: string;
   autoFocus?: boolean;
+  contentEditable?: string;
   contextMenu?: string;
   dir?: string;
+  draggable?: string;
   nonce?: string;
+  spellCheck?: string;
   radioGroup?: string;
   about?: string;
   datatype?: string;
@@ -4564,35 +5170,52 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
     lang: { type: String },
     tabIndex: { type: Number },
     'aria-activedescendant': { type: String },
+    'aria-atomic': { type: String },
     'aria-autocomplete': { type: String },
     'aria-braillelabel': { type: String },
     'aria-brailleroledescription': { type: String },
+    'aria-busy': { type: String },
+    'aria-checked': { type: String },
     'aria-colcount': { type: Number },
     'aria-colindex': { type: Number },
     'aria-colindextext': { type: String },
     'aria-colspan': { type: Number },
     'aria-controls': { type: String },
+    'aria-current': { type: String },
     'aria-describedby': { type: String },
     'aria-description': { type: String },
     'aria-details': { type: String },
+    'aria-disabled': { type: String },
     'aria-dropeffect': { type: String },
     'aria-errormessage': { type: String },
+    'aria-expanded': { type: String },
     'aria-flowto': { type: String },
+    'aria-grabbed': { type: String },
+    'aria-haspopup': { type: String },
+    'aria-hidden': { type: String },
+    'aria-invalid': { type: String },
     'aria-keyshortcuts': { type: String },
     'aria-label': { type: String },
     'aria-labelledby': { type: String },
     'aria-level': { type: Number },
     'aria-live': { type: String },
+    'aria-modal': { type: String },
+    'aria-multiline': { type: String },
+    'aria-multiselectable': { type: String },
     'aria-orientation': { type: String },
     'aria-owns': { type: String },
     'aria-placeholder': { type: String },
     'aria-posinset': { type: Number },
+    'aria-pressed': { type: String },
+    'aria-readonly': { type: String },
     'aria-relevant': { type: String },
+    'aria-required': { type: String },
     'aria-roledescription': { type: String },
     'aria-rowcount': { type: Number },
     'aria-rowindex': { type: Number },
     'aria-rowindextext': { type: String },
     'aria-rowspan': { type: Number },
+    'aria-selected': { type: String },
     'aria-setsize': { type: Number },
     'aria-sort': { type: String },
     'aria-valuemax': { type: Number },
@@ -4764,9 +5387,12 @@ export const TwentyUiCheckmarkElement = createRemoteElement<
     suppressContentEditableWarning: { type: Boolean },
     accessKey: { type: String },
     autoFocus: { type: Boolean },
+    contentEditable: { type: String },
     contextMenu: { type: String },
     dir: { type: String },
+    draggable: { type: String },
     nonce: { type: String },
+    spellCheck: { type: String },
     radioGroup: { type: String },
     about: { type: String },
     datatype: { type: String },
@@ -4844,6 +5470,8 @@ export const TwentyUiCommandBlockElement = createRemoteElement<
 export type TwentyUiIconProperties = {
   className?: string;
   style?: Record<string, unknown>;
+  size?: string;
+  stroke?: string;
   color?: string;
   name: string;
 };
@@ -4857,6 +5485,8 @@ export const TwentyUiIconElement = createRemoteElement<
   properties: {
     className: { type: String },
     style: { type: Object },
+    size: { type: String },
+    stroke: { type: String },
     color: { type: String },
     name: { type: String },
   },
@@ -5195,13 +5825,16 @@ export type TwentyUiClickToActionLinkProperties = {
   accessKey?: string;
   autoFocus?: boolean;
   className?: string;
+  contentEditable?: string;
   contextMenu?: string;
   dir?: string;
+  draggable?: string;
   hidden?: boolean;
   id?: string;
   lang?: string;
   nonce?: string;
   slot?: string;
+  spellCheck?: string;
   style?: Record<string, unknown>;
   tabIndex?: number;
   title?: string;
@@ -5245,35 +5878,52 @@ export type TwentyUiClickToActionLinkProperties = {
   'data-tooltip-hidden'?: boolean;
   'data-tooltip-class-name'?: string;
   'aria-activedescendant'?: string;
+  'aria-atomic'?: string;
   'aria-autocomplete'?: string;
   'aria-braillelabel'?: string;
   'aria-brailleroledescription'?: string;
+  'aria-busy'?: string;
+  'aria-checked'?: string;
   'aria-colcount'?: number;
   'aria-colindex'?: number;
   'aria-colindextext'?: string;
   'aria-colspan'?: number;
   'aria-controls'?: string;
+  'aria-current'?: string;
   'aria-describedby'?: string;
   'aria-description'?: string;
   'aria-details'?: string;
+  'aria-disabled'?: string;
   'aria-dropeffect'?: string;
   'aria-errormessage'?: string;
+  'aria-expanded'?: string;
   'aria-flowto'?: string;
+  'aria-grabbed'?: string;
+  'aria-haspopup'?: string;
+  'aria-hidden'?: string;
+  'aria-invalid'?: string;
   'aria-keyshortcuts'?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-level'?: number;
   'aria-live'?: string;
+  'aria-modal'?: string;
+  'aria-multiline'?: string;
+  'aria-multiselectable'?: string;
   'aria-orientation'?: string;
   'aria-owns'?: string;
   'aria-placeholder'?: string;
   'aria-posinset'?: number;
+  'aria-pressed'?: string;
+  'aria-readonly'?: string;
   'aria-relevant'?: string;
+  'aria-required'?: string;
   'aria-roledescription'?: string;
   'aria-rowcount'?: number;
   'aria-rowindex'?: number;
   'aria-rowindextext'?: string;
   'aria-rowspan'?: number;
+  'aria-selected'?: string;
   'aria-setsize'?: number;
   'aria-sort'?: string;
   'aria-valuemax'?: number;
@@ -5463,13 +6113,16 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
     accessKey: { type: String },
     autoFocus: { type: Boolean },
     className: { type: String },
+    contentEditable: { type: String },
     contextMenu: { type: String },
     dir: { type: String },
+    draggable: { type: String },
     hidden: { type: Boolean },
     id: { type: String },
     lang: { type: String },
     nonce: { type: String },
     slot: { type: String },
+    spellCheck: { type: String },
     style: { type: Object },
     tabIndex: { type: Number },
     title: { type: String },
@@ -5513,35 +6166,52 @@ export const TwentyUiClickToActionLinkElement = createRemoteElement<
     'data-tooltip-hidden': { type: Boolean },
     'data-tooltip-class-name': { type: String },
     'aria-activedescendant': { type: String },
+    'aria-atomic': { type: String },
     'aria-autocomplete': { type: String },
     'aria-braillelabel': { type: String },
     'aria-brailleroledescription': { type: String },
+    'aria-busy': { type: String },
+    'aria-checked': { type: String },
     'aria-colcount': { type: Number },
     'aria-colindex': { type: Number },
     'aria-colindextext': { type: String },
     'aria-colspan': { type: Number },
     'aria-controls': { type: String },
+    'aria-current': { type: String },
     'aria-describedby': { type: String },
     'aria-description': { type: String },
     'aria-details': { type: String },
+    'aria-disabled': { type: String },
     'aria-dropeffect': { type: String },
     'aria-errormessage': { type: String },
+    'aria-expanded': { type: String },
     'aria-flowto': { type: String },
+    'aria-grabbed': { type: String },
+    'aria-haspopup': { type: String },
+    'aria-hidden': { type: String },
+    'aria-invalid': { type: String },
     'aria-keyshortcuts': { type: String },
     'aria-label': { type: String },
     'aria-labelledby': { type: String },
     'aria-level': { type: Number },
     'aria-live': { type: String },
+    'aria-modal': { type: String },
+    'aria-multiline': { type: String },
+    'aria-multiselectable': { type: String },
     'aria-orientation': { type: String },
     'aria-owns': { type: String },
     'aria-placeholder': { type: String },
     'aria-posinset': { type: Number },
+    'aria-pressed': { type: String },
+    'aria-readonly': { type: String },
     'aria-relevant': { type: String },
+    'aria-required': { type: String },
     'aria-roledescription': { type: String },
     'aria-rowcount': { type: Number },
     'aria-rowindex': { type: Number },
     'aria-rowindextext': { type: String },
     'aria-rowspan': { type: Number },
+    'aria-selected': { type: String },
     'aria-setsize': { type: Number },
     'aria-sort': { type: String },
     'aria-valuemax': { type: Number },
@@ -5806,6 +6476,7 @@ export const TwentyUiSocialLinkElement = createRemoteElement<
 });
 
 export type TwentyUiUndecoratedLinkProperties = {
+  to: string;
   replace?: boolean;
   onClick?: (...args: unknown[]) => unknown;
   fullWidth?: boolean;
@@ -5819,6 +6490,7 @@ export const TwentyUiUndecoratedLinkElement = createRemoteElement<
 >({
   slots: ['children'],
   properties: {
+    to: { type: String },
     replace: { type: Boolean },
     onClick: { type: Function },
     fullWidth: { type: Boolean },
