@@ -37,6 +37,15 @@ export const classifyPropertyType = (
     if (classifiedTypeSet.size === 1) {
       return [...classifiedTypeSet][0];
     }
+
+    const primitiveTypes = new Set(['string', 'number', 'boolean']);
+    const allPrimitive = [...classifiedTypeSet].every(
+      (type) => type !== null && primitiveTypes.has(type),
+    );
+
+    if (allPrimitive && classifiedTypeSet.size > 0) {
+      return 'string';
+    }
   }
 
   if (propertyType.isEnum() || propertyType.isEnumLiteral()) {
