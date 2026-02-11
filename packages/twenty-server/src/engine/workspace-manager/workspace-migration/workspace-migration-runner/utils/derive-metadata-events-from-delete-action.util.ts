@@ -6,6 +6,7 @@ import { findFlatEntityByIdInFlatEntityMapsOrThrow } from 'src/engine/metadata-m
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
 import { type RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
 import { type AllFlatWorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
+import { toRunnerEnvelope } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 
 export type DeriveMetadataEventsFromDeleteActionArgs = {
   flatAction: AllFlatWorkspaceMigrationAction<'delete'>;
@@ -50,15 +51,11 @@ export const deriveMetadataEventsFromDeleteAction = ({
       });
 
       return [
-        {
-          metadataName: flatAction.metadataName,
-          action: 'deleted',
-          event: {
-            type: 'deleted',
-            recordId: flatEntityToDelete.id,
-            before: flatEntityToDelete,
-          },
-        },
+        toRunnerEnvelope(flatAction.metadataName, 'deleted', {
+          type: 'deleted',
+          recordId: flatEntityToDelete.id,
+          before: flatEntityToDelete,
+        }),
       ];
     }
     default: {

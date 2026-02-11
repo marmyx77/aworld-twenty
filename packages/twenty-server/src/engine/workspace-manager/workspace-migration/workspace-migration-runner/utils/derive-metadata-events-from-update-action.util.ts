@@ -1,4 +1,3 @@
-import { type MetadataRecordUpdateEvent } from 'twenty-shared/metadata-events';
 import { assertUnreachable } from 'twenty-shared/utils';
 
 import { type RunnerMetadataEventEnvelope } from 'src/engine/metadata-event-emitter/types/runner-metadata-event-envelope.type';
@@ -7,6 +6,12 @@ import { type MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity
 import { findFlatEntityByIdInFlatEntityMapsOrThrow } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-id-in-flat-entity-maps-or-throw.util';
 import { getMetadataFlatEntityMapsKey } from 'src/engine/metadata-modules/flat-entity/utils/get-metadata-flat-entity-maps-key.util';
 import { type AllFlatWorkspaceMigrationAction } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-builder/types/workspace-migration-action-common';
+import {
+  type CreateMetadataEvent,
+  type DeleteMetadataEvent,
+  type UpdateMetadataEvent,
+  toRunnerEnvelope,
+} from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 
 export type DeriveMetadataEventsFromUpdateActionArgs = {
   flatAction: AllFlatWorkspaceMigrationAction<'update'>;
@@ -41,7 +46,7 @@ const buildUpdateMetadataRecordEvent = <
   before: MetadataFlatEntity<TMetadataName>;
   after: MetadataFlatEntity<TMetadataName>;
   updatedFields: string[];
-}): MetadataRecordUpdateEvent<MetadataFlatEntity<TMetadataName>> => {
+}): UpdateMetadataEvent<TMetadataName> => {
   return {
     type: 'updated',
     recordId: before.id,
@@ -65,27 +70,22 @@ export const deriveMetadataEventsFromUpdateAction = ({
 
       const toFlatEntity = flatAction.updatedFlatIndex;
 
-      const deleteIndexMetadataEvent: RunnerMetadataEventEnvelope = {
-        metadataName: 'index',
-        action: 'deleted',
-        event: {
-          type: 'deleted',
-          recordId: fromFlatEntity.id,
-          before: fromFlatEntity,
-        },
+      const deleteEvent: DeleteMetadataEvent<'index'> = {
+        type: 'deleted',
+        recordId: fromFlatEntity.id,
+        before: fromFlatEntity,
       };
 
-      const createIndexMetadataEvent: RunnerMetadataEventEnvelope = {
-        metadataName: 'index',
-        action: 'created',
-        event: {
-          type: 'created',
-          recordId: toFlatEntity.id,
-          after: toFlatEntity,
-        },
+      const createEvent: CreateMetadataEvent<'index'> = {
+        type: 'created',
+        recordId: toFlatEntity.id,
+        after: toFlatEntity,
       };
 
-      return [deleteIndexMetadataEvent, createIndexMetadataEvent];
+      return [
+        { metadataName: 'index', action: 'deleted', event: deleteEvent },
+        { metadataName: 'index', action: 'created', event: createEvent },
+      ];
     }
     case 'fieldMetadata':
     case 'objectMetadata':
@@ -127,15 +127,15 @@ export const deriveMetadataEventsFromUpdateAction = ({
       const updatedFields = Object.keys(flatAction.update);
 
       return [
-        {
-          metadataName: flatAction.metadataName,
-          action: 'updated',
-          event: buildUpdateMetadataRecordEvent({
+        toRunnerEnvelope(
+          flatAction.metadataName,
+          'updated',
+          buildUpdateMetadataRecordEvent<typeof flatAction.metadataName>({
             before: fromFlatEntity,
             after: toFlatEntity,
             updatedFields,
           }),
-        },
+        ),
       ];
     }
     default: {

@@ -3,7 +3,6 @@ import type { MetadataEventEnvelope } from 'twenty-shared/metadata-events';
 
 import type { MetadataFlatEntity } from 'src/engine/metadata-modules/flat-entity/types/metadata-flat-entity.type';
 
-export type RunnerMetadataEventEnvelope = MetadataEventEnvelope<
-  AllMetadataName,
-  MetadataFlatEntity<AllMetadataName>
->;
+export type RunnerMetadataEventEnvelope = {
+  [T in AllMetadataName]: MetadataEventEnvelope<T, MetadataFlatEntity<T>>;
+}[AllMetadataName];
