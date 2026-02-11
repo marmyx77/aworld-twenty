@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-import { isDefined } from 'twenty-shared/utils';
 import { AllMetadataName } from 'twenty-shared/metadata';
+import { isDefined } from 'twenty-shared/utils';
 
 import { getWorkspaceAuthContext } from 'src/engine/core-modules/auth/storage/workspace-auth-context.storage';
 import { type WorkspaceAuthContext } from 'src/engine/core-modules/auth/types/workspace-auth-context.type';
@@ -57,7 +57,7 @@ export class MetadataEventEmitter {
         name: eventName,
         workspaceId,
         metadataName,
-        action: type,
+        type,
         events,
         userId,
         apiKeyId,

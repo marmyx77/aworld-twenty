@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 
-import { type AllMetadataName } from 'twenty-shared/metadata';
-import { type MetadataEventAction } from 'twenty-shared/metadata-events';
+import { AllMetadataName } from 'twenty-shared/metadata';
 
 import { InjectMessageQueue } from 'src/engine/core-modules/message-queue/decorators/message-queue.decorator';
 import { MessageQueue } from 'src/engine/core-modules/message-queue/message-queue.constants';
 import { MessageQueueService } from 'src/engine/core-modules/message-queue/services/message-queue.service';
 import { type MetadataEventBatch } from 'src/engine/metadata-event-emitter/types/metadata-event-batch.type';
 import { CallWebhookJobsForMetadataJob } from 'src/engine/metadata-modules/webhook/jobs/call-webhook-jobs-for-metadata.job';
+import { AllMetadataEventType } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 
 @Injectable()
 export class MetadataEventsToDbListener {
@@ -41,11 +41,11 @@ export class MetadataEventsToDbListener {
   private async handleEvent(
     metadataEventBatch: MetadataEventBatch<
       AllMetadataName,
-      MetadataEventAction
+      AllMetadataEventType
     >,
   ): Promise<void> {
     await this.webhookQueueService.add<
-      MetadataEventBatch<AllMetadataName, MetadataEventAction>
+      MetadataEventBatch<AllMetadataName, AllMetadataEventType>
     >(CallWebhookJobsForMetadataJob.name, metadataEventBatch, {
       retryLimit: 3,
     });

@@ -29,7 +29,7 @@ export class CallWebhookJobsForMetadataJob {
   async handle(metadataEventBatch: MetadataEventBatch): Promise<void> {
     const eventName = metadataEventBatch.name;
     const metadataName = metadataEventBatch.metadataName;
-    const operation = metadataEventBatch.action;
+    const operation = metadataEventBatch.type;
 
     const operationsToMatch = [
       eventName,
@@ -102,7 +102,7 @@ export class CallWebhookJobsForMetadataJob {
           eventDate,
           record: this.getRecordFromEvent(eventData),
           ...(eventData.type === 'updated' && {
-            updatedFields: eventData.updatedFields,
+            updatedFields: eventData.properties.updatedFields,
           }),
           secret,
           userId: metadataEventBatch.userId,
@@ -114,16 +114,14 @@ export class CallWebhookJobsForMetadataJob {
     return result;
   }
 
-  private getRecordFromEvent(
-    event: MetadataEvent,
-  ){
+  private getRecordFromEvent(event: MetadataEvent) {
     switch (event.type) {
       case 'created':
-        return event.after;
+        return event.properties.after;
       case 'updated':
-        return event.after;
+        return event.properties.after;
       case 'deleted':
-        return event.before;
+        return event.properties.before;
     }
   }
 }

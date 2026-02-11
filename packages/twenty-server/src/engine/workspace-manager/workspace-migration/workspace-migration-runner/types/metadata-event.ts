@@ -5,6 +5,7 @@ import { type MetadataUniversalFlatEntityPropertiesToCompare } from 'src/engine/
 
 type BaseMetadataEvent<T extends AllMetadataName, TPayload extends object> = {
   metadataName: T;
+  recordId: string;
   properties: TPayload;
 };
 

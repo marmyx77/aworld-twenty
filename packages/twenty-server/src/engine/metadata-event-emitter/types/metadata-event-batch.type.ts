@@ -1,16 +1,15 @@
 import type { AllMetadataName } from 'twenty-shared/metadata';
-import type { MetadataEventAction } from 'twenty-shared/metadata-events';
 
-import { type MetadataEvent } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
+import { AllMetadataEventType, type MetadataEvent } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/types/metadata-event';
 
 export type MetadataEventBatch<
   TMetadataName extends AllMetadataName = AllMetadataName,
-  TAction extends MetadataEventAction = MetadataEventAction,
+  TType extends AllMetadataEventType = AllMetadataEventType,
 > = {
-  name: `metadata.${TMetadataName}.${TAction}`;
+  name: `metadata.${TMetadataName}.${TType}`;
   workspaceId: string;
   metadataName: TMetadataName;
-  action: TAction;
+  type: TType;
   events: MetadataEvent[];
   userId?: string;
   apiKeyId?: string;
