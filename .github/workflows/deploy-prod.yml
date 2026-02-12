@@ -1,0 +1,164 @@
+# =============================================================================
+# Deploy to Railway — PROD environment
+# =============================================================================
+# Trigger: push to "main" branch (should only happen via merged PRs)
+# Deploys: twenty-app-prod + twenty-worker-prod on Railway project "twenty-prod"
+#
+# Required GitHub Secrets:
+#   RAILWAY_TOKEN  — API token from https://railway.com/account/tokens
+#
+# Required GitHub Variables (optional):
+#   RAILWAY_PROD_PROJECT_ID      — Railway project ID for prod
+#   RAILWAY_PROD_APP_SERVICE     — Service ID for twenty-app-prod
+#   RAILWAY_PROD_WORKER_SERVICE  — Service ID for twenty-worker-prod
+# =============================================================================
+
+name: Deploy PROD
+
+on:
+  push:
+    branches:
+      - main
+
+# Only one prod deploy at a time; DO NOT cancel in-progress (safety)
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+env:
+  RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+jobs:
+  # ─── Quality gate ──────────────────────────────────────────────────────────
+  quality:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build shared packages
+        run: npx nx build twenty-shared
+
+      - name: Lint server
+        run: npx nx lint twenty-server
+
+      - name: Lint front
+        run: npx nx lint twenty-front
+
+      - name: Type check server
+        run: npx nx typecheck twenty-server
+
+      - name: Type check front
+        run: npx nx typecheck twenty-front
+
+  # ─── Unit tests ────────────────────────────────────────────────────────────
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build shared packages
+        run: npx nx build twenty-shared
+
+      - name: Run server tests
+        run: npx nx test twenty-server --configuration=ci
+
+      - name: Run front tests
+        run: npx nx test twenty-front --configuration=ci
+
+  # ─── Database migration (prod) ─────────────────────────────────────────────
+  # Note: Twenty runs migrations automatically via entrypoint.sh on startup.
+  # This step is a safety net — if DISABLE_DB_MIGRATIONS=false on the app
+  # service, migrations happen at container boot. If you prefer explicit
+  # CI-driven migrations, enable this job and set DISABLE_DB_MIGRATIONS=true
+  # on the app service.
+  #
+  # migrate:
+  #   name: Run Migrations (PROD)
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #     - name: Install Railway CLI
+  #       run: npm install -g @railway/cli
+  #     - name: Run migration on app service
+  #       run: |
+  #         railway run \
+  #           --service "${{ vars.RAILWAY_PROD_APP_SERVICE }}" \
+  #           -- yarn database:migrate:prod
+  #       env:
+  #         RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROD_PROJECT_ID }}
+
+  # ─── Deploy to Railway PROD ────────────────────────────────────────────────
+  deploy-app:
+    name: Deploy App to Railway PROD
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy twenty-app-prod
+        run: |
+          if [ -n "${{ vars.RAILWAY_PROD_APP_SERVICE }}" ]; then
+            railway up \
+              --service "${{ vars.RAILWAY_PROD_APP_SERVICE }}" \
+              --detach
+          else
+            railway up \
+              --service twenty-app-prod \
+              --detach
+          fi
+        env:
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROD_PROJECT_ID }}
+
+  deploy-worker:
+    name: Deploy Worker to Railway PROD
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy twenty-worker-prod
+        run: |
+          if [ -n "${{ vars.RAILWAY_PROD_WORKER_SERVICE }}" ]; then
+            railway up \
+              --service "${{ vars.RAILWAY_PROD_WORKER_SERVICE }}" \
+              --detach
+          else
+            railway up \
+              --service twenty-worker-prod \
+              --detach
+          fi
+        env:
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROD_PROJECT_ID }}

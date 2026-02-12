@@ -1,0 +1,145 @@
+# =============================================================================
+# Deploy to Railway — DEV environment
+# =============================================================================
+# Trigger: push to "develop" branch
+# Deploys: twenty-app-dev + twenty-worker-dev on Railway project "twenty-dev"
+#
+# Required GitHub Secrets:
+#   RAILWAY_TOKEN  — API token from https://railway.com/account/tokens
+#
+# Required GitHub Variables (optional, for explicit project/service IDs):
+#   RAILWAY_DEV_PROJECT_ID   — Railway project ID for dev
+#   RAILWAY_DEV_APP_SERVICE  — Service ID for twenty-app-dev
+#   RAILWAY_DEV_WORKER_SERVICE — Service ID for twenty-worker-dev
+# =============================================================================
+
+name: Deploy DEV
+
+on:
+  push:
+    branches:
+      - develop
+
+# Only one dev deploy at a time; cancel previous if a new push arrives
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: true
+
+env:
+  RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+jobs:
+  # ─── Quality gate ──────────────────────────────────────────────────────────
+  quality:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build shared packages (required by lint/typecheck)
+        run: npx nx build twenty-shared
+
+      - name: Lint server
+        run: npx nx lint twenty-server
+        continue-on-error: false
+
+      - name: Lint front
+        run: npx nx lint twenty-front
+        continue-on-error: false
+
+      - name: Type check server
+        run: npx nx typecheck twenty-server
+
+      - name: Type check front
+        run: npx nx typecheck twenty-front
+
+  # ─── Unit tests ────────────────────────────────────────────────────────────
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build shared packages
+        run: npx nx build twenty-shared
+
+      - name: Run server tests
+        run: npx nx test twenty-server --configuration=ci
+
+      - name: Run front tests
+        run: npx nx test twenty-front --configuration=ci
+
+  # ─── Deploy to Railway DEV ─────────────────────────────────────────────────
+  deploy-app:
+    name: Deploy App to Railway DEV
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy twenty-app-dev
+        run: |
+          # If explicit service ID is set, use it; otherwise rely on Railway
+          # auto-detection from linked project.
+          if [ -n "${{ vars.RAILWAY_DEV_APP_SERVICE }}" ]; then
+            railway up \
+              --service "${{ vars.RAILWAY_DEV_APP_SERVICE }}" \
+              --detach
+          else
+            # Fallback: deploy using project ID + service name
+            railway up \
+              --service twenty-app-dev \
+              --detach
+          fi
+        env:
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_DEV_PROJECT_ID }}
+
+  deploy-worker:
+    name: Deploy Worker to Railway DEV
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy twenty-worker-dev
+        run: |
+          if [ -n "${{ vars.RAILWAY_DEV_WORKER_SERVICE }}" ]; then
+            railway up \
+              --service "${{ vars.RAILWAY_DEV_WORKER_SERVICE }}" \
+              --detach
+          else
+            railway up \
+              --service twenty-worker-dev \
+              --detach
+          fi
+        env:
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_DEV_PROJECT_ID }}
