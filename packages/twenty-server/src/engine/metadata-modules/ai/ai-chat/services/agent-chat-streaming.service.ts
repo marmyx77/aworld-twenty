@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { createUIMessageStream, pipeUIMessageStreamToResponse } from 'ai';
@@ -34,8 +34,6 @@ export type StreamAgentChatOptions = {
 
 @Injectable()
 export class AgentChatStreamingService {
-  private readonly logger = new Logger(AgentChatStreamingService.name);
-
   constructor(
     @InjectRepository(AgentChatThreadEntity)
     private readonly threadRepository: Repository<AgentChatThreadEntity>,
@@ -79,15 +77,10 @@ export class AgentChatStreamingService {
       },
     });
 
-    // Attach a handler so a rejection is never unhandled if onFinish
-    // doesn't run (e.g. stream setup error or empty response early-return).
-    // await userMessagePromise in onFinish will still re-throw if it failed.
-    userMessagePromise.catch((error) => {
-      this.logger.error(
-        'Failed to save user message:',
-        error instanceof Error ? error.message : String(error),
-      );
-    });
+    // Prevent unhandled rejection if onFinish never runs (e.g. stream
+    // setup error or empty response early-return). The real error still
+    // surfaces when awaited in onFinish.
+    userMessagePromise.catch(() => {});
 
     try {
       const uiStream = createUIMessageStream<ExtendedUIMessage>({
@@ -121,8 +114,6 @@ export class AgentChatStreamingService {
           writer.merge(
             stream.toUIMessageStream({
               onError: (error) => {
-                this.logger.error('Stream error:', error);
-
                 return error instanceof Error ? error.message : String(error);
               },
               sendStart: false,
@@ -203,35 +194,26 @@ export class AgentChatStreamingService {
                   return;
                 }
 
-                try {
-                  const userMessage = await userMessagePromise;
+                const userMessage = await userMessagePromise;
 
-                  await this.agentChatService.addMessage({
-                    threadId: thread.id,
-                    uiMessage: responseMessage,
-                    turnId: userMessage.turnId,
-                  });
+                await this.agentChatService.addMessage({
+                  threadId: thread.id,
+                  uiMessage: responseMessage,
+                  turnId: userMessage.turnId,
+                });
 
-                  await this.threadRepository.update(thread.id, {
-                    totalInputTokens: () =>
-                      `"totalInputTokens" + ${streamUsage.inputTokens}`,
-                    totalOutputTokens: () =>
-                      `"totalOutputTokens" + ${streamUsage.outputTokens}`,
-                    totalInputCredits: () =>
-                      `"totalInputCredits" + ${streamUsage.inputCredits}`,
-                    totalOutputCredits: () =>
-                      `"totalOutputCredits" + ${streamUsage.outputCredits}`,
-                    contextWindowTokens: modelConfig.contextWindowTokens,
-                    conversationSize: lastStepConversationSize,
-                  });
-                } catch (saveError) {
-                  this.logger.error(
-                    'Failed to save messages:',
-                    saveError instanceof Error
-                      ? saveError.message
-                      : String(saveError),
-                  );
-                }
+                await this.threadRepository.update(thread.id, {
+                  totalInputTokens: () =>
+                    `"totalInputTokens" + ${streamUsage.inputTokens}`,
+                  totalOutputTokens: () =>
+                    `"totalOutputTokens" + ${streamUsage.outputTokens}`,
+                  totalInputCredits: () =>
+                    `"totalInputCredits" + ${streamUsage.inputCredits}`,
+                  totalOutputCredits: () =>
+                    `"totalOutputCredits" + ${streamUsage.outputCredits}`,
+                  contextWindowTokens: modelConfig.contextWindowTokens,
+                  conversationSize: lastStepConversationSize,
+                });
               },
               sendReasoning: true,
             }),
@@ -249,11 +231,8 @@ export class AgentChatStreamingService {
         },
       });
     } catch (error) {
-      this.logger.error(
-        'Failed to stream chat:',
-        error instanceof Error ? error.message : String(error),
-      );
       response.end();
+      throw error;
     }
   }
 }
