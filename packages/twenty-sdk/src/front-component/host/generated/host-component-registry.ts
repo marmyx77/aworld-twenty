@@ -939,7 +939,7 @@ const TwentyUiLinkChipWrapper = (
 ) => {
   return React.createElement(
     LinkChip,
-    filterUiProps(props, new Set(['onClick', 'onMousedown'])),
+    filterUiProps(props, new Set(['onClick', 'onMouseDown'])),
   );
 };
 const TwentyUiPillWrapper = (
@@ -1138,7 +1138,7 @@ const TwentyUiMenuItemWrapper = (
 ) => {
   return React.createElement(
     MenuItem,
-    filterUiProps(props, new Set(['onClick', 'onMouseenter', 'onMouseleave'])),
+    filterUiProps(props, new Set(['onClick', 'onMouseEnter', 'onMouseLeave'])),
   );
 };
 const TwentyUiMenuItemAvatarWrapper = (
@@ -1146,7 +1146,7 @@ const TwentyUiMenuItemAvatarWrapper = (
 ) => {
   return React.createElement(
     MenuItemAvatar,
-    filterUiProps(props, new Set(['onClick', 'onMouseenter', 'onMouseleave'])),
+    filterUiProps(props, new Set(['onClick', 'onMouseEnter', 'onMouseLeave'])),
   );
 };
 const TwentyUiMenuItemDraggableWrapper = (
