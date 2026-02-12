@@ -178,13 +178,13 @@ const generateUiWrapperComponent = (component: ComponentSchema): string => {
       .map((event) => `'${eventToReactProp(event)}'`)
       .join(', ');
 
-    return `const ${component.name}Wrapper = React.forwardRef<unknown, ${propsType}>((props, _ref) => {
-  return React.createElement(${component.componentImport}, filterUiProps(props, new Set([${eventPropEntries}])));
+    return `const ${component.name}Wrapper = React.forwardRef<unknown, ${propsType}>((props, ref) => {
+  return React.createElement(${component.componentImport}, { ...filterUiProps(props, new Set([${eventPropEntries}])), ref });
 });`;
   }
 
-  return `const ${component.name}Wrapper = React.forwardRef<unknown, ${propsType}>((props, _ref) => {
-  return React.createElement(${component.componentImport}, filterUiProps(props));
+  return `const ${component.name}Wrapper = React.forwardRef<unknown, ${propsType}>((props, ref) => {
+  return React.createElement(${component.componentImport}, { ...filterUiProps(props), ref });
 });`;
 };
 
