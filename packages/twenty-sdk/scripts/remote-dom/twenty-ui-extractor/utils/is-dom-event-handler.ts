@@ -39,17 +39,19 @@ export const isDomEventHandler = (propertyType: Type): boolean => {
     return false;
   }
 
-  const firstParam = callSignatures[0].getParameters()[0];
+  return callSignatures.some((signature) => {
+    const firstParam = signature.getParameters()[0];
 
-  if (!isDefined(firstParam)) {
-    return false;
-  }
+    if (!isDefined(firstParam)) {
+      return false;
+    }
 
-  const paramType = firstParam.getValueDeclaration()?.getType();
+    const paramType = firstParam.getValueDeclaration()?.getType();
 
-  if (!isDefined(paramType)) {
-    return false;
-  }
+    if (!isDefined(paramType)) {
+      return false;
+    }
 
-  return isEventType(paramType);
+    return isEventType(paramType);
+  });
 };
