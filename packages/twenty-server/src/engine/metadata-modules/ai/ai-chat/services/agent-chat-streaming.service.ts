@@ -79,6 +79,16 @@ export class AgentChatStreamingService {
       },
     });
 
+    // Attach a handler so a rejection is never unhandled if onFinish
+    // doesn't run (e.g. stream setup error or empty response early-return).
+    // await userMessagePromise in onFinish will still re-throw if it failed.
+    userMessagePromise.catch((error) => {
+      this.logger.error(
+        'Failed to save user message:',
+        error instanceof Error ? error.message : String(error),
+      );
+    });
+
     try {
       const uiStream = createUIMessageStream<ExtendedUIMessage>({
         execute: async ({ writer }) => {
