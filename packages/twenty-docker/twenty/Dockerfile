@@ -76,6 +76,9 @@ LABEL org.opencontainers.image.description="This image provides a consistent and
 RUN mkdir -p /app/.local-storage /app/packages/twenty-server/.local-storage && \
     chown -R 1000:1000 /app
 
+# Expose the default server port
+EXPOSE 3000
+
 # Use non root user with uid 1000
 USER 1000
 
