@@ -143,12 +143,20 @@ export class BackfillFileSizeAndMimeTypeCommand extends ActiveOrSuspendedWorkspa
         }
 
         if (fileEntity.mimeType === 'application/octet-stream') {
-          const { mimeType } = await extractFileInfo({
-            file: fileBuffer,
-            filename: fileEntity.path,
-          });
+          try {
+            const { mimeType } = await extractFileInfo({
+              file: fileBuffer,
+              filename: fileEntity.path,
+            });
 
-          updateData.mimeType = mimeType;
+            updateData.mimeType = mimeType;
+          } catch (error) {
+            this.logger.error(
+              `Failed to extract file mime type for file ${fileEntity.id} in workspace ${workspaceId}: ${error.message}`,
+            );
+
+            continue;
+          }
         }
 
         if (!isDryRun) {
