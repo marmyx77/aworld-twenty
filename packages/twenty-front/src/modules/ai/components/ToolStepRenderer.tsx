@@ -13,6 +13,8 @@ import {
   getToolDisplayMessage,
   resolveToolInput,
 } from '@/ai/utils/getToolDisplayMessage';
+import { ToolOutputMessageSchema } from '@/ai/utils/toolOutputMessageSchema';
+import { ToolOutputResultSchema } from '@/ai/utils/toolOutputResultSchema';
 import { useLingui } from '@lingui/react/macro';
 import { type ToolUIPart } from 'ai';
 import { isDefined } from 'twenty-shared/utils';
@@ -186,13 +188,14 @@ export const ToolStepRenderer = ({ toolPart }: { toolPart: ToolUIPart }) => {
   }
 
   // For execute_tool, the actual result is nested inside output.result
+  const outputResult = ToolOutputResultSchema.safeParse(output);
   const unwrappedOutput =
-    rawToolName === 'execute_tool' &&
-    isDefined(output) &&
-    typeof output === 'object' &&
-    'result' in output
-      ? (output as { result: unknown }).result
+    rawToolName === 'execute_tool' && outputResult.success
+      ? outputResult.data.result
       : output;
+
+  const unwrappedResult = ToolOutputResultSchema.safeParse(unwrappedOutput);
+  const unwrappedMessage = ToolOutputMessageSchema.safeParse(unwrappedOutput);
 
   const displayMessage = hasError
     ? t`Tool execution failed`
@@ -200,19 +203,13 @@ export const ToolStepRenderer = ({ toolPart }: { toolPart: ToolUIPart }) => {
         rawToolName === 'execute_tool' ||
         rawToolName === 'load_skills'
       ? getToolDisplayMessage(input, rawToolName, true)
-      : unwrappedOutput &&
-          typeof unwrappedOutput === 'object' &&
-          'message' in unwrappedOutput &&
-          typeof unwrappedOutput.message === 'string'
-        ? unwrappedOutput.message
+      : unwrappedMessage.success
+        ? unwrappedMessage.data.message
         : getToolDisplayMessage(input, rawToolName, true);
 
-  const result =
-    unwrappedOutput &&
-    typeof unwrappedOutput === 'object' &&
-    'result' in unwrappedOutput
-      ? (unwrappedOutput as { result: string }).result
-      : unwrappedOutput;
+  const result = unwrappedResult.success
+    ? unwrappedResult.data.result
+    : unwrappedOutput;
 
   return (
     <StyledContainer>
