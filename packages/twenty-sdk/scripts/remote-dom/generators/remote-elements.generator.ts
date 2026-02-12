@@ -1,4 +1,5 @@
 import {
+  type CodeBlockWriter,
   type Project,
   type SourceFile,
   VariableDeclarationKind,
@@ -158,6 +159,16 @@ const generateElementPropertyType = (
   }
 };
 
+const writePropertyEntries = (
+  writer: CodeBlockWriter,
+  properties: Record<string, PropertySchema>,
+): void => {
+  for (const [name, schema] of Object.entries(properties)) {
+    const constructorType = schemaTypeToConstructor(schema.type);
+    writer.writeLine(`'${name}': { type: ${constructorType} },`);
+  }
+};
+
 const generateElementDefinition = (
   sourceFile: SourceFile,
   component: ComponentSchema,
@@ -226,16 +237,7 @@ const generateElementDefinition = (
                   writer.writeLine(
                     `...${TYPE_NAMES.COMMON_PROPERTIES_CONFIG},`,
                   );
-                  for (const [name, schema] of Object.entries(
-                    specificProperties,
-                  )) {
-                    const constructorType = schemaTypeToConstructor(
-                      schema.type,
-                    );
-                    writer.writeLine(
-                      `'${name}': { type: ${constructorType} },`,
-                    );
-                  }
+                  writePropertyEntries(writer, specificProperties);
                 });
                 writer.write(',');
                 writer.newLine();
@@ -247,16 +249,7 @@ const generateElementDefinition = (
               } else {
                 writer.write('properties: ');
                 writer.block(() => {
-                  for (const [name, schema] of Object.entries(
-                    specificProperties,
-                  )) {
-                    const constructorType = schemaTypeToConstructor(
-                      schema.type,
-                    );
-                    writer.writeLine(
-                      `'${name}': { type: ${constructorType} },`,
-                    );
-                  }
+                  writePropertyEntries(writer, specificProperties);
                 });
                 writer.write(',');
                 writer.newLine();
