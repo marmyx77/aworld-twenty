@@ -25,11 +25,14 @@ import { generateFrontConfig } from './utils/generate-front-config';
 const bootstrap = async () => {
   setPgDateTypeParser();
 
+  const isProduction = process.env.NODE_ENV === NodeEnvironment.PRODUCTION;
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
     bufferLogs: process.env.LOGGER_IS_BUFFER_ENABLED === 'true',
     rawBody: true,
     snapshot: process.env.NODE_ENV === NodeEnvironment.DEVELOPMENT,
+    ...(isProduction ? { logger: ['error', 'warn'] } : {}),
     ...(process.env.SSL_KEY_PATH && process.env.SSL_CERT_PATH
       ? {
           httpsOptions: {
