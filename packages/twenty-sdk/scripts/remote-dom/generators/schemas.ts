@@ -27,6 +27,7 @@ export const ComponentSchemaZ = z.object({
   componentImport: z.string().optional(),
   componentPath: z.string().optional(),
   propsTypeName: z.string().optional(),
+  supportsRefForwarding: z.boolean().optional(),
 });
 
 export type PropertySchema = z.infer<typeof PropertySchemaZ>;

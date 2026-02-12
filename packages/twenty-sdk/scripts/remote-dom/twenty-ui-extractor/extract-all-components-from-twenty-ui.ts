@@ -17,6 +17,7 @@ import {
   TWENTY_UI_ROOT_PATH,
 } from './constants';
 import { classifyComponentPropsForRemoteDomGeneration } from './utils/classify-component-props-for-remote-dom-generation';
+import { doesComponentSupportRefForwarding } from './utils/does-component-support-ref-forwarding';
 import { getTwentyUiComponentCategoryIndexPath } from './utils/get-twenty-ui-component-category-index-path';
 import { isReactComponentExport } from './utils/is-react-component-export';
 import { logDiscoveredComponents } from './utils/log-discovered-components';
@@ -28,6 +29,7 @@ export type DiscoveredComponent = {
   properties: Record<string, PropertySchema>;
   events: string[];
   slots: string[];
+  supportsRefForwarding: boolean;
   componentImport: string;
   componentPath: string;
   propsTypeName: string;
@@ -87,6 +89,8 @@ const extractComponentsFromCategory = (
     const { properties, events, slots } =
       classifyComponentPropsForRemoteDomGeneration(propsType);
 
+    const supportsRefForwarding =
+      doesComponentSupportRefForwarding(namedExport);
     const kebabName = pascalToKebab(exportName);
 
     discoveredComponents.push({
@@ -95,6 +99,7 @@ const extractComponentsFromCategory = (
       properties,
       events,
       slots,
+      supportsRefForwarding,
       componentImport: exportName,
       componentPath: `twenty-ui/${category}`,
       propsTypeName: expectedPropsTypeName,

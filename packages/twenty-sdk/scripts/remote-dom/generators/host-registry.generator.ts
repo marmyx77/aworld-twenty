@@ -173,19 +173,19 @@ const generateUiWrapperComponent = (component: ComponentSchema): string => {
 
   const hasEvents = isNonEmptyArray(component.events);
 
-  if (hasEvents) {
-    const eventPropEntries = component.events
-      .map((event) => `'${eventToReactProp(event)}'`)
-      .join(', ');
+  const filterCall = hasEvents
+    ? `filterUiProps(props, new Set([${component.events.map((event) => `'${eventToReactProp(event)}'`).join(', ')}]))`
+    : 'filterUiProps(props)';
 
+  if (component.supportsRefForwarding) {
     return `const ${component.name}Wrapper = React.forwardRef<unknown, ${propsType}>((props, ref) => {
-  return React.createElement(${component.componentImport}, { ...filterUiProps(props, new Set([${eventPropEntries}])), ref });
+  return React.createElement(${component.componentImport} as React.ElementType, { ...${filterCall}, ref });
 });`;
   }
 
-  return `const ${component.name}Wrapper = React.forwardRef<unknown, ${propsType}>((props, ref) => {
-  return React.createElement(${component.componentImport}, { ...filterUiProps(props), ref });
-});`;
+  return `const ${component.name}Wrapper = (props: ${propsType}) => {
+  return React.createElement(${component.componentImport}, ${filterCall});
+};`;
 };
 
 const generateWrapperComponent = (component: ComponentSchema): string => {

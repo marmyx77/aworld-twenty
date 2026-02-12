@@ -92,6 +92,7 @@ const getUiComponentSchemas = (): ComponentSchema[] => {
     componentImport: component.componentImport,
     componentPath: component.componentPath,
     propsTypeName: component.propsTypeName,
+    supportsRefForwarding: component.supportsRefForwarding,
   }));
 };
 
